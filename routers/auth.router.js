@@ -5,29 +5,26 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 // 회원가입 API
-router.post('/signup', async (req, res) => {
+router.post("/signup", async (req, res) => {
+  const { username, password } = req.body;
+
   try {
-    const { username, password } = req.body;
+    // 패스워드를 해시로 변환
+    const hashPassword = await bcrypt.hash(password, 10);
 
-    // 사용자가 이미 존재하는지 확인
-    const existingUser = await User.findOne({ where: { username } });
-    if (existingUser) {
-      return res.status(400).json({ error: '이미 존재하는 사용자입니다.' });
-    }
-
-    // 비밀번호를 해시로 변환
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // 사용자 생성
+    // Sequelize를 사용하여 유저 생성
     const newUser = await User.create({
       username,
-      password: hashedPassword,
+      password: hashPassword,
     });
 
-    res.status(201).json({ message: '회원가입이 완료되었습니다.', userId: newUser.id });
+    res.json({
+      message: "회원가입이 완료되었습니다.",
+      userId: newUser.id,
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: '서버 오류' });
+    res.status(500).json({ errorMessage: "회원가입 중 오류가 발생했습니다." });
   }
 });
 

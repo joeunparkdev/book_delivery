@@ -2,28 +2,21 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const authMiddleware = require("./middlewares/auth-middleware");
-const { models } = require('./models');
+const { models, sequelize } = require('./models'); // models 및 sequelize 인스턴스 가져오기
 const userModel = models.User;
 const { Op } = require('sequelize');
-const { Sequelize } = require('sequelize');
-const config = require('./config.json');
-
-const sequelize = new Sequelize(config.development);
-
-(async () => {
-  try {
-    await sequelize.authenticate();
-    console.log('데이터베이스에 성공적으로 연결되었습니다.');
-  } catch (error) {
-    console.error('데이터베이스에 연결할 수 없습니다:', error);
-  }
-})();
+const config = require('./config/config.cjs');
 
 const app = express();
 const router = express.Router();
 
 app.use("/api", express.urlencoded({ extended: false }), router);
 app.use(express.static("assets"));
+
+router.get("/api/users/me", authMiddleware, async (req, res) => {
+  // authMiddleware에서 이미 사용자를 req.locals.user에 저장해두었으므로 그것을 활용
+  res.send({ user: req.locals.user });
+});
 
 // sign up
 router.post("/users", async (req, res) => {
@@ -71,7 +64,7 @@ router.post("/users", async (req, res) => {
     res.status(201).send({});
   } catch (error) {
     console.error("Error during sign up:", error);
-    res.status(500).json({ errorMessage: "서버 오류가 발생했습니다." });
+    res.status(500).json({ errorMessage: "서버 오류가 발생했습니다.", error: error.message }); 
   }
 });
 
@@ -116,7 +109,7 @@ router.get("/users/me", authMiddleware, async (req, res) => {
   res.send({ user: res.locals.user });
 });
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`서버가 요청을 받을 준비가 됐어요. 포트: ${PORT}`);

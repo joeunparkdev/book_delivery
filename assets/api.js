@@ -1,8 +1,8 @@
 // const socket = io.connect("/");
 
 // socket.on("BUY_GOODS", function (data) {
-//   const { username, goodsId, goodsName, date } = data;
-//   makeBuyNotification(username, goodsName, goodsId, date);
+//   const { nickname, goodsId, goodsName, date } = data;
+//   makeBuyNotification(nickname, goodsName, goodsId, date);
 // });
 
 function initAuthenticatePage() {
@@ -19,7 +19,7 @@ function postOrder(user, order) {
   }
 
   // socket.emit("BUY", {
-  //   username: user.username,
+  //   nickname: user.nickname,
   //   goodsId: order[0].goods.goodsId,
   //   goodsName:
   //     order.length > 1
@@ -58,16 +58,11 @@ function getSelf(callback) {
       if (status == 401) {
         // 6. 토큰이 만료되었을 경우 로그인 필요 알림 등의 처리
         alert("로그인이 필요합니다.");
-      } 
-      if (status == 404) {
-        // 7. 그 외의 에러인 경우
-        //localStorage.clear();
-        console.log(error);
+        // 7. 로그인 페이지로 리다이렉트
+        window.location.href = "/";
+      } else {
         alert("알 수 없는 문제가 발생했습니다. 관리자에게 문의하세요.");
       }
-
-      // 8. 로그인 페이지로 리다이렉트
-      window.location.href = "/";
     },
   });
 }
@@ -116,8 +111,8 @@ function getGoodsDetail(goodsId, callback) {
   });
 }
 
-function makeBuyNotification(targetusername, goodsName, goodsId, date) {
-  const messageHtml = `${targetusername}님이 방금 <a href="/detail.html?goodsId=${goodsId}" class="alert-link">${goodsName}</a>을 구매했어요! <br /><small>(${date})</small>
+function makeBuyNotification(targetNickname, goodsName, goodsId, date) {
+  const messageHtml = `${targetNickname}님이 방금 <a href="/detail.html?goodsId=${goodsId}" class="alert-link">${goodsName}</a>을 구매했어요! <br /><small>(${date})</small>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>`;
