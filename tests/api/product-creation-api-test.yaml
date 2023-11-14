@@ -1,0 +1,17 @@
+name: Product Creation API Test
+request:
+  url: http://localhost:3000/products
+  method: POST
+  headers:
+    Content-Type: application/json
+    Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTk5NDMyMjV9.X84K3oT4tWQufId_Gklnx6k3zaQ3Q1Ip-WYUtAKF-jo
+  body: |
+    {
+      "title": "Sample Product",
+      "content": "Product description"
+    }
+tests:
+  - name: "Status Code is 200"
+    script: "tests['Status Code is 200'] = responseCode.code === 200;"
+  - name: "Response includes productId"
+    script: "tests['Response includes productId'] = responseBody.includes('productId');"

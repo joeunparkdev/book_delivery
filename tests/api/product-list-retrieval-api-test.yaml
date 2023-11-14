@@ -1,0 +1,11 @@
+name: Product List Retrieval API Test
+request:
+  url: http://localhost:3000/products
+  method: GET
+  headers:
+    Authorization: Bearer YOUR_ACCESS_TOKEN
+tests:
+  - name: "Status Code is 200"
+    script: "tests['Status Code is 200'] = responseCode.code === 200;"
+  - name: "Response includes productId"
+    script: "tests['Response includes productId'] = responseBody.includes('productId');"

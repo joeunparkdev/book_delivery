@@ -26,10 +26,9 @@ const User = (sequelizeInstance, DataTypes) => {
   // 중복 확인 함수
   model.beforeCreate(async (user, options) => {
     const existingUser = await model.findOne({
-      where: { email: user.email.toLowerCase() }, // 이메일 주소를 소문자로 변환하여 확인
+      where: { email: user.email.toLowerCase() }, 
     });
   
-
     if (existingUser) {
       console.error(`중복된 이메일 주소: ${user.email}`);
       throw new Error('이미 사용 중인 이메일 주소입니다.');

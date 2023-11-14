@@ -53,15 +53,15 @@
       });
 
       $(document).ready(function () {
-        get_goods();
+        get_products();
       });
 
-      function get_goods() {
-        $("#goodsList").empty();
+      function get_products() {
+        $("#productsList").empty();
         getCarts(function (c) {
           for (let i = 0; i < c.length; i++) {
             const item = c[i];
-            make_card(item.goods, item.quantity);
+            make_card(item.products, item.quantity);
           }
           getSum();
         });
@@ -76,8 +76,8 @@
       function make_card(item, quantity) {
         const htmlTemp = `<div class="card mb-2">
               <div class="row no-gutters">
-                  <div class="col-4" style="background: #868e96;" onclick="location.href='/detail?goodsId=${
-                    item.goodsId
+                  <div class="col-4" style="background: #868e96;" onclick="location.href='/detail?productsId=${
+                    item.productsId
                   }'">
                       <img src="${item.thumbnailUrl}"
                             class="card-img-top h-100" alt="...">
@@ -95,11 +95,11 @@
                           <div class="form-group row mr-0">
                               <div class="col-7 pr-2">
                                   <button class="btn btn-outline-sparta btn-block" onclick="removeItem('${
-                                    item.goodsId
+                                    item.productsId
                                   }')">삭제</button>
                               </div>
                               <select class="custom-select col-5" id="numberSelect-${
-                                item.goodsId
+                                item.productsId
                               }">
                                 ${[1, 2, 3, 4, 5]
                                   .map(
@@ -115,17 +115,17 @@
                   </div>
               </div>
           </div>`;
-        $("#goodsList").append(htmlTemp);
-        $(`#numberSelect-${item["goodsId"]}`).change(function () {
-          addToCart(item.goodsId, $(this).val(), function () {
+        $("#productsList").append(htmlTemp);
+        $(`#numberSelect-${item["productsId"]}`).change(function () {
+          addToCart(item.productsId, $(this).val(), function () {
             getSum();
           });
         });
       }
 
-      function removeItem(goodsId) {
-        deleteCart(goodsId, function () {
-          get_goods();
+      function removeItem(productsId) {
+        deleteCart(productsId, function () {
+          get_products();
         });
       }
 
@@ -161,7 +161,7 @@
     <nav
       class="navbar navbar-expand-sm navbar-dark bg-sparta justify-content-end"
     >
-      <a class="navbar-brand" href="/goods.html">
+      <a class="navbar-brand" href="/products.html">
         <img
           src="/logo_big_tr.png"
           width="30"
@@ -253,7 +253,7 @@
           <i class="fa fa-shopping-cart mr-1" aria-hidden="true"></i>장바구니
         </h4>
       </div>
-      <div id="goodsList">
+      <div id="productsList">
         <div class="card mb-2" onclick="location.href='#'">
           <div class="row no-gutters">
             <div class="col-4" style="background: #868e96">

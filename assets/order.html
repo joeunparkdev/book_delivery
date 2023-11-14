@@ -36,7 +36,7 @@
     <nav
       class="navbar navbar-expand-sm navbar-dark bg-sparta justify-content-end"
     >
-      <a class="navbar-brand" href="/goods.html">
+      <a class="navbar-brand" href="/products.html">
         <img
           src="/logo_big_tr.png"
           width="30"
@@ -237,7 +237,7 @@
             .text(
               `$${number2decimals(
                 order.reduce(
-                  (s, o) => s + Number(o.goods.price) * o.quantity,
+                  (s, o) => s + Number(o.products.price) * o.quantity,
                   0
                 )
               )} 결제`
@@ -246,7 +246,7 @@
               postOrder(user, order);
             });
           $(".btn-confirm").click(function () {
-            location.href = "/goods.html";
+            location.href = "/products.html";
           });
         });
       });

@@ -197,23 +197,23 @@
         const password2 = $("#inputPassword2").val();
 
         $.ajax({
-          type: "POST",
-          url: "/api/users",
-          data: {
-            username: username,
-            email: email,
-            password: password1,
-            confirmPassword: password2,
-          },
-          success: function (response) {
-            customAlert("회원가입을 축하드립니다!", function () {
-              window.location.replace("/");
-            });
-          },
-          error: function (error) {
-            customAlert(error.responseJSON.errorMessage);
-          },
-        });
+  type: "POST",
+  url: "/api/auth/signup",
+  data: {
+    username: username,
+    email: email,
+    password: password1,
+    confirmPassword: password2,
+  },
+  success: function (response) {
+    customAlert("회원가입을 축하드립니다!", function () {
+      window.location.replace("/");
+    });
+  },
+  error: function (error) {
+    customAlert(error.responseJSON.errorMessage);
+  },
+});
       }
       function customAlert(text, confirmCallback) {
         $("#alertText").text(text);

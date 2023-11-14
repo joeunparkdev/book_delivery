@@ -62,7 +62,7 @@
               placeholder="아이디"
               aria-label="Username"
               aria-describedby="basic-addon1"
-              id="inputEmail"
+              id="inputusername"
             />
           </div>
           <div class="input-group mb-3">
@@ -163,26 +163,32 @@
       if (localStorage.getItem("token")) {
         getSelf(function () {
           alert("이미 로그인이 되어있습니다. 상품 페이지로 이동합니다.");
-          window.location.replace("/goods.html");
+          window.location.replace("/products.html");
         });
       }
 
       function sign_in() {
-        let email = $("#inputEmail").val();
+        let username = $("#inputusername").val();
         let password = $("#inputPassword").val();
         $.ajax({
           type: "POST",
-          url: "/api/auth",
+          url: "/api/auth/login",
           data: {
-            email: email,
+            username: username,
             password: password,
           },
           success: function (response) {
-            localStorage.setItem("token", response.token);
-            window.location.replace("/goods.html");
+            localStorage.setItem("token", response.accessToken); 
+            window.location.replace("/products.html");
           },
           error: function (error) {
-            customAlert(error.responseJSON.errorMessage);
+            console.error("에러:", error);
+
+    if (error.status === 404) {
+      alert("서버에서 로그인 엔드포인트를 찾을 수 없습니다.");
+    } else {
+      customAlert(error.responseJSON.errorMessage);
+    }
           },
         });
       }

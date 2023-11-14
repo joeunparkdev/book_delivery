@@ -1,21 +1,25 @@
 const express = require('express');
 const router = express.Router();
-const { User } = require('../models');
+const { models } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+console.log(models);
+
 // 회원가입 API
 router.post("/signup", async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, email } = req.body;
 
   try {
     // 패스워드를 해시로 변환
     const hashPassword = await bcrypt.hash(password, 10);
 
+    console.log(username,hashPassword);
     // Sequelize를 사용하여 유저 생성
-    const newUser = await User.create({
+    const newUser = await models.User.create({
       username,
       password: hashPassword,
+      email,
     });
 
     res.json({
@@ -28,44 +32,44 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-// 로그인 API
+// 로그인
 router.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+  console.log('req.body:', req.body);
+
   try {
-    const { username, password } = req.body;
+    // 사용자 조회
+    const foundUser = await models.User.findOne({
+      where: { email: username  }, 
+      
+    });
+    console.log('foundUser:', foundUser);
+    // 사용자가 존재하고 비밀번호가 일치하면 토큰 생성
+    if (foundUser && bcrypt.compareSync(password, foundUser.password)) {
+      const payload = {
+        userId: foundUser.id,
+        username: foundUser.username,
+        email: foundUser.email,
+      };
 
-    // 사용자가 존재하는지 확인
-    const user = await User.findOne({ where: { username } });
-    if (!user) {
-      return res.status(401).json({ error: '사용자를 찾을 수 없습니다.' });
+      // 환경 변수 등을 사용하여 안전한 방식으로 비밀 키 관리
+      const secretKey = process.env.YOUR_SECRET_KEY || 'your_fallback_secret_key';
+      const token = jwt.sign(payload, secretKey, { expiresIn: '12h' });
+
+      res.status(200).json({ accessToken: token });
+    } else {
+      res.status(401).json({ error: 'Invalid username or password' });
     }
-
-    // 비밀번호 일치 여부 확인
-    const isPasswordMatch = await bcrypt.compare(password, user.password);
-    if (!isPasswordMatch) {
-      return res.status(401).json({ error: '비밀번호가 일치하지 않습니다.' });
-    }
-
-    // JWT 생성
-    const accessToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '12h' });
-
-    res.status(200).json({ accessToken });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: '서버 오류' });
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-// 사용자 정보 조회 API
-router.get('/me', async (req, res) => {
-  try {
-    // req.locals.user에는 미들웨어에서 설정한 사용자 정보가 담겨 있음
-    const user = req.locals.user;
 
-    res.status(200).json({ userId: user.id, username: user.username });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: '서버 오류' });
-  }
-});
+
+
+
+
 
 module.exports = router;

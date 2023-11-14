@@ -39,7 +39,7 @@
     <nav
       class="navbar navbar-expand-sm navbar-dark bg-sparta justify-content-end"
     >
-      <a class="navbar-brand" href="/goods.html">
+      <a class="navbar-brand" href="/products.html">
         <img
           src="/logo_big_tr.png"
           width="30"
@@ -60,6 +60,7 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
+      
       <div
         class="navbar-collapse collapse flex-grow-0 ml-auto"
         id="navbarSupportedContent"
@@ -137,8 +138,42 @@
           </select>
         </div>
       </div>
-      <div id="goodsList" class="mb-5">
-        <div>
+      <div id="productsList" class="mb-5">
+        <button id="addProductBtn" class="btn btn-primary" data-toggle="modal" data-target="#addProductModal">새로운 상품 추가</button>
+      </div>
+    </div>
+    <div class="modal" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addProductModalLabel">새로운 상품 추가</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="addProductForm">
+              <div class="form-group">
+                <label for="productName">상품명</label>
+                <input type="text" class="form-control" id="productName" required>
+              </div>
+              <div class="form-group">
+                <label for="productPrice">가격</label>
+                <input type="number" class="form-control" id="productPrice" required>
+              </div>
+              <div class="form-group">
+                <label for="productCategory">카테고리</label>
+                <select class="form-control" id="productCategory" required>
+                  <option value="drink">음료</option>
+                  <option value="food">음식</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary">추가</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
           <div class="card mb-2" onclick="location.href='#'">
             <div class="row no-gutters">
               <div class="col-sm-5" style="background: #868e96">
@@ -191,16 +226,16 @@
         user = u;
       });
       $(document).ready(function () {
-        getGoods(null, function (goods) {
-          for (let i = 0; i < goods.length; i++) {
-            make_card(goods[i]);
+        getproducts(null, function (products) {
+          for (let i = 0; i < products.length; i++) {
+            make_card(products[i]);
           }
         });
 
         $("#categorySelect").on("change", function () {
-          getGoods($(this).val(), function (goods) {
-            for (let i = 0; i < goods.length; i++) {
-              make_card(goods[i]);
+          getproducts($(this).val(), function (products) {
+            for (let i = 0; i < products.length; i++) {
+              make_card(products[i]);
             }
           });
         });
@@ -208,8 +243,8 @@
 
       function make_card(item) {
         let htmlTemp = `<div>
-    <div class="card mb-2" onclick="location.href='/detail.html?goodsId=${
-      item["goodsId"]
+    <div class="card mb-2" onclick="location.href='/detail.html?productsId=${
+      item["productsId"]
     }'">
         <div class="row no-gutters">
             <div class="col-sm-5" style="background: #868e96;">
@@ -232,7 +267,7 @@
         </div>
     </div>
 </div>`;
-        $("#goodsList").append(htmlTemp);
+        $("#productsList").append(htmlTemp);
       }
 
       function number2decimals(num) {

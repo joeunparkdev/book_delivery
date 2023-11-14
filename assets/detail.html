@@ -31,7 +31,7 @@
     <nav
       class="navbar navbar-expand-sm navbar-dark bg-sparta justify-content-end"
     >
-      <a class="navbar-brand" href="/goods.html">
+      <a class="navbar-brand" href="/products.html">
         <img
           src="/logo_big_tr.png"
           width="30"
@@ -122,14 +122,14 @@
             src="https://cdn.pixabay.com/photo/2016/09/07/19/54/wines-1652455_1280.jpg"
             class="card-img-top h-100"
             alt="..."
-            id="goodsUrl"
+            id="productsUrl"
           />
         </div>
         <div class="col-sm-7 card-body px-3">
           <div class="flex-fill mt-3">
             <div class="d-flex justify-content-between mb-3">
-              <h5 style="display: inline" id="goodsName">상품 1</h5>
-              <span class="card-price" id="goodsPrice">$6.20</span>
+              <h5 style="display: inline" id="productsName">상품 1</h5>
+              <span class="card-price" id="productsPrice">$6.20</span>
             </div>
 
             <div class="form-group row mr-0">
@@ -159,7 +159,7 @@
                 <button
                   type="button"
                   class="btn btn-outline-sparta btn-block"
-                  onclick="addToCart(goodsId, $('#numberSelect').val(), function() { $('#cartModal').modal('show'); })"
+                  onclick="addToCart(productsId, $('#numberSelect').val(), function() { $('#cartModal').modal('show'); })"
                 >
                   장바구니
                 </button>
@@ -244,8 +244,8 @@
     <script>
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
-      const goodsId = urlParams.get("goodsId");
-      let goods;
+      const productsId = urlParams.get("productsId");
+      let products;
       let user;
       getSelf(function (u) {
         user = u;
@@ -263,8 +263,8 @@
             $("#pageViewerCount").html("");
           }
         });
-        getGoodsDetail(goodsId, function (g) {
-          goods = g;
+        getproductsDetail(productsId, function (g) {
+          products = g;
           renderItem(Number($("#numberSelect").val()));
         });
 
@@ -276,19 +276,19 @@
       function renderItem(orderNum) {
         $("#orderNumber").html(
           `<small class="mr-2 text-muted">총 수량 ${orderNum}개</small> $${(
-            orderNum * Number(goods.price)
+            orderNum * Number(products.price)
           ).toFixed(2)}`
         );
 
-        $("#goodsUrl").attr("src", goods.thumbnailUrl);
-        $("#goodsName").text(goods.name);
-        $("#goodsPrice").text("$" + goods.price);
+        $("#productsUrl").attr("src", products.thumbnailUrl);
+        $("#productsName").text(products.name);
+        $("#productsPrice").text("$" + products.price);
       }
 
       function buyNow() {
         buyLocation([
           {
-            goods,
+            products,
             quantity: Number($("#numberSelect").val()),
           },
         ]);

@@ -1,8 +1,8 @@
 // const socket = io.connect("/");
 
-// socket.on("BUY_GOODS", function (data) {
-//   const { nickname, goodsId, goodsName, date } = data;
-//   makeBuyNotification(nickname, goodsName, goodsId, date);
+// socket.on("BUY_products", function (data) {
+//   const { nickname, productsId, productsName, date } = data;
+//   makeBuyNotification(nickname, productsName, productsId, date);
 // });
 
 function initAuthenticatePage() {
@@ -20,11 +20,11 @@ function postOrder(user, order) {
 
   // socket.emit("BUY", {
   //   nickname: user.nickname,
-  //   goodsId: order[0].goods.goodsId,
-  //   goodsName:
+  //   productsId: order[0].products.productsId,
+  //   productsName:
   //     order.length > 1
-  //       ? `${order[0].goods.name} 외 ${order.length - 1}개의 상품`
-  //       : order[0].goods.name,
+  //       ? `${order[0].products.name} 외 ${order.length - 1}개의 상품`
+  //       : order[0].products.name,
   // });
 }
 
@@ -44,41 +44,56 @@ function getSelf(callback) {
     type: "GET",
     url: "/api/users/me",
     headers: {
-      authorization: `Bearer ${token}`,
+      Authorization: "Bearer " + localStorage.getItem("token"),
     },
     success: function (response) {
-      // 4. 성공적으로 사용자 정보를 받아왔을 때
-      console.log("성공 응답:", response);
-      callback(response.user);
+      callback(response);
     },
-    error: function (xhr, status, error) {
-      // 5. 서버 응답에서 에러가 발생한 경우
-      console.error("에러:", xhr, status, error);
-
-      if (status == 401) {
-        // 6. 토큰이 만료되었을 경우 로그인 필요 알림 등의 처리
-        alert("로그인이 필요합니다.");
-        // 7. 로그인 페이지로 리다이렉트
-        window.location.href = "/";
+    error: function (error) {
+      console.error("에러:", error);
+      if (error.status === 404) {
+        alert("서버에서 사용자 정보를 찾을 수 없습니다.");
       } else {
-        alert("알 수 없는 문제가 발생했습니다. 관리자에게 문의하세요.");
+        customAlert(error.responseJSON.errorMessage);
       }
     },
   });
 }
 
+$.ajax({
+  type: "POST",
+  url: "/api/auth/login",
+  data: {
+    // your login data
+  },
+  success: function (response) {
+    localStorage.setItem("token", response.accessToken);
+    window.location.replace("/products.html");
+  },
+  error: function (error) {
+    console.error("에러:", error);
+
+    if (error.status === 404) {
+      console.error("서버에서 로그인 엔드포인트를 찾을 수 없습니다.", error);
+      alert("서버에서 로그인 엔드포인트를 찾을 수 없습니다.");
+    } else {
+      console.error("서버에서 오류 응답을 받았습니다.", error);
+      customAlert(error.responseJSON.errorMessage);
+    }
+  },
+});
 
 
-function getGoods(category, callback) {
-  $("#goodsList").empty();
+function getproducts(category, callback) {
+  $("#productsList").empty();
   $.ajax({
     type: "GET",
-    url: `/api/goods${category ? "?category=" + category : ""}`,
+    url: `/api/products${category ? "?category=" + category : ""}`,
     headers: {
       authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     success: function (response) {
-      callback(response["goods"]);
+      callback(response["products"]);
     },
   });
 }
@@ -88,10 +103,10 @@ function signOut() {
   window.location.href = "/";
 }
 
-function getGoodsDetail(goodsId, callback) {
+function getproductsDetail(productsId, callback) {
   $.ajax({
     type: "GET",
-    url: `/api/goods/${goodsId}`,
+    url: `/api/products/${productsId}`,
     headers: {
       authorization: `Bearer ${localStorage.getItem("token")}`,
     },
@@ -103,16 +118,16 @@ function getGoodsDetail(goodsId, callback) {
       } else {
         alert("알 수 없는 문제가 발생했습니다. 관리자에게 문의하세요.");
       }
-      window.location.href = "/goods";
+      window.location.href = "/products";
     },
     success: function (response) {
-      callback(response.goods);
+      callback(response.products);
     },
   });
 }
 
-function makeBuyNotification(targetNickname, goodsName, goodsId, date) {
-  const messageHtml = `${targetNickname}님이 방금 <a href="/detail.html?goodsId=${goodsId}" class="alert-link">${goodsName}</a>을 구매했어요! <br /><small>(${date})</small>
+function makeBuyNotification(targetNickname, productsName, productsId, date) {
+  const messageHtml = `${targetNickname}님이 방금 <a href="/detail.html?productsId=${productsId}" class="alert-link">${productsName}</a>을 구매했어요! <br /><small>(${date})</small>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>`;
@@ -125,10 +140,10 @@ function makeBuyNotification(targetNickname, goodsName, goodsId, date) {
   }
 }
 
-function addToCart(goodsId, quantity, callback) {
+function addToCart(productsId, quantity, callback) {
   $.ajax({
     type: "PUT",
-    url: `/api/goods/${goodsId}/cart`,
+    url: `/api/products/${productsId}/cart`,
     headers: {
       authorization: `Bearer ${localStorage.getItem("token")}`,
     },
@@ -139,7 +154,7 @@ function addToCart(goodsId, quantity, callback) {
       if (status == 400) {
         alert("존재하지 않는 상품입니다.");
       }
-      window.location.href = "/goods.html";
+      window.location.href = "/products.html";
     },
     success: function () {
       callback();
@@ -155,7 +170,7 @@ function buyLocation(params) {
 function getCarts(callback) {
   $.ajax({
     type: "GET",
-    url: `/api/goods/cart`,
+    url: `/api/products/cart`,
     headers: {
       authorization: `Bearer ${localStorage.getItem("token")}`,
     },
@@ -165,10 +180,10 @@ function getCarts(callback) {
   });
 }
 
-function deleteCart(goodsId, callback) {
+function deleteCart(productsId, callback) {
   $.ajax({
     type: "DELETE",
-    url: `/api/goods/${goodsId}/cart`,
+    url: `/api/products/${productsId}/cart`,
     headers: {
       authorization: `Bearer ${localStorage.getItem("token")}`,
     },

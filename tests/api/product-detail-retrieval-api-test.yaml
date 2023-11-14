@@ -1,0 +1,11 @@
+name: Product Detail Retrieval API Test
+request:
+  url: http://localhost:3000/products/1  # Replace 1 with an existing productId
+  method: GET
+  headers:
+    Authorization: Bearer YOUR_ACCESS_TOKEN
+tests:
+  - name: "Status Code is 200"
+    script: "tests['Status Code is 200'] = responseCode.code === 200;"
+  - name: "Response includes productId"
+    script: "tests['Response includes productId'] = responseBody.includes('productId');"
