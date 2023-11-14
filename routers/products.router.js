@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Product } = require("../models/products.model.js");
-const { authenticate } = require("./auth.router.js");
+const { models } = require("../models");
 const authMiddleware = require('../middlewares/auth-middleware.js');
 const { PRODUCT_STATUS } = require('../constants');
 const bcrypt = require('bcrypt');
@@ -22,7 +21,7 @@ const handleSequelizeError = (res, error) => {
 router.post('/', async (req, res) => {
   try {
     // 클라이언트에서 전달한 상품 정보를 사용하여 새로운 상품 생성
-    const newProduct = await Product.create(req.body);
+    const newProduct = await models.Product.create(req.body);
     res.status(201).json(newProduct);
   } catch (error) {
     console.error("상품 추가 실패:", error);
@@ -31,13 +30,13 @@ router.post('/', async (req, res) => {
 });
 
 // 상품 생성 API
-router.post("/create", authenticate, authMiddleware, async (req, res, next) => {
+router.post("/create", authMiddleware, async (req, res, next) => {
   const { title, content } = req.body;
   const userId = req.user.id;
 
   try {
     console.log("Product.create 이전");
-    const newProduct = await Product.create({
+    const newProduct = await models.Product.create({
       title,
       content,
       status: PRODUCT_STATUS.FOR_SALE,
@@ -57,14 +56,14 @@ router.post("/create", authenticate, authMiddleware, async (req, res, next) => {
 
  
 // 상품 수정 API
-router.put("/modify/:productId", authenticate, authMiddleware, async (req, res) => {
+router.put("/modify/:productId", authMiddleware, async (req, res) => {
   const { title, content, status } = req.body;
   const userId = req.user.id;
   const productId = req.params.productId;
  
  
   try {
-    const existingProduct = await Product.findByPk(productId);
+    const existingProduct = await models.Product.findByPk(productId);
  
  
     if (!existingProduct) {
@@ -98,13 +97,13 @@ router.put("/modify/:productId", authenticate, authMiddleware, async (req, res) 
  
  
  // 상품 삭제 API
- router.delete("/delete/:productId", authenticate, authMiddleware, async (req, res) => {
+ router.delete("/delete/:productId", authMiddleware, async (req, res) => {
   const userId = req.user.id;
   const productId = req.params.productId;
  
  
   try {
-    const existingProduct = await Product.findByPk(productId);
+    const existingProduct = await models.Product.findByPk(productId);
  
  
     if (!existingProduct) {
@@ -137,7 +136,7 @@ router.get("/list", async (req, res) => {
     const { sort } = req.query;
     const orderCriteria = sort && sort.toUpperCase() === 'ASC' ? 'ASC' : 'DESC';
 
-    const products = await Product.findAll({
+    const products = await models.Product.findAll({
       include: ["user"],
       order: [["createdAt", orderCriteria]],
     });
@@ -162,7 +161,7 @@ router.get("/list", async (req, res) => {
 router.get("/list/:productId", async (req, res) => {
   try {
     const productId = req.params.productId;
-    const product = await Product.findByPk(productId, {
+    const product = await models.Product.findByPk(productId, {
       include: ["user"],
     });
 

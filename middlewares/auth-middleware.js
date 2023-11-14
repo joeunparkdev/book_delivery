@@ -4,7 +4,7 @@ const userModel = models.User;
 
 async function authMiddleware(req, res, next) {
   const token = req.headers.authorization && req.headers.authorization.split(" ")[1];
-
+  console.log(token);
   if (!token) {
     return res.status(401).json({ error: "Unauthorized - No token provided" });
   }
@@ -16,7 +16,7 @@ async function authMiddleware(req, res, next) {
       return res.status(401).json({ error: "Unauthorized - User not found" });
     }
 
-    req.locals = { user }; // res.locals 객체를 생성하고 user 속성에 사용자 정보를 할당
+    req.user = user.toJSON(); // req.user에 사용자 정보를 할당
     next();
   } catch (error) {
     return res.status(401).json({ error: "Unauthorized - Invalid token" });
