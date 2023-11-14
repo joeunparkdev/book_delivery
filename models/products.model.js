@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('./index');
+const { PRODUCT_STATUS } = require('../constants');
 
 const Product = (sequelize, DataTypes) => {
   const model = sequelize.define('product', {
@@ -12,9 +13,9 @@ const Product = (sequelize, DataTypes) => {
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM('FOR_SALE', 'SOLD_OUT'),
+      type: DataTypes.ENUM(...Object.values(PRODUCT_STATUS)),
       allowNull: false,
-      defaultValue: 'FOR_SALE',
+      defaultValue: PRODUCT_STATUS.FOR_SALE,
     },
     createdAt: {
       type: DataTypes.DATE,
