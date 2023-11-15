@@ -53,7 +53,7 @@
 
 ### 인증 기능 추가
 
-- 인증 필요 API 호출 시 **Request Header**의 ****Authorization 값으로 **JWT**를 함께 넘겨줘야 합니다.
+- 인증 필요 API 호출 시 **Request Header**의 ****Authorization**** 값으로 **JWT**를 함께 넘겨줘야 합니다.
 - 인증에 실패한 경우, 알맞은 **Http Status Code**와 **로그인이 필요합니다** 라는 에러 메세지를 반환합니다.
 
 ### 상품 생성 API (인증 필요 - 인증 Middleware 사용)
