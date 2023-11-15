@@ -4,7 +4,7 @@
 - RDB(MySQL) 데이터 모델링, JWT, Express Middleware를 이용한 **인증 로직** 추가
 
 # 기술 스택
-1. **API 명세서를 작성**하여, ****최종적 결과물을 미리 파악합니다.
+1. **API 명세서를 작성**하여, ****최종적 결과물****을 미리 파악합니다.
 2. **MySQL, Sequelize를** 이용해 데이터베이스를 설계하고 활용합니다.
     - 데이터 모델링을 통해 **ERD 작성**
     - Sequelize를 이용한 **마이그레이션 코드 및 스키마 코드 작성**
@@ -48,12 +48,12 @@
     - 인증에 성공했다면, **비밀번호를 제외한 내 정보**를 반환합니다.
 
 ### 상품 관련 ###
-    - 인증 필요 API 호출 시 **Request Header**의 ****Authorization 값으로 **JWT**를 함께 넘겨줘야 합니다.
-    - 인증에 실패한 경우, 알맞은 **Http Status Code**와 **로그인이 필요합니다** 라는 에러 메세지를 반환합니다.
+- 인증 필요 API 호출 시 **Request Header**의 ****Authorization**** 값으로 **JWT**를 함께 넘겨줘야 합니다.
+- 인증에 실패한 경우, 알맞은 **Http Status Code**와 **로그인이 필요합니다** 라는 에러 메세지를 반환합니다.
 
 ### 인증 기능 추가
 
-- 인증 필요 API 호출 시 **Request Header**의 ****Authorization 값으로 **JWT**를 함께 넘겨줘야 합니다.
+- 인증 필요 API 호출 시 **Request Header**의 ****Authorization**** 값으로 **JWT**를 함께 넘겨줘야 합니다.
 - 인증에 실패한 경우, 알맞은 **Http Status Code**와 **로그인이 필요합니다** 라는 에러 메세지를 반환합니다.
 
 ### 상품 생성 API (인증 필요 - 인증 Middleware 사용)
