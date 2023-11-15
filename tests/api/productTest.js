@@ -1,4 +1,4 @@
-async function getAccessToken() {
+async function loginTest() {
   try {
     let loginHeaders = {
       Accept: "*/*",
@@ -192,10 +192,9 @@ async function deleteProduct(accessToken, productId) {
   }
 }
 
-// Main function
 async function main() {
   try {
-    const accessToken = await getAccessToken();
+    const accessToken = await loginTest();
     console.log("Access Token:", accessToken);
 
     const productList = await getProductList(accessToken);
@@ -219,5 +218,4 @@ async function main() {
   }
 }
 
-// Call the main function
 main();
