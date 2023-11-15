@@ -127,20 +127,25 @@ router.delete("/delete/:productId", authMiddleware, async (req, res) => {
 // 상품 목록 조회 API
 router.get("/list", async (req, res) => {
   try {
+
     const { sort } = req.query;
     const orderCriteria = sort && sort.toUpperCase() === "ASC" ? "ASC" : "DESC";
 
     const products = await models.Product.findAll({
-      include: ["user"],
+      include: [{ model: models.User, as: "user" }],
       order: [["createdAt", orderCriteria]],
-    });
+    });    
+
+    if (!products) {
+      return res.status(404).json({ errorMessage: "상품을 찾을 수 없습니다." });
+    }
 
     const responseData = products.map((product) => ({
       productId: product.id,
       title: product.title,
       content: product.content,
       status: product.status,
-      author: product.user.username,
+      author: product.user ? product.user.username : null,
       createdAt: product.createdAt,
     }));
 
