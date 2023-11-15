@@ -96,38 +96,37 @@ async function getProduct(accessToken, productId) {
 }
 
 async function createProduct(accessToken) {
-    try {
-      let headersList = {
-        Accept: "*/*",
-        "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-        Authorization: "Bearer " + accessToken,
-        "Content-Type": "application/json",
-      };
-  
-      let bodyContent = JSON.stringify({
-        title: "아이폰15 MAX",
-        content: "얼마 사용하지 않은 제품 팝니다.",
-      });
-  
-      let response = await fetch("http://localhost:3000/api/products/create", {
-        method: "POST",
-        body: bodyContent,
-        headers: headersList,
-      });
-  
-      if (!response.ok) {
-        throw new Error(
-          "Failed to create the product. Status: " + response.status,
-        );
-      }
-      return response.json();
+  try {
+    let headersList = {
+      Accept: "*/*",
+      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+      Authorization: "Bearer " + accessToken,
+      "Content-Type": "application/json",
+    };
 
-    } catch (error) {
-      console.error("Error in creating the product:", error);
-      throw error;
+    let bodyContent = JSON.stringify({
+      title: "아이폰15 MAX",
+      content: "얼마 사용하지 않은 제품 팝니다.",
+    });
+
+    let response = await fetch("http://localhost:3000/api/products/create", {
+      method: "POST",
+      body: bodyContent,
+      headers: headersList,
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        "Failed to create the product. Status: " + response.status,
+      );
     }
+    return response.json();
+  } catch (error) {
+    console.error("Error in creating the product:", error);
+    throw error;
   }
-  
+}
+
 async function modifyProduct(accessToken, productId) {
   try {
     let headersList = {
@@ -158,7 +157,6 @@ async function modifyProduct(accessToken, productId) {
     }
 
     return await response.json();
-
   } catch (error) {
     console.error("Error in modifying the product:", error);
     throw error;
@@ -204,15 +202,14 @@ async function main() {
     console.log("Created Product:", createdProduct);
     const productId = createdProduct.productId;
 
-    const product = await getProduct(accessToken,  productId);
+    const product = await getProduct(accessToken, productId);
     console.log("Retreived Product:", product);
 
-    const modifiedProduct = await modifyProduct(accessToken,  productId);
-    console.log("Modified Product:", modifiedProduct );
+    const modifiedProduct = await modifyProduct(accessToken, productId);
+    console.log("Modified Product:", modifiedProduct);
 
-    const deletedProduct = await deleteProduct(accessToken,  productId);
+    const deletedProduct = await deleteProduct(accessToken, productId);
     console.log("Deleted Product:", deletedProduct);
-
   } catch (error) {
     console.error("Error:", error);
   }

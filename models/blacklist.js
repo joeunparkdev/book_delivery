@@ -1,7 +1,7 @@
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('./index');
+const { DataTypes } = require("sequelize");
+const { sequelize } = require("./index");
 
-const BlacklistToken = sequelize.define('BlacklistToken', {
+const BlacklistToken = sequelize.define("BlacklistToken", {
   token: {
     type: DataTypes.STRING,
     allowNull: false,

@@ -1,7 +1,7 @@
-const { PRODUCT_STATUS } = require('../constants');
+const { PRODUCT_STATUS } = require("../constants");
 
 const Product = (sequelize, DataTypes) => {
-  const model = sequelize.define('product', {
+  const model = sequelize.define("product", {
     title: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -20,12 +20,11 @@ const Product = (sequelize, DataTypes) => {
       defaultValue: DataTypes.NOW,
     },
   });
-  console.log('Product 모델 정의됨');
+  console.log("Product 모델 정의됨");
   model.associate = (models) => {
-    model.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
+    model.belongsTo(models.User, { foreignKey: "userId", as: "user" });
   };
-  
-  
+
   return model;
 };
 
