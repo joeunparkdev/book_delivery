@@ -3,8 +3,6 @@ const router = express.Router();
 const { models } = require("../models");
 const authMiddleware = require('../middlewares/auth-middleware.js');
 const { PRODUCT_STATUS } = require('../constants');
-const bcrypt = require('bcrypt');
-const { User } = require("../models/users.model.js");
 
 const handleSequelizeError = (res, error) => {
   if (error.name === "SequelizeValidationError") {

@@ -7,7 +7,7 @@ async function signupTest() {
   
       let signupContent = JSON.stringify({
         username: "조",
-        email: "abcs@naver.com",
+        email: "abcddDDDs@naver.com",
         password: "000000",
         confirmPassword: "000000",
       });

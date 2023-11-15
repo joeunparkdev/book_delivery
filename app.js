@@ -1,10 +1,5 @@
 const express = require("express");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const authMiddleware = require("./middlewares/auth-middleware.js");
-const { sequelize, user, product } = require('./models');
-const { Op } = require('sequelize');
-const config = require('./config/config.cjs');
 const productsRouter = require("./routers/products.router.js");
 const usersRouter = require("./routers/users.router.js");
 const authRouter = require("./routers/auth.router.js");

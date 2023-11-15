@@ -1,8 +1,6 @@
-// models/index.js
 const { Sequelize } = require('sequelize');
 const UserModel = require('./users.model.js');
 const ProductModel = require('./products.model.js');
-const config = require('../config/config.cjs');
 require('dotenv').config();
 
 const sequelize = new Sequelize({
@@ -27,8 +25,6 @@ Object.values(models).forEach((model) => {
   }
 });
 
-// sequelize.sync() 호출 시점 변경
-// 모든 모델이 정의된 후에 호출되어야 함
 sequelize.sync()
   .then(() => {
     console.log('모델과 데이터베이스가 동기화되었습니다.');

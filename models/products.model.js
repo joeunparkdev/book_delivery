@@ -1,5 +1,3 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('./index');
 const { PRODUCT_STATUS } = require('../constants');
 
 const Product = (sequelize, DataTypes) => {
