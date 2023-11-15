@@ -20,7 +20,6 @@ const Product = (sequelize, DataTypes) => {
       defaultValue: DataTypes.NOW,
     },
   });
-  console.log("Product 모델 정의됨");
   model.associate = (models) => {
     model.belongsTo(models.User, { foreignKey: "userId", as: "user" });
   };

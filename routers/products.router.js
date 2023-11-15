@@ -37,7 +37,6 @@ router.post("/create", authMiddleware, async (req, res, next) => {
   const userId = req.user.id;
 
   try {
-    console.log("Product.create 이전");
     const newProduct = await models.Product.create({
       title,
       content,
@@ -45,7 +44,6 @@ router.post("/create", authMiddleware, async (req, res, next) => {
       userId,
     });
 
-    console.log("Product.create 이후");
     res.json({
       message: "상품을 생성하였습니다.",
       productId: newProduct.id,

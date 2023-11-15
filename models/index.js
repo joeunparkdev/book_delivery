@@ -1,15 +1,16 @@
 const { Sequelize } = require("sequelize");
 const UserModel = require("./users.model.js");
 const ProductModel = require("./products.model.js");
+const { config } = require("dotenv");
 require("dotenv").config();
 
 const sequelize = new Sequelize({
   dialect: "mysql",
-  database: process.env.DB_DATABASE,
-  host: process.env.DB_HOST,
-  username: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  logging: console.log,
+  database: config().parsed.DB_DATABASE,
+  host: config().parsed.DB_HOST,
+  username: config().parsed.DB_USER,
+  password: config().parsed.DB_PASSWORD,
+  logging: false,
 });
 
 // 모델 초기화
