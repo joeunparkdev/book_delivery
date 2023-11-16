@@ -4,10 +4,10 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     // 제품 테이블에 초기 데이터 삽입
     const usersData = await queryInterface.sequelize.query(
-      'SELECT id FROM users;',
+      "SELECT id FROM users;",
     );
 
-    const userIds = usersData[0].map(user => user.id);
+    const userIds = usersData[0].map((user) => user.id);
 
     return queryInterface.bulkInsert(
       "products",

@@ -1,13 +1,15 @@
+const { v4: uuidv4 } = require("uuid");
+
 async function signupTest() {
   try {
     let signupHeaders = {
       Accept: "*/*",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
     };
-
+    let email = `user_${uuidv4()}@email.com`;
     let signupContent = JSON.stringify({
       username: "조",
-      email: "abcddDDDs@naver.com",
+      email: email,
       password: "000000",
       confirmPassword: "000000",
     });
@@ -27,14 +29,14 @@ async function signupTest() {
       );
     }
 
-    return signupResponse.json();
+    return { email, ...(await signupResponse.json()) };
   } catch (error) {
     console.error("Error in sign up test:", error);
     throw error;
   }
 }
 
-async function loginTest() {
+async function loginTest(email) {
   try {
     let loginHeaders = {
       Accept: "*/*",
@@ -43,7 +45,7 @@ async function loginTest() {
     };
 
     let loginBody = JSON.stringify({
-      username: "ssssd@dsgs.com",
+      username: email,
       password: "000000",
     });
 
@@ -74,10 +76,10 @@ async function loginTest() {
 
 async function main() {
   try {
-    const signupUser = await signupTest();
-    console.log("sign up user got created:", signupUser);
+    const { email, user } = await signupTest();
+    console.log("sign up user got created:", user);
 
-    const accessToken = await loginTest();
+    const accessToken = await loginTest(email);
     console.log("Access Token:", accessToken);
   } catch (error) {
     console.error("Error:", error);

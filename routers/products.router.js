@@ -32,7 +32,7 @@ router.post("/", async (req, res) => {
 });
 
 // 상품 생성 API
-router.post("/create", authMiddleware, async (req, res, next) => {
+router.post("/create", authMiddleware, async (req, res) => {
   const { title, content } = req.body;
   const userId = req.user.id;
 
@@ -48,7 +48,6 @@ router.post("/create", authMiddleware, async (req, res, next) => {
       message: "상품을 생성하였습니다.",
       productId: newProduct.id,
     });
-    next();
   } catch (error) {
     console.error(error);
     handleSequelizeError(res, error);
@@ -56,7 +55,7 @@ router.post("/create", authMiddleware, async (req, res, next) => {
 });
 
 // 상품 수정 API
-router.put("/modify/:productId", authMiddleware, async (req, res, next) => {
+router.put("/modify/:productId", authMiddleware, async (req, res) => {
   const { title, content, status } = req.body;
   const userId = req.user.id;
   const productId = req.params.productId;
@@ -86,7 +85,6 @@ router.put("/modify/:productId", authMiddleware, async (req, res, next) => {
       message: "상품 수정에 성공하였습니다.",
       productId: existingProduct.id,
     });
-    next();
   } catch (error) {
     console.error(error);
     handleSequelizeError(res, error);
@@ -94,7 +92,7 @@ router.put("/modify/:productId", authMiddleware, async (req, res, next) => {
 });
 
 // 상품 삭제 API
-router.delete("/delete/:productId", authMiddleware, async (req, res ,next) => {
+router.delete("/delete/:productId", authMiddleware, async (req, res) => {
   const userId = req.user.id;
   const productId = req.params.productId;
 
@@ -118,7 +116,6 @@ router.delete("/delete/:productId", authMiddleware, async (req, res ,next) => {
     res.json({
       message: "상품 삭제에 성공하였습니다.",
     });
-    next();
   } catch (error) {
     console.error(error);
     handleSequelizeError(res, error);
@@ -128,14 +125,13 @@ router.delete("/delete/:productId", authMiddleware, async (req, res ,next) => {
 // 상품 목록 조회 API
 router.get("/list", async (req, res) => {
   try {
-
     const { sort } = req.query;
     const orderCriteria = sort && sort.toUpperCase() === "ASC" ? "ASC" : "DESC";
 
     const products = await models.Product.findAll({
       include: [{ model: models.User, as: "user" }],
       order: [["createdAt", orderCriteria]],
-    });    
+    });
     console.log("Products:", products);
     if (!products) {
       return res.status(404).json({ errorMessage: "상품을 찾을 수 없습니다." });
