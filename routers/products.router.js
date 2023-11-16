@@ -48,6 +48,7 @@ router.post("/create", authMiddleware, async (req, res, next) => {
       message: "상품을 생성하였습니다.",
       productId: newProduct.id,
     });
+    next();
   } catch (error) {
     console.error(error);
     handleSequelizeError(res, error);
