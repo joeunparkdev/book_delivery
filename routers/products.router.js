@@ -55,7 +55,7 @@ router.post("/create", authMiddleware, async (req, res, next) => {
 });
 
 // 상품 수정 API
-router.put("/modify/:productId", authMiddleware, async (req, res) => {
+router.put("/modify/:productId", authMiddleware, async (req, res, next) => {
   const { title, content, status } = req.body;
   const userId = req.user.id;
   const productId = req.params.productId;
@@ -85,6 +85,7 @@ router.put("/modify/:productId", authMiddleware, async (req, res) => {
       message: "상품 수정에 성공하였습니다.",
       productId: existingProduct.id,
     });
+    next();
   } catch (error) {
     console.error(error);
     handleSequelizeError(res, error);
@@ -92,7 +93,7 @@ router.put("/modify/:productId", authMiddleware, async (req, res) => {
 });
 
 // 상품 삭제 API
-router.delete("/delete/:productId", authMiddleware, async (req, res) => {
+router.delete("/delete/:productId", authMiddleware, async (req, res ,next) => {
   const userId = req.user.id;
   const productId = req.params.productId;
 
@@ -116,6 +117,7 @@ router.delete("/delete/:productId", authMiddleware, async (req, res) => {
     res.json({
       message: "상품 삭제에 성공하였습니다.",
     });
+    next();
   } catch (error) {
     console.error(error);
     handleSequelizeError(res, error);
