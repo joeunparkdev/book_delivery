@@ -115,6 +115,7 @@ router.delete("/delete/:productId", authMiddleware, async (req, res) => {
 
     res.json({
       message: "상품 삭제에 성공하였습니다.",
+      productId: existingProduct.id,
     });
   } catch (error) {
     console.error(error);
