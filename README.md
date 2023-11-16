@@ -3,6 +3,19 @@
 # 프로젝트 소개
 - RDB(MySQL) 데이터 모델링, JWT, Express Middleware를 이용한 **인증 로직** 추가
 
+# API 테스트 방법
+먼저 app.js를 실행해주세요.
+```
+      node app.js
+```
+app.js 실행중 새로운 터미널을 열어주시고 아래 명령어를 입력해주세요.
+```
+      cd tests/api
+      node authTest.js 
+      node userTest.js
+      node productTest.js
+```
+
 # 기술 스택
 1. **API 명세서를 작성**하여, ****최종적 결과물****을 미리 파악합니다.
 2. **MySQL, Sequelize를** 이용해 데이터베이스를 설계하고 활용합니다.
