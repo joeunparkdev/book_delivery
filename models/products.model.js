@@ -1,4 +1,4 @@
-const { PRODUCT_STATUS } = require("../constants");
+const { PRODUCT_STATUS } = require("../constants/constants");
 
 const Product = (sequelize, DataTypes) => {
   const model = sequelize.define("product", {
@@ -19,7 +19,13 @@ const Product = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
   });
+
   model.associate = (models) => {
     model.belongsTo(models.User, { foreignKey: "userId", as: "user" });
   };

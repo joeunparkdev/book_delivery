@@ -86,5 +86,4 @@ module.exports = {
     await queryInterface.dropTable('products');
     await queryInterface.dropTable('users');
   },
-  
 };

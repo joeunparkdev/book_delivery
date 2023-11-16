@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { models } = require("../models");
 const authMiddleware = require("../middlewares/auth-middleware.js");
-const { PRODUCT_STATUS } = require("../constants");
+const { PRODUCT_STATUS } = require("../constants/constants.js");
 
 const handleSequelizeError = (res, error) => {
   if (error.name === "SequelizeValidationError") {
@@ -133,7 +133,7 @@ router.get("/list", async (req, res) => {
       include: [{ model: models.User, as: "user" }],
       order: [["createdAt", orderCriteria]],
     });    
-
+    console.log("Products:", products);
     if (!products) {
       return res.status(404).json({ errorMessage: "상품을 찾을 수 없습니다." });
     }
@@ -145,6 +145,7 @@ router.get("/list", async (req, res) => {
       status: product.status,
       author: product.user ? product.user.username : null,
       createdAt: product.createdAt,
+      updatedAt: product.updatedAt,
     }));
 
     res.status(200).json({ data: responseData });
@@ -173,6 +174,7 @@ router.get("/list/:productId", async (req, res) => {
       status: product.status,
       author: product.user.username,
       createdAt: product.createdAt,
+      updatedAt: product.updatedAt,
     };
 
     res.status(200).json({ data: responseData });

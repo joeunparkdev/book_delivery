@@ -7,7 +7,7 @@ async function loginTest() {
     };
 
     let loginBody = JSON.stringify({
-      username: "ssssd@dsgs.com",
+      username: "user_1700105588592@example.com",
       password: "000000",
     });
 
@@ -195,12 +195,12 @@ async function main() {
     const accessToken = await loginTest();
     console.log("Access Token:", accessToken);
 
-    const productList = await getProductList(accessToken);
-    console.log("Product List:", productList);
-
     const createdProduct = await createProduct(accessToken);
     console.log("Created Product:", createdProduct);
     const productId = createdProduct.productId;
+
+    const productList = await getProductList(accessToken);
+    console.log("Product List:", productList);
 
     const product = await getProduct(accessToken, productId);
     console.log("Retreived Product:", product);
