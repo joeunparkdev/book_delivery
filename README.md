@@ -26,7 +26,7 @@ app.js 실행중 새로운 터미널을 열어주시고 아래 명령어를 입�
     - **JWT**(AccessToken)의 이해
     - 회원가입 API, 로그인 API, 내 정보 조회 API, 인증 **Middleware** 구현
     - 상품 관련 기능에 인증 로직 추가
-4. AWS EC2 와 Gabia를 사용한 배포 IP 주소: http://3.34.150.211/
+4. AWS EC2 와 Gabia를 사용한 배포 IP 주소: http://apploadbalancer-381603911.ap-northeast-2.elb.amazonaws.com/
    
 # 주요 기능
 ### **회원가입 API**

@@ -41,7 +41,6 @@ async function getProductList(accessToken) {
     let productListHeaders = {
       Accept: "*/*",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-      Authorization: "Bearer " + accessToken,
     };
 
     let productListResponse = await fetch(
@@ -71,7 +70,6 @@ async function getProduct(accessToken, productId) {
     let headersList = {
       Accept: "*/*",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-      Authorization: "Bearer " + accessToken,
     };
 
     let response = await fetch(
