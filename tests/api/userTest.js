@@ -7,7 +7,7 @@ async function loginTest() {
     };
 
     let loginBody = JSON.stringify({
-      username: "ssssd@dsgs.com",
+      username: "user_1700105588592@example.com",
       password: "000000",
     });
 

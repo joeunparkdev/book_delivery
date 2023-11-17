@@ -36,7 +36,7 @@ async function loginTest() {
   }
 }
 
-async function getProductList(accessToken) {
+async function getProductList() {
   try {
     let productListHeaders = {
       Accept: "*/*",
@@ -65,7 +65,7 @@ async function getProductList(accessToken) {
   }
 }
 
-async function getProduct(accessToken, productId) {
+async function getProduct(productId) {
   try {
     let headersList = {
       Accept: "*/*",
@@ -197,10 +197,10 @@ async function main() {
     console.log("Created Product:", createdProduct);
     const productId = createdProduct.productId;
 
-    const productList = await getProductList(accessToken);
+    const productList = await getProductList();
     console.log("Product List:", productList);
 
-    const product = await getProduct(accessToken, productId);
+    const product = await getProduct(productId);
     console.log("Retreived Product:", product);
 
     const modifiedProduct = await modifyProduct(accessToken, productId);
