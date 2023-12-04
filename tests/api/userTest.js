@@ -1,27 +1,27 @@
-async function loginTest() {
+async function signinTest() {
   try {
-    let loginHeaders = {
+    let signinHeaders = {
       Accept: "*/*",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
       "Content-Type": "application/json",
     };
 
-    let loginBody = JSON.stringify({
+    let signinBody = JSON.stringify({
       username: "user_1700105588592@example.com",
       password: "000000",
     });
 
-    let loginResponse = await fetch("http://localhost:3000/api/auth/login", {
+    let signinResponse = await fetch("http://localhost:3000/api/auth/signin", {
       method: "POST",
-      body: loginBody,
-      headers: loginHeaders,
+      body: signinBody,
+      headers: signinHeaders,
     });
 
-    if (!loginResponse.ok) {
-      throw new Error("Failed to log in. Status: " + loginResponse.status);
+    if (!signinResponse.ok) {
+      throw new Error("Failed to log in. Status: " + signinResponse.status);
     }
 
-    let accessTokenData = await loginResponse.json();
+    let accessTokenData = await signinResponse.json();
     if (!accessTokenData || !accessTokenData.accessToken) {
       throw new Error(
         "No valid access token available. Token data: " +
@@ -55,35 +55,13 @@ async function mypageTest(accessToken) {
   }
 }
 
-async function logoutTest(accessToken) {
-  try {
-    let headersList = {
-      Accept: "*/*",
-      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-      Authorization: "Bearer " + accessToken,
-    };
-
-    let response = await fetch("http://localhost:3000/api/users/logout", {
-      method: "POST",
-      headers: headersList,
-    });
-    return await response.json();
-  } catch (error) {
-    console.error("Error in logoutTest:", error);
-    throw error;
-  }
-}
-
 async function main() {
   try {
-    const accessToken = await loginTest();
+    const accessToken = await signinTest();
     console.log("Access Token:", accessToken);
 
     const mypageResult = await mypageTest(accessToken);
     console.log("mypageTest result:", mypageResult);
-
-    const logout = await logoutTest(accessToken);
-    console.log("logout result:", logout);
   } catch (error) {
     console.error("Error:", error);
   }
