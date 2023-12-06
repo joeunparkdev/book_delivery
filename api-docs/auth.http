@@ -1,0 +1,24 @@
+
+# POST /api/auth/signup
+POST http://localhost:3000/api/auth/signup
+Content-Type: application/json
+
+{
+  "username": "조",
+  "password": "000000",
+  "confirmPassword": "000000",
+    "email": "user@example.com"
+}
+
+# POST /api/auth/signin
+POST http://localhost:3000/api/auth/signin
+Content-Type: application/json
+
+{
+  "username": "user@example.com",
+  "password": "000000"
+}
+
+# POST /api/auth/signout
+POST http://localhost:3000/api/auth/signout
+Authorization: Bearer <your_access_token>

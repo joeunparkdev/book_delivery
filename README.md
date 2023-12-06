@@ -1,7 +1,7 @@
 # MALL-MIDDLEWARE
 
 # 프로젝트 소개
-- RDB(MySQL) 데이터 모델링, JWT, Express Middleware를 이용한 **인증 로직** 추가
+- 3-Layered Architecture, OOP, RDB(MySQL) 데이터 모델링, JWT, Express Middleware를 이용한 **인증 로직** 추가
 
 # API 테스트 방법
 먼저 app.js를 실행해주세요.
@@ -17,18 +17,33 @@ app.js 실행중 새로운 터미널을 열어주시고 아래 명령어를 입�
 ```
 
 # 기술 스택
-1. **API 명세서를 작성**하여, ****최종적 결과물****을 미리 파악합니다.
-2. **MySQL, Sequelize를** 이용해 데이터베이스를 설계하고 활용합니다.
+1. **3-Layered Architecture**를 적용
+2. Controller, Service, Repository Layer는 **Class**를 이용해 구현
+3. **MySQL, Prisma를** 이용해 데이터베이스를 설계하고 활용합니다.
     - 데이터 모델링을 통해 **ERD 작성**
-    - Sequelize를 이용한 **마이그레이션 코드 및 스키마 코드 작성**
-    - **JOIN**을 통해 다른 Table의 데이터와 결합
-3. **인증 관련 기능을 구현**합니다.
+    - Prisma를 이용한 **마이그레이션 코드 및 스키마 코드 작성**
+4. **인증 관련 기능을 구현**합니다.
     - **JWT**(AccessToken)의 이해
     - 회원가입 API, 로그인 API, 내 정보 조회 API, 인증 **Middleware** 구현
     - 상품 관련 기능에 인증 로직 추가
-4. AWS EC2 와 Gabia를 사용한 배포 IP 주소: http://apploadbalancer-381603911.ap-northeast-2.elb.amazonaws.com/
+5. AWS EC2 와 Gabia를 사용한 배포 IP 주소: http://apploadbalancer-381603911.ap-northeast-2.elb.amazonaws.com/
    
 # 주요 기능
+
+### 인증 Middleware
+
+1. Request Header의 Authorization 정보에서 JWT를 가져와서, 인증 된 사용자인지 확인하는 Middleware를 구현합니다.
+2. 인증에 실패하는 경우에는 알맞은 Http Status Code와 에러 메세지를 반환 해야 합니다.
+    - Authorization에 담겨 있는 값의 형태가 표준(Authorization: Bearer <JWT Value>)과 일치하지 않는 경우
+    - JWT의 유효기한이 지난 경우
+    - JWT 검증(JWT Secret 불일치, 데이터 조작으로 인한 Signature 불일치 등)에 실패한 경우
+3. 인증에 성공하는 경우에는 req.locals.user에 인증 된 사용자 정보를 담고, 다음 동작을 진행합니다.
+
+### 사용자 관련 ###
+
+1. 내 정보 조회 API (인증 필요 - 인증 Middleware 사용)
+    - 인증에 성공했다면, **비밀번호를 제외한 내 정보**를 반환합니다.
+
 ### **회원가입 API**
 
 1. 이메일, 비밀번호, 비밀번호 확인, 이름을 데이터로 넘겨서 **회원가입을 요청**합니다.
@@ -42,25 +57,34 @@ app.js 실행중 새로운 터미널을 열어주시고 아래 명령어를 입�
 
 1. 이메일, 비밀번호로 **로그인을 요청**합니다.
 2. 이메일 또는 비밀번호 중 **하나라도 일치하지 않는다면,** 알맞은 Http Status Code와 에러 메세지를 반환해야 합니다.
-3. **로그인 성공 시**, JWT AccessToken을 생성하여 반환합니다.
+3. **로그인 성공 시**, JWT AccessToken과 RefreshToken을 생성하여 반환합니다.
     - Access Token
         - Payload: userId를 담고 있습니다.
-        - 유효기한: 12시간
+        - 유효기한: 1시간
+    - Refresh Token
+        - Payload: userId를 담고 있습니다.
+        - 유효기한: 24시간
 
-### 인증 Middleware
 
-1. Request Header의 Authorization 정보에서 JWT를 가져와서, 인증 된 사용자인지 확인하는 Middleware를 구현합니다.
-2. 인증에 실패하는 경우에는 알맞은 Http Status Code와 에러 메세지를 반환 해야 합니다.
-    - Authorization에 담겨 있는 값의 형태가 표준(Authorization: Bearer <JWT Value>)과 일치하지 않는 경우
-    - JWT의 유효기한이 지난 경우
-    - JWT 검증(JWT Secret 불일치, 데이터 조작으로 인한 Signature 불일치 등)에 실패한 경우
-3. 인증에 성공하는 경우에는 req.locals.user에 인증 된 사용자 정보를 담고, 다음 동작을 진행합니다.
+### 로그아웃 API (인증 필요 - 인증 Middleware 사용)
 
-### 사용자 관련 ###
-1. 내 정보 조회 API (인증 필요 - 인증 Middleware 사용)
-    - 인증에 성공했다면, **비밀번호를 제외한 내 정보**를 반환합니다.
+1. 유효한 Access Token을 통한 요청이어야 합니다.
+2. Access Token이 **유효하지 않거나 존재하지 않는다면,** 알맞은 Http Status Code와 에러 메세지를 반환해야 합니다.
+3. **인증 성공 시**, 쿠키와 만료된 토큰을 삭제합니다.
+
+### 유저 개인 정보 수정 API (인증 필요 - 인증 Middleware 사용)
+
+### 유저 삭제 API (인증 필요 - 인증 Middleware 사용)
+
+### 유저 전체 삭제 API (관리자 인증 필요 - 인증 Middleware 사용)
+
+### 유저 목록 조회 API 
+
+### 유저 상세 조회 API
+
 
 ### 상품 관련 ###
+
 - 인증 필요 API 호출 시 **Request Header**의 ****Authorization**** 값으로 **JWT**를 함께 넘겨줘야 합니다.
 - 인증에 실패한 경우, 알맞은 **Http Status Code**와 **로그인이 필요합니다** 라는 에러 메세지를 반환합니다.
 
@@ -91,6 +115,8 @@ app.js 실행중 새로운 터미널을 열어주시고 아래 명령어를 입�
 - 수정할 상품과 ~~비밀번호 일치 여부를 확인~~한 후, 동일할 때만 글이 삭제되어야 합니다.
 → 인증에 성공한 사용자의 userId와 상품을 등록한 사용자의 userId가 일치할 때에만 **삭제**되어야 합니다.
 - 선택한 상품이 존재하지 않을 경우, “상품 조회에 실패하였습니다." 메시지를 반환합니다.
+
+### 상품 전체 삭제 API (관리자 인증 필요 - 인증 Middleware 사용)
 
 ### 상품 목록 조회 API
 

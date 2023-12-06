@@ -24,7 +24,7 @@ export class UsersRepository {
   findUserByUsername = async (username) => {
     const user = await prisma.Users.findUnique({
       where: {
-        username,
+        username: username,
       },
     });
 
@@ -32,23 +32,24 @@ export class UsersRepository {
   };
 
   findUserByEmail = async (email) => {
+    console.log("REPO"+email);
     const user = await prisma.Users.findUnique({
       where: {
-        email,
+        email: email,
       },
     });
-
+  
     return user;
   };
   
-  createUser = async (username, password, confirmPassword, email) => {
+  createUser = async (username, password, email) => {
     // ORM인 Prisma에서 Users 모델의 create 메서드를 사용해 데이터를 요청합니다.
     const createdUser = await prisma.Users.create({
       data: {
         username,
         password,
-        confirmPassword,
         email,
+        isAdmin: false,
       },
     });
 
@@ -60,17 +61,18 @@ export class UsersRepository {
 
     const existingUser = await this.findUserById(userId);
 
-    const updatedUser = await prisma.Users.update({
-      where: {
-        userId: +userId,
-      },
-      data: {
-        username,
-        password,
-        confirmPassword,
-        email,
-      },
-    });
+    
+  const updatedUser = await prisma.Users.update({
+    where: {
+      userId: +userId,
+    },
+    data: {
+      username,
+      password,
+      confirmPassword,
+      email,
+    },
+  });
 
     return updatedUser;
   };

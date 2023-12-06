@@ -5,8 +5,13 @@ import { authMiddleware, adminMiddleware } from "../middlewares/auth-middleware.
 const router = express.Router();
 const usersController = new UsersController();
 
-//관리자 모드 - 모든 사용자 조회 API
-router.get("/", authMiddleware, adminMiddleware, usersController.getUsers);
+//TODO: 팔로우, 언팔로우, 메세지 보내기도 디비에 관련있는건가? 아님 그냥 소켓 쓰는건가?
+
+//모든 사용자 조회 API
+router.get("/", authMiddleware, usersController.getUsers);
+
+//관리자 모드 - 관리자 권한 부여
+router.post('/grant-admin/:userId', authMiddleware, adminMiddleware, usersController.grantAdmin);
 
 //관리자 모드 - 모든 사용자 삭제 API
 router.delete("/", authMiddleware, adminMiddleware, usersController.deleteAllUsers);

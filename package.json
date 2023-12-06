@@ -15,6 +15,7 @@
     "socket.io-client": "^4.7.2"
   },
   "devDependencies": {
+    "jest": "^29.7.0",
     "prettier": "^3.1.0",
     "sequelize-cli": "^6.6.2"
   },
@@ -22,7 +23,8 @@
     "prisma": "prisma generate",
     "format": "prettier --write \"*.js\" \"**/*.js\"",
     "start": "node src/app.js",
-    "dev": "nodemon src/app.js"
+    "dev": "nodemon src/app.js",
+    "test": "jest"
   },
   "name": "advanced_mall",
   "version": "1.0.0",

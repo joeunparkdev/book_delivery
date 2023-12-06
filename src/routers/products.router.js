@@ -6,6 +6,7 @@ const productsController = new ProductsController();
 
 const router = express.Router();
 
+//TODO: 상품 추천해요, 비추천해요, 평점주기
 // 상품 생성 API
 router.post("/", productsController.createProduct);
 

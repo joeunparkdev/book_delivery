@@ -115,6 +115,27 @@ export class UsersController {
     }
   };
 
+  grantAdmin = async (req,res,next) => {
+    try {
+      const userId = parseInt(req.params.userId, 10);
+
+      if (isNaN(userId)) {
+        return res.status(400).json({ success: false, message: "올바르지 않은 사용자 ID" });
+      }
+
+      const result = await userService.grantAdmin(userId);
+
+      if (result.success) {
+        return res.status(200).json(result);
+      } else {
+        return res.status(500).json(result);
+      }
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ success: false, message: "서버 에러" });
+    }
+  };
+
   deleteAllUsers = async (req, res, next) => {
     try {
       await this.userService.deleteAllUsers();

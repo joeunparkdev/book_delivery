@@ -6,6 +6,7 @@ import authRouter from "./routers/auth.router.js";
 
 const app = express();
 
+//TODO: HTTP를 HTTPS로 업그레이드 하기
 app.use(express.json()); // body parser
 app.use(express.urlencoded({ extended: false })); // FORM 처리
 

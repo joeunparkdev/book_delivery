@@ -35,18 +35,22 @@ export class UsersService {
   };
 
   signInUser = async (email, password) => {
+    console.log("SERVICE", email);
     const user = await this.usersRepository.findUserByEmail(email);
-
+  
     if (!user) {
       throw new Error("User not found");
     }
-
+  
     const passwordMatch = await bcrypt.compare(password, user.password);
-
+    console.log(password);
+    console.log(user.password);
+    console.log(passwordMatch);
+  
     if (!passwordMatch) {
       throw new Error("Passwords do not match");
     }
-
+  
     return {
       userId: user.userId,
       username: user.username,
@@ -55,18 +59,19 @@ export class UsersService {
       updatedAt: user.updatedAt,
     };
   };
+  
+  
+  
 
-  signUpUser = async (username, password, confirmPassword, email) => {
-    if (password !== confirmPassword) {
-      throw new Error("Passwords do not match");
-    }
+  createUser = async (username, password, email) => {
     const hashedPassword = await bcrypt.hash(password, 10);
+  
     const createdUser = await this.usersRepository.createUser(
       username,
       hashedPassword,
-      email,
+      email
     );
-
+  
     return {
       userId: createdUser.userId,
       username: createdUser.username,
@@ -124,6 +129,28 @@ export class UsersService {
     };
   };
 
+  grantAdmin = async (userId) => {
+    try {
+      const user = await prisma.users.findUnique({
+        where: { id: userId },
+      });
+
+      if (!user) {
+        throw new Error("사용자를 찾을 수 없습니다.");
+      }
+
+      // 사용자에게 관리자 권한을 부여
+      await prisma.users.update({
+        where: { id: userId },
+        data: { isAdmin: true },
+      });
+
+      return { success: true, message: "관리자 권한 부여 성공" };
+    } catch (error) {
+      console.error(error);
+      return { success: false, message: "관리자 권한 부여 중 에러 발생" };
+    }
+  }
   //관리자만 할수있는
   deleteAllUsers = async () => {
     try {

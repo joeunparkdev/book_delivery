@@ -52,15 +52,15 @@ export class AuthController {
   signIn = async (req, res, next) => {
     try {
       const { password, email } = req.body;
-
-      const user = await this.authService.findUserByEmail(email);
+      console.log("CONTROLLER"+email);
+      const user = await this.authService.signInUser(email, password);
 
       if (!user || !(await bcrypt.compare(password, user.password))) {
         throw new Error("Invalid credentials");
       }
 
-      const accessToken = this.generateAccessToken(user.id);
-      const refreshToken = await this.generateRefreshToken(user.id);
+      const accessToken = this.generateAccessToken(user.userId); 
+      const refreshToken = await this.generateRefreshToken(user.userId);
 
       this.setCookie(res, accessToken);
 
@@ -80,39 +80,39 @@ export class AuthController {
 
   signUp = async (req, res, next) => {
     try {
-      const { username, password, confirmPassword, email } = req.body;
+        const { username, password, confirmPassword, email } = req.body;
 
-      if (password !== confirmPassword) {
-        throw new Error("Passwords do not match");
-      }
+        if (password !== confirmPassword) {
+            throw new Error("Passwords do not match");
+        }
+        console.log(password);
+        console.log(confirmPassword);
 
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = await this.authService.createUser({
-        data: {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = await this.authService.createUser(
           username,
-          email,
-          password: hashedPassword,
-        },
-      });
+          hashedPassword,
+          email
+        );        
 
-      const accessToken = this.generateAccessToken(newUser.id);
-      const refreshToken = await this.generateRefreshToken(newUser.id);
+        const accessToken = this.generateAccessToken(newUser.id);
+        const refreshToken = await this.generateRefreshToken(newUser.id);
 
-      this.setCookie(res, accessToken);
+        this.setCookie(res, accessToken);
 
-      return res.status(200).json({
-        success: true,
-        message: "사용자를 생성하였습니다.",
-        authId: newUser.id,
-      });
+        return res.status(200).json({
+            success: true,
+            message: "사용자를 생성하였습니다.",
+            authId: newUser.id,
+        });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        success: false,
-        message: "예상치 못한 에러가 발생했습니다. 관리자에게 문의하세요.",
-      });
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: "예상치 못한 에러가 발생했습니다. 관리자에게 문의하세요.",
+        });
     }
-  };
+};
 
   signOut = async (req, res, next) => {
     const userId = req.user.id;

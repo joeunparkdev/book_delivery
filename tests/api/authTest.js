@@ -1,20 +1,21 @@
-const { v4: uuidv4 } = require("uuid");
+import pkg from 'uuid';
+const { v4: uuidv4 } = pkg;
 
-async function signupTest() {
+const signupTest = async () => {
   try {
-    let signupHeaders = {
+    const signupHeaders = {
       Accept: "*/*",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
     };
-    let email = `user_${uuidv4()}@email.com`;
-    let signupContent = JSON.stringify({
+    const email = `user_${uuidv4()}@email.com`;
+    const signupContent = JSON.stringify({
       username: "조",
-      email: email,
       password: "000000",
       confirmPassword: "000000",
+      email,
     });
 
-    let signupResponse = await fetch("http://localhost:3000/api/auth/signup", {
+    const signupResponse = await fetch("http://localhost:3000/api/auth/signup", {
       method: "POST",
       body: signupContent,
       headers: {
@@ -25,7 +26,7 @@ async function signupTest() {
 
     if (!signupResponse.ok) {
       throw new Error(
-        "Failed to fetch the sign up data. Status: " + signupResponse.status,
+        `Failed to fetch the sign up data. Status: ${signupResponse.status}`,
       );
     }
 
@@ -34,36 +35,37 @@ async function signupTest() {
     console.error("Error in sign up test:", error);
     throw error;
   }
-}
+};
 
-async function signinTest(email) {
+const signinTest = async (email,password) => {
   try {
-    let signinHeaders = {
+    const signinHeaders = {
       Accept: "*/*",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
       "Content-Type": "application/json",
     };
 
-    let signinBody = JSON.stringify({
-      username: email,
-      password: "000000",
+    const signinBody = JSON.stringify({
+      email: email,
+      password: password,
     });
 
-    let signinResponse = await fetch("http://localhost:3000/api/auth/signin", {
+    const signinResponse = await fetch("http://localhost:3000/api/auth/signin", {
       method: "POST",
       body: signinBody,
       headers: signinHeaders,
     });
 
     if (!signinResponse.ok) {
-      throw new Error("Failed to log in. Status: " + signinResponse.status);
+      throw new Error(`Failed to log in. Status: ${signinResponse.status}`);
     }
 
-    let accessTokenData = await signinResponse.json();
+    const accessTokenData = await signinResponse.json();
     if (!accessTokenData || !accessTokenData.accessToken) {
       throw new Error(
-        "No valid access token available. Token data: " +
-          JSON.stringify(accessTokenData),
+        `No valid access token available. Token data: ${JSON.stringify(
+          accessTokenData,
+        )}`,
       );
     }
 
@@ -72,32 +74,34 @@ async function signinTest(email) {
     console.error("Error in getAccessToken:", error);
     throw error;
   }
-}
+};
 
-async function signoutTest(accessToken) {
+const signoutTest = async (accessToken) => {
   try {
-    let headersList = {
+    const headersList = {
       Accept: "*/*",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-      Authorization: "Bearer " + accessToken,
+      Authorization: `Bearer ${accessToken}`,
     };
 
-    let response = await fetch("http://localhost:3000/api/auth/signout", {
+    const response = await fetch("http://localhost:3000/api/auth/signout", {
       method: "POST",
       headers: headersList,
     });
+
     return await response.json();
   } catch (error) {
     console.error("Error in signoutTest:", error);
     throw error;
   }
-}
-async function main() {
+};
+
+const main = async () => {
   try {
     const { email, user } = await signupTest();
     console.log("sign up user got created:", user);
 
-    const accessToken = await signinTest(email);
+    const accessToken = await signinTest(email, password);
     console.log("Access Token:", accessToken);
 
     const signout = await signoutTest(accessToken);
@@ -105,6 +109,6 @@ async function main() {
   } catch (error) {
     console.error("Error:", error);
   }
-}
+};
 
 main();
