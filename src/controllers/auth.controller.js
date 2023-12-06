@@ -120,11 +120,11 @@ signOut = async (req, res, next) => {
   try {
 
     const existingUser = await this.authService.findUserById(userId);
-
+    console.log("existingUser"+existingUser);
     // 클라이언트에서 액세스 토큰 제거
     this.accessToken = '';
 
-    this.clearCookie(res);
+    res.clearCookie('authorization');
 
 
     // 만료된 토큰 삭제

@@ -129,7 +129,7 @@ export class UsersService {
 
   grantAdmin = async (userId) => {
     try {
-      const user = await prisma.users.findUnique({
+      const user = await prisma.Users.findUnique({
         where: { userId: userId },
       });
 

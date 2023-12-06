@@ -9,35 +9,35 @@ const refreshTokenManagementService = new RefreshTokenService();
 const authMiddleware = async (req, res, next) => {
   try {
     console.log('Starting authMiddleware');
+ // 'authorization'이라는 이름의 쿠키가 있는지 확인
+const authorization = req.cookies.authorization;
+    console.log("authorization="+authorization);
+if (!authorization) {
+  // 토큰이 없을 경우 401 Unauthorized 반환
+  console.log('Token not found');
+  return res.status(401).json({ message: '토큰이 존재하지 않습니다.' });
+}
 
-    // 쿠키에서 authorization 값 추출
-    const { authorization } = req.cookies;
+// 토큰 분해
+const [tokenType, accessToken] = authorization.split(' ');
 
-    if (!authorization) {
-      // 토큰이 없을 경우 401 Unauthorized 반환
-      console.log('Token not found');
-      return res.status(401).json({ message: '토큰이 존재하지 않습니다.' });
-    }
+if (tokenType !== 'Bearer') {
+  // 토큰 타입이 일치하지 않을 경우 401 Unauthorized 반환
+  console.log('Invalid token type');
+  return res.status(401).json({ message: '토큰 타입이 일치하지 않습니다.' });
+}
 
-    // 토큰 분해
-    const [tokenType, accessToken] = authorization.split(' ');
-
-    if (tokenType !== 'Bearer') {
-      // 토큰 타입이 일치하지 않을 경우 401 Unauthorized 반환
-      console.log('Invalid token type');
-      return res.status(401).json({ message: '토큰 타입이 일치하지 않습니다.' });
-    }
-
-    // 로그아웃 요청에서 액세스 토큰을 사용하므로 클라이언트에게 액세스 토큰을 전달
-    req.accessToken = accessToken;
-
-    // 액세스 토큰의 유효성 검사
-    const decodedPayload = jwt.verify(accessToken, JWT_ACCESS_TOKEN_SECRET);
+// 로그아웃 요청에서 액세스 토큰을 사용하므로 클라이언트에게 액세스 토큰을 전달
+req.accessToken = accessToken;
+console.log("req.accessToken="+req.accessToken);
+// 액세스 토큰의 유효성 검사
+const decodedPayload = jwt.verify(accessToken, JWT_ACCESS_TOKEN_SECRET);
 
     // 데이터베이스에서 사용자 정보 가져오기
-    const user = await prisma.users.findUnique({
+    const user = await prisma.Users.findUnique({
       where: { userId: decodedPayload.userId },
     });
+    console.log("user="+user);
 
     if (!user) {
       // 사용자가 존재하지 않을 경우 401 Unauthorized 반환
@@ -48,9 +48,10 @@ const authMiddleware = async (req, res, next) => {
 
     // req.user 속성에 사용자 정보 추가
     req.user = user;
-
+    console.log("req.user="+req.user);
     // 리프레시 토큰 관리 서비스를 사용하여 액세스 토큰 갱신
     const newAccessToken = await refreshTokenManagementService.refreshAccessToken(user);
+    console.log("newAccessToken="+newAccessToken);
 
     if (newAccessToken) {
       // 새로운 액세스 토큰이 발급된 경우
@@ -69,7 +70,7 @@ const authMiddleware = async (req, res, next) => {
   } catch (error) {
     // 에러가 발생한 경우 처리
     res.clearCookie('authorization');
-    console.error('Auth Middleware Error:', error); // 추가된 부분
+    console.error('Auth Middleware Error:', error); 
 
     switch (error.name) {
       case 'TokenExpiredError':
