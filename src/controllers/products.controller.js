@@ -27,16 +27,20 @@ export class ProductsController {
   };
 
   createProduct = async (req, res, next) => {
-    const { title, content } = req.body;
-    const userId = req.user.id;
-
     try {
+      if (!req.user || !req.user.id) {
+        return res.status(401).json({ error: "User not logged in" });
+      }
+
+      const { title, content } = req.body;
+      const userId = req.user.id;
+
       const newProduct = await this.productsService.createProduct({
         data: {
           title,
           content,
           status: PRODUCT_STATUS.FOR_SALE,
-          user: { connect: { id: userId } },
+          userId: userId, 
         },
       });
 

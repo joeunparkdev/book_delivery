@@ -11,7 +11,12 @@ import {
 export class AuthController {
   authService = new UsersService();
   refreshTokenService = new RefreshTokenService();
-
+  accessToken = ''; 
+  
+  constructor() {
+    this.accessToken = ''; 
+  }
+  
   generateAccessToken = (userId) => {
     return jwt.sign({ userId }, JWT_ACCESS_TOKEN_SECRET, {
       expiresIn: JWT_ACCESS_TOKEN_EXPIRES_IN,
@@ -52,18 +57,17 @@ export class AuthController {
   signIn = async (req, res, next) => {
     try {
       const { password, email } = req.body;
-      console.log("CONTROLLER"+email);
+      console.log("CONTROLLER", email);
+  
+      // 사용자 로그인 시도
       const user = await this.authService.signInUser(email, password);
-
-      if (!user || !(await bcrypt.compare(password, user.password))) {
-        throw new Error("Invalid credentials");
-      }
-
-      const accessToken = this.generateAccessToken(user.userId); 
+  
+      // 인증에 성공한 경우
+      const accessToken = this.generateAccessToken(user.userId);
       const refreshToken = await this.generateRefreshToken(user.userId);
-
+  
       this.setCookie(res, accessToken);
-
+  
       return res.status(200).json({
         success: true,
         message: "로그인에 성공했습니다.",
@@ -85,13 +89,10 @@ export class AuthController {
         if (password !== confirmPassword) {
             throw new Error("Passwords do not match");
         }
-        console.log(password);
-        console.log(confirmPassword);
 
-        const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await this.authService.createUser(
           username,
-          hashedPassword,
+          password,
           email
         );        
 
@@ -114,30 +115,31 @@ export class AuthController {
     }
 };
 
-  signOut = async (req, res, next) => {
-    const userId = req.user.id;
+signOut = async (req, res, next) => {
+  const userId = req.user.id;
+  try {
 
-    try {
-      const existingUser = await this.authService.findUserById(userId);
+    const existingUser = await this.authService.findUserById(userId);
 
-      this.clearCookie(res);
+    // 클라이언트에서 액세스 토큰 제거
+    this.accessToken = '';
 
-      //만료된 토큰 삭제
-      const token = await this.refreshTokenService.deleteExpiredTokens(userId);
+    this.clearCookie(res);
 
-      return res.status(200).json({
-        success: true,
-        message: "정상적으로 로그아웃 되었습니다.",
-        data: {},
-      });
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        success: false,
-        message: "예상치 못한 에러가 발생했습니다. 관리자에게 문의하세요.",
-      });
-    }
-  };
+
+    // 만료된 토큰 삭제
+    const token = await this.refreshTokenService.deleteExpiredTokens(userId);
+
+    // 로그아웃 성공 시 204 상태 코드 반환
+    return res.status(204).end();
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: '예상치 못한 에러가 발생했습니다. 관리자에게 문의하세요.',
+    });
+  }
+};
 
   setCookie = (res, accessToken) => {
     const expires = new Date();

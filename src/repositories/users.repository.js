@@ -33,7 +33,7 @@ export class UsersRepository {
 
   findUserByEmail = async (email) => {
     console.log("REPO"+email);
-    const user = await prisma.Users.findUnique({
+    const user = await prisma.Users.findFirst({
       where: {
         email: email,
       },
@@ -43,6 +43,7 @@ export class UsersRepository {
   };
   
   createUser = async (username, password, email) => {
+    try {
     // ORM인 Prisma에서 Users 모델의 create 메서드를 사용해 데이터를 요청합니다.
     const createdUser = await prisma.Users.create({
       data: {
@@ -52,8 +53,17 @@ export class UsersRepository {
         isAdmin: false,
       },
     });
-
     return createdUser;
+  } catch (error) {
+    // Prisma 에러 코드 P2002는 중복된 키 관련 오류입니다.
+    if (error.code === 'P2002' && error.meta?.target === 'Users_email_key') {
+      console.error('이미 등록된 이메일 주소입니다.');
+      throw new Error('이미 등록된 이메일 주소입니다.');
+    }
+
+    console.error(error);
+    throw error;
+  }
   };
 
   updateUser = async (username, password, confirmPassword, email) => {

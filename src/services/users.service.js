@@ -35,17 +35,14 @@ export class UsersService {
   };
 
   signInUser = async (email, password) => {
-    console.log("SERVICE", email);
     const user = await this.usersRepository.findUserByEmail(email);
   
     if (!user) {
       throw new Error("User not found");
     }
   
+    // 비밀번호 비교 로직
     const passwordMatch = await bcrypt.compare(password, user.password);
-    console.log(password);
-    console.log(user.password);
-    console.log(passwordMatch);
   
     if (!passwordMatch) {
       throw new Error("Passwords do not match");
@@ -55,14 +52,12 @@ export class UsersService {
       userId: user.userId,
       username: user.username,
       email: user.email,
+      password: user.password,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     };
   };
   
-  
-  
-
   createUser = async (username, password, email) => {
     const hashedPassword = await bcrypt.hash(password, 10);
   
@@ -76,6 +71,7 @@ export class UsersService {
       userId: createdUser.userId,
       username: createdUser.username,
       email: createdUser.email,
+      password: createdUser.password,
       createdAt: createdUser.createdAt,
       updatedAt: createdUser.updatedAt,
     };
@@ -107,6 +103,7 @@ export class UsersService {
       userId: updatedUser.userId,
       username: updatedUser.username,
       email: updatedUser.email,
+      password: updatedUser.password,
       createdAt: updatedUser.createdAt,
       updatedAt: updatedUser.updatedAt,
     };
@@ -124,6 +121,7 @@ export class UsersService {
       userId: existingUser.userId,
       username: existingUser.username,
       email: existingUser.email,
+      password: existingUser.password,
       createdAt: existingUser.createdAt,
       updatedAt: existingUser.updatedAt,
     };
@@ -132,7 +130,7 @@ export class UsersService {
   grantAdmin = async (userId) => {
     try {
       const user = await prisma.users.findUnique({
-        where: { id: userId },
+        where: { userId: userId },
       });
 
       if (!user) {

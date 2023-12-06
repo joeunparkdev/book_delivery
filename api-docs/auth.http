@@ -1,24 +1,27 @@
-
-# POST /api/auth/signup
-POST http://localhost:3000/api/auth/signup
+ ### POST /api/auth/signup
+  @accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE3LCJpYXQiOjE3MDE4NTMwNTQsImV4cCI6MTcwMTg1NjY1NH0.xXStEaRwgy1f-mnVWTeQAZWgX8p4Quwlw0q9qCCZr9o
+ POST http://localhost:3001/api/auth/signup
+Accept: */*
 Content-Type: application/json
 
 {
-  "username": "조",
+  "username":"조조",
   "password": "000000",
   "confirmPassword": "000000",
-    "email": "user@example.com"
+  "email": "dkd@naver.com"
 }
 
-# POST /api/auth/signin
-POST http://localhost:3000/api/auth/signin
+### POST /api/auth/signin
+POST http://localhost:3001/api/auth/signin
+Accept: */*
 Content-Type: application/json
 
 {
-  "username": "user@example.com",
+  "email": "a@naver.com",
   "password": "000000"
 }
 
-# POST /api/auth/signout
-POST http://localhost:3000/api/auth/signout
-Authorization: Bearer <your_access_token>
+### POST /api/auth/signout
+POST http://localhost:3001/api/auth/signout
+Accept: */*
+Content-Type: application/json

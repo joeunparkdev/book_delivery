@@ -5,7 +5,7 @@ export class ProductsService {
 
   findAllProducts = async () => {
     // 저장소(Repository)에게 데이터를 요청합니다.
-    const products = await this.ProductsRepository.findAllProducts();
+    const products = await this.productsRepository.findAllProducts();
 
     // 호출한 Products들을 가장 최신 게시글 부터 정렬합니다.
     products.sort((a, b) => {
@@ -48,13 +48,14 @@ export class ProductsService {
 
     // 비즈니스 로직을 수행한 후 사용자에게 보여줄 데이터를 가공합니다.
     return {
-      productId: product.productId,
-      productname: product.productname,
-      title: product.title,
-      status: product.status,
-      createdAt: product.createdAt,
-      updatedAt: product.updatedAt,
+      productId: createdProduct.productId,
+      productname: createdProduct.productname,
+      title: createdProduct.title,
+      status: createdProduct.status,
+      createdAt: createdProduct.createdAt,
+      updatedAt: createdProduct.updatedAt,
     };
+    
   };
 
   updateProduct = async (productId, title, content, status) => {
@@ -74,14 +75,15 @@ export class ProductsService {
     const updatedProduct =
       await this.productsRepository.findProductById(productId);
 
-    return {
-      productId: product.productId,
-      productname: product.productname,
-      title: product.title,
-      status: product.status,
-      createdAt: product.createdAt,
-      updatedAt: product.updatedAt,
-    };
+      return {
+        productId: updatedProduct.productId,
+        productname: updatedProduct.productname,
+        title: updatedProduct.title,
+        status: updatedProduct.status,
+        createdAt: updatedProduct.createdAt,
+        updatedAt: updatedProduct.updatedAt,
+      };
+      
   };
 
   deleteProduct = async (productId) => {
@@ -98,13 +100,8 @@ export class ProductsService {
     await this.productsRepository.deleteProduct(productId);
 
     return {
-      productId: product.productId,
-      productname: product.productname,
-      title: product.title,
-      status: product.status,
-      createdAt: product.createdAt,
-      updatedAt: product.updatedAt,
     };
+    
   };
 
   deleteAllProducts = async () => {

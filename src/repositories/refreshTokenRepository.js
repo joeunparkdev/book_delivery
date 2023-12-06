@@ -5,6 +5,10 @@ export class RefreshTokenRepository {
   }
 
   async findTokenByUserId(userId) {
+    console.log('prisma:', this.prisma);
+    console.log('prisma.refreshTokens:', this.prisma.refreshTokens);
+    console.log('prisma.refreshTokens.findOne:', this.prisma.refreshTokens.findOne);
+
     return this.prisma.refreshTokens.findOne({
       where: {
         userId: userId,
@@ -31,7 +35,7 @@ export class RefreshTokenRepository {
   }
 
   async deleteExpiredTokens(userId) {
-    await prisma.refreshTokens.deleteMany({
+    await this.prisma.refreshTokens.deleteMany({
       where: {
         userId: userId,
         expirationDate: {
