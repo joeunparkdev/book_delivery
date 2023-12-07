@@ -23,7 +23,7 @@ export class UsersService {
   };
 
   findUserById = async (userId) => {
-    (userId);
+
     const user = await this.usersRepository.findUserById(userId);
 
     return {
@@ -39,14 +39,14 @@ export class UsersService {
     const user = await this.usersRepository.findUserByEmail(email);
   
     if (!user) {
-      throw new Error("User not found");
+      throw new Error("회원 불일치");
     }
   
     // 비밀번호 비교 로직
     const passwordMatch = await bcrypt.compare(password, user.password);
   
     if (!passwordMatch) {
-      throw new Error("Passwords do not match");
+      throw new Error("비밀번호 불일치");
     }
   
     return {
@@ -78,60 +78,60 @@ export class UsersService {
     };
   };
 
-  updateUser = async (userId, username, password, confirmPassword, email) => {
-    const existingUser = await this.usersRepository.findUserById(userId);
-    if (!existingUser) {
-      throw new Error("User not found");
-    }
+  updateUser = async (userId, username, email, hashedPassword, updatedAt) => {
+    try {
+      console.log("userId="+userId);
 
-    if (password && confirmPassword && password !== confirmPassword) {
-      throw new Error("Passwords do not match");
+    const existingUser = await this.usersRepository.findUserById(userId);
+    console.log(existingUser);
+
+    if (!existingUser) {
+      throw new Error("회원 조회 실패");
     }
-    const hashedPassword = password
-      ? await bcrypt.hash(password, 10)
-      : existingUser.password;
 
     await this.usersRepository.updateUser(
       userId,
       username,
-      hashedPassword,
       email,
+      hashedPassword,
+      updatedAt
     );
 
-    const updatedUser = await this.usersRepository.findUserById(userId);
-
-    return {
-      userId: updatedUser.userId,
-      username: updatedUser.username,
-      email: updatedUser.email,
-      password: updatedUser.password,
-      createdAt: updatedUser.createdAt,
-      updatedAt: updatedUser.updatedAt,
-    };
+    } catch (error) {
+      console.error(error);
+      throw new Error("상품 수정 실패");
+    }
   };
 
   deleteUser = async (userId) => {
+  try{
+    console.log("userId="+userId);
     const existingUser = await this.usersRepository.findUserById(userId);
+    console.log(existingUser);
     if (!existingUser) {
-      throw new Error("User not found");
-    }
+      throw new Error("회원 조회에 실패하였습니다.");
+  }
+  console.log("existingUser.userId="+existingUser.userId);
+  console.log("userId="+userId);
 
+  if (existingUser.userId !== userId) {
+      throw new Error("회원 상품을 삭제할 권한이 없습니다.");
+  }
     await this.usersRepository.deleteUser(userId);
-
+  
     return {
-      userId: existingUser.userId,
-      username: existingUser.username,
-      email: existingUser.email,
-      password: existingUser.password,
-      createdAt: existingUser.createdAt,
-      updatedAt: existingUser.updatedAt,
-    };
+      message: "회원 삭제 완료",
   };
+} catch (error) {
+  console.error(error);
+  throw new Error("회원 삭제 실패");
+  };
+};
 
   grantAdmin = async (userId) => {
     try {
       const user = await prisma.users.findUnique({
-        where: { userId: userId },
+        where: { userId },
       });
 
       if (!user) {
@@ -140,7 +140,7 @@ export class UsersService {
 
       // 사용자에게 관리자 권한을 부여
       await prisma.users.update({
-        where: { id: userId },
+        where: { userId },
         data: { isAdmin: true },
       });
 
@@ -149,19 +149,20 @@ export class UsersService {
       console.error(error);
       return { success: false, message: "관리자 권한 부여 중 에러 발생" };
     }
-  }
+  };
+
   //관리자만 할수있는
   deleteAllUsers = async () => {
     try {
       const deletedUsers = await this.usersRepository.deleteAllUsers();
 
       return {
-        message: "All users deleted successfully",
+        message: "전체 회원 삭제 완료",
         deletedUserCount: deletedUsers.length,
       };
     } catch (error) {
       console.error(error);
-      throw new Error("Failed to delete all users");
+      throw new Error("전체 상품 삭제 실패");
     }
   };
 }

@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import { UsersService } from "../services/users.service.js";
 
 export class UsersController {
@@ -15,9 +16,9 @@ export class UsersController {
 
   getMyInfo = async (req, res, next) => {
     try {
-      const { userId } = req.params;
-
-      const existingUser = await this.userService.findUserById(userId);
+      const userId = req.user.userId;
+      console.log(userId);
+      const existingUser = await this.userService.findUserById(+userId);
       if (!existingUser) {
         return res
           .status(404)
@@ -31,10 +32,11 @@ export class UsersController {
 
   modifyMyInfo = async (req, res, next) => {
     const { username, password, confirmPassword, email } = req.body;
-    const userId = req.params.userId;
-
+    const userId = req.user.userId;
+    console.log(userId);
     try {
-      const existingUser = await this.userService.findUserById(userId);
+      const existingUser = await this.userService.findUserById(+userId);
+      console.log(existingUser);
 
       if (isNaN(userId)) {
         return res
@@ -60,18 +62,10 @@ export class UsersController {
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      await this.usersService.updateUser({
-        where: { userId: +userId },
-        data: {
-          username,
-          email,
-          password: hashedPassword,
-        },
-      });
+      await this.userService.updateUser(+userId, username, email, hashedPassword,new Date());
 
       res.json({
-        message: "상품 수정에 성공하였습니다.",
-        userId: existingUser.id,
+        message: "상품 수정에 성공하였습니다."
       });
     } catch (error) {
       console.error(error);
@@ -80,34 +74,18 @@ export class UsersController {
   };
 
   deleteMyInfo = async (req, res, next) => {
-    const userId = req.params.userId;
-
     try {
-      const existingUser = await this.userService.findUserById(userId);
-
-      if (isNaN(userId)) {
-        return res
-          .status(400)
-          .json({ errorMessage: "유효하지 않은 userId입니다." });
+      const userId = req.user.userId;
+      console.log(userId);
+      
+      if (!req.user || !req.user.userId) {
+        return res.status(401).json({ error: "User not logged in" });
       }
 
-      if (!existingUser) {
-        return res
-          .status(404)
-          .json({ errorMessage: "회원 조회에 실패하였습니다." });
-      }
-
-      if (existingUser.userId !== userId) {
-        return res
-          .status(403)
-          .json({ errorMessage: "회원 정보를 삭제할 권한이 없습니다." });
-      }
-
-      await this.userService.deleteUser({ where: { userId: +userId } });
+      await this.userService.deleteUser(+userId);
 
       res.json({
         message: "회원 정보 삭제에 성공하였습니다.",
-        userId: existingUser.id,
       });
     } catch (error) {
       console.error(error);
@@ -117,13 +95,9 @@ export class UsersController {
 
   grantAdmin = async (req,res,next) => {
     try {
-      const userId = parseInt(req.params.userId, 10);
+      const userId = req.user.userId;
 
-      if (isNaN(userId)) {
-        return res.status(400).json({ success: false, message: "올바르지 않은 사용자 ID" });
-      }
-
-      const result = await userService.grantAdmin(userId);
+      const result = await userService.grantAdmin(+userId);
 
       if (result.success) {
         return res.status(200).json(result);

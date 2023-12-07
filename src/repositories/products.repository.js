@@ -42,7 +42,6 @@ export class ProductsRepository {
 
   updateProduct = async (productId, name, description, status, price, updatedAt) => {
     // ORM인 Prisma에서 Products 모델의 update 메서드를 사용해 데이터를 수정합니다.
-    ("productId="+ productId)
     const updatedProduct = await prisma.products.update({
       where: {
         productId: +productId,
@@ -61,7 +60,6 @@ export class ProductsRepository {
 
   deleteProduct = async (productId) => {
     // ORM인 Prisma에서 Products 모델의 delete 메서드를 사용해 데이터를 삭제합니다.
-    ("productId="+ productId)
     const deletedProduct = await prisma.products.delete({
       where: {
           productId: +productId,

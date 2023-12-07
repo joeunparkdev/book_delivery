@@ -29,7 +29,6 @@ export class ProductsService {
 
   findProductById = async (productId) => {
     // 저장소(Repository)에게 특정 게시글 하나를 요청합니다.
-    ("productId="+ productId)
     const product = await this.productsRepository.findProductById(productId);
     return {
       productId: product.productId,
@@ -69,13 +68,7 @@ export class ProductsService {
   updateProduct = async (productId, name, price, description, status, updatedAt, userId) => {
     // 저장소(Repository)에게 특정 게시글 하나를 요청합니다.
     try {
-      ("productId="+productId);
-
       const existingProduct = await this.productsRepository.findProductById(productId);
-  
-      ("existingProduct="+existingProduct);
-      ("existingProduct.userId="+existingProduct.userId);
-      ("userId="+userId);
       if (!existingProduct) {
           throw new Error("상품 조회에 실패하였습니다.");
       }
@@ -91,6 +84,7 @@ export class ProductsService {
       status,
       price,
       updatedAt);
+      
     } catch (error) {
       console.error(error);
       throw new Error("상품 수정 실패");
@@ -100,9 +94,7 @@ export class ProductsService {
     deleteProduct = async (productId, userId) => {
       try {
           const existingProduct = await this.productsRepository.findProductById(productId);
-  
-          ("existingProduct="+existingProduct);
-          ("existingProduct.id="+existingProduct.userId);
+
           if (!existingProduct) {
               throw new Error("상품 조회에 실패하였습니다.");
           }

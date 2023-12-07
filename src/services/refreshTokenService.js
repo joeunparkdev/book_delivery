@@ -14,37 +14,34 @@ const refreshTokenRepository = new RefreshTokenRepository(prisma);
 export class RefreshTokenService {
   // 액세스 토큰을 갱신하거나 새로 발급하는 함수
   async refreshAccessToken(user) {
-    ("user.userId="+user.userId);
+    const userId = +user.userId;
     // 사용자의 아이디를 기반으로 데이터베이스에서 리프레시 토큰을 조회
-    const refreshToken = await refreshTokenRepository.findTokenByUserId(
-      user.userId,
-    );
-    ("refreshToken=" + refreshToken);
+    const refreshToken = await refreshTokenRepository.findTokenByUserId(userId);
 
     // 만약 리프레시 토큰이 존재하고 유효하다면
     if (refreshToken && refreshToken.token) {
       // 새로운 액세스 토큰 생성
-      const newAccessToken = this.generateAccessToken(user.userId);
+      const newAccessToken = this.generateAccessToken(userId);
       ("newAccessToken" + newAccessToken);
       // 기존의 리프레시 토큰 삭제
-      await refreshTokenRepository.deleteToken(user.userId);
+      await refreshTokenRepository.deleteToken(userId);
 
-      // 새로운 액세스 토큰 반환
+      // 새로운 액세스 토큰 
       return newAccessToken;
     } else {
       // 리프레시 토큰이 없거나 유효하지 않은 경우
       // 새로운 리프레시 토큰 생성
-      const newRefreshToken = this.generateRefreshToken(user.userId);
+      const newRefreshToken = this.generateRefreshToken(userId);
 
       // 기존의 리프레시 토큰 삭제
-      await refreshTokenRepository.deleteToken(user.userId);
+      await refreshTokenRepository.deleteToken(userId);
 
       // 새로운 리프레시 토큰의 만료 날짜 설정 (7일 후)
       const expirationDate = this.calculateExpirationDate();
 
       // 데이터베이스에 새로운 리프레시 토큰 추가
       await refreshTokenRepository.createToken(
-        user.userId,
+        userId,
         newRefreshToken,
         expirationDate,
       );
