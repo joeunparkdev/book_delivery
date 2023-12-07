@@ -32,9 +32,10 @@ req.accessToken = accessToken;
 console.log("req.accessToken="+req.accessToken);
 // 액세스 토큰의 유효성 검사
 const decodedPayload = jwt.verify(accessToken, JWT_ACCESS_TOKEN_SECRET);
-
+console.log("decodedPayload="+decodedPayload);
+console.log("decodedPayload.userId="+decodedPayload.userId);
     // 데이터베이스에서 사용자 정보 가져오기
-    const user = await prisma.Users.findUnique({
+    const user = await prisma.users.findUnique({
       where: { userId: decodedPayload.userId },
     });
     console.log("user="+user);

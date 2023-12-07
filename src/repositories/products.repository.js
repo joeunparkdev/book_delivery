@@ -4,17 +4,17 @@ import PRODUCT_STATUS from "../constants/app.constants.js";
 export class ProductsRepository {
   findAllProducts = async () => {
     // ORM인 Prisma에서 Products 모델의 findMany 메서드를 사용해 데이터를 요청합니다.
-    const Products = await prisma.Products.findMany();
+    const Products = await prisma.products.findMany();
 
     return Products;
   };
 
   findProductById = async (productId) => {
     // ORM인 Prisma에서 Products 모델의 findUnique 메서드를 사용해 데이터를 요청합니다.
-    const product = await prisma.Products.findUnique({
-      where: { productId: +productId },
+    const product = await prisma.products.findUnique({
+      where: { productId: +productId }, 
     });
-
+    console.log(product);
     if (!product) {
       throw new Error("Product not found");
     }
@@ -22,13 +22,14 @@ export class ProductsRepository {
     return product;
   };
 
-  createProduct = async (title, content) => {
+  createProduct = async (name, description,userId, price, createdAt,updatedAt) => {
     // ORM인 Prisma에서 Products 모델의 create 메서드를 사용해 데이터를 요청합니다.
-    const createdProduct = await prisma.Products.create({
+    const createdProduct = await prisma.products.create({
       data: {
-        title,
-        content,
+        name,
+        description,
         status: PRODUCT_STATUS.FOR_SALE,
+        price,
         userId,
         createdAt,
         updatedAt,
@@ -38,21 +39,20 @@ export class ProductsRepository {
     return createdProduct;
   };
 
-  updateProduct = async (productId, title, content, status) => {
+  updateProduct = async (productId, name, description, price, status) => {
     // ORM인 Prisma에서 Products 모델의 update 메서드를 사용해 데이터를 수정합니다.
 
-    const existingProduct = await this.findProductById(productId);
-
-    const updatedProduct = await prisma.Products.update({
+    const updatedProduct = await prisma.products.update({
       where: {
         productId: +productId,
       },
       data: {
-        title,
-        content,
-        status: status || existingProduct.status,
+        name,
+        description,
+        status,
+        price,
         createdAt,
-        updatedAt,
+        updatedAt: new Date(),
       },
     });
 
@@ -61,9 +61,7 @@ export class ProductsRepository {
 
   deleteProduct = async (productId) => {
     // ORM인 Prisma에서 Products 모델의 delete 메서드를 사용해 데이터를 삭제합니다.
-    const existingProduct = await this.findProductById(productId);
-
-    const deletedProduct = await prisma.Products.delete({
+    const deletedProduct = await prisma.products.delete({
       where: {
         productId: +productId,
       },
@@ -75,7 +73,7 @@ export class ProductsRepository {
   deleteAllProducts = async () => {
     try {
       // ORM인 Prisma에서 Products 모델의 delete 메서드를 사용해 데이터를 삭제합니다.
-      const deletedProducts = await prisma.Products.deleteMany();
+      const deletedProducts = await prisma.products.deleteMany();
       return deletedProducts;
     } catch (error) {
       console.error(error);

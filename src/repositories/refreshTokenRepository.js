@@ -4,7 +4,7 @@ import { prisma } from '../utils/prisma/index.js';
 export class RefreshTokenRepository {
 
   findTokenByUserId = async (userId) => {
-    const user = await prisma.Users.findUnique({
+    const user = await prisma.users.findUnique({
       where: {
         userId: userId,
       },
@@ -14,12 +14,13 @@ export class RefreshTokenRepository {
     });
 
     const refreshTokens = user ? user.refreshTokens : null;
-
+    console.log("user="+user);
+    console.log("user.refreshTokens="+user.refreshTokens);
     return refreshTokens;
   };
 
   createToken = async (userId, token, expirationDate) => {
-    return await prisma.RefreshToken.create({
+    return await prisma.refreshToken.create({
       data: {
         userId: userId,
         token: token,
@@ -29,7 +30,7 @@ export class RefreshTokenRepository {
   };
 
   deleteToken = async (userId) => {
-    return await prisma.RefreshToken.deleteMany({
+    return await prisma.refreshToken.deleteMany({
       where: {
         userId: userId,
       },
@@ -37,7 +38,7 @@ export class RefreshTokenRepository {
   };
 
   deleteExpiredTokens = async (userId) => {
-    return await prisma.RefreshToken.deleteMany({
+    return await prisma.refreshToken.deleteMany({
       where: {
         userId: userId,
         expirationDate: {

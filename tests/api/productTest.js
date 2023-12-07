@@ -1,216 +1,44 @@
-async function loginTest() {
-  try {
-    let loginHeaders = {
-      Accept: "*/*",
-      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-      "Content-Type": "application/json",
-    };
+import request from 'supertest';
+import {app} from '../../src/app.js';
 
-    let loginBody = JSON.stringify({
-      username: "user_1700105588592@example.com",
-      password: "000000",
-    });
+describe('Product API', () => {
+  // 상품 생성 후 ID 저장
+  let productId;
 
-    let loginResponse = await fetch("http://localhost:3000/api/auth/login", {
-      method: "POST",
-      body: loginBody,
-      headers: loginHeaders,
-    });
+  // 상품 생성 API 테스트
+  it('should create a product', async () => {
+    const response = await request(app)
+      .post('/products')
+      .send({
+        name: 'Test Product',
+        description: 'This is a test product.',
+        price: 10000,
+      });
 
-    if (!loginResponse.ok) {
-      throw new Error("Failed to log in. Status: " + loginResponse.status);
-    }
+    expect(response.status).toBe(200);
+    expect(response.body.productId).toBeTruthy();
+    productId = response.body.productId;  // 생성된 상품의 ID 저장
+  });
 
-    let accessTokenData = await loginResponse.json();
-    if (!accessTokenData || !accessTokenData.accessToken) {
-      throw new Error(
-        "No valid access token available. Token data: " +
-          JSON.stringify(accessTokenData),
-      );
-    }
+  // 상품 수정 API 테스트
+  it('should update a product', async () => {
+    const response = await request(app)
+      .put(`/products/${productId}`)
+      .send({
+        name: 'Updated Test Product',
+        price: 15000,
+      });
 
-    return accessTokenData.accessToken;
-  } catch (error) {
-    console.error("Error in getAccessToken:", error);
-    throw error;
-  }
-}
+    expect(response.status).toBe(200);
+    expect(response.body.productId).toBe(productId);
+  });
 
-async function getProductList() {
-  try {
-    let productListHeaders = {
-      Accept: "*/*",
-      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-    };
+  // 상품 삭제 API 테스트
+  it('should delete a product', async () => {
+    const response = await request(app)
+      .delete(`/products/${productId}`)
 
-    let productListResponse = await fetch(
-      "http://localhost:3000/api/products/list",
-      {
-        method: "GET",
-        headers: productListHeaders,
-      },
-    );
-
-    if (!productListResponse.ok) {
-      throw new Error(
-        "Failed to fetch the product list. Status: " +
-          productListResponse.status,
-      );
-    }
-
-    return productListResponse.json();
-  } catch (error) {
-    console.error("Error in getProductList:", error);
-    throw error;
-  }
-}
-
-async function getProduct(productId) {
-  try {
-    let headersList = {
-      Accept: "*/*",
-      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-    };
-
-    let response = await fetch(
-      "http://localhost:3000/api/products/list/" + productId,
-      {
-        method: "GET",
-        headers: headersList,
-      },
-    );
-
-    if (!response.ok) {
-      throw new Error(
-        "Failed to fetch the product. Status: " + response.status,
-      );
-    }
-
-    return response.json();
-  } catch (error) {
-    console.error("Error in getProduct:", error);
-    throw error;
-  }
-}
-
-async function createProduct(accessToken) {
-  try {
-    let headersList = {
-      Accept: "*/*",
-      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-      Authorization: "Bearer " + accessToken,
-      "Content-Type": "application/json",
-    };
-
-    let bodyContent = JSON.stringify({
-      title: "아이폰15 MAX",
-      content: "얼마 사용하지 않은 제품 팝니다.",
-    });
-
-    let response = await fetch("http://localhost:3000/api/products/create", {
-      method: "POST",
-      body: bodyContent,
-      headers: headersList,
-    });
-
-    if (!response.ok) {
-      throw new Error(
-        "Failed to create the product. Status: " + response.status,
-      );
-    }
-    return response.json();
-  } catch (error) {
-    console.error("Error in creating the product:", error);
-    throw error;
-  }
-}
-
-async function modifyProduct(accessToken, productId) {
-  try {
-    let headersList = {
-      Accept: "*/*",
-      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-      Authorization: "Bearer " + accessToken,
-      "Content-Type": "application/json",
-    };
-
-    let bodyContent = JSON.stringify({
-      title: "아이폰14 MAX",
-      content: "얼마 사용하지 않은 제품 팝니다.",
-    });
-
-    let response = await fetch(
-      "http://localhost:3000/api/products/modify/" + productId,
-      {
-        method: "PUT",
-        body: bodyContent,
-        headers: headersList,
-      },
-    );
-
-    if (!response.ok) {
-      throw new Error(
-        "Failed to fetch the product. Status: " + response.status,
-      );
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error in modifying the product:", error);
-    throw error;
-  }
-}
-async function deleteProduct(accessToken, productId) {
-  try {
-    let headersList = {
-      Accept: "*/*",
-      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-      Authorization: "Bearer " + accessToken,
-    };
-
-    let response = await fetch(
-      "http://localhost:3000/api/products/delete/" + productId,
-      {
-        method: "DELETE",
-        headers: headersList,
-      },
-    );
-    if (!response.ok) {
-      throw new Error(
-        "Failed to fetch the product. Status: " + response.status,
-      );
-    }
-
-    return response.json();
-  } catch (error) {
-    console.error("Error in deleting the product:", error);
-    throw error;
-  }
-}
-
-async function main() {
-  try {
-    const accessToken = await loginTest();
-    console.log("Access Token:", accessToken);
-
-    const createdProduct = await createProduct(accessToken);
-    console.log("Created Product:", createdProduct);
-    const productId = createdProduct.productId;
-
-    const productList = await getProductList();
-    console.log("Product List:", productList);
-
-    const product = await getProduct(productId);
-    console.log("Retreived Product:", product);
-
-    const modifiedProduct = await modifyProduct(accessToken, productId);
-    console.log("Modified Product:", modifiedProduct);
-
-    const deletedProduct = await deleteProduct(accessToken, productId);
-    console.log("Deleted Product:", deletedProduct);
-  } catch (error) {
-    console.error("Error:", error);
-  }
-}
-
-main();
+    expect(response.status).toBe(200);
+    expect(response.body.productId).toBe(productId);
+  });
+});

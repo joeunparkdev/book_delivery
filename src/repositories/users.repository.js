@@ -3,14 +3,15 @@ export class UsersRepository {
 
   findAllUsers = async () => {
     // ORM인 Prisma에서 Users 모델의 findMany 메서드를 사용해 데이터를 요청합니다.
-    const Users = await prisma.Users.findMany();
+    const Users = await prisma.users.findMany();
 
     return Users;
   };
-
+  
   findUserById = async (userId) => {
+    console.log(userId);
     // ORM인 Prisma에서 Users 모델의 findUnique 메서드를 사용해 데이터를 요청합니다.
-    const user = await prisma.Users.findUnique({
+    const user = await prisma.users.findUnique({
       where: { userId: +userId },
     });
 
@@ -22,7 +23,7 @@ export class UsersRepository {
   };
 
   findUserByUsername = async (username) => {
-    const user = await prisma.Users.findUnique({
+    const user = await prisma.users.findUnique({
       where: {
         username: username,
       },
@@ -33,7 +34,7 @@ export class UsersRepository {
 
   findUserByEmail = async (email) => {
     console.log("REPO"+email);
-    const user = await prisma.Users.findFirst({
+    const user = await prisma.users.findFirst({
       where: {
         email: email,
       },
@@ -45,7 +46,7 @@ export class UsersRepository {
   createUser = async (username, password, email) => {
     try {
     // ORM인 Prisma에서 Users 모델의 create 메서드를 사용해 데이터를 요청합니다.
-    const createdUser = await prisma.Users.create({
+    const createdUser = await prisma.users.create({
       data: {
         username,
         password,
@@ -72,7 +73,7 @@ export class UsersRepository {
     const existingUser = await this.findUserById(userId);
 
     
-  const updatedUser = await prisma.Users.update({
+  const updatedUser = await prisma.users.update({
     where: {
       userId: +userId,
     },
@@ -92,7 +93,7 @@ export class UsersRepository {
 
     const existingUser = await this.findUserById(userId);
 
-    const deletedUser = await prisma.Users.delete({
+    const deletedUser = await prisma.users.delete({
       where: {
         userId: +userId,
       },
@@ -104,7 +105,7 @@ export class UsersRepository {
   deleteAllUsers = async () => {
     try {
       // ORM인 Prisma에서 Users 모델의 delete 메서드를 사용해 데이터를 삭제합니다.
-      const deletedUsers = await prisma.Users.deleteMany();
+      const deletedUsers = await prisma.users.deleteMany();
       return deletedUsers;
     } catch (error) {
       console.error(error);

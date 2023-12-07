@@ -23,6 +23,7 @@ export class UsersService {
   };
 
   findUserById = async (userId) => {
+    console.log(userId);
     const user = await this.usersRepository.findUserById(userId);
 
     return {
@@ -129,7 +130,7 @@ export class UsersService {
 
   grantAdmin = async (userId) => {
     try {
-      const user = await prisma.Users.findUnique({
+      const user = await prisma.users.findUnique({
         where: { userId: userId },
       });
 

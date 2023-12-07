@@ -28,21 +28,21 @@ export class ProductsController {
 
   createProduct = async (req, res, next) => {
     try {
-      if (!req.user || !req.user.id) {
+      if (!req.user || !req.user.userId) {
         return res.status(401).json({ error: "User not logged in" });
       }
 
-      const { title, content } = req.body;
-      const userId = req.user.id;
+      const { name, description, price  } = req.body;
+      const userId = req.user.userId;
 
-      const newProduct = await this.productsService.createProduct({
-        data: {
-          title,
-          content,
-          status: PRODUCT_STATUS.FOR_SALE,
-          userId: userId, 
-        },
-      });
+      const newProduct = await this.productsService.createProduct(
+        name,
+        description,
+        price,
+        userId,
+        new Date(),
+        new Date()
+      );      
 
       res.json({
         message: "상품을 생성하였습니다.",
@@ -55,38 +55,29 @@ export class ProductsController {
   };
 
   updateProduct = async (req, res, next) => {
-    const { title, content, status } = req.body;
-    const userId = req.user.id;
-    const productId = req.params.productId;
-
     try {
-      const existingProduct =
-        await this.productsService.findProductById(productId);
-
-      if (!existingProduct) {
-        return res
-          .status(404)
-          .json({ errorMessage: "상품 조회에 실패하였습니다." });
+      if (!req.user || !req.user.userId) {
+        return res.status(401).json({ error: "User not logged in" });
       }
 
-      if (existingProduct.userId !== userId) {
-        return res
-          .status(403)
-          .json({ errorMessage: "해당 상품을 수정할 권한이 없습니다." });
-      }
+      const { name, description , status, price } = req.body;
+      const { productId } = req.params;
+
+      const userId = req.user.userId;
+      console.log("userId="+userId);
+      console.log("productId="+productId);
 
       await this.productsService.updateProduct({
         where: { productId: +productId },
-        data: {
-          title,
-          content,
-          status: status || existingProduct.status,
-        },
+          name,
+          price,
+          description ,
+          status: status,
+          updatedAt: new Date()
       });
 
       res.json({
         message: "상품 수정에 성공하였습니다.",
-        productId: existingProduct.id,
       });
     } catch (error) {
       console.error(error);
@@ -95,24 +86,15 @@ export class ProductsController {
   };
 
   deleteProduct = async (req, res, next) => {
-    const userId = req.user.id;
-    const productId = req.params.productId;
-
     try {
-      const existingProduct =
-        await this.productsService.findProductById(productId);
+      const { productId } = req.params;
 
-      if (!existingProduct) {
-        return res
-          .status(404)
-          .json({ errorMessage: "상품 조회에 실패하였습니다." });
+      if (!req.user || !req.user.userId) {
+        return res.status(401).json({ error: "User not logged in" });
       }
-
-      if (existingProduct.userId !== userId) {
-        return res
-          .status(403)
-          .json({ errorMessage: "해당 상품을 삭제할 권한이 없습니다." });
-      }
+      const userId = req.user.userId;
+      console.log("userId="+userId);
+      console.log("productId="+productId);
 
       await this.productsService.deleteProduct({
         where: { productId: +productId },
@@ -120,7 +102,6 @@ export class ProductsController {
 
       res.json({
         message: "상품 삭제에 성공하였습니다.",
-        productId: existingProduct.id,
       });
     } catch (error) {
       console.error(error);

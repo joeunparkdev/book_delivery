@@ -112,7 +112,9 @@ exports.Prisma.UsersScalarFieldEnum = {
   username: 'username',
   email: 'email',
   password: 'password',
-  isAdmin: 'isAdmin'
+  isAdmin: 'isAdmin',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ProductsScalarFieldEnum = {
@@ -120,6 +122,9 @@ exports.Prisma.ProductsScalarFieldEnum = {
   name: 'name',
   price: 'price',
   description: 'description',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   userId: 'userId'
 };
 

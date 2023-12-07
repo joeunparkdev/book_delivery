@@ -14,12 +14,12 @@ const refreshTokenRepository = new RefreshTokenRepository(prisma);
 export class RefreshTokenService {
   // 액세스 토큰을 갱신하거나 새로 발급하는 함수
   async refreshAccessToken(user) {
-    console.log("user.userId"+user.userId);
+    console.log("user.userId="+user.userId);
     // 사용자의 아이디를 기반으로 데이터베이스에서 리프레시 토큰을 조회
     const refreshToken = await refreshTokenRepository.findTokenByUserId(
       user.userId,
     );
-    console.log("refreshToken" + refreshToken);
+    console.log("refreshToken=" + refreshToken);
 
     // 만약 리프레시 토큰이 존재하고 유효하다면
     if (refreshToken && refreshToken.token) {

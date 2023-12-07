@@ -61,7 +61,8 @@ export class AuthController {
   
       // 사용자 로그인 시도
       const user = await this.authService.signInUser(email, password);
-  
+      console.log(user);
+      
       // 인증에 성공한 경우
       const accessToken = this.generateAccessToken(user.userId);
       const refreshToken = await this.generateRefreshToken(user.userId);
@@ -116,9 +117,10 @@ export class AuthController {
 };
 
 signOut = async (req, res, next) => {
-  const userId = req.user.id;
+  const userId = req.user.userId;
   try {
-
+    console.log(userId);
+    console.log(req.user);
     const existingUser = await this.authService.findUserById(userId);
     console.log("existingUser"+existingUser);
     // 클라이언트에서 액세스 토큰 제거
