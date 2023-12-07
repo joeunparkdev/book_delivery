@@ -14,18 +14,18 @@ const refreshTokenRepository = new RefreshTokenRepository(prisma);
 export class RefreshTokenService {
   // 액세스 토큰을 갱신하거나 새로 발급하는 함수
   async refreshAccessToken(user) {
-    console.log("user.userId="+user.userId);
+    ("user.userId="+user.userId);
     // 사용자의 아이디를 기반으로 데이터베이스에서 리프레시 토큰을 조회
     const refreshToken = await refreshTokenRepository.findTokenByUserId(
       user.userId,
     );
-    console.log("refreshToken=" + refreshToken);
+    ("refreshToken=" + refreshToken);
 
     // 만약 리프레시 토큰이 존재하고 유효하다면
     if (refreshToken && refreshToken.token) {
       // 새로운 액세스 토큰 생성
       const newAccessToken = this.generateAccessToken(user.userId);
-      console.log("newAccessToken" + newAccessToken);
+      ("newAccessToken" + newAccessToken);
       // 기존의 리프레시 토큰 삭제
       await refreshTokenRepository.deleteToken(user.userId);
 
@@ -56,7 +56,7 @@ export class RefreshTokenService {
 
   // 액세스 토큰을 생성하는 함수
   generateAccessToken(userId) {
-    console.log("generateAccessToken" + userId);
+    ("generateAccessToken" + userId);
     const accessTokenSecret =
       JWT_ACCESS_TOKEN_SECRET || "default_access_token_secret";
     const accessTokenExpiresIn = JWT_ACCESS_TOKEN_EXPIRES_IN || "1h";
@@ -70,7 +70,7 @@ export class RefreshTokenService {
 
   // 리프레시 토큰을 생성하는 함수
   generateRefreshToken(userId) {
-    console.log("generateRefreshToken UserId=" + userId);
+    ("generateRefreshToken UserId=" + userId);
     const refreshTokenSecret =
       JWT_REFRESH_TOKEN_SECRET || "default_refresh_token_secret";
     const refreshTokenExpiresIn = "1d";
@@ -78,7 +78,7 @@ export class RefreshTokenService {
     const refreshToken = jwt.sign({ userId: userId }, refreshTokenSecret, {
       expiresIn: refreshTokenExpiresIn,
     });
-    console.log("generateRefreshToken refreshToken=" + refreshToken);
+    ("generateRefreshToken refreshToken=" + refreshToken);
     return refreshToken;
   }
 
@@ -90,7 +90,7 @@ export class RefreshTokenService {
 
   // 유효기간이 지난 리프레시 토큰을 삭제하는 함수
   async deleteExpiredTokens(userId) {
-    console.log("deleteExpiredTokens" + userId);
+    ("deleteExpiredTokens" + userId);
     await refreshTokenRepository.deleteExpiredTokens(userId);
   }
 

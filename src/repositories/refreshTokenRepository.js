@@ -14,8 +14,8 @@ export class RefreshTokenRepository {
     });
 
     const refreshTokens = user ? user.refreshTokens : null;
-    console.log("user="+user);
-    console.log("user.refreshTokens="+user.refreshTokens);
+    ("user="+user);
+    ("user.refreshTokens="+user.refreshTokens);
     return refreshTokens;
   };
 

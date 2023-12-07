@@ -10,11 +10,12 @@ export class ProductsRepository {
   };
 
   findProductById = async (productId) => {
+    ("productId2="+ productId)
     // ORM인 Prisma에서 Products 모델의 findUnique 메서드를 사용해 데이터를 요청합니다.
     const product = await prisma.products.findUnique({
       where: { productId: +productId }, 
     });
-    console.log(product);
+    (product);
     if (!product) {
       throw new Error("Product not found");
     }
@@ -39,9 +40,9 @@ export class ProductsRepository {
     return createdProduct;
   };
 
-  updateProduct = async (productId, name, description, price, status) => {
+  updateProduct = async (productId, name, description, status, price, updatedAt) => {
     // ORM인 Prisma에서 Products 모델의 update 메서드를 사용해 데이터를 수정합니다.
-
+    ("productId="+ productId)
     const updatedProduct = await prisma.products.update({
       where: {
         productId: +productId,
@@ -51,8 +52,7 @@ export class ProductsRepository {
         description,
         status,
         price,
-        createdAt,
-        updatedAt: new Date(),
+        updatedAt,
       },
     });
 
@@ -61,9 +61,10 @@ export class ProductsRepository {
 
   deleteProduct = async (productId) => {
     // ORM인 Prisma에서 Products 모델의 delete 메서드를 사용해 데이터를 삭제합니다.
+    ("productId="+ productId)
     const deletedProduct = await prisma.products.delete({
       where: {
-        productId: +productId,
+          productId: +productId,
       },
     });
 

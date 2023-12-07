@@ -33,7 +33,7 @@ describe('Authentication Integration Tests', () => {
     
     // 로그인 후 발급된 토큰을 저장
     accessToken = response.body.accessToken;
-    console.log(accessToken);
+    (accessToken);
   });
   
 // 로그아웃 테스트
@@ -43,7 +43,7 @@ it('should signout a user', async () => {
     .post('/api/auth/signout')
     .set('Authorization', `Bearer ${accessToken}`); 
   
-  console.log(accessToken);
+  (accessToken);
 
   // 기대한대로 로그아웃이 성공했는지 확인
   expect(logoutResponse.statusCode).toBe(204);

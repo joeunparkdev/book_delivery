@@ -17,7 +17,7 @@ export class ProductsController {
   getProductsById = async (req, res, next) => {
     try {
       const { productId } = req.params;
-
+      
       const product = await this.productsService.findProductById(productId);
 
       return res.status(200).json({ data: product });
@@ -64,17 +64,16 @@ export class ProductsController {
       const { productId } = req.params;
 
       const userId = req.user.userId;
-      console.log("userId="+userId);
-      console.log("productId="+productId);
 
-      await this.productsService.updateProduct({
-        where: { productId: +productId },
+      await this.productsService.updateProduct(
+          productId,
           name,
           price,
           description ,
-          status: status,
-          updatedAt: new Date()
-      });
+          status,
+          new Date(),
+          userId
+      );
 
       res.json({
         message: "상품 수정에 성공하였습니다.",
@@ -93,12 +92,8 @@ export class ProductsController {
         return res.status(401).json({ error: "User not logged in" });
       }
       const userId = req.user.userId;
-      console.log("userId="+userId);
-      console.log("productId="+productId);
 
-      await this.productsService.deleteProduct({
-        where: { productId: +productId },
-      });
+      await this.productsService.deleteProduct(productId, userId);
 
       res.json({
         message: "상품 삭제에 성공하였습니다.",

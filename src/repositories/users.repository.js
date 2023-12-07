@@ -9,7 +9,7 @@ export class UsersRepository {
   };
   
   findUserById = async (userId) => {
-    console.log(userId);
+    (userId);
     // ORM인 Prisma에서 Users 모델의 findUnique 메서드를 사용해 데이터를 요청합니다.
     const user = await prisma.users.findUnique({
       where: { userId: +userId },
@@ -33,7 +33,7 @@ export class UsersRepository {
   };
 
   findUserByEmail = async (email) => {
-    console.log("REPO"+email);
+    ("REPO"+email);
     const user = await prisma.users.findFirst({
       where: {
         email: email,

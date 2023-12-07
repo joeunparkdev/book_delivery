@@ -8,13 +8,11 @@ const refreshTokenManagementService = new RefreshTokenService();
 // 인증 미들웨어
 const authMiddleware = async (req, res, next) => {
   try {
-    console.log('Starting authMiddleware');
  // 'authorization'이라는 이름의 쿠키가 있는지 확인
 const authorization = req.cookies.authorization;
-    console.log("authorization="+authorization);
 if (!authorization) {
   // 토큰이 없을 경우 401 Unauthorized 반환
-  console.log('Token not found');
+  ('Token not found');
   return res.status(401).json({ message: '토큰이 존재하지 않습니다.' });
 }
 
@@ -23,36 +21,36 @@ const [tokenType, accessToken] = authorization.split(' ');
 
 if (tokenType !== 'Bearer') {
   // 토큰 타입이 일치하지 않을 경우 401 Unauthorized 반환
-  console.log('Invalid token type');
+  ('Invalid token type');
   return res.status(401).json({ message: '토큰 타입이 일치하지 않습니다.' });
 }
 
 // 로그아웃 요청에서 액세스 토큰을 사용하므로 클라이언트에게 액세스 토큰을 전달
 req.accessToken = accessToken;
-console.log("req.accessToken="+req.accessToken);
+("req.accessToken="+req.accessToken);
 // 액세스 토큰의 유효성 검사
 const decodedPayload = jwt.verify(accessToken, JWT_ACCESS_TOKEN_SECRET);
-console.log("decodedPayload="+decodedPayload);
-console.log("decodedPayload.userId="+decodedPayload.userId);
+("decodedPayload="+decodedPayload);
+("decodedPayload.userId="+decodedPayload.userId);
     // 데이터베이스에서 사용자 정보 가져오기
     const user = await prisma.users.findUnique({
       where: { userId: decodedPayload.userId },
     });
-    console.log("user="+user);
+    ("user="+user);
 
     if (!user) {
       // 사용자가 존재하지 않을 경우 401 Unauthorized 반환
       res.clearCookie('authorization');
-      console.log('User not found');
+      ('User not found');
       return res.status(401).json({ message: '토큰 사용자가 존재하지 않습니다.' });
     }
 
     // req.user 속성에 사용자 정보 추가
     req.user = user;
-    console.log("req.user="+req.user);
+    ("req.user="+req.user);
     // 리프레시 토큰 관리 서비스를 사용하여 액세스 토큰 갱신
     const newAccessToken = await refreshTokenManagementService.refreshAccessToken(user);
-    console.log("newAccessToken="+newAccessToken);
+    ("newAccessToken="+newAccessToken);
 
     if (newAccessToken) {
       // 새로운 액세스 토큰이 발급된 경우
@@ -66,7 +64,7 @@ console.log("decodedPayload.userId="+decodedPayload.userId);
     }
 
     // 다음 미들웨어로 이동
-    console.log('Successfully passed authMiddleware');
+    ('Successfully passed authMiddleware');
     return next();
   } catch (error) {
     // 에러가 발생한 경우 처리

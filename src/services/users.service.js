@@ -23,7 +23,7 @@ export class UsersService {
   };
 
   findUserById = async (userId) => {
-    console.log(userId);
+    (userId);
     const user = await this.usersRepository.findUserById(userId);
 
     return {

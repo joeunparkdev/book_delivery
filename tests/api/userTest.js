@@ -58,10 +58,10 @@ async function mypageTest(accessToken) {
 async function main() {
   try {
     const accessToken = await signinTest();
-    console.log("Access Token:", accessToken);
+    ("Access Token:", accessToken);
 
     const mypageResult = await mypageTest(accessToken);
-    console.log("mypageTest result:", mypageResult);
+    ("mypageTest result:", mypageResult);
   } catch (error) {
     console.error("Error:", error);
   }
