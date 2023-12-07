@@ -22,7 +22,6 @@ export class RefreshTokenService {
     if (refreshToken && refreshToken.token) {
       // 새로운 액세스 토큰 생성
       const newAccessToken = this.generateAccessToken(userId);
-      ("newAccessToken" + newAccessToken);
       // 기존의 리프레시 토큰 삭제
       await refreshTokenRepository.deleteToken(userId);
 
@@ -53,7 +52,6 @@ export class RefreshTokenService {
 
   // 액세스 토큰을 생성하는 함수
   generateAccessToken(userId) {
-    ("generateAccessToken" + userId);
     const accessTokenSecret =
       JWT_ACCESS_TOKEN_SECRET || "default_access_token_secret";
     const accessTokenExpiresIn = JWT_ACCESS_TOKEN_EXPIRES_IN || "1h";
@@ -67,7 +65,6 @@ export class RefreshTokenService {
 
   // 리프레시 토큰을 생성하는 함수
   generateRefreshToken(userId) {
-    ("generateRefreshToken UserId=" + userId);
     const refreshTokenSecret =
       JWT_REFRESH_TOKEN_SECRET || "default_refresh_token_secret";
     const refreshTokenExpiresIn = "1d";
@@ -75,7 +72,6 @@ export class RefreshTokenService {
     const refreshToken = jwt.sign({ userId: userId }, refreshTokenSecret, {
       expiresIn: refreshTokenExpiresIn,
     });
-    ("generateRefreshToken refreshToken=" + refreshToken);
     return refreshToken;
   }
 
@@ -87,7 +83,6 @@ export class RefreshTokenService {
 
   // 유효기간이 지난 리프레시 토큰을 삭제하는 함수
   async deleteExpiredTokens(userId) {
-    ("deleteExpiredTokens" + userId);
     await refreshTokenRepository.deleteExpiredTokens(userId);
   }
 

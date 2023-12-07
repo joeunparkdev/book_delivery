@@ -17,7 +17,6 @@ export class UsersController {
   getMyInfo = async (req, res, next) => {
     try {
       const userId = req.user.userId;
-      console.log(userId);
       const existingUser = await this.userService.findUserById(+userId);
       if (!existingUser) {
         return res
@@ -33,10 +32,8 @@ export class UsersController {
   modifyMyInfo = async (req, res, next) => {
     const { username, password, confirmPassword, email } = req.body;
     const userId = req.user.userId;
-    console.log(userId);
     try {
       const existingUser = await this.userService.findUserById(+userId);
-      console.log(existingUser);
 
       if (isNaN(userId)) {
         return res
@@ -76,7 +73,6 @@ export class UsersController {
   deleteMyInfo = async (req, res, next) => {
     try {
       const userId = req.user.userId;
-      console.log(userId);
       
       if (!req.user || !req.user.userId) {
         return res.status(401).json({ error: "User not logged in" });
@@ -96,8 +92,7 @@ export class UsersController {
   grantAdmin = async (req,res,next) => {
     try {
       const userId = req.user.userId;
-
-      const result = await userService.grantAdmin(+userId);
+      const result = await this.userService.grantAdmin(+userId);
 
       if (result.success) {
         return res.status(200).json(result);
@@ -106,7 +101,7 @@ export class UsersController {
       }
     } catch (error) {
       console.error(error);
-      return res.status(500).json({ success: false, message: "서버 에러" });
+      next(error);
     }
   };
 

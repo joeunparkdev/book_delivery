@@ -11,7 +11,7 @@ const usersController = new UsersController();
 router.get("/", usersController.getUsers);
 
 //관리자 모드 - 관리자 권한 부여
-router.post('/grant-admin', authMiddleware, adminMiddleware, usersController.grantAdmin);
+router.post('/grant-admin', authMiddleware, usersController.grantAdmin);
 
 //관리자 모드 - 모든 사용자 삭제 API
 router.delete("/", authMiddleware, adminMiddleware, usersController.deleteAllUsers);

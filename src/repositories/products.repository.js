@@ -15,7 +15,6 @@ export class ProductsRepository {
     const product = await prisma.products.findUnique({
       where: { productId: +productId }, 
     });
-    (product);
     if (!product) {
       throw new Error("Product not found");
     }

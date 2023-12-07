@@ -80,10 +80,8 @@ export class UsersService {
 
   updateUser = async (userId, username, email, hashedPassword, updatedAt) => {
     try {
-      console.log("userId="+userId);
 
     const existingUser = await this.usersRepository.findUserById(userId);
-    console.log(existingUser);
 
     if (!existingUser) {
       throw new Error("회원 조회 실패");
@@ -105,14 +103,10 @@ export class UsersService {
 
   deleteUser = async (userId) => {
   try{
-    console.log("userId="+userId);
     const existingUser = await this.usersRepository.findUserById(userId);
-    console.log(existingUser);
     if (!existingUser) {
       throw new Error("회원 조회에 실패하였습니다.");
   }
-  console.log("existingUser.userId="+existingUser.userId);
-  console.log("userId="+userId);
 
   if (existingUser.userId !== userId) {
       throw new Error("회원 상품을 삭제할 권한이 없습니다.");
@@ -130,19 +124,14 @@ export class UsersService {
 
   grantAdmin = async (userId) => {
     try {
-      const user = await prisma.users.findUnique({
-        where: { userId },
-      });
-
+      const user = await this.usersRepository.findUserById(userId);
       if (!user) {
         throw new Error("사용자를 찾을 수 없습니다.");
       }
 
       // 사용자에게 관리자 권한을 부여
-      await prisma.users.update({
-        where: { userId },
-        data: { isAdmin: true },
-      });
+      const updatedAt = new Date(); 
+      await this.usersRepository.updateAdminUser(userId, updatedAt, true);
 
       return { success: true, message: "관리자 권한 부여 성공" };
     } catch (error) {

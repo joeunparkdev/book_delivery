@@ -17,7 +17,7 @@ describe('Product API', () => {
 
     expect(response.status).toBe(200);
     expect(response.body.productId).toBeTruthy();
-    productId = response.body.productId;  // 생성된 상품의 ID 저장
+    productId = response.body.productId;  
   });
 
   // 상품 수정 API 테스트

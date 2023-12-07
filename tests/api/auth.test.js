@@ -41,10 +41,6 @@ it('should signout a user', async () => {
   // 로그아웃 요청
   const logoutResponse = await request(app)
     .post('/api/auth/signout')
-    .set('Authorization', `Bearer ${accessToken}`); 
-  
-  (accessToken);
-
   // 기대한대로 로그아웃이 성공했는지 확인
   expect(logoutResponse.statusCode).toBe(204);
   expect(logoutResponse.body.message).toBe('정상적으로 로그아웃 되었습니다.');
@@ -52,7 +48,6 @@ it('should signout a user', async () => {
   // 로그아웃 후에는 토큰이 더 이상 유효하지 않아야 함
   const invalidTokenResponse = await request(app)
     .post('/api/auth/signout')
-    .set('Authorization', `Bearer ${accessToken}`);
 
   // 유효하지 않은 토큰에 대한 응답이 기대한대로 401 상태 코드인지 확인
   expect(invalidTokenResponse.statusCode).toBe(401);

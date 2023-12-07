@@ -9,7 +9,6 @@ export class UsersRepository {
   };
   
   findUserById = async (userId) => {
-   console.log ("userId="+userId);
     // ORM인 Prisma에서 Users 모델의 findUnique 메서드를 사용해 데이터를 요청합니다.
     const user = await prisma.users.findUnique({
       where: { userId },
@@ -33,7 +32,6 @@ export class UsersRepository {
   };
 
   findUserByEmail = async (email) => {
-    ("REPO"+email);
     const user = await prisma.users.findFirst({
       where: {
         email: email,
@@ -69,7 +67,6 @@ export class UsersRepository {
 
   updateUser = async (userId, username, password, email, updatedAt) => {
     // ORM인 Prisma에서 Users 모델의 update 메서드를 사용해 데이터를 수정합니다.
-    console.log("userId="+userId);
   const updatedUser = await prisma.users.update({
     where: {
       userId,
@@ -85,9 +82,24 @@ export class UsersRepository {
     return updatedUser;
   };
 
+  updateAdminUser = async (userId, updatedAt, isAdmin) => {
+    // ORM인 Prisma에서 Users 모델의 update 메서드를 사용해 데이터를 수정합니다.
+  const updatedAdminUser = await prisma.users.update({
+    where: {
+      userId,
+    },
+    data: {
+      updatedAt: new Date(),  
+      isAdmin,
+    },
+  });
+
+    return updatedAdminUser;
+  };
+
+
   deleteUser = async (userId) => {
     // ORM인 Prisma에서 Users 모델의 delete 메서드를 사용해 데이터를 삭제합니다.
-    console.log("userId="+userId);
     const deletedUser = await prisma.users.delete({
       where: {
         userId,
