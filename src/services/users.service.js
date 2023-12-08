@@ -10,10 +10,11 @@ export class UsersService {
  findAllUsers = async () => {
   const users = await this.usersRepository.findAllUsers();
 
-  // 각 사용자에 대해 제품 정보도 가져오기
+  // 각 사용자에 대해 제품 정보와 팔로잉 정보도 가져오기
   const usersWithProducts = await Promise.all(users.map(async (user) => {
-    console.log("user.userId=" + user.userId);
     const products = await this.findAllProducts(user.userId);
+    const following = await this.findAllFollowing(+user.userId);
+    const followers = await this.findAllFollowers(+user.userId);
 
     return {
       userId: user.userId,
@@ -23,6 +24,8 @@ export class UsersService {
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
       products: products,
+      following: following,
+      followers: followers,
     };
   }));
 
@@ -32,6 +35,26 @@ export class UsersService {
   });
 
   return usersWithProducts;
+};
+
+findAllFollowing = async (userId) => {
+  const following = await this.usersRepository.findFollowingByUserId(userId);
+  return following.map((user) => {
+    return {
+      userId: user.userId,
+      username: user.username,
+    };
+  });
+};
+
+findAllFollowers = async (userId) => {
+  const followers = await this.usersRepository.findFollowersByUserId(userId);
+  return followers.map((user) => {
+    return {
+      userId: user.userId,
+      username: user.username,
+    };
+  });
 };
 
 findAllProducts = async (userId) => {
@@ -55,6 +78,8 @@ findUserById = async (userId) => {
 
   // 해당 사용자에게 등록된 상품 정보 가져오기
   const products = await this.findAllProducts(userId);
+  const following = await this.findAllFollowing(userId);
+  const followers = await this.findAllFollowers(userId);
 
   return {
     userId: user.userId,
@@ -63,6 +88,8 @@ findUserById = async (userId) => {
     createdAt: user.createdAt,
     updatedAt: user.updatedAt,
     products: products, 
+    following: following,
+    followers: followers ,
   };
 };
 
@@ -185,4 +212,44 @@ findUserById = async (userId) => {
       throw new Error("전체 상품 삭제 실패");
     }
   };
+
+  followUser= async (userId, targetUserId) => {
+       // 팔로우 대상 사용자가 존재하는지 확인
+       const isTargetUserExists = await this.usersRepository.findUserById(targetUserId);
+       if (!isTargetUserExists) {
+         throw new Error("Target user does not exist.");
+       }
+    // 사용자가 자기 자신을 팔로우하지 않도록 체크
+    if (userId === targetUserId) {
+      throw new Error("Cannot follow yourself.");
+    }
+
+    // 이미 팔로우한 사용자를 다시 팔로우하지 않도록 체크
+    const isAlreadyFollowing = await this.usersRepository.isFollowing(userId, targetUserId);
+    if (isAlreadyFollowing) {
+      throw new Error("Already following the user.");
+    }
+
+    await this.usersRepository.followUser(userId, targetUserId);
+  }
+
+  unfollowUser = async (userId, targetUserId) => {
+           // 언팔로우 대상 사용자가 존재하는지 확인
+           const isTargetUserExists = await this.usersRepository.findUserById(targetUserId);
+           if (!isTargetUserExists) {
+             throw new Error("Target user does not exist.");
+           }
+    // 사용자가 자기 자신을 언팔로우하지 않도록 체크
+    if (userId === targetUserId) {
+      throw new Error("Cannot unfollow yourself.");
+    }
+
+    // 언팔로우할 사용자를 아직 팔로우하지 않은 경우 예외 처리
+    const isFollowing = await this.usersRepository.isFollowing(userId, targetUserId);
+    if (!isFollowing) {
+      throw new Error("Not following the user.");
+    }
+    await this.usersRepository.unfollowUser(userId, targetUserId);
+  }
+
 }

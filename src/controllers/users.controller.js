@@ -117,5 +117,30 @@ export class UsersController {
       next(error);
     }
   };
+
+  followUser = async (req, res, next) => {
+    try {
+      const userId = +req.user.userId;
+      const targetUserId = +req.params.targetUserId;
+      await this.userService.followUser(userId, targetUserId);
+      res.status(200).json({ message: "Successfully followed the user." });
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  }
+
+  unfollowUser = async (req, res, next) => {
+    try {
+      const userId = +req.user.userId;
+      const targetUserId = +req.params.targetUserId;
+      await this.userService.unfollowUser(userId, targetUserId);
+      res.status(200).json({ message: "Successfully unfollowed the user." });
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  }
+
 }
 export default UsersController;

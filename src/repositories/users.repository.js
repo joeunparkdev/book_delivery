@@ -97,7 +97,6 @@ export class UsersRepository {
     return updatedAdminUser;
   };
 
-
   deleteUser = async (userId) => {
     // ORM인 Prisma에서 Users 모델의 delete 메서드를 사용해 데이터를 삭제합니다.
     const deletedUser = await prisma.users.delete({
@@ -119,4 +118,77 @@ export class UsersRepository {
       throw error;
     }
   };
+
+  findFollowingByUserId = async (userId) => {
+    try {
+      const followingRelations = await prisma.follow.findMany({
+        where: { followerId: userId },
+        include: { following: true },
+      });
+  
+      return followingRelations.map((relation) => {
+        const user = relation.following;
+        return {
+          userId: user.userId,
+          username: user.username,
+        };
+      });
+    } catch (error) {
+      console.error("findFollowingByUserId에서 오류 발생:", error);
+      throw error;
+    }
+  };
+  
+  findFollowersByUserId = async (userId) => {
+    try {
+      const followersRelations = await prisma.follow.findMany({
+        where: { followingId: userId },
+        include: { follower: true },
+      });
+  
+      return followersRelations.map((relation) => {
+        const user = relation.follower;
+        return {
+          userId: user.userId,
+          username: user.username,
+        };
+      });
+    } catch (error) {
+      console.error("findFollowersByUserId에서 오류 발생:", error);
+      throw error;
+    }
+  };
+  
+
+  followUser = async (userId, targetUserId) => {
+    await prisma.follow.create({
+      data: {
+          followingId: targetUserId,
+          followerId: userId,
+      },
+    });
+  }
+
+  unfollowUser = async (userId, targetUserId) => {
+    await prisma.follow.delete({
+      where: {
+        followingId_followerId: {
+          followingId: targetUserId,
+          followerId: userId,},
+    },
+    });
+  }
+
+  isFollowing = async (userId, targetUserId) => {
+   const result =  await prisma.follow.findUnique({
+      where: {
+          followingId_followerId: {
+            followingId: targetUserId,
+            followerId: userId,},
+      },
+    });
+
+    return result; 
+  }
+
 }

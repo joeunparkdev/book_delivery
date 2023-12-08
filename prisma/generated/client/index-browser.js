@@ -140,6 +140,11 @@ exports.Prisma.UsersProductsScalarFieldEnum = {
   productId: 'productId'
 };
 
+exports.Prisma.FollowScalarFieldEnum = {
+  followerId: 'followerId',
+  followingId: 'followingId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -150,7 +155,8 @@ exports.Prisma.ModelName = {
   Users: 'Users',
   Products: 'Products',
   RefreshToken: 'RefreshToken',
-  UsersProducts: 'UsersProducts'
+  UsersProducts: 'UsersProducts',
+  Follow: 'Follow'
 };
 
 /**
