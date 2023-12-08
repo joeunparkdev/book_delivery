@@ -10,8 +10,8 @@ const usersController = new UsersController();
 //모든 사용자 조회 API
 router.get("/", usersController.getUsers);
 
-//관리자 모드 - 관리자 권한 부여
-router.post('/grant-admin', authMiddleware, usersController.grantAdmin);
+//관리자 모드 - 관리자만 관리자 권한 부여
+router.put('/:userId/admin', authMiddleware, adminMiddleware, usersController.grantAdmin);
 
 //관리자 모드 - 모든 사용자 삭제 API
 router.delete("/", authMiddleware, adminMiddleware, usersController.deleteAllUsers);

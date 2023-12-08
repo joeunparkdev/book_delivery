@@ -42,6 +42,22 @@ export class ProductsService {
     };
   };
 
+  findProductByUserId = async (userId) => {
+    // 저장소(Repository)에게 특정 게시글 하나를 요청합니다.
+    const product = await this.productsRepository.findProductsByUserId(userId);
+    return {
+      productId: product.productId,
+      userId:product.userId,
+      name: product.name,
+      description: product.description,
+      status: product.status,
+      price:product.price,
+      createdAt: product.createdAt,
+      updatedAt: product.updatedAt,
+    };
+  };
+
+
   createProduct = async (name, description,price,userId) => {
     // 저장소(Repository)에게 데이터를 요청합니다.
     const createdProduct = await this.productsRepository.createProduct(

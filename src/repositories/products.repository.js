@@ -10,7 +10,6 @@ export class ProductsRepository {
   };
 
   findProductById = async (productId) => {
-    ("productId2="+ productId)
     // ORM인 Prisma에서 Products 모델의 findUnique 메서드를 사용해 데이터를 요청합니다.
     const product = await prisma.products.findUnique({
       where: { productId: +productId }, 
@@ -21,6 +20,31 @@ export class ProductsRepository {
 
     return product;
   };
+
+  findProductsByUserId = async (userId) => {
+
+    const products = await prisma.products.findMany({
+      where: { userId: +userId },
+    });
+  
+    if (!products || products.length === 0) {
+      // 사용자가 존재하지 않거나 해당 사용자에게 등록된 제품이 없는 경우
+      return []; // 또는 다른 기본값을 반환하거나 에러를 throw
+    }
+  
+    return products.map((product) => {
+      return {
+        productId: product.productId,
+        name: product.name,
+        price: product.price,
+        description: product.description,
+        status: product.status,
+        createdAt: product.createdAt,
+        updatedAt: product.updatedAt,
+      };
+    });
+  };
+  
 
   createProduct = async (name, description,userId, price, createdAt,updatedAt) => {
     // ORM인 Prisma에서 Products 모델의 create 메서드를 사용해 데이터를 요청합니다.

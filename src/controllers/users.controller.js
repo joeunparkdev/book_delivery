@@ -91,8 +91,8 @@ export class UsersController {
 
   grantAdmin = async (req,res,next) => {
     try {
-      const userId = req.user.userId;
-      const result = await this.userService.grantAdmin(+userId);
+      const userId = +req.params.userId;
+      const result = await this.userService.grantAdmin(userId);
 
       if (result.success) {
         return res.status(200).json(result);

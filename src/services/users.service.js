@@ -1,39 +1,70 @@
 import { UsersRepository } from "../repositories/users.repository.js";
 import bcrypt from "bcrypt";
+import { ProductsRepository } from "../repositories/products.repository.js";
 
 export class UsersService {
   usersRepository = new UsersRepository();
+  productsRepository = new ProductsRepository();
 
-  findAllUsers = async () => {
-    const users = await this.usersRepository.findAllUsers();
+ // findAllUsers 함수 수정
+ findAllUsers = async () => {
+  const users = await this.usersRepository.findAllUsers();
 
-    users.sort((a, b) => {
-      return b.createdAt - a.createdAt;
-    });
-
-    return users.map((user) => {
-      return {
-        userId: user.userId,
-        username: user.username,
-        email: user.email,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
-      };
-    });
-  };
-
-  findUserById = async (userId) => {
-
-    const user = await this.usersRepository.findUserById(userId);
+  // 각 사용자에 대해 제품 정보도 가져오기
+  const usersWithProducts = await Promise.all(users.map(async (user) => {
+    console.log("user.userId=" + user.userId);
+    const products = await this.findAllProducts(user.userId);
 
     return {
       userId: user.userId,
       username: user.username,
       email: user.email,
+      isAdmin: user.isAdmin,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
+      products: products,
     };
+  }));
+
+  // createdAt을 기준으로 정렬
+  usersWithProducts.sort((a, b) => {
+    return b.createdAt - a.createdAt;
+  });
+
+  return usersWithProducts;
+};
+
+findAllProducts = async (userId) => {
+  const products = await this.productsRepository.findProductsByUserId(userId);
+
+  return products.map((product) => {
+    return {
+      productId: product.productId,
+      name: product.name,
+      price: product.price,
+      description: product.description,
+      status: product.status,
+      createdAt: product.createdAt,
+      updatedAt: product.updatedAt,
+    };
+  });
+};
+
+findUserById = async (userId) => {
+  const user = await this.usersRepository.findUserById(userId);
+
+  // 해당 사용자에게 등록된 상품 정보 가져오기
+  const products = await this.findAllProducts(userId);
+
+  return {
+    userId: user.userId,
+    username: user.username,
+    email: user.email,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
+    products: products, 
   };
+};
 
   signInUser = async (email, password) => {
     const user = await this.usersRepository.findUserByEmail(email);

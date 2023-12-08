@@ -12,7 +12,7 @@ describe('Authentication Integration Tests', () => {
         "username":"조조",
         "password": "000000",
         "confirmPassword": "000000",
-        "email": "jo@naver.com"
+        "email": "joes@naver.com"
       });
 
     expect(response.statusCode).toBe(200);
@@ -24,8 +24,8 @@ describe('Authentication Integration Tests', () => {
     const response = await request(app)
       .post('/api/auth/signin')
       .send({
-        email: 'test@example.com',
-        password: 'password123',
+        email: "jo@naver.com",
+        password: '000000',
       });
 
     expect(response.statusCode).toBe(200);
@@ -36,7 +36,7 @@ describe('Authentication Integration Tests', () => {
     (accessToken);
   });
   
-// 로그아웃 테스트
+// 로그아웃 테스트 TODO 쿠키보관
 it('should signout a user', async () => {
   // 로그아웃 요청
   const logoutResponse = await request(app)

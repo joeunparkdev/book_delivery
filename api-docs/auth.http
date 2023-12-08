@@ -1,6 +1,5 @@
  ### POST /api/auth/signup
-  @accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE3LCJpYXQiOjE3MDE4NTMwNTQsImV4cCI6MTcwMTg1NjY1NH0.xXStEaRwgy1f-mnVWTeQAZWgX8p4Quwlw0q9qCCZr9o
- POST http://localhost:3001/api/auth/signup
+POST http://localhost:3001/api/auth/signup
 Accept: */*
 Content-Type: application/json
 
@@ -17,7 +16,7 @@ Accept: */*
 Content-Type: application/json
 
 {
-  "email": "a@naver.com",
+  "email": "dkd@naver.com",
   "password": "000000"
 }
 

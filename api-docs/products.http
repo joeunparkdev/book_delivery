@@ -1,0 +1,44 @@
+ ### GET /api/products
+GET http://localhost:3001/api/products/
+Accept: */*
+Content-Type: application/json
+
+### POST /api/products
+POST http://localhost:3001/api/products/
+Accept: */*
+Content-Type: application/json
+
+{
+"name": "CU",
+"description": "좋은 군것질이 많아서 좋아요!",
+"price": 2500
+}
+
+### PUT /api/products/:productId
+PUT http://localhost:3001/api/products/4
+Accept: */*
+Content-Type: application/json
+
+{
+"name": "CU",
+"description": "좋은 군것질이 많아서 좋아요!",
+"status": "SOLD",
+"price": 1500
+}
+
+### GET /api/products/:productId
+GET http://localhost:3001/api/products/9
+Accept: */*
+Content-Type: application/json
+
+### DELETE /api/products/:productId
+DELETE http://localhost:3001/api/products/9
+Accept: */*
+Content-Type: application/json
+
+### DELETE ALL /api/products/ - 관리자 권한 필요
+DELETE http://localhost:3001/api/products/
+Accept: */*
+Content-Type: application/json
+
+
