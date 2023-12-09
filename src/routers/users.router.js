@@ -46,14 +46,14 @@ router.put("/me", authMiddleware, usersController.modifyMyInfo);
 // 내 정보 삭제 API
 router.delete("/me", authMiddleware, usersController.deleteMyInfo);
 
-// 팔로우
+// 팔로우 
 router.post(
   "/follow/:targetUserId",
   authMiddleware,
   usersController.followUser,
 );
 
-// 언팔로우
+// 언팔로우 
 router.post(
   "/unfollow/:targetUserId",
   authMiddleware,
