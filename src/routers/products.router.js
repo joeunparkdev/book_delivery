@@ -1,6 +1,9 @@
 import express from "express";
 import ProductsController from "../controllers/products.controller.js";
-import { authMiddleware, adminMiddleware } from "../middlewares/auth-middleware.js";
+import {
+  authMiddleware,
+  adminMiddleware,
+} from "../middlewares/auth-middleware.js";
 
 const productsController = new ProductsController();
 
@@ -17,7 +20,12 @@ router.put("/:productId", authMiddleware, productsController.updateProduct);
 router.delete("/:productId", authMiddleware, productsController.deleteProduct);
 
 // 관리자모드 - 모든 상품 삭제 API
-router.delete("/", authMiddleware, adminMiddleware, productsController.deleteAllProducts);
+router.delete(
+  "/",
+  authMiddleware,
+  adminMiddleware,
+  productsController.deleteAllProducts,
+);
 
 // 상품 목록 조회 API
 router.get("/", productsController.getProducts);

@@ -16,8 +16,8 @@ export class UsersController {
 
   getMyInfo = async (req, res, next) => {
     try {
-      const userId = req.user.userId;
-      const existingUser = await this.userService.findUserById(+userId);
+      const userId = +req.user.userId;
+      const existingUser = await this.userService.findUserById(userId);
       if (!existingUser) {
         return res
           .status(404)
@@ -31,9 +31,9 @@ export class UsersController {
 
   modifyMyInfo = async (req, res, next) => {
     const { username, password, confirmPassword, email } = req.body;
-    const userId = req.user.userId;
+    const userId = +req.user.userId;
     try {
-      const existingUser = await this.userService.findUserById(+userId);
+      const existingUser = await this.userService.findUserById(userId);
 
       if (isNaN(userId)) {
         return res
@@ -59,10 +59,16 @@ export class UsersController {
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      await this.userService.updateUser(+userId, username, email, hashedPassword,new Date());
+      await this.userService.updateUser(
+        +userId,
+        username,
+        email,
+        hashedPassword,
+        new Date(),
+      );
 
       res.json({
-        message: "상품 수정에 성공하였습니다."
+        message: "상품 수정에 성공하였습니다.",
       });
     } catch (error) {
       console.error(error);
@@ -72,13 +78,13 @@ export class UsersController {
 
   deleteMyInfo = async (req, res, next) => {
     try {
-      const userId = req.user.userId;
-      
+      const userId = +req.user.userId;
+
       if (!req.user || !req.user.userId) {
         return res.status(401).json({ error: "User not logged in" });
       }
 
-      await this.userService.deleteUser(+userId);
+      await this.userService.deleteUser(userId);
 
       res.json({
         message: "회원 정보 삭제에 성공하였습니다.",
@@ -89,10 +95,26 @@ export class UsersController {
     }
   };
 
-  grantAdmin = async (req,res,next) => {
+  grantAdmin = async (req, res, next) => {
     try {
       const userId = +req.params.userId;
       const result = await this.userService.grantAdmin(userId);
+
+      if (result.success) {
+        return res.status(200).json(result);
+      } else {
+        return res.status(500).json(result);
+      }
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  };
+
+  removeAdmin = async (req, res, next) => {
+    try {
+      const userId = +req.params.userId;
+      const result = await this.userService.removeAdmin(userId);
 
       if (result.success) {
         return res.status(200).json(result);
@@ -128,7 +150,7 @@ export class UsersController {
       console.error(error);
       next(error);
     }
-  }
+  };
 
   unfollowUser = async (req, res, next) => {
     try {
@@ -140,7 +162,6 @@ export class UsersController {
       console.error(error);
       next(error);
     }
-  }
-
+  };
 }
 export default UsersController;

@@ -11,12 +11,12 @@ import {
 export class AuthController {
   authService = new UsersService();
   refreshTokenService = new RefreshTokenService();
-  accessToken = ''; 
-  
+  accessToken = "";
+
   constructor() {
-    this.accessToken = ''; 
+    this.accessToken = "";
   }
-  
+
   generateAccessToken = (userId) => {
     return jwt.sign({ userId }, JWT_ACCESS_TOKEN_SECRET, {
       expiresIn: JWT_ACCESS_TOKEN_EXPIRES_IN,
@@ -57,16 +57,16 @@ export class AuthController {
   signIn = async (req, res, next) => {
     try {
       const { password, email } = req.body;
-  
+
       // 사용자 로그인 시도
       const user = await this.authService.signInUser(email, password);
 
       // 인증에 성공한 경우
       const accessToken = this.generateAccessToken(user.userId);
       const refreshToken = await this.generateRefreshToken(user.userId);
-  
+
       this.setCookie(res, accessToken);
-  
+
       return res.status(200).json({
         success: true,
         message: "로그인에 성공했습니다.",
@@ -83,60 +83,59 @@ export class AuthController {
 
   signUp = async (req, res, next) => {
     try {
-        const { username, password, confirmPassword, email } = req.body;
+      const { username, password, confirmPassword, email } = req.body;
 
-        if (password !== confirmPassword) {
-            throw new Error("Passwords do not match");
-        }
+      if (password !== confirmPassword) {
+        throw new Error("Passwords do not match");
+      }
 
-        const newUser = await this.authService.createUser(
-          username,
-          password,
-          email
-        );        
+      const newUser = await this.authService.createUser(
+        username,
+        password,
+        email,
+      );
 
-        const accessToken = this.generateAccessToken(newUser.id);
-        const refreshToken = await this.generateRefreshToken(newUser.id);
+      const accessToken = this.generateAccessToken(newUser.id);
+      const refreshToken = await this.generateRefreshToken(newUser.id);
 
-        this.setCookie(res, accessToken);
+      this.setCookie(res, accessToken);
 
-        return res.status(200).json({
-            success: true,
-            message: "사용자를 생성하였습니다.",
-            authId: newUser.id,
-        });
+      return res.status(200).json({
+        success: true,
+        message: "사용자를 생성하였습니다.",
+        authId: newUser.id,
+      });
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({
-            success: false,
-            message: "예상치 못한 에러가 발생했습니다. 관리자에게 문의하세요.",
-        });
+      console.error(error);
+      return res.status(500).json({
+        success: false,
+        message: "예상치 못한 에러가 발생했습니다. 관리자에게 문의하세요.",
+      });
     }
-};
+  };
 
-signOut = async (req, res, next) => {
-  const userId = req.user.userId;
-  try {
-    const existingUser = await this.authService.findUserById(userId);
-    // 클라이언트에서 액세스 토큰 제거
-    this.accessToken = '';
+  signOut = async (req, res, next) => {
+    const userId = req.user.userId;
+    try {
+      const existingUser = await this.authService.findUserById(userId);
+      // 클라이언트에서 액세스 토큰 제거
+      this.accessToken = "";
 
-    res.clearCookie('authorization');
+      res.clearCookie("authorization");
 
+      // 만료된 토큰 삭제
+      const token = await this.refreshTokenService.deleteExpiredTokens(userId);
 
-    // 만료된 토큰 삭제
-    const token = await this.refreshTokenService.deleteExpiredTokens(userId);
-
-    // 로그아웃 성공 시 204 상태 코드 반환
-    return res.status(204).end();
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      success: false,
-      message: '예상치 못한 에러가 발생했습니다. 관리자에게 문의하세요.',
-    });
-  }
-};
+      // 로그아웃 성공 시 204 상태 코드 반환
+      return res.status(204).end();
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        success: false,
+        message: "예상치 못한 에러가 발생했습니다. 관리자에게 문의하세요.",
+      });
+    }
+  };
 
   setCookie = (res, accessToken) => {
     const expires = new Date();

@@ -1,13 +1,12 @@
-import { prisma } from '../utils/prisma/index.js';
+import { prisma } from "../utils/prisma/index.js";
 export class UsersRepository {
-
   findAllUsers = async () => {
     // ORM인 Prisma에서 Users 모델의 findMany 메서드를 사용해 데이터를 요청합니다.
     const Users = await prisma.users.findMany();
 
     return Users;
   };
-  
+
   findUserById = async (userId) => {
     // ORM인 Prisma에서 Users 모델의 findUnique 메서드를 사용해 데이터를 요청합니다.
     const user = await prisma.users.findUnique({
@@ -37,62 +36,62 @@ export class UsersRepository {
         email: email,
       },
     });
-  
+
     return user;
   };
-  
+
   createUser = async (username, password, email) => {
     try {
-    // ORM인 Prisma에서 Users 모델의 create 메서드를 사용해 데이터를 요청합니다.
-    const createdUser = await prisma.users.create({
-      data: {
-        username,
-        password,
-        email,
-        isAdmin: false
-      },
-    });
-    return createdUser;
-  } catch (error) {
-    // Prisma 에러 코드 P2002는 중복된 키 관련 오류입니다.
-    if (error.code === 'P2002' && error.meta?.target === 'Users_email_key') {
-      console.error('이미 등록된 이메일 주소입니다.');
-      throw new Error('이미 등록된 이메일 주소입니다.');
-    }
+      // ORM인 Prisma에서 Users 모델의 create 메서드를 사용해 데이터를 요청합니다.
+      const createdUser = await prisma.users.create({
+        data: {
+          username,
+          password,
+          email,
+          isAdmin: false,
+        },
+      });
+      return createdUser;
+    } catch (error) {
+      // Prisma 에러 코드 P2002는 중복된 키 관련 오류입니다.
+      if (error.code === "P2002" && error.meta?.target === "Users_email_key") {
+        console.error("이미 등록된 이메일 주소입니다.");
+        throw new Error("이미 등록된 이메일 주소입니다.");
+      }
 
-    console.error(error);
-    throw error;
-  }
+      console.error(error);
+      throw error;
+    }
   };
 
   updateUser = async (userId, username, password, email, updatedAt) => {
     // ORM인 Prisma에서 Users 모델의 update 메서드를 사용해 데이터를 수정합니다.
-  const updatedUser = await prisma.users.update({
-    where: {
-      userId,
-    },
-    data: {
-      username,
-      password,
-      email,
-      updatedAt,
-    },
-  });
+    const updatedUser = await prisma.users.update({
+      where: {
+        userId,
+      },
+      data: {
+        username,
+        password,
+        email,
+        updatedAt,
+      },
+    });
 
     return updatedUser;
   };
 
   updateAdminUser = async (userId, updatedAt, isAdmin) => {
     // ORM인 Prisma에서 Users 모델의 update 메서드를 사용해 데이터를 수정합니다.
-  const updatedAdminUser = await prisma.users.update({
-    where: {
-      userId,
-    },
-    data: {
-      updatedAt: new Date(),  
-      isAdmin,
-    },
-  });
+    const updatedAdminUser = await prisma.users.update({
+      where: {
+        userId,
+      },
+      data: {
+        updatedAt: new Date(),
+        isAdmin,
+      },
+    });
 
     return updatedAdminUser;
   };
@@ -125,7 +124,7 @@ export class UsersRepository {
         where: { followerId: userId },
         include: { following: true },
       });
-  
+
       return followingRelations.map((relation) => {
         const user = relation.following;
         return {
@@ -138,14 +137,14 @@ export class UsersRepository {
       throw error;
     }
   };
-  
+
   findFollowersByUserId = async (userId) => {
     try {
       const followersRelations = await prisma.follow.findMany({
         where: { followingId: userId },
         include: { follower: true },
       });
-  
+
       return followersRelations.map((relation) => {
         const user = relation.follower;
         return {
@@ -158,37 +157,37 @@ export class UsersRepository {
       throw error;
     }
   };
-  
 
   followUser = async (userId, targetUserId) => {
     await prisma.follow.create({
       data: {
-          followingId: targetUserId,
-          followerId: userId,
+        followingId: targetUserId,
+        followerId: userId,
       },
     });
-  }
+  };
 
   unfollowUser = async (userId, targetUserId) => {
     await prisma.follow.delete({
       where: {
         followingId_followerId: {
           followingId: targetUserId,
-          followerId: userId,},
-    },
+          followerId: userId,
+        },
+      },
     });
-  }
+  };
 
   isFollowing = async (userId, targetUserId) => {
-   const result =  await prisma.follow.findUnique({
+    const result = await prisma.follow.findUnique({
       where: {
-          followingId_followerId: {
-            followingId: targetUserId,
-            followerId: userId,},
+        followingId_followerId: {
+          followingId: targetUserId,
+          followerId: userId,
+        },
       },
     });
 
-    return result; 
-  }
-
+    return result;
+  };
 }

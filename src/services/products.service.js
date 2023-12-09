@@ -16,11 +16,11 @@ export class ProductsService {
     return products.map((product) => {
       return {
         productId: product.productId,
-        userId:product.userId,
+        userId: product.userId,
         name: product.name,
         description: product.description,
         status: product.status,
-        price:product.price,
+        price: product.price,
         createdAt: product.createdAt,
         updatedAt: product.updatedAt,
       };
@@ -32,11 +32,11 @@ export class ProductsService {
     const product = await this.productsRepository.findProductById(productId);
     return {
       productId: product.productId,
-      userId:product.userId,
+      userId: product.userId,
       name: product.name,
       description: product.description,
       status: product.status,
-      price:product.price,
+      price: product.price,
       createdAt: product.createdAt,
       updatedAt: product.updatedAt,
     };
@@ -47,18 +47,17 @@ export class ProductsService {
     const product = await this.productsRepository.findProductsByUserId(userId);
     return {
       productId: product.productId,
-      userId:product.userId,
+      userId: product.userId,
       name: product.name,
       description: product.description,
       status: product.status,
-      price:product.price,
+      price: product.price,
       createdAt: product.createdAt,
       updatedAt: product.updatedAt,
     };
   };
 
-
-  createProduct = async (name, description,price,userId) => {
+  createProduct = async (name, description, price, userId) => {
     // 저장소(Repository)에게 데이터를 요청합니다.
     const createdProduct = await this.productsRepository.createProduct(
       name,
@@ -66,69 +65,78 @@ export class ProductsService {
       userId,
       price,
     );
-  
+
     // 비즈니스 로직을 수행한 후 사용자에게 보여줄 데이터를 가공합니다.
     return {
       productId: createdProduct.productId,
-      userId:createdProduct.userId,
+      userId: createdProduct.userId,
       name: createdProduct.name,
       description: createdProduct.description,
       status: createdProduct.status,
-      price:createdProduct.price,
+      price: createdProduct.price,
       createdAt: createdProduct.createdAt,
       updatedAt: createdProduct.updatedAt,
     };
-    
   };
 
-  updateProduct = async (productId, name, price, description, status, updatedAt, userId) => {
+  updateProduct = async (
+    productId,
+    name,
+    price,
+    description,
+    status,
+    updatedAt,
+    userId,
+  ) => {
     // 저장소(Repository)에게 특정 게시글 하나를 요청합니다.
     try {
-      const existingProduct = await this.productsRepository.findProductById(productId);
+      const existingProduct =
+        await this.productsRepository.findProductById(productId);
       if (!existingProduct) {
-          throw new Error("상품 조회에 실패하였습니다.");
+        throw new Error("상품 조회에 실패하였습니다.");
       }
       if (existingProduct.userId !== userId) {
-          throw new Error("해당 상품을 수정할 권한이 없습니다.");
+        throw new Error("해당 상품을 수정할 권한이 없습니다.");
       }
 
-    // 저장소(Repository)에게 데이터 수정을 요청합니다.
-    await this.productsRepository.updateProduct(
-      productId,
-      name,
-      description,
-      status,
-      price,
-      updatedAt);
-      
+      // 저장소(Repository)에게 데이터 수정을 요청합니다.
+      await this.productsRepository.updateProduct(
+        productId,
+        name,
+        description,
+        status,
+        price,
+        updatedAt,
+      );
     } catch (error) {
       console.error(error);
       throw new Error("상품 수정 실패");
-  }
+    }
   };
 
-    deleteProduct = async (productId, userId) => {
-      try {
-          const existingProduct = await this.productsRepository.findProductById(productId);
+  deleteProduct = async (productId, userId) => {
+    try {
+      const existingProduct =
+        await this.productsRepository.findProductById(productId);
 
-          if (!existingProduct) {
-              throw new Error("상품 조회에 실패하였습니다.");
-          }
-  
-          if (existingProduct.userId !== userId) {
-              throw new Error("해당 상품을 삭제할 권한이 없습니다.");
-          }
-  
-          // 저장소(Repository)에게 데이터 삭제를 요청합니다.
-          await this.productsRepository.deleteProduct(productId);
-  
-          return {
-              message: "상품 삭제 완료",
-          };
-      } catch (error) {
-          console.error(error);
-          throw new Error("상품 삭제 실패");
+      if (!existingProduct) {
+        throw new Error("상품 조회에 실패하였습니다.");
       }
+
+      if (existingProduct.userId !== userId) {
+        throw new Error("해당 상품을 삭제할 권한이 없습니다.");
+      }
+
+      // 저장소(Repository)에게 데이터 삭제를 요청합니다.
+      await this.productsRepository.deleteProduct(productId);
+
+      return {
+        message: "상품 삭제 완료",
+      };
+    } catch (error) {
+      console.error(error);
+      throw new Error("상품 삭제 실패");
+    }
   };
 
   deleteAllProducts = async () => {

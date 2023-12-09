@@ -1,6 +1,6 @@
 import express from "express";
 import cookieParser from "cookie-parser";
-import errorHandlerMiddleware from './middlewares/error-handler.middleware.js'; 
+import errorHandlerMiddleware from "./middlewares/error-handler.middleware.js";
 import productsRouter from "./routers/products.router.js";
 import usersRouter from "./routers/users.router.js";
 import authRouter from "./routers/auth.router.js";

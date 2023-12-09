@@ -5,7 +5,7 @@ import {
   JWT_ACCESS_TOKEN_EXPIRES_IN,
 } from "../constants/security.constant.js";
 import { RefreshTokenRepository } from "../repositories/refreshTokenRepository.js";
-import { DateTime } from 'luxon';
+import { DateTime } from "luxon";
 import { prisma } from "../utils/prisma/index.js";
 
 // Prisma를 사용하여 데이터베이스의 리프레시 토큰을 관리하는 서비스
@@ -25,7 +25,7 @@ export class RefreshTokenService {
       // 기존의 리프레시 토큰 삭제
       await refreshTokenRepository.deleteToken(userId);
 
-      // 새로운 액세스 토큰 
+      // 새로운 액세스 토큰
       return newAccessToken;
     } else {
       // 리프레시 토큰이 없거나 유효하지 않은 경우

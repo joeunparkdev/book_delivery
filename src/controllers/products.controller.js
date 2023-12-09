@@ -17,7 +17,7 @@ export class ProductsController {
   getProductsById = async (req, res, next) => {
     try {
       const { productId } = req.params;
-      
+
       const product = await this.productsService.findProductById(productId);
 
       return res.status(200).json({ data: product });
@@ -32,7 +32,7 @@ export class ProductsController {
         return res.status(401).json({ error: "User not logged in" });
       }
 
-      const { name, description, price  } = req.body;
+      const { name, description, price } = req.body;
       const userId = req.user.userId;
 
       const newProduct = await this.productsService.createProduct(
@@ -41,8 +41,8 @@ export class ProductsController {
         price,
         userId,
         new Date(),
-        new Date()
-      );      
+        new Date(),
+      );
 
       res.json({
         message: "상품을 생성하였습니다.",
@@ -60,19 +60,19 @@ export class ProductsController {
         return res.status(401).json({ error: "User not logged in" });
       }
 
-      const { name, description , status, price } = req.body;
+      const { name, description, status, price } = req.body;
       const { productId } = req.params;
 
       const userId = req.user.userId;
 
       await this.productsService.updateProduct(
-          productId,
-          name,
-          price,
-          description ,
-          status,
-          new Date(),
-          userId
+        productId,
+        name,
+        price,
+        description,
+        status,
+        new Date(),
+        userId,
       );
 
       res.json({
