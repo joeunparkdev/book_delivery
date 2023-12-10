@@ -1,32 +1,62 @@
 <script>
-  import { onMount } from "svelte";
-  import { navigate } from "svelte-routing";
+  import { onMount } from 'svelte';
+  import { navigate } from 'svelte-routing';
 
   let signInData = {
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   };
 
   onMount(async () => {
     try {
-      const response = await fetch("https://localhost:3002/api/users/me", {
-        method: "GET",
+      const response = await fetch('http://localhost:3001/api/users/me', {
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        credentials: "include",
+        credentials: 'include',
       });
 
       const userData = await response.json();
       signInData.email = userData.email;
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      console.error('Error fetching user data:', error);
     }
   });
 
+  const handleLogin = async () => {
+    try {
+      // Wait for the Kakao SDK script to be fully loaded
+      await new Promise((resolve) => {
+        if (window.Kakao) {
+          resolve();
+        } else {
+          window.onload = resolve;
+        }
+      });
+
+      // Now use Kakao SDK directly
+      Kakao.init('3980c403de0926c15940e444945aef79');
+
+      Kakao.Auth.login({
+        scope: 'account_email,gender',
+        success: function (authObj) {
+          console.log('Kakao login success:', authObj);
+          // Handle the success case
+        },
+        fail: function (error) {
+          console.error('Kakao login fail:', error);
+          // Handle the failure case
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   async function signIn() {
     try {
-      const response = await fetch("https://localhost:3002/api/auth/signin", {
+      const response = await fetch("http://localhost:3001/api/auth/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,6 +92,9 @@
     <input type="password" bind:value="{signInData.password}" />
 
     <button type="submit">🎄 Sign In</button>
+    <button on:click={handleLogin}>
+      <img src="../../public/kakao_login_medium_narrow.png" alt="Kakao Login" />
+    </button>
   </form>
 </main>
 
@@ -107,5 +140,9 @@
 
   button:hover {
     background-color: #c0392b;
+  }
+
+  button img{
+  height: auto; 
   }
 </style>

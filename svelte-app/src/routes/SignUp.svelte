@@ -10,7 +10,7 @@
     try {
       // 서버로 이메일 중복 확인 요청
       const checkEmailResponse = await fetch(
-        `https://localhost:3002/api/auth/check-email?email=${encodeURIComponent(signUpData.email)}`
+        `http://localhost:3001/api/auth/check-email?email=${encodeURIComponent(signUpData.email)}`
       );
 
       if (!checkEmailResponse.ok) {
@@ -25,7 +25,7 @@
       }
 
       // 중복되지 않은 경우 회원가입 진행
-      const signUpResponse = await fetch("https://localhost:3002/api/auth/signup", {
+      const signUpResponse = await fetch("http://localhost:3001/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -11,6 +11,7 @@ datasource db {
 model Users {
   userId           Int                 @id @default(autoincrement()) @map("userId")
   username         String
+  kakaoUserId      String?   
   email            String              @unique
   password         String
   isAdmin          Boolean             @map("is_admin")

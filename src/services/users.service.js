@@ -337,4 +337,28 @@ export class UsersService {
     }
     await this.usersRepository.unfollowUser(userId, targetUserId);
   };
+
+  createKakaoUser = async (username, kakaoUserId) => {
+    try {
+      const newUser = await this.usersRepository.createKakaoUser(
+        username,
+        kakaoUserId
+      );
+      return newUser;
+    } catch (error) {
+      console.error('Error creating Kakao user:', error);
+      throw new Error('Failed to create Kakao user');
+    }
+  };
+
+  findUserByKakaoId = async (kakaoUserId) => {
+    try {
+      const user = await this.usersRepository.findUserByKakaoId(kakaoUserId);
+      return user;
+    } catch (error) {
+      console.error('Error finding user by Kakao ID:', error);
+      throw new Error('Failed to find user by Kakao ID');
+    }
+  };
+
 }

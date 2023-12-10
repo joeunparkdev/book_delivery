@@ -1,12 +1,18 @@
 <script>
-	import { Router, Route, Link } from "svelte-routing";
-	import Home from "./routes/Home.svelte";
-	import SignIn from "./routes/SignIn.svelte";
-	import SignUp from "./routes/SignUp.svelte";
+	import { Router, Route, Link } from 'svelte-routing';
+	import Home from './routes/Home.svelte';
+	import SignIn from './routes/SignIn.svelte';
+	import SignUp from './routes/SignUp.svelte';
   
 	let loggedIn = false;
   
-	$: userName = loggedIn ? "User" : null;
+	$: userName = loggedIn ? 'User' : null;
+  
+	// Check if KakaoSDK is available
+	if (typeof window !== 'undefined' && window.KakaoSDK) {
+	  // Kakao SDK 초기화
+	  window.KakaoSDK.init('3980c403de0926c15940e444945aef79');
+	}  
   
 	// 로그아웃 함수
 	function signOut() {

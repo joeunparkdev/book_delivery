@@ -110,6 +110,7 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.UsersScalarFieldEnum = {
   userId: 'userId',
   username: 'username',
+  kakaoUserId: 'kakaoUserId',
   email: 'email',
   password: 'password',
   isAdmin: 'isAdmin',
@@ -148,6 +149,11 @@ exports.Prisma.FollowScalarFieldEnum = {
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 
 
