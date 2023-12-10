@@ -1,4 +1,4 @@
-# MALL-MIDDLEWARE
+# ADVANCED_MALL
 
 # 프로젝트 소개
 - 3-Layered Architecture, OOP, RDB(MySQL) 데이터 모델링, JWT, Express Middleware를 이용한 **인증 로직** 추가
