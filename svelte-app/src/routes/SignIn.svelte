@@ -3,15 +3,22 @@
   import { navigate } from "svelte-routing";
 
   let signInData = {
-    username: "",
+    email: "",
     password: "",
   };
 
   onMount(async () => {
     try {
-      const response = await fetch("https://localhost:3002/api/users/me");
+      const response = await fetch("https://localhost:3002/api/users/me", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
       const userData = await response.json();
-      signInData.username = userData.username;
+      signInData.email = userData.email;
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -32,7 +39,7 @@
 
       if (response.ok) {
         // 로그인 성공 시 메인 페이지로 이동하면서 서버로부터 받은 쿠키를 저장
-        document.cookie = data.accessToken;
+        document.cookie = `accessToken=${data.accessToken}; domain=localhost; path=/; secure;`;
 
         // 메인 페이지로 이동합니다.
         navigate("/");
@@ -48,8 +55,8 @@
 <main>
   <h1>🎄 Sign In 🎅</h1>
   <form on:submit|preventDefault={signIn}>
-    <label for="username">🎅 Username:</label>
-    <input type="text" bind:value="{signInData.username}" />
+    <label for="email">🎅 Email:</label>
+    <input type="text" bind:value="{signInData.email}" />
 
     <label for="password">🔒 Password:</label>
     <input type="password" bind:value="{signInData.password}" />
@@ -57,6 +64,7 @@
     <button type="submit">🎄 Sign In</button>
   </form>
 </main>
+
 
 <style>
   main {

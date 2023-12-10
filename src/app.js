@@ -13,7 +13,14 @@ import usersRouter from "./routers/users.router.js";
 import authRouter from "./routers/auth.router.js";
 
 const app = express();
-app.use(cors());
+
+// CORS 설정
+const corsOptions = {
+  origin: "http://localhost:8080",
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
