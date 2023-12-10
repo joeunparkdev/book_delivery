@@ -4,6 +4,8 @@
 .env.*.local
 .env.test
 .env.production
+server.cert
+server.key 
 
 # npm
 node_modules/
