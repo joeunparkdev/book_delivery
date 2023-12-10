@@ -89,6 +89,7 @@ export class AuthController {
         throw new Error("Passwords do not match");
       }
 
+    // 중복되지 않은 경우 회원가입 진행
       const newUser = await this.authService.createUser(
         username,
         password,
@@ -133,6 +134,30 @@ export class AuthController {
       return res.status(500).json({
         success: false,
         message: "예상치 못한 에러가 발생했습니다. 관리자에게 문의하세요.",
+      });
+    }
+  };
+
+  checkEmailExists = async (req, res, next) => {
+    try {
+      const { email } = req.query;
+
+      if (!email) {
+        throw new Error("Email parameter is missing");
+      }
+
+      const emailExists = await this.authService.checkEmailExists(email);
+
+      return res.status(200).json({
+        success: true,
+        message: "Email check successful",
+        data: { emailExists },
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        success: false,
+        message: "Error checking email existence",
       });
     }
   };

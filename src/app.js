@@ -1,15 +1,22 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from "express";
+import http from "http"; 
+import https from "https";
+import fs from "fs";
+import cors from "cors";
 import cookieParser from "cookie-parser";
 import errorHandlerMiddleware from "./middlewares/error-handler.middleware.js";
 import productsRouter from "./routers/products.router.js";
 import usersRouter from "./routers/users.router.js";
 import authRouter from "./routers/auth.router.js";
 
-//TODO: HTTP를 HTTPS로 업그레이드 하기
 const app = express();
+app.use(cors());
 
-app.use(express.json()); // body parser
-app.use(express.urlencoded({ extended: false })); // FORM 처리
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
@@ -19,9 +26,22 @@ app.use("/api/products", productsRouter);
 app.use(errorHandlerMiddleware);
 
 const PORT = process.env.PORT || 3001;
+const HTTPS_PORT = process.env.HTTPS_PORT || 3002;
 
-app.listen(PORT, () => {
-  console.log(`서버가 요청을 받을 준비가 됐어요. 포트: ${PORT}`);
+const httpsOptions = {
+  key: fs.readFileSync(process.env.HTTPS_KEY),
+  cert: fs.readFileSync(process.env.HTTPS_CERT),
+};
+
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer(httpsOptions, app);
+
+httpServer.listen(PORT, () => {
+  console.log(`HTTP Server is running on port ${PORT}`);
+});
+
+httpsServer.listen(HTTPS_PORT, () => {
+  console.log(`HTTPS Server is running on port ${HTTPS_PORT}`);
 });
 
 export { app };

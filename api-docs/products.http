@@ -1,10 +1,10 @@
  ### GET /api/products
-GET http://localhost:3001/api/products/
+GET https://localhost:3002/api/products/
 Accept: */*
 Content-Type: application/json
 
 ### POST /api/products
-POST http://localhost:3001/api/products/
+POST https://localhost:3002/api/products/
 Accept: */*
 Content-Type: application/json
 
@@ -15,7 +15,7 @@ Content-Type: application/json
 }
 
 ### PUT /api/products/:productId
-PUT http://localhost:3001/api/products/4
+PUT https://localhost:3002/api/products/4
 Accept: */*
 Content-Type: application/json
 
@@ -27,17 +27,17 @@ Content-Type: application/json
 }
 
 ### GET /api/products/:productId
-GET http://localhost:3001/api/products/9
+GET https://localhost:3002/api/products/9
 Accept: */*
 Content-Type: application/json
 
 ### DELETE /api/products/:productId
-DELETE http://localhost:3001/api/products/9
+DELETE https://localhost:3002/api/products/9
 Accept: */*
 Content-Type: application/json
 
 ### DELETE ALL /api/products/ - 관리자 권한 필요
-DELETE http://localhost:3001/api/products/
+DELETE https://localhost:3002/api/products/
 Accept: */*
 Content-Type: application/json
 

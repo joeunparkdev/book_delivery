@@ -1,0 +1,38 @@
+<script>
+  import { Link, navigate } from "svelte-routing";
+
+  export let username;
+
+  async function Signout() {
+    try {
+      const response = await fetch("https://localhost:3002/api/auth/signout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+
+      const data = await response.json();
+      console.log("Sign Out Response:", data);
+
+      // 로그아웃 후에는 사용자를 로그인 페이지로 리다이렉트
+      navigate("/signin");
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  }
+</script>
+
+<main>
+  {#if username}
+    <h1>Welcome, {username}!</h1>
+    <button on:click={Signout}>Logout</button>
+  {:else}
+    <p>Please sign in or sign up.</p>
+    <nav>
+      <Link to="/signin">Sign In</Link>
+      <Link to="/signup">Sign Up</Link>
+    </nav>
+  {/if}
+</main>

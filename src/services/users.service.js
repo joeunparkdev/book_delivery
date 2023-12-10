@@ -120,6 +120,20 @@ export class UsersService {
     };
   };
 
+  checkEmailExists = async (email) => {
+    try {
+      const existingUser = await this.usersRepository.findUserByEmail(email);
+
+      if (!user) {
+        throw new Error("회원 불일치");
+      }
+  
+    } catch (error) {
+      console.error("Error checking email existence:", error);
+      throw error;
+    }
+  }
+
   createUser = async (username, password, email) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
