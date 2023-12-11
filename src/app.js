@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
+import { configurePassport } from "../src/passport/index.js";
 import express from "express";
 import http from "http"; 
 import https from "https";
@@ -13,6 +14,7 @@ import usersRouter from "./routers/users.router.js";
 import authRouter from "./routers/auth.router.js";
 
 const app = express();
+configurePassport(app);
 
 // CORS 설정
 const corsOptions = {

@@ -38,16 +38,19 @@
       // Now use Kakao SDK directly
       Kakao.init('3980c403de0926c15940e444945aef79');
 
-      Kakao.Auth.login({
-        scope: 'account_email,gender',
-        success: function (authObj) {
-          console.log('Kakao login success:', authObj);
-          // Handle the success case
-        },
-        fail: function (error) {
-          console.error('Kakao login fail:', error);
-          // Handle the failure case
-        },
+      // Kakao.Auth.login({
+      //   scope: 'profile_nickname,account_email',
+      //   success: function (authObj) {
+      //     console.log('Kakao login success:', authObj);
+      //     // Handle the success case
+      //   },
+      //   fail: function (error) {
+      //     console.error('Kakao login fail:', error);
+      //     // Handle the failure case
+      //   },
+      // });
+      Kakao.Auth.authorize({
+        redirectUri: "http://localhost:3001/api/auth/kakao/callback",
       });
     } catch (error) {
       console.error(error);
@@ -62,6 +65,32 @@
           "Content-Type": "application/json",
         },
         body: JSON.stringify(signInData),
+        credentials: "include", // CORS 정책
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // 로그인 성공 시 메인 페이지로 이동하면서 서버로부터 받은 쿠키를 저장
+        document.cookie = `accessToken=${data.accessToken}; domain=localhost; path=/; secure;`;
+
+        // 메인 페이지로 이동합니다.
+        navigate("/");
+      } else {
+        console.error("Sign In Response:", data);
+      }
+    } catch (error) {
+      console.error("Error signing in:", error);
+    }
+  }
+
+  async function kakaoSignIn() {
+    try {
+      const response = await fetch("http://localhost:3001/api/auth/kakao", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
         credentials: "include", // CORS 정책
       });
 

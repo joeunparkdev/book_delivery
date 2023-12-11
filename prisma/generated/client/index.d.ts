@@ -1305,16 +1305,18 @@ export namespace Prisma {
 
   export type UsersAvgAggregateOutputType = {
     userId: number | null
+    kakaoUserId: number | null
   }
 
   export type UsersSumAggregateOutputType = {
     userId: number | null
+    kakaoUserId: number | null
   }
 
   export type UsersMinAggregateOutputType = {
     userId: number | null
     username: string | null
-    kakaoUserId: string | null
+    kakaoUserId: number | null
     email: string | null
     password: string | null
     isAdmin: boolean | null
@@ -1325,7 +1327,7 @@ export namespace Prisma {
   export type UsersMaxAggregateOutputType = {
     userId: number | null
     username: string | null
-    kakaoUserId: string | null
+    kakaoUserId: number | null
     email: string | null
     password: string | null
     isAdmin: boolean | null
@@ -1348,10 +1350,12 @@ export namespace Prisma {
 
   export type UsersAvgAggregateInputType = {
     userId?: true
+    kakaoUserId?: true
   }
 
   export type UsersSumAggregateInputType = {
     userId?: true
+    kakaoUserId?: true
   }
 
   export type UsersMinAggregateInputType = {
@@ -1477,7 +1481,7 @@ export namespace Prisma {
   export type UsersGroupByOutputType = {
     userId: number
     username: string
-    kakaoUserId: string | null
+    kakaoUserId: number | null
     email: string
     password: string
     isAdmin: boolean
@@ -1554,7 +1558,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       userId: number
       username: string
-      kakaoUserId: string | null
+      kakaoUserId: number | null
       email: string
       password: string
       isAdmin: boolean
@@ -1965,7 +1969,7 @@ export namespace Prisma {
   interface UsersFieldRefs {
     readonly userId: FieldRef<"Users", 'Int'>
     readonly username: FieldRef<"Users", 'String'>
-    readonly kakaoUserId: FieldRef<"Users", 'String'>
+    readonly kakaoUserId: FieldRef<"Users", 'Int'>
     readonly email: FieldRef<"Users", 'String'>
     readonly password: FieldRef<"Users", 'String'>
     readonly isAdmin: FieldRef<"Users", 'Boolean'>
@@ -2431,6 +2435,7 @@ export namespace Prisma {
     productId: number | null
     name: string | null
     price: number | null
+    city: string | null
     description: string | null
     status: string | null
     createdAt: Date | null
@@ -2442,6 +2447,7 @@ export namespace Prisma {
     productId: number | null
     name: string | null
     price: number | null
+    city: string | null
     description: string | null
     status: string | null
     createdAt: Date | null
@@ -2453,6 +2459,7 @@ export namespace Prisma {
     productId: number
     name: number
     price: number
+    city: number
     description: number
     status: number
     createdAt: number
@@ -2478,6 +2485,7 @@ export namespace Prisma {
     productId?: true
     name?: true
     price?: true
+    city?: true
     description?: true
     status?: true
     createdAt?: true
@@ -2489,6 +2497,7 @@ export namespace Prisma {
     productId?: true
     name?: true
     price?: true
+    city?: true
     description?: true
     status?: true
     createdAt?: true
@@ -2500,6 +2509,7 @@ export namespace Prisma {
     productId?: true
     name?: true
     price?: true
+    city?: true
     description?: true
     status?: true
     createdAt?: true
@@ -2598,6 +2608,7 @@ export namespace Prisma {
     productId: number
     name: string
     price: number
+    city: string
     description: string
     status: string
     createdAt: Date
@@ -2628,6 +2639,7 @@ export namespace Prisma {
     productId?: boolean
     name?: boolean
     price?: boolean
+    city?: boolean
     description?: boolean
     status?: boolean
     createdAt?: boolean
@@ -2642,6 +2654,7 @@ export namespace Prisma {
     productId?: boolean
     name?: boolean
     price?: boolean
+    city?: boolean
     description?: boolean
     status?: boolean
     createdAt?: boolean
@@ -2666,6 +2679,7 @@ export namespace Prisma {
       productId: number
       name: string
       price: number
+      city: string
       description: string
       status: string
       createdAt: Date
@@ -3071,6 +3085,7 @@ export namespace Prisma {
     readonly productId: FieldRef<"Products", 'Int'>
     readonly name: FieldRef<"Products", 'String'>
     readonly price: FieldRef<"Products", 'Int'>
+    readonly city: FieldRef<"Products", 'String'>
     readonly description: FieldRef<"Products", 'String'>
     readonly status: FieldRef<"Products", 'String'>
     readonly createdAt: FieldRef<"Products", 'DateTime'>
@@ -6257,6 +6272,7 @@ export namespace Prisma {
     productId: 'productId',
     name: 'name',
     price: 'price',
+    city: 'city',
     description: 'description',
     status: 'status',
     createdAt: 'createdAt',
@@ -6358,7 +6374,7 @@ export namespace Prisma {
     NOT?: UsersWhereInput | UsersWhereInput[]
     userId?: IntFilter<"Users"> | number
     username?: StringFilter<"Users"> | string
-    kakaoUserId?: StringNullableFilter<"Users"> | string | null
+    kakaoUserId?: IntNullableFilter<"Users"> | number | null
     email?: StringFilter<"Users"> | string
     password?: StringFilter<"Users"> | string
     isAdmin?: BoolFilter<"Users"> | boolean
@@ -6394,7 +6410,7 @@ export namespace Prisma {
     OR?: UsersWhereInput[]
     NOT?: UsersWhereInput | UsersWhereInput[]
     username?: StringFilter<"Users"> | string
-    kakaoUserId?: StringNullableFilter<"Users"> | string | null
+    kakaoUserId?: IntNullableFilter<"Users"> | number | null
     password?: StringFilter<"Users"> | string
     isAdmin?: BoolFilter<"Users"> | boolean
     createdAt?: DateTimeFilter<"Users"> | Date | string
@@ -6428,7 +6444,7 @@ export namespace Prisma {
     NOT?: UsersScalarWhereWithAggregatesInput | UsersScalarWhereWithAggregatesInput[]
     userId?: IntWithAggregatesFilter<"Users"> | number
     username?: StringWithAggregatesFilter<"Users"> | string
-    kakaoUserId?: StringNullableWithAggregatesFilter<"Users"> | string | null
+    kakaoUserId?: IntNullableWithAggregatesFilter<"Users"> | number | null
     email?: StringWithAggregatesFilter<"Users"> | string
     password?: StringWithAggregatesFilter<"Users"> | string
     isAdmin?: BoolWithAggregatesFilter<"Users"> | boolean
@@ -6443,6 +6459,7 @@ export namespace Prisma {
     productId?: IntFilter<"Products"> | number
     name?: StringFilter<"Products"> | string
     price?: IntFilter<"Products"> | number
+    city?: StringFilter<"Products"> | string
     description?: StringFilter<"Products"> | string
     status?: StringFilter<"Products"> | string
     createdAt?: DateTimeFilter<"Products"> | Date | string
@@ -6456,6 +6473,7 @@ export namespace Prisma {
     productId?: SortOrder
     name?: SortOrder
     price?: SortOrder
+    city?: SortOrder
     description?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -6472,6 +6490,7 @@ export namespace Prisma {
     NOT?: ProductsWhereInput | ProductsWhereInput[]
     name?: StringFilter<"Products"> | string
     price?: IntFilter<"Products"> | number
+    city?: StringFilter<"Products"> | string
     description?: StringFilter<"Products"> | string
     status?: StringFilter<"Products"> | string
     createdAt?: DateTimeFilter<"Products"> | Date | string
@@ -6485,6 +6504,7 @@ export namespace Prisma {
     productId?: SortOrder
     name?: SortOrder
     price?: SortOrder
+    city?: SortOrder
     description?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -6504,6 +6524,7 @@ export namespace Prisma {
     productId?: IntWithAggregatesFilter<"Products"> | number
     name?: StringWithAggregatesFilter<"Products"> | string
     price?: IntWithAggregatesFilter<"Products"> | number
+    city?: StringWithAggregatesFilter<"Products"> | string
     description?: StringWithAggregatesFilter<"Products"> | string
     status?: StringWithAggregatesFilter<"Products"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Products"> | Date | string
@@ -6657,7 +6678,7 @@ export namespace Prisma {
 
   export type UsersCreateInput = {
     username: string
-    kakaoUserId?: string | null
+    kakaoUserId?: number | null
     email: string
     password: string
     isAdmin: boolean
@@ -6673,7 +6694,7 @@ export namespace Prisma {
   export type UsersUncheckedCreateInput = {
     userId?: number
     username: string
-    kakaoUserId?: string | null
+    kakaoUserId?: number | null
     email: string
     password: string
     isAdmin: boolean
@@ -6688,7 +6709,7 @@ export namespace Prisma {
 
   export type UsersUpdateInput = {
     username?: StringFieldUpdateOperationsInput | string
-    kakaoUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    kakaoUserId?: NullableIntFieldUpdateOperationsInput | number | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
@@ -6704,7 +6725,7 @@ export namespace Prisma {
   export type UsersUncheckedUpdateInput = {
     userId?: IntFieldUpdateOperationsInput | number
     username?: StringFieldUpdateOperationsInput | string
-    kakaoUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    kakaoUserId?: NullableIntFieldUpdateOperationsInput | number | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
@@ -6720,7 +6741,7 @@ export namespace Prisma {
   export type UsersCreateManyInput = {
     userId?: number
     username: string
-    kakaoUserId?: string | null
+    kakaoUserId?: number | null
     email: string
     password: string
     isAdmin: boolean
@@ -6730,7 +6751,7 @@ export namespace Prisma {
 
   export type UsersUpdateManyMutationInput = {
     username?: StringFieldUpdateOperationsInput | string
-    kakaoUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    kakaoUserId?: NullableIntFieldUpdateOperationsInput | number | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
@@ -6741,7 +6762,7 @@ export namespace Prisma {
   export type UsersUncheckedUpdateManyInput = {
     userId?: IntFieldUpdateOperationsInput | number
     username?: StringFieldUpdateOperationsInput | string
-    kakaoUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    kakaoUserId?: NullableIntFieldUpdateOperationsInput | number | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
@@ -6752,6 +6773,7 @@ export namespace Prisma {
   export type ProductsCreateInput = {
     name: string
     price: number
+    city?: string
     description: string
     status?: string
     createdAt?: Date | string
@@ -6764,6 +6786,7 @@ export namespace Prisma {
     productId?: number
     name: string
     price: number
+    city?: string
     description: string
     status?: string
     createdAt?: Date | string
@@ -6775,6 +6798,7 @@ export namespace Prisma {
   export type ProductsUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    city?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6787,6 +6811,7 @@ export namespace Prisma {
     productId?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    city?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6799,6 +6824,7 @@ export namespace Prisma {
     productId?: number
     name: string
     price: number
+    city?: string
     description: string
     status?: string
     createdAt?: Date | string
@@ -6809,6 +6835,7 @@ export namespace Prisma {
   export type ProductsUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    city?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6819,6 +6846,7 @@ export namespace Prisma {
     productId?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    city?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6964,18 +6992,15 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type BoolFilter<$PrismaModel = never> = {
@@ -7052,6 +7077,7 @@ export namespace Prisma {
 
   export type UsersAvgOrderByAggregateInput = {
     userId?: SortOrder
+    kakaoUserId?: SortOrder
   }
 
   export type UsersMaxOrderByAggregateInput = {
@@ -7078,6 +7104,7 @@ export namespace Prisma {
 
   export type UsersSumOrderByAggregateInput = {
     userId?: SortOrder
+    kakaoUserId?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -7113,21 +7140,20 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
     _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -7161,6 +7187,7 @@ export namespace Prisma {
     productId?: SortOrder
     name?: SortOrder
     price?: SortOrder
+    city?: SortOrder
     description?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -7178,6 +7205,7 @@ export namespace Prisma {
     productId?: SortOrder
     name?: SortOrder
     price?: SortOrder
+    city?: SortOrder
     description?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -7189,6 +7217,7 @@ export namespace Prisma {
     productId?: SortOrder
     name?: SortOrder
     price?: SortOrder
+    city?: SortOrder
     description?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -7372,8 +7401,12 @@ export namespace Prisma {
     set?: string
   }
 
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type BoolFieldUpdateOperationsInput = {
@@ -7683,18 +7716,15 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedBoolFilter<$PrismaModel = never> = {
@@ -7757,24 +7787,7 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | null
     notIn?: number[] | null
@@ -7782,7 +7795,23 @@ export namespace Prisma {
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -7810,6 +7839,7 @@ export namespace Prisma {
   export type ProductsCreateWithoutUserInput = {
     name: string
     price: number
+    city?: string
     description: string
     status?: string
     createdAt?: Date | string
@@ -7821,6 +7851,7 @@ export namespace Prisma {
     productId?: number
     name: string
     price: number
+    city?: string
     description: string
     status?: string
     createdAt?: Date | string
@@ -7936,6 +7967,7 @@ export namespace Prisma {
     productId?: IntFilter<"Products"> | number
     name?: StringFilter<"Products"> | string
     price?: IntFilter<"Products"> | number
+    city?: StringFilter<"Products"> | string
     description?: StringFilter<"Products"> | string
     status?: StringFilter<"Products"> | string
     createdAt?: DateTimeFilter<"Products"> | Date | string
@@ -8035,7 +8067,7 @@ export namespace Prisma {
 
   export type UsersCreateWithoutProductsInput = {
     username: string
-    kakaoUserId?: string | null
+    kakaoUserId?: number | null
     email: string
     password: string
     isAdmin: boolean
@@ -8050,7 +8082,7 @@ export namespace Prisma {
   export type UsersUncheckedCreateWithoutProductsInput = {
     userId?: number
     username: string
-    kakaoUserId?: string | null
+    kakaoUserId?: number | null
     email: string
     password: string
     isAdmin: boolean
@@ -8098,7 +8130,7 @@ export namespace Prisma {
 
   export type UsersUpdateWithoutProductsInput = {
     username?: StringFieldUpdateOperationsInput | string
-    kakaoUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    kakaoUserId?: NullableIntFieldUpdateOperationsInput | number | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
@@ -8113,7 +8145,7 @@ export namespace Prisma {
   export type UsersUncheckedUpdateWithoutProductsInput = {
     userId?: IntFieldUpdateOperationsInput | number
     username?: StringFieldUpdateOperationsInput | string
-    kakaoUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    kakaoUserId?: NullableIntFieldUpdateOperationsInput | number | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
@@ -8143,7 +8175,7 @@ export namespace Prisma {
 
   export type UsersCreateWithoutRefreshTokensInput = {
     username: string
-    kakaoUserId?: string | null
+    kakaoUserId?: number | null
     email: string
     password: string
     isAdmin: boolean
@@ -8158,7 +8190,7 @@ export namespace Prisma {
   export type UsersUncheckedCreateWithoutRefreshTokensInput = {
     userId?: number
     username: string
-    kakaoUserId?: string | null
+    kakaoUserId?: number | null
     email: string
     password: string
     isAdmin: boolean
@@ -8188,7 +8220,7 @@ export namespace Prisma {
 
   export type UsersUpdateWithoutRefreshTokensInput = {
     username?: StringFieldUpdateOperationsInput | string
-    kakaoUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    kakaoUserId?: NullableIntFieldUpdateOperationsInput | number | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
@@ -8203,7 +8235,7 @@ export namespace Prisma {
   export type UsersUncheckedUpdateWithoutRefreshTokensInput = {
     userId?: IntFieldUpdateOperationsInput | number
     username?: StringFieldUpdateOperationsInput | string
-    kakaoUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    kakaoUserId?: NullableIntFieldUpdateOperationsInput | number | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
@@ -8217,7 +8249,7 @@ export namespace Prisma {
 
   export type UsersCreateWithoutUserProductsInput = {
     username: string
-    kakaoUserId?: string | null
+    kakaoUserId?: number | null
     email: string
     password: string
     isAdmin: boolean
@@ -8232,7 +8264,7 @@ export namespace Prisma {
   export type UsersUncheckedCreateWithoutUserProductsInput = {
     userId?: number
     username: string
-    kakaoUserId?: string | null
+    kakaoUserId?: number | null
     email: string
     password: string
     isAdmin: boolean
@@ -8252,6 +8284,7 @@ export namespace Prisma {
   export type ProductsCreateWithoutUserProductsInput = {
     name: string
     price: number
+    city?: string
     description: string
     status?: string
     createdAt?: Date | string
@@ -8263,6 +8296,7 @@ export namespace Prisma {
     productId?: number
     name: string
     price: number
+    city?: string
     description: string
     status?: string
     createdAt?: Date | string
@@ -8288,7 +8322,7 @@ export namespace Prisma {
 
   export type UsersUpdateWithoutUserProductsInput = {
     username?: StringFieldUpdateOperationsInput | string
-    kakaoUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    kakaoUserId?: NullableIntFieldUpdateOperationsInput | number | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
@@ -8303,7 +8337,7 @@ export namespace Prisma {
   export type UsersUncheckedUpdateWithoutUserProductsInput = {
     userId?: IntFieldUpdateOperationsInput | number
     username?: StringFieldUpdateOperationsInput | string
-    kakaoUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    kakaoUserId?: NullableIntFieldUpdateOperationsInput | number | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
@@ -8329,6 +8363,7 @@ export namespace Prisma {
   export type ProductsUpdateWithoutUserProductsInput = {
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    city?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8340,6 +8375,7 @@ export namespace Prisma {
     productId?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    city?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8349,7 +8385,7 @@ export namespace Prisma {
 
   export type UsersCreateWithoutFollowersInput = {
     username: string
-    kakaoUserId?: string | null
+    kakaoUserId?: number | null
     email: string
     password: string
     isAdmin: boolean
@@ -8364,7 +8400,7 @@ export namespace Prisma {
   export type UsersUncheckedCreateWithoutFollowersInput = {
     userId?: number
     username: string
-    kakaoUserId?: string | null
+    kakaoUserId?: number | null
     email: string
     password: string
     isAdmin: boolean
@@ -8383,7 +8419,7 @@ export namespace Prisma {
 
   export type UsersCreateWithoutFollowingInput = {
     username: string
-    kakaoUserId?: string | null
+    kakaoUserId?: number | null
     email: string
     password: string
     isAdmin: boolean
@@ -8398,7 +8434,7 @@ export namespace Prisma {
   export type UsersUncheckedCreateWithoutFollowingInput = {
     userId?: number
     username: string
-    kakaoUserId?: string | null
+    kakaoUserId?: number | null
     email: string
     password: string
     isAdmin: boolean
@@ -8428,7 +8464,7 @@ export namespace Prisma {
 
   export type UsersUpdateWithoutFollowersInput = {
     username?: StringFieldUpdateOperationsInput | string
-    kakaoUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    kakaoUserId?: NullableIntFieldUpdateOperationsInput | number | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
@@ -8443,7 +8479,7 @@ export namespace Prisma {
   export type UsersUncheckedUpdateWithoutFollowersInput = {
     userId?: IntFieldUpdateOperationsInput | number
     username?: StringFieldUpdateOperationsInput | string
-    kakaoUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    kakaoUserId?: NullableIntFieldUpdateOperationsInput | number | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
@@ -8468,7 +8504,7 @@ export namespace Prisma {
 
   export type UsersUpdateWithoutFollowingInput = {
     username?: StringFieldUpdateOperationsInput | string
-    kakaoUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    kakaoUserId?: NullableIntFieldUpdateOperationsInput | number | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
@@ -8483,7 +8519,7 @@ export namespace Prisma {
   export type UsersUncheckedUpdateWithoutFollowingInput = {
     userId?: IntFieldUpdateOperationsInput | number
     username?: StringFieldUpdateOperationsInput | string
-    kakaoUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    kakaoUserId?: NullableIntFieldUpdateOperationsInput | number | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
@@ -8499,6 +8535,7 @@ export namespace Prisma {
     productId?: number
     name: string
     price: number
+    city?: string
     description: string
     status?: string
     createdAt?: Date | string
@@ -8526,6 +8563,7 @@ export namespace Prisma {
   export type ProductsUpdateWithoutUserInput = {
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    city?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8537,6 +8575,7 @@ export namespace Prisma {
     productId?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    city?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8548,6 +8587,7 @@ export namespace Prisma {
     productId?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    city?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

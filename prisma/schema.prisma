@@ -11,7 +11,7 @@ datasource db {
 model Users {
   userId           Int                 @id @default(autoincrement()) @map("userId")
   username         String
-  kakaoUserId      String?   
+  kakaoUserId      Int?   
   email            String              @unique
   password         String
   isAdmin          Boolean             @map("is_admin")
@@ -28,6 +28,7 @@ model Products {
   productId        Int                 @id @default(autoincrement()) @map("productId")
   name             String
   price            Int
+  city             String              @default("Unknown")
   description      String
   status           String              @default("FOR_SALE")
   createdAt        DateTime            @default(now()) @map("createdAt")

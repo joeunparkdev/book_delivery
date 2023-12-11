@@ -192,51 +192,29 @@ export class AuthController {
     }
   };
 
-  // TODO: 카카오 연동 로그인 또는 회원가입 처리 함수
   kakaoLogin = async (req, res, next) => {
     try {
-      const { accessToken } = req.body;
-
-      // 카카오 토큰 검증
-      const kakaoUserInfo = await this.verifyKakaoToken(accessToken);
-
-      // 카카오로부터 받은 사용자 정보
-      const kakaoUserId = +kakaoUserInfo.id;
-      const username = kakaoUserInfo.properties.nickname;
-
-      // 카카오 사용자가 이미 가입되었는지 확인
-      const existingUser = await this.authService.findUserByKakaoId(kakaoUserId);
-
-      if (existingUser) {
-        // 기존 사용자라면 로그인 처리
-        const accessToken = this.generateAccessToken(existingUser.userId);
-        const refreshToken = await this.generateRefreshToken(existingUser.userId);
-
-        this.setCookie(res, accessToken);
-
-        return res.status(200).json({
-          success: true,
-          message: '카카오 연동 로그인에 성공했습니다.',
-          data: { accessToken },
-        });
-      } else {
-        // 새로운 사용자라면 회원가입 처리
-        const newUser = await this.authService.createKakaoUser(
-          username, // 카카오 닉네임을 사용자 이름으로 저장
-          kakaoUserId,
-        );
-
-        const accessToken = this.generateAccessToken(newUser.id);
-        const refreshToken = await this.generateRefreshToken(newUser.id);
-
-        this.setCookie(res, accessToken);
-
-        return res.status(200).json({
-          success: true,
-          message: '새로운 사용자로 가입되었습니다.',
-          authId: newUser.id,
-        });
+      // 카카오 로그인 확인
+      const kakaoAccount = req.user;
+      if (!kakaoAccount) {
+        throw new Error("카카오 계정 정보를 찾을 수 없습니다.");
       }
+      // 카카오 로그인 처리
+      const userId = await this.authService.kakaoLogin(
+        kakaoAccount.kakaoId,
+        kakaoAccount.email,
+        kakaoAccount.username
+      );
+      // 새로운 액세스 토큰 및 리프레시 토큰 생성 및 설정
+      const accessToken = this.generateAccessToken(+userId);
+      const refreshToken = await this.generateRefreshToken(+userId);
+      this.setCookie(res, accessToken);
+  
+      return res.status(200).json({
+        success: true,
+        message: "카카오 로그인 성공",
+        data: { accessToken },
+      });
     } catch (error) {
       console.error(error);
       return res.status(500).json({
@@ -245,6 +223,7 @@ export class AuthController {
       });
     }
   };
+  
 
 }
 

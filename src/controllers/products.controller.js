@@ -32,7 +32,7 @@ export class ProductsController {
         return res.status(401).json({ error: "User not logged in" });
       }
 
-      const { name, description, price } = req.body;
+      const { name, description, price, city } = req.body;
       const userId = req.user.userId;
 
       const newProduct = await this.productsService.createProduct(
@@ -40,6 +40,7 @@ export class ProductsController {
         description,
         price,
         userId,
+        city,
         new Date(),
         new Date(),
       );
@@ -60,7 +61,7 @@ export class ProductsController {
         return res.status(401).json({ error: "User not logged in" });
       }
 
-      const { name, description, status, price } = req.body;
+      const { name, description, status, price, city } = req.body;
       const { productId } = req.params;
 
       const userId = req.user.userId;
@@ -69,6 +70,7 @@ export class ProductsController {
         productId,
         name,
         price,
+        city,
         description,
         status,
         new Date(),

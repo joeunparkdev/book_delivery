@@ -124,7 +124,7 @@ export class UsersService {
     try {
       const existingUser = await this.usersRepository.findUserByEmail(email);
 
-      if (!user) {
+      if (!existingUser) {
         throw new Error("회원 불일치");
       }
   
@@ -338,13 +338,19 @@ export class UsersService {
     await this.usersRepository.unfollowUser(userId, targetUserId);
   };
 
-  createKakaoUser = async (username, kakaoUserId) => {
+  createKakaoUser = async (kakaoId, email, nickname) => {
     try {
       const newUser = await this.usersRepository.createKakaoUser(
-        username,
-        kakaoUserId
+        nickname, email, kakaoId
       );
-      return newUser;
+      return {
+        userId: newUser.userId,
+        username: newUser.username,
+        email: newUser.email,
+        password: newUser.password,
+        createdAt: newUser.createdAt,
+        updatedAt: newUser.updatedAt,
+      };
     } catch (error) {
       console.error('Error creating Kakao user:', error);
       throw new Error('Failed to create Kakao user');
@@ -360,5 +366,24 @@ export class UsersService {
       throw new Error('Failed to find user by Kakao ID');
     }
   };
+
+async kakaoLogin(kakaoId, email, nickname) {
+  try {
+    // Prisma를 사용하여 이메일이 일치하는 사용자 찾기
+    const user = await this.usersRepository.findUserByEmail(email);
+    // 사용자가 존재하지 않으면 새로운 사용자 생성
+    if (!user) {
+      await this.createKakaoUser(kakaoId, email, nickname);
+    }
+    const prismaUser = await this.usersRepository.findUserByEmail(email);
+    const userId = prismaUser.userId;
+    return userId;
+  } catch (error) {
+    // 오류 처리
+    console.error(error);
+    throw new Error('카카오 로그인 중 오류 발생');
+  }
+}
+
 
 }

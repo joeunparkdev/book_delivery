@@ -191,21 +191,26 @@ export class UsersRepository {
     return result;
   };
 
-  createKakaoUser = async (username, kakaoUserId) => {
-    try {
-      const newUser = await prisma.users.create({
-        data: {
-          username,
-          kakaoUserId,
-        },
-      });
+createKakaoUser = async (username, email, kakaoUserId, password) => {
+  try {
+    const userData = {
+      username,
+      email,
+      kakaoUserId,
+      password: "",
+      isAdmin: false,
+    };
 
-      return newUser;
-    } catch (error) {
-      console.error('Error creating Kakao user:', error);
-      throw new Error('Failed to create Kakao user');
-    }
-  };
+    const newUser = await prisma.users.create({
+      data: userData,
+    });
+
+    return newUser;
+  } catch (error) {
+    console.error('Error creating user:', error);
+    throw new Error('Failed to create user');
+  }
+};
 
   findUserByKakaoId = async (kakaoUserId) => {
     try {
