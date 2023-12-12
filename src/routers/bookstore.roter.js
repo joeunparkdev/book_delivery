@@ -11,14 +11,16 @@ const router = express.Router();
 
 // 업장 조회	/api/stores
 router.get("/", storesController.getStores);
+//내업장 조회
+router.get("/me", authMiddleware, storesController.getMyStores);
 // 업장 등록	/api/stores
 router.post("/", authMiddleware, storesController.createStore);
 // 업장 수정	/api/stores/:storeId
-router.put("/:storeId", authMiddleware, storesController.updateStore);
+router.put("/:bookstoreId", authMiddleware, storesController.updateStore);
 // 업장 상세 조회	/api/stores/:storeId
-router.get("/:storeId", storesController.getStoreById);
+router.get("/:bookstoreId", storesController.getStoreById);
 // 업장 삭제	/api/stores/:storeId
-router.delete("/:storeId", authMiddleware, storesController.deleteStore);
+router.delete("/:bookstoreId", authMiddleware, storesController.deleteStore);
 
 
 export default router;

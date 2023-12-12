@@ -84,34 +84,22 @@ export class StoresService {
                 throw new Error("해당 ID의 Store이 존재하지 않습니다.");
             }
 
+            console.log(existingStore);
+            console.log(userId);
+            console.log(existingStore.userId);
+
             if (existingStore.userId !== userId) {
                 throw new Error("해당 Store을 수정할 권한이 없습니다.");
             }
 
-            await this.storeRepository.updateStore(
-                bookstoreId,
-                imageUrl,
-                name,
-                price,
-                address,
-                description,
-                status,
-                updatedAt
-            );
-
-            const updatedStore = await this.storeRepository.findStoreById(bookstoreId);
-
-            if (!updatedStore) {
-                throw new Error("조회 중 문제 발생");
-            }
-
-            return updatedStore;
+            await this.storeRepository.updateStore(bookstoreId, imageUrl, name, price, address, description, status, updatedAt, userId);
         } catch (error) {
-
             console.error("Store 수정 실패:", error.message);
             throw new Error("Store 수정 실패");
         }
     };
+
+
 
     //deleteStore
 

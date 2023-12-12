@@ -15,6 +15,17 @@ export class StoresController {
         }
     };
 
+    getMyStores = async(req, res, next) => {
+        try {
+            const userId = req.user.userId
+            const bookstore = await this.storesService.findStoreByUserId(userId)
+
+            return res.status(200).json({ data: bookstore })
+        } catch (err) {
+            next(err)
+        }
+    }
+
     //bookstore만들기(하나만)
     createStore = async(req, res, next) => {
         try {
@@ -61,9 +72,9 @@ export class StoresController {
             if (!req.user || !req.user.userId) {
                 return res.status(401).json({ error: "User not logged in" });
             }
-
-            const { imageUrl, name, price, address, description, status } = req.body;
             const { bookstoreId } = req.params;
+            const { imageUrl, name, price, address, description, status } = req.body;
+            const userId = req.user.userId
 
             const updatedAt = new Date();
 
@@ -75,7 +86,8 @@ export class StoresController {
                 address,
                 description,
                 status,
-                updatedAt
+                updatedAt,
+                userId
             );
 
             res.json({
