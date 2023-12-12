@@ -10,33 +10,66 @@ datasource db {
 
 model Users {
   userId           Int                 @id @default(autoincrement()) @map("userId")
+  usertype         String              //enum
   username         String
   kakaoUserId      Int?   
   email            String              @unique
   password         String
   isAdmin          Boolean             @map("is_admin")
+  address          String?
+  points           Int
   createdAt        DateTime            @default(now()) @map("createdAt")
   updatedAt        DateTime            @updatedAt @map("updatedAt")
   products         Products[]          @relation("UserProducts")
   refreshTokens    RefreshToken[]
   userProducts     UsersProducts[]
-  followers  Follow[] @relation("Followers")
-  following Follow[] @relation("Following")
+  followers        Follow[]            @relation("Followers", fields: [userId], references: [followerId], onDelete: Cascade)
+  following        Follow[]            @relation("Following", fields: [userId], references: [followingId], onDelete: Cascade)
 }
 
 model Products {
   productId        Int                 @id @default(autoincrement()) @map("productId")
+  imageUrl         String              
   name             String
   price            Int
   city             String              @default("Unknown")
+  author           String
   description      String
   status           String              @default("FOR_SALE")
   createdAt        DateTime            @default(now()) @map("createdAt")
   updatedAt        DateTime            @updatedAt @map("updatedAt")
+  bookstoreId      Int                 @map("bookstoreId")
+  bookstore        Bookstores          @relation(fields: [bookstoreId], references: [bookstoreId], onDelete: Cascade)
   userId           Int                 @map("userId")
   user             Users               @relation("UserProducts", fields: [userId], references: [userId], onDelete: Cascade)
   userProducts     UsersProducts[]
 }
+
+model Bookstores {
+  bookstoreId      Int                 @id @default(autoincrement()) @map("bookstoreId")
+  imageUrl         String              
+  name             String
+  price            Int
+  address          String              @default("Unknown")
+  description      String
+  status           String              @default("OPEN")
+  createdAt        DateTime            @default(now()) @map("createdAt")
+  updatedAt        DateTime            @updatedAt @map("updatedAt")
+  userId           Int                 @map("userId")
+  user             Users               @relation("Users", fields: [userId], references: [userId], onDelete: Cascade)
+}
+
+model Orders {
+  orderId          Int                 @id @default(autoincrement()) @map("orderId ")
+  userId           Int                 @map("userId")
+  user             Users               @relation("Users", fields: [userId], references: [userId], onDelete: Cascade)
+  productId        Int                 @map("productId")
+  product          Products            @relation("Products", fields: [productId], references: [productId], onDelete: Cascade)
+  address          String              @default("Unknown")
+  status           String              @default("RECEIVED")
+  createdAt        DateTime            @default(now()) @map("createdAt")
+  updatedAt        DateTime            @updatedAt @map("updatedAt")
+  }
 
 model RefreshToken {
   id               Int                 @id @default(autoincrement())
@@ -55,6 +88,20 @@ model UsersProducts {
   @@id([userId, productId])
 }
 
+model Reviews {
+  reviewId         Int                 @reviewId @default(autoincrement())
+  userId           Int                 @map("userId")
+  user             Users               @relation("Users", fields: [userId], references: [userId], onDelete: Cascade)
+  productId        Int                 @map("productId")
+  product          Products            @relation("Products", fields: [productId], references: [productId], onDelete: Cascade)
+  reviewText       String
+  rating           Int
+  createdAt        DateTime            @default(now()) @map("createdAt")
+  updatedAt        DateTime            @updatedAt @map("updatedAt")
+
+  @@map("Reviews") 
+  }
+
 model Follow {
   followerId      Int                 
   follower       Users               @relation("Followers", fields: [followerId], references: [userId], onDelete: Cascade)
@@ -62,4 +109,5 @@ model Follow {
   following       Users               @relation("Following", fields: [followingId], references: [userId], onDelete: Cascade)
 
  @@id([followingId, followerId])
+  @@map("Follow")
 }
