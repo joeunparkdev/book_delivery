@@ -1,0 +1,45 @@
+ ### 업장 조회	/api/stores
+GET https://localhost:3002/api/stores/
+Accept: */*
+Content-Type: application/json
+
+### 업장 등록	/api/stores
+POST https://localhost:3002/api/stores/
+Accept: */*
+Content-Type: application/json
+
+{
+"imageUrl":"https://example.com/image.jpg", 
+"name":"우섭", 
+"price":2000,
+"address":"집",
+"description": "묘사",
+"status" : "open"
+}
+
+### 업장 수정	/api/stores/:bookstroreId
+PUT https://localhost:3002/api/stores/1
+Accept: */*
+Content-Type: application/json
+
+{
+  "imageUrl":"https://example.com/image.jpg", 
+"name":"우섭", 
+"price":2000,
+"address":"집",
+"description": "묘사",
+"status" : "open"
+}
+
+
+###
+DELETE https://localhost:3002/api/stores/1
+
+Accept: */*
+Content-Type: application/json
+
+
+
+
+
+
