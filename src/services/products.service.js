@@ -21,7 +21,7 @@ export class ProductsService {
         description: product.description,
         status: product.status,
         price: product.price,
-        city: product.city,
+        userType: product.userType,
         createdAt: product.createdAt,
         updatedAt: product.updatedAt,
       };
@@ -38,7 +38,7 @@ export class ProductsService {
       description: product.description,
       status: product.status,
       price: product.price,
-      city: product.city,
+      userType: product.userType,
       createdAt: product.createdAt,
       updatedAt: product.updatedAt,
     };
@@ -54,20 +54,20 @@ export class ProductsService {
       description: product.description,
       status: product.status,
       price: product.price,
-      city: product.city,
+      userType: product.userType,
       createdAt: product.createdAt,
       updatedAt: product.updatedAt,
     };
   };
 
-  createProduct = async (name, description, price, userId, city) => {
+  createProduct = async (name, description, price, userId, userType) => {
     // 저장소(Repository)에게 데이터를 요청합니다.
     const createdProduct = await this.productsRepository.createProduct(
       name,
       description,
       userId,
       price,
-      city,
+      userType,
     );
 
     // 비즈니스 로직을 수행한 후 사용자에게 보여줄 데이터를 가공합니다.
@@ -78,7 +78,7 @@ export class ProductsService {
       description: createdProduct.description,
       status: createdProduct.status,
       price: createdProduct.price,
-      city: createdProduct.city,
+      userType: createdProduct.userType,
       createdAt: createdProduct.createdAt,
       updatedAt: createdProduct.updatedAt,
     };
@@ -88,7 +88,7 @@ export class ProductsService {
     productId,
     name,
     price,
-    city,
+    userType,
     description,
     status,
     updatedAt,
@@ -112,7 +112,7 @@ export class ProductsService {
         description,
         status,
         price,
-        city,
+        userType,
         updatedAt,
       );
     } catch (error) {

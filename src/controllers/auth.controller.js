@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken";
 import { UsersService } from "../services/users.service.js";
 import { RefreshTokenService } from "../services/refreshTokenService.js";
@@ -8,6 +9,7 @@ import {
   JWT_REFRESH_TOKEN_SECRET,
 } from "../constants/security.constant.js";
 import axios from 'axios';
+import ENUMS from "../constants/app.constants.js";
 
 export class AuthController {
   authService = new UsersService();
@@ -90,18 +92,25 @@ export class AuthController {
         throw new Error("Passwords do not match");
       }
 
+      const userType = req.params.userType;
+      
+      if (!Object.values(ENUMS.USER_TYPE).includes(userType)) {
+        throw new Error("잘못된 사용자 유형입니다");
+      }
+
     // 중복되지 않은 경우 회원가입 진행
       const newUser = await this.authService.createUser(
         username,
         password,
         email,
+        userType,
       );
 
       const accessToken = this.generateAccessToken(newUser.id);
       const refreshToken = await this.generateRefreshToken(newUser.id);
 
       this.setCookie(res, accessToken);
-
+      //TODO: await sendVerificationEmail(email, accessToken);
       return res.status(200).json({
         success: true,
         message: "사용자를 생성하였습니다.",
@@ -224,6 +233,34 @@ export class AuthController {
     }
   };
   
+// Gmail SMTP 설정
+transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+// 이메일 전송 함수
+sendVerificationEmail = async (email, token) => {
+  const mailOptions = {
+    from: 'your_email@gmail.com', // 발신자 이메일 주소
+    to: email, // 수신자 이메일 주소
+    subject: '이메일 인증',
+    text: `안녕하세요! 계정을 활성화하려면 다음 링크를 클릭하세요: http://localhost:3001/verify/${token}\n감사합니다!`,
+  };
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log(`이메일이 성공적으로 전송되었습니다: ${info.messageId}`);
+  } catch (error) {
+    console.error('이메일 전송 중 오류 발생:', error);
+  }
+};
+
+//구글 로그인
+
 
 }
 

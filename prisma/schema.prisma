@@ -10,7 +10,7 @@ datasource db {
 
 model Users {
   userId        Int             @id @default(autoincrement()) @map("userId")
-  usertype      String          @default("CLIENT")
+  usertype      String          @default("고객님")
   username      String
   kakaoUserId   Int?
   email         String          @unique

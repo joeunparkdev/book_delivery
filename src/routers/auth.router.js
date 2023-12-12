@@ -8,7 +8,7 @@ const router = express.Router();
 const authController = new AuthController();
 const configuredPassport = configurePassport();
 
-router.post("/signup", authController.signUp);
+router.post("/signup/:userType", authController.signUp);
 router.get("/check-email", authController.checkEmailExists);
 router.post("/signin", authController.signIn);
 router.post("/signout", authMiddleware, authController.signOut);
