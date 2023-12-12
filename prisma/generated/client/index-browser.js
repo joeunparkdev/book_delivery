@@ -17,11 +17,11 @@ exports.$Enums = {}
 
 /**
  * Prisma Client JS version: 5.6.0
- * Query Engine version: e95e739751f42d8ca026f6b910f5a2dc5adeaeee
+ * Query Engine version: 79fb5193cf0a8fdbef536e4b4a159cad677ab1b9
  */
 Prisma.prismaVersion = {
   client: "5.6.0",
-  engine: "e95e739751f42d8ca026f6b910f5a2dc5adeaeee"
+  engine: "79fb5193cf0a8fdbef536e4b4a159cad677ab1b9"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -109,13 +109,15 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.UsersScalarFieldEnum = {
   userId: 'userId',
+  usertype: 'usertype',
   username: 'username',
   kakaoUserId: 'kakaoUserId',
   email: 'email',
   password: 'password',
   isAdmin: 'isAdmin',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  points: 'points'
 };
 
 exports.Prisma.ProductsScalarFieldEnum = {
@@ -123,6 +125,19 @@ exports.Prisma.ProductsScalarFieldEnum = {
   name: 'name',
   price: 'price',
   city: 'city',
+  description: 'description',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
+};
+
+exports.Prisma.BookstoresScalarFieldEnum = {
+  bookstoreId: 'bookstoreId',
+  imageUrl: 'imageUrl',
+  name: 'name',
+  price: 'price',
+  address: 'address',
   description: 'description',
   status: 'status',
   createdAt: 'createdAt',
@@ -140,6 +155,26 @@ exports.Prisma.RefreshTokenScalarFieldEnum = {
 exports.Prisma.UsersProductsScalarFieldEnum = {
   userId: 'userId',
   productId: 'productId'
+};
+
+exports.Prisma.OrdersScalarFieldEnum = {
+  orderId: 'orderId',
+  userId: 'userId',
+  productId: 'productId',
+  address: 'address',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ReviewsScalarFieldEnum = {
+  reviewId: 'reviewId',
+  userId: 'userId',
+  productId: 'productId',
+  reviewText: 'reviewText',
+  rating: 'rating',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.FollowScalarFieldEnum = {
@@ -161,8 +196,11 @@ exports.Prisma.NullsOrder = {
 exports.Prisma.ModelName = {
   Users: 'Users',
   Products: 'Products',
+  Bookstores: 'Bookstores',
   RefreshToken: 'RefreshToken',
   UsersProducts: 'UsersProducts',
+  Orders: 'Orders',
+  Reviews: 'Reviews',
   Follow: 'Follow'
 };
 
