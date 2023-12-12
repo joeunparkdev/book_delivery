@@ -1,5 +1,4 @@
 import { ProductsService } from "../services/products.service.js";
-import PRODUCT_STATUS from "../constants/app.constants.js";
 
 export class ProductsController {
   productsService = new ProductsService();

@@ -24,6 +24,7 @@ export class UsersService {
           isAdmin: user.isAdmin,
           createdAt: user.createdAt,
           updatedAt: user.updatedAt,
+          userType: user.usertype,
           products: products,
           following: following,
           followers: followers,
@@ -90,6 +91,7 @@ export class UsersService {
       isAdmin: user.isAdmin,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
+      userType: user.usertype,
       products: products,
       following: following,
       followers: followers,
@@ -115,6 +117,7 @@ export class UsersService {
       username: user.username,
       email: user.email,
       password: user.password,
+      userType: user.usertype,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     };
@@ -134,13 +137,14 @@ export class UsersService {
     }
   }
 
-  createUser = async (username, password, email) => {
+  createUser = async (username, password, email,userType) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const createdUser = await this.usersRepository.createUser(
       username,
       hashedPassword,
       email,
+      userType,
     );
 
     return {
@@ -148,6 +152,7 @@ export class UsersService {
       username: createdUser.username,
       email: createdUser.email,
       password: createdUser.password,
+      userType: createdUser.usertype,
       createdAt: createdUser.createdAt,
       updatedAt: createdUser.updatedAt,
     };
