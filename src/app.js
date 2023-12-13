@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
 import { configurePassport } from "../src/passport/index.js";
@@ -12,7 +12,9 @@ import errorHandlerMiddleware from "./middlewares/error-handler.middleware.js";
 import productsRouter from "./routers/products.router.js";
 import usersRouter from "./routers/users.router.js";
 import authRouter from "./routers/auth.router.js";
+
 import bookstoresRouter from './routers/bookstore.roter.js';
+
 
 const app = express();
 configurePassport(app);
@@ -32,7 +34,9 @@ app.use(cookieParser());
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/products", productsRouter);
+
 app.use("/api/stores", bookstoresRouter)
+
 
 app.use(errorHandlerMiddleware);
 

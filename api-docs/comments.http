@@ -1,0 +1,25 @@
+
+
+POST http://localhost:3001/api/comment/1
+Accept: */*
+Content-Type: application/json
+
+{
+	"rating": 2,
+	"reviewText": "느낌적인 느낌"
+}
+
+###
+GET http://localhost:3001/api/comment/1
+Accept: */*
+Content-Type: application/json
+
+###
+PUT http://localhost:3001/api/comment/1
+Accept: */*
+Content-Type: application/json
+
+{
+	"rating": 2,
+	"reviewText": "수정된 review입니다."
+}
