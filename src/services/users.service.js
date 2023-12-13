@@ -392,7 +392,24 @@ async kakaoLogin(kakaoId, email, nickname) {
     console.error(error);
     throw new Error('카카오 로그인 중 오류 발생');
   }
-}
+};
+
+checkVerificationCode = async (email, verificationCode, req, res, next) => {
+  try {
+    // 이메일과 보안 코드를 사용하여 사용자 검증 로직을 수행
+    const user = await this.usersRepository.findUserByEmail(email);
+
+    if (!user || user.verificationCode !== verificationCode) {
+      throw new Error("유효하지 않은 보안 코드입니다.");
+    }
+
+    // 검증이 성공하면 다음 미들웨어로 이동
+    return next();
+  } catch (error) {
+    // 에러가 발생하면 에러를 미들웨어로 전달
+    throw new Error(error.message || "보안 코드 확인 중 에러가 발생했습니다.");
+  }
+};
 
 
 }
