@@ -37,7 +37,7 @@ export class ProductsRepository {
         productId: product.productId,
         name: product.name,
         price: product.price,
-        userType: product.userType,
+        usertype: product.usertype,
         description: product.description,
         status: product.status,
         createdAt: product.createdAt,
@@ -49,9 +49,10 @@ export class ProductsRepository {
   createProduct = async (
     name,
     description,
-    userId,
     price,
-    userType,
+    author,
+    image,
+    userId,
     createdAt,
     updatedAt,
   ) => {
@@ -62,7 +63,9 @@ export class ProductsRepository {
         description,
         status: ENUMS.PRODUCT_STATUS.FOR_SALE,
         price,
-        userType: ENUMS.USER_TYPE.OWNER,
+        author,
+        imageUrl: image,
+        usertype: ENUMS.USER_TYPE.OWNER,
         userId,
         createdAt,
         updatedAt,
@@ -76,9 +79,10 @@ export class ProductsRepository {
     productId,
     name,
     description,
-    status,
     price,
-    userType,
+    status,
+    author,
+    image,
     updatedAt,
   ) => {
     // ORM인 Prisma에서 Products 모델의 update 메서드를 사용해 데이터를 수정합니다.
@@ -89,9 +93,10 @@ export class ProductsRepository {
       data: {
         name,
         description,
-        status,
         price,
-        userType,
+        status,
+        author,
+        image,
         updatedAt,
       },
     });
