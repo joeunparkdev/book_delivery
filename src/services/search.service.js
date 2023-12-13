@@ -53,7 +53,7 @@ export class SearchService {
                 const filteredProducts = products.filter(product => product.price <= price);
 
                 if (filteredProducts.length === 0) {
-                    throw new Error('조건에 맞는 상품이 없습니다.');
+                    throw new Error("해당 가격보다 낮은 가격대의 상품을 찾을 수 없습니다.");
                 }
 
                 console.log(filteredProducts);

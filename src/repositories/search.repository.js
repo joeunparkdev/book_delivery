@@ -5,7 +5,9 @@ export class SearchRepository {
 
         const products = await prisma.products.findMany({
             where: {
-                name: name,
+                name: {
+                    contains: name
+                }
             },
         });
 
@@ -15,7 +17,9 @@ export class SearchRepository {
 
         const products = await prisma.products.findMany({
             where: {
-                author: author,
+                author: {
+                    contains: author
+                }
             },
         });
 
@@ -25,7 +29,9 @@ export class SearchRepository {
 
         const products = await prisma.products.findMany({
             where: {
-                status: status,
+                status: {
+                    contains: status
+                }
             },
         });
 

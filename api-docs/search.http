@@ -6,7 +6,7 @@ Content-Type: application/json
 {
 "name" : "책입니다",
   "price": 5
-}
+} 
 
 ###api/search
 GET https://localhost:3002/api/search/name
@@ -14,7 +14,7 @@ Accept: */*
 Content-Type: application/json
 
 {
-"name" : ""
+"name" : "cu"
 }
 
 
@@ -24,8 +24,7 @@ Accept: */*
 Content-Type: application/json
 
 {
-"name" : "책입니다",
-  "price": 5
+"author" : "그"
 }
 
 
@@ -35,8 +34,7 @@ Accept: */*
 Content-Type: application/json
 
 {
-"name" : "책입니다",
-  "price": 5
+  "price": 1000000
 }
 
 ###api/search
@@ -45,11 +43,10 @@ Accept: */*
 Content-Type: application/json
 
 {
-"name" : "책입니다",
-  "price": 5
+"status": "FOR"
 }
 ###api/search
-GET https://localhost:3002/api/search/bookstores/집
+GET https://localhost:3002/api/search/bookstores/keyword/집
 Accept: */*
 Content-Type: application/json
 
@@ -79,10 +76,10 @@ Content-Type: application/json
 }
 
 ###api/search
-GET https://localhost:3002/api/search/keyword/좋은,S
+GET https://localhost:3002/api/search/products/맥너
 Accept: */*
 Content-Type: application/json
 
 {
-    "price": 0
+    "price":0
 }
