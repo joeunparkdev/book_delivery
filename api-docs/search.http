@@ -1,15 +1,10 @@
  ###api/search
-GET https://localhost:3002/api/search
+GET https://localhost:3002/api/search/products
 Accept: */*
 Content-Type: application/json
 
-{
-"name" : "책입니다",
-  "price": 5
-} 
-
 ###api/search
-GET https://localhost:3002/api/search/name
+GET https://localhost:3002/api/search/products/name
 Accept: */*
 Content-Type: application/json
 
@@ -19,7 +14,7 @@ Content-Type: application/json
 
 
 ###api/search
-GET https://localhost:3002/api/search/author
+GET https://localhost:3002/api/search/products/author
 Accept: */*
 Content-Type: application/json
 
@@ -29,7 +24,7 @@ Content-Type: application/json
 
 
 ###api/search
-GET https://localhost:3002/api/search/price
+GET https://localhost:3002/api/search/products/price
 Accept: */*
 Content-Type: application/json
 
@@ -38,17 +33,29 @@ Content-Type: application/json
 }
 
 ###api/search
-GET https://localhost:3002/api/search/status
+GET https://localhost:3002/api/search/products/status
 Accept: */*
 Content-Type: application/json
 
 {
 "status": "FOR"
 }
+
+
 ###api/search
-GET https://localhost:3002/api/search/bookstores/keyword/집
+GET https://localhost:3002/api/search/products/keyword/맥너
 Accept: */*
 Content-Type: application/json
+
+{
+    "price":0
+}
+
+###api/search
+GET https://localhost:3002/api/search/bookstores
+Accept: */*
+Content-Type: application/json
+
 
 ###api/search
 GET https://localhost:3002/api/search/bookstores/status
@@ -76,10 +83,6 @@ Content-Type: application/json
 }
 
 ###api/search
-GET https://localhost:3002/api/search/products/맥너
+GET https://localhost:3002/api/search/bookstores/keyword/집
 Accept: */*
 Content-Type: application/json
-
-{
-    "price":0
-}

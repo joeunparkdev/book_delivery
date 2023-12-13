@@ -3,6 +3,16 @@ import { SearchRepository } from "../repositories/search.repository.js";
 export class SearchService {
     searchRepository = new SearchRepository();
 
+    findProducts = async() => {
+
+        const products = await this.searchRepository.findProducts();
+
+        products.sort((a, b) => {
+            return b.createdAt - a.createdAt;
+        });
+        return products
+    }
+
     findProductsByName = async(name) => {
         try {
             const products = await this.searchRepository.findProductsByName(name);
@@ -66,19 +76,11 @@ export class SearchService {
         }
     }
 
-    findStoreByKeyword = async(keyword) => {
-        try {
-            const stores = await this.searchRepository.findStoreByKeyword(keyword);
+    findStores = async() => {
 
-            console.log(stores)
-            if (stores.length === 0) {
-                throw new Error('스토어가 존재하지 않습니다.')
-            }
+        const stores = await this.searchRepository.findStores();
 
-            return stores;
-        } catch (err) {
-            throw new Error('findStoreByKeyword을 실패하였습니다.')
-        }
+        return stores
     }
 
     findStoresByName = async(name) => {
@@ -106,6 +108,21 @@ export class SearchService {
             return stores;
         } catch (err) {
             throw err;
+        }
+    }
+
+    findStoreByKeyword = async(keyword) => {
+        try {
+            const stores = await this.searchRepository.findStoreByKeyword(keyword);
+
+            console.log(stores)
+            if (stores.length === 0) {
+                throw new Error('스토어가 존재하지 않습니다.')
+            }
+
+            return stores;
+        } catch (err) {
+            throw new Error('findStoreByKeyword을 실패하였습니다.')
         }
     }
 

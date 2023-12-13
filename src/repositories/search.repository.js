@@ -1,6 +1,15 @@
 import { prisma } from "../utils/prisma/index.js";
 
 export class SearchRepository {
+
+
+    findProducts = async() => {
+
+        const products = await prisma.products.findMany();
+
+        return products
+    }
+
     findProductsByName = async(name) => {
 
         const products = await prisma.products.findMany({
@@ -85,45 +94,12 @@ export class SearchRepository {
         return products;
     }
 
-    findStoreByKeyword = async(keyword) => {
-        const keywords = keyword.split(',');
+    findStores = async() => {
 
-        console.log(keywords)
-        console.log(keyword)
+        const stores = await prisma.bookstores.findMany();
 
-        const stores = await prisma.bookstores.findMany({
-            where: {
-                OR: keywords.map(keyword => ({
-                    OR: [{
-                            name: {
-                                contains: keyword
-                            }
-                        },
-                        {
-                            address: {
-                                contains: keyword
-                            }
-                        },
-                        {
-                            description: {
-                                contains: keyword
-                            }
-                        },
-                        {
-                            status: {
-                                contains: keyword
-                            }
-                        },
-                    ]
-                }))
-            }
-        });
-
-        console.log(stores);
-        return stores;
+        return stores
     }
-
-
 
     findStoresByName = async(name) => {
 
@@ -161,5 +137,39 @@ export class SearchRepository {
 
         return stores;
     };
+
+    findStoreByKeyword = async(keyword) => {
+        const keywords = keyword.split(',');
+
+        const stores = await prisma.bookstores.findMany({
+            where: {
+                OR: keywords.map(keyword => ({
+                    OR: [{
+                            name: {
+                                contains: keyword
+                            }
+                        },
+                        {
+                            address: {
+                                contains: keyword
+                            }
+                        },
+                        {
+                            description: {
+                                contains: keyword
+                            }
+                        },
+                        {
+                            status: {
+                                contains: keyword
+                            }
+                        },
+                    ]
+                }))
+            }
+        });
+
+        return stores;
+    }
 
 }

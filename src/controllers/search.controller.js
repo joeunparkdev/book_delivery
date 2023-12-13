@@ -1,20 +1,17 @@
 import { SearchService } from "../services/search.service.js"
-import { ProductsService } from "../services/products.service.js"
-
-//스토어 찾기
-//상품찾기( "name": "책입니다",
-//   "description": "설명입니다",
-//   "status": "FOR_SALE",
-//   "price": 10000,)
-// name        String
-//   price       Int
-//   address
-
-
 export class SearchController {
 
-
     searchService = new SearchService();
+
+    findProducts = async(req, res, next) => {
+        try {
+            const products = await this.searchService.findProducts();
+
+            return res.status(200).json({ data: products });
+        } catch (err) {
+            next(err);
+        }
+    };
 
 
     findProductsByName = async(req, res, next) => {
@@ -115,6 +112,16 @@ export class SearchController {
         }
 
     }
+
+    findStores = async(req, res, next) => {
+        try {
+            const stores = await this.searchService.findStores();
+
+            return res.status(200).json({ data: stores });
+        } catch (err) {
+            next(err);
+        }
+    };
 
 
     findStoresByName = async(req, res, next) => {
