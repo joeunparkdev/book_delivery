@@ -8,12 +8,14 @@ const main = async () => {
       username: "Alice",
       password: "$2b$10$6n6x71bnWE4RNgAVThAp2uSdMugTFpfT6fYgVLlJ6wgyLRUw.ciAq",
       isAdmin: true,
+      verificationCode: "123456"
     },
     {
       email: "bob@prisma.io",
       username: "Bob",
       password: "$2b$10$6n6x71bnWE4RNgAVThAp2uSdMugTFpfT6fYgVLlJ6wgyLRUw.ciAq",
       isAdmin: true,
+      verificationCode: "123456",
       products: {
         create: [
           {

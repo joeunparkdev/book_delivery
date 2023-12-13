@@ -139,7 +139,7 @@ export class UsersService {
     }
   }
 
-  createUser = async (username, password, email,userType) => {
+  createUser = async (username, password, email,userType,verificationCode) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const createdUser = await this.usersRepository.createUser(
@@ -147,6 +147,7 @@ export class UsersService {
       hashedPassword,
       email,
       userType,
+      verificationCode,
     );
 
     return {
@@ -155,6 +156,7 @@ export class UsersService {
       email: createdUser.email,
       password: createdUser.password,
       userType: createdUser.usertype,
+      verificationCode: createdUser.verificationCode,
       createdAt: createdUser.createdAt,
       updatedAt: createdUser.updatedAt,
     };

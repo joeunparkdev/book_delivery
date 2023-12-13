@@ -117,7 +117,8 @@ exports.Prisma.UsersScalarFieldEnum = {
   isAdmin: 'isAdmin',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  points: 'points'
+  points: 'points',
+  verificationCode: 'verificationCode'
 };
 
 exports.Prisma.ProductsScalarFieldEnum = {

@@ -27,6 +27,7 @@ model Users {
   bookstores    Bookstores[]
   Orders        Orders[]
   userReviews   Reviews[]       @relation("UserReviews")
+  verificationCode String
 }
 
 model Products {

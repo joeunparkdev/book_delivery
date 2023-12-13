@@ -1,4 +1,5 @@
 import { prisma } from "../utils/prisma/index.js";
+
 export class UsersRepository {
   findAllUsers = async () => {
     // ORM인 Prisma에서 Users 모델의 findMany 메서드를 사용해 데이터를 요청합니다.
@@ -40,9 +41,15 @@ export class UsersRepository {
     return user;
   };
 
+  generateVerificationCode = () => {
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    return code;
+  };
+
   createUser = async (username, password, email, usertype) => {
     try {
       // ORM인 Prisma에서 Users 모델의 create 메서드를 사용해 데이터를 요청합니다.
+      const verificationCode = this.generateVerificationCode();
       const createdUser = await prisma.users.create({
         data: {
           username,
@@ -50,6 +57,7 @@ export class UsersRepository {
           email,
           isAdmin: false,
           usertype,
+          verificationCode,
           points: usertype === "CLIENT" ? 1000000 : 0,
         },
       });
@@ -60,11 +68,12 @@ export class UsersRepository {
         console.error("이미 등록된 이메일 주소입니다.");
         throw new Error("이미 등록된 이메일 주소입니다.");
       }
-
+  
       console.error(error);
       throw error;
     }
   };
+  
 
   updateUser = async (userId, username, password, email, updatedAt) => {
     // ORM인 Prisma에서 Users 모델의 update 메서드를 사용해 데이터를 수정합니다.

@@ -15,7 +15,14 @@ export class AuthController {
   authService = new UsersService();
   refreshTokenService = new RefreshTokenService();
   accessToken = "";
-
+  transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'readingrocket9@gmail.com',
+      pass: 'codingcamp0000',
+    },
+  });
+  
   constructor() {
     this.accessToken = "";
   }
@@ -98,19 +105,25 @@ export class AuthController {
         throw new Error("잘못된 사용자 유형입니다");
       }
 
+      const verificationCode = this.generateVerificationCode(); 
     // 중복되지 않은 경우 회원가입 진행
       const newUser = await this.authService.createUser(
         username,
         password,
         email,
         userType,
+        verificationCode
       );
 
       const accessToken = this.generateAccessToken(newUser.id);
       const refreshToken = await this.generateRefreshToken(newUser.id);
 
       this.setCookie(res, accessToken);
-      //TODO: await sendVerificationEmail(email, accessToken);
+
+      await this.sendVerificationEmail(email, verificationCode);
+
+      console.log(`이메일이 성공적으로 전송되었습니다: ${info.messageId}`);
+
       return res.status(200).json({
         success: true,
         message: "사용자를 생성하였습니다.",
@@ -184,7 +197,6 @@ export class AuthController {
     res.clearCookie("authorization");
   };
 
-
   // TODO: 카카오 토큰 검증을 위한 함수
   verifyKakaoToken = async (accessToken) => {
     try {
@@ -232,27 +244,25 @@ export class AuthController {
       });
     }
   };
-  
-// Gmail SMTP 설정
-transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+
+// 6자리의 랜덤한 숫자로 이루어진 인증번호 생성 함수
+generateVerificationCode = () => {
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  return code;
+};
+
 
 // 이메일 전송 함수
-sendVerificationEmail = async (email, token) => {
+sendVerificationEmail = async (email, verificationCode) => {
   const mailOptions = {
-    from: 'your_email@gmail.com', // 발신자 이메일 주소
+    from: 'readingrocket9@gmail.com', // 발신자 이메일 주소
     to: email, // 수신자 이메일 주소
     subject: '이메일 인증',
-    text: `안녕하세요! 계정을 활성화하려면 다음 링크를 클릭하세요: http://localhost:3001/verify/${token}\n감사합니다!`,
+    text: `회원가입을 완료하려면 다음 인증번호 6자리를 입력하세요: ${verificationCode}`,
   };
 
   try {
-    const info = await transporter.sendMail(mailOptions);
+    const info = await this.transporter.sendMail(mailOptions);
     console.log(`이메일이 성공적으로 전송되었습니다: ${info.messageId}`);
   } catch (error) {
     console.error('이메일 전송 중 오류 발생:', error);

@@ -1666,6 +1666,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     points: number | null
+    verificationCode: string | null
   }
 
   export type UsersMaxAggregateOutputType = {
@@ -1679,6 +1680,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     points: number | null
+    verificationCode: string | null
   }
 
   export type UsersCountAggregateOutputType = {
@@ -1692,6 +1694,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     points: number
+    verificationCode: number
     _all: number
   }
 
@@ -1719,6 +1722,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     points?: true
+    verificationCode?: true
   }
 
   export type UsersMaxAggregateInputType = {
@@ -1732,6 +1736,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     points?: true
+    verificationCode?: true
   }
 
   export type UsersCountAggregateInputType = {
@@ -1745,6 +1750,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     points?: true
+    verificationCode?: true
     _all?: true
   }
 
@@ -1845,6 +1851,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     points: number | null
+    verificationCode: string
     _count: UsersCountAggregateOutputType | null
     _avg: UsersAvgAggregateOutputType | null
     _sum: UsersSumAggregateOutputType | null
@@ -1877,6 +1884,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     points?: boolean
+    verificationCode?: boolean
     products?: boolean | Users$productsArgs<ExtArgs>
     refreshTokens?: boolean | Users$refreshTokensArgs<ExtArgs>
     userProducts?: boolean | Users$userProductsArgs<ExtArgs>
@@ -1899,6 +1907,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     points?: boolean
+    verificationCode?: boolean
   }
 
   export type UsersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1937,6 +1946,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       points: number | null
+      verificationCode: string
     }, ExtArgs["result"]["users"]>
     composites: {}
   }
@@ -2356,6 +2366,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Users", 'DateTime'>
     readonly updatedAt: FieldRef<"Users", 'DateTime'>
     readonly points: FieldRef<"Users", 'Int'>
+    readonly verificationCode: FieldRef<"Users", 'String'>
   }
     
 
@@ -9796,7 +9807,8 @@ export namespace Prisma {
     isAdmin: 'isAdmin',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    points: 'points'
+    points: 'points',
+    verificationCode: 'verificationCode'
   };
 
   export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
@@ -9957,6 +9969,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Users"> | Date | string
     updatedAt?: DateTimeFilter<"Users"> | Date | string
     points?: IntNullableFilter<"Users"> | number | null
+    verificationCode?: StringFilter<"Users"> | string
     products?: ProductsListRelationFilter
     refreshTokens?: RefreshTokenListRelationFilter
     userProducts?: UsersProductsListRelationFilter
@@ -9978,6 +9991,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     points?: SortOrderInput | SortOrder
+    verificationCode?: SortOrder
     products?: ProductsOrderByRelationAggregateInput
     refreshTokens?: RefreshTokenOrderByRelationAggregateInput
     userProducts?: UsersProductsOrderByRelationAggregateInput
@@ -10002,6 +10016,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Users"> | Date | string
     updatedAt?: DateTimeFilter<"Users"> | Date | string
     points?: IntNullableFilter<"Users"> | number | null
+    verificationCode?: StringFilter<"Users"> | string
     products?: ProductsListRelationFilter
     refreshTokens?: RefreshTokenListRelationFilter
     userProducts?: UsersProductsListRelationFilter
@@ -10023,6 +10038,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     points?: SortOrderInput | SortOrder
+    verificationCode?: SortOrder
     _count?: UsersCountOrderByAggregateInput
     _avg?: UsersAvgOrderByAggregateInput
     _max?: UsersMaxOrderByAggregateInput
@@ -10044,6 +10060,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Users"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Users"> | Date | string
     points?: IntNullableWithAggregatesFilter<"Users"> | number | null
+    verificationCode?: StringWithAggregatesFilter<"Users"> | string
   }
 
   export type ProductsWhereInput = {
@@ -10509,6 +10526,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    verificationCode: string
     products?: ProductsCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsCreateNestedManyWithoutUserInput
@@ -10530,6 +10548,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    verificationCode: string
     products?: ProductsUncheckedCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsUncheckedCreateNestedManyWithoutUserInput
@@ -10550,6 +10569,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    verificationCode?: StringFieldUpdateOperationsInput | string
     products?: ProductsUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUpdateManyWithoutUserNestedInput
@@ -10571,6 +10591,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    verificationCode?: StringFieldUpdateOperationsInput | string
     products?: ProductsUncheckedUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUncheckedUpdateManyWithoutUserNestedInput
@@ -10592,6 +10613,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    verificationCode: string
   }
 
   export type UsersUpdateManyMutationInput = {
@@ -10604,6 +10626,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    verificationCode?: StringFieldUpdateOperationsInput | string
   }
 
   export type UsersUncheckedUpdateManyInput = {
@@ -10617,6 +10640,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    verificationCode?: StringFieldUpdateOperationsInput | string
   }
 
   export type ProductsCreateInput = {
@@ -11180,6 +11204,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     points?: SortOrder
+    verificationCode?: SortOrder
   }
 
   export type UsersAvgOrderByAggregateInput = {
@@ -11199,6 +11224,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     points?: SortOrder
+    verificationCode?: SortOrder
   }
 
   export type UsersMinOrderByAggregateInput = {
@@ -11212,6 +11238,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     points?: SortOrder
+    verificationCode?: SortOrder
   }
 
   export type UsersSumOrderByAggregateInput = {
@@ -12860,6 +12887,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    verificationCode: string
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsCreateNestedManyWithoutUserInput
     followers?: FollowCreateNestedManyWithoutFollowerInput
@@ -12880,6 +12908,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    verificationCode: string
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsUncheckedCreateNestedManyWithoutUserInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput
@@ -13017,6 +13046,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    verificationCode?: StringFieldUpdateOperationsInput | string
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUpdateManyWithoutUserNestedInput
     followers?: FollowUpdateManyWithoutFollowerNestedInput
@@ -13037,6 +13067,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    verificationCode?: StringFieldUpdateOperationsInput | string
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUncheckedUpdateManyWithoutUserNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
@@ -13120,6 +13151,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    verificationCode: string
     products?: ProductsCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsCreateNestedManyWithoutUserInput
@@ -13140,6 +13172,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    verificationCode: string
     products?: ProductsUncheckedCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsUncheckedCreateNestedManyWithoutUserInput
@@ -13207,6 +13240,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    verificationCode?: StringFieldUpdateOperationsInput | string
     products?: ProductsUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUpdateManyWithoutUserNestedInput
@@ -13227,6 +13261,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    verificationCode?: StringFieldUpdateOperationsInput | string
     products?: ProductsUncheckedUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUncheckedUpdateManyWithoutUserNestedInput
@@ -13262,6 +13297,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    verificationCode: string
     products?: ProductsCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsCreateNestedManyWithoutUserInput
     followers?: FollowCreateNestedManyWithoutFollowerInput
@@ -13282,6 +13318,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    verificationCode: string
     products?: ProductsUncheckedCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsUncheckedCreateNestedManyWithoutUserInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput
@@ -13317,6 +13354,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    verificationCode?: StringFieldUpdateOperationsInput | string
     products?: ProductsUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUpdateManyWithoutUserNestedInput
     followers?: FollowUpdateManyWithoutFollowerNestedInput
@@ -13337,6 +13375,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    verificationCode?: StringFieldUpdateOperationsInput | string
     products?: ProductsUncheckedUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUncheckedUpdateManyWithoutUserNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
@@ -13356,6 +13395,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    verificationCode: string
     products?: ProductsCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     followers?: FollowCreateNestedManyWithoutFollowerInput
@@ -13376,6 +13416,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    verificationCode: string
     products?: ProductsUncheckedCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput
@@ -13443,6 +13484,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    verificationCode?: StringFieldUpdateOperationsInput | string
     products?: ProductsUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     followers?: FollowUpdateManyWithoutFollowerNestedInput
@@ -13463,6 +13505,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    verificationCode?: StringFieldUpdateOperationsInput | string
     products?: ProductsUncheckedUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
@@ -13520,6 +13563,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    verificationCode: string
     products?: ProductsCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsCreateNestedManyWithoutUserInput
@@ -13540,6 +13584,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    verificationCode: string
     products?: ProductsUncheckedCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsUncheckedCreateNestedManyWithoutUserInput
@@ -13607,6 +13652,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    verificationCode?: StringFieldUpdateOperationsInput | string
     products?: ProductsUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUpdateManyWithoutUserNestedInput
@@ -13627,6 +13673,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    verificationCode?: StringFieldUpdateOperationsInput | string
     products?: ProductsUncheckedUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUncheckedUpdateManyWithoutUserNestedInput
@@ -13684,6 +13731,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    verificationCode: string
     products?: ProductsCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsCreateNestedManyWithoutUserInput
@@ -13704,6 +13752,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    verificationCode: string
     products?: ProductsUncheckedCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsUncheckedCreateNestedManyWithoutUserInput
@@ -13771,6 +13820,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    verificationCode?: StringFieldUpdateOperationsInput | string
     products?: ProductsUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUpdateManyWithoutUserNestedInput
@@ -13791,6 +13841,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    verificationCode?: StringFieldUpdateOperationsInput | string
     products?: ProductsUncheckedUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUncheckedUpdateManyWithoutUserNestedInput
@@ -13848,6 +13899,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    verificationCode: string
     products?: ProductsCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsCreateNestedManyWithoutUserInput
@@ -13868,6 +13920,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    verificationCode: string
     products?: ProductsUncheckedCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsUncheckedCreateNestedManyWithoutUserInput
@@ -13892,6 +13945,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    verificationCode: string
     products?: ProductsCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsCreateNestedManyWithoutUserInput
@@ -13912,6 +13966,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    verificationCode: string
     products?: ProductsUncheckedCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsUncheckedCreateNestedManyWithoutUserInput
@@ -13947,6 +14002,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    verificationCode?: StringFieldUpdateOperationsInput | string
     products?: ProductsUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUpdateManyWithoutUserNestedInput
@@ -13967,6 +14023,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    verificationCode?: StringFieldUpdateOperationsInput | string
     products?: ProductsUncheckedUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUncheckedUpdateManyWithoutUserNestedInput
@@ -13997,6 +14054,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    verificationCode?: StringFieldUpdateOperationsInput | string
     products?: ProductsUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUpdateManyWithoutUserNestedInput
@@ -14017,6 +14075,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    verificationCode?: StringFieldUpdateOperationsInput | string
     products?: ProductsUncheckedUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUncheckedUpdateManyWithoutUserNestedInput
