@@ -13,6 +13,7 @@ import productsRouter from "./routers/products.router.js";
 import usersRouter from "./routers/users.router.js";
 import authRouter from "./routers/auth.router.js";
 import bookstoresRouter from './routers/bookstore.roter.js';
+import searchRouter from './routers/search.router.js'
 
 const app = express();
 configurePassport(app);
@@ -32,7 +33,8 @@ app.use(cookieParser());
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/products", productsRouter);
-app.use("/api/stores", bookstoresRouter)
+app.use("/api/stores", bookstoresRouter);
+app.use("/api/search", searchRouter);
 
 app.use(errorHandlerMiddleware);
 

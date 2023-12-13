@@ -6,7 +6,9 @@ import { ProductsService } from "../services/products.service.js"
 //   "description": "설명입니다",
 //   "status": "FOR_SALE",
 //   "price": 10000,)
-
+// name        String
+//   price       Int
+//   address
 
 
 export class SearchController {
@@ -81,34 +83,89 @@ export class SearchController {
         }
     };
 
-
-    findProductsByWordAndStatus = async(req, res, next) => {
-
+    findProductByKeyword = async(req, res, next) => {
         try {
-            const { status } = req.body;
+            const { keyword } = req.params;
+            const { price } = req.body;
+            console.log(price)
 
-            if (!status) {
-                return res.status(400).json({ error: "상태를 선택해주세요" });
+            if (!keyword) {
+                return res.status(400).json({ error: "keyword을 입력해주세요" });
             }
+            const Producs = await this.searchService.findProductByKeyword(keyword, price);
 
-            const { name, description } = req.body;
-            if (!name || !description) {
-                return res.status(400).json({ error: "검색어를 입력해주세요" });
-            }
-
-            const productByStatus = await this.searchService.findProductsByStatus(status);
-            const productByWord = await this.searchService.findProductsByName(name, description);
-
-            const combinedResults = productByStatus.filter(productStatus =>
-                productByWord.some(productWord => productStatus.id === productWord.id)
-            );
-
-            return res.status(200).json(combinedResults);
+            return res.status(200).json(Producs);
         } catch (err) {
             next(err);
         }
 
     }
+    findStoreByKeyword = async(req, res, next) => {
+        try {
+            const { keyword } = req.params;
+
+            if (!keyword) {
+                return res.status(400).json({ error: "keyword을 입력해주세요" });
+            }
+            const stores = await this.searchService.findStoreByKeyword(keyword);
+
+            return res.status(200).json(stores);
+        } catch (err) {
+            next(err);
+        }
+
+    }
+
+
+    findStoresByName = async(req, res, next) => {
+
+        try {
+            const { name } = req.body;
+            if (!name) {
+                return res.status(400).json({ error: "검색어를 입력해주세요" });
+            }
+
+            const Stores = await this.searchService.findStoresByName(name);
+
+            return res.status(200).json({ data: Stores })
+        } catch (err) {
+            next(err);
+        }
+    }
+
+
+    findStoresByAddress = async(req, res, next) => {
+
+        try {
+            const { address } = req.body;
+            if (!address) {
+                return res.status(400).json({ error: "검색어를 입력해주세요" });
+            }
+
+            const stores = await this.searchService.findStoresByAddress(address);
+
+            return res.status(200).json({ data: stores })
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    findStoreByStatus = async(req, res, next) => {
+
+        try {
+            const { status } = req.body;
+            if (!status) {
+                return res.status(400).json({ error: "검색어를 입력해주세요" });
+            }
+
+            const stores = await this.searchService.findStoreByStatus(status);
+
+            return res.status(200).json({ data: stores })
+        } catch (err) {
+            next(err);
+        }
+    }
+
 
 }
 

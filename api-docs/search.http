@@ -3,4 +3,86 @@ GET https://localhost:3002/api/search
 Accept: */*
 Content-Type: application/json
 
-{ "name":"CU"}   
+{
+"name" : "책입니다",
+  "price": 5
+}
+
+###api/search
+GET https://localhost:3002/api/search/name
+Accept: */*
+Content-Type: application/json
+
+{
+"name" : ""
+}
+
+
+###api/search
+GET https://localhost:3002/api/search/author
+Accept: */*
+Content-Type: application/json
+
+{
+"name" : "책입니다",
+  "price": 5
+}
+
+
+###api/search
+GET https://localhost:3002/api/search/price
+Accept: */*
+Content-Type: application/json
+
+{
+"name" : "책입니다",
+  "price": 5
+}
+
+###api/search
+GET https://localhost:3002/api/search/status
+Accept: */*
+Content-Type: application/json
+
+{
+"name" : "책입니다",
+  "price": 5
+}
+###api/search
+GET https://localhost:3002/api/search/bookstores/집
+Accept: */*
+Content-Type: application/json
+
+###api/search
+GET https://localhost:3002/api/search/bookstores/status
+Accept: */*
+Content-Type: application/json
+
+{
+    "status": "open"
+}
+###api/search
+GET https://localhost:3002/api/search/bookstores/address
+Accept: */*
+Content-Type: application/json
+
+{
+"address" : "집"
+}
+###api/search
+GET https://localhost:3002/api/search/bookstores/name
+Accept: */*
+Content-Type: application/json
+
+{
+"name" : "우"
+}
+
+###api/search
+GET https://localhost:3002/api/search/keyword/좋은,S
+Accept: */*
+Content-Type: application/json
+
+{
+    "price": 0
+}
