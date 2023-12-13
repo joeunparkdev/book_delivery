@@ -4,14 +4,14 @@ Accept: */*
 Content-Type: application/json
 
 ### POST /api/products
-POST http://localhost:3001/api/products/
+POST http://localhost:3002/api/products/
 Accept: */*
 Content-Type: application/json
 
 {
-"name": "포스틱",
-"description": "맛 좋은 과자!",
-"price": 1500
+"name": "역행자",
+"description": "시간을 역행하는 자",
+"price": 15000
 }
 
 ### PUT /api/products/:productId
