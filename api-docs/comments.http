@@ -1,25 +1,30 @@
 
 
-POST http://localhost:3001/api/comment/1
+POST http://localhost:3001/api/review/5
 Accept: */*
 Content-Type: application/json
 
 {
-	"rating": 2,
-	"reviewText": "느낌적인 느낌"
+	"rating": 4,
+	"reviewText": "???? #$ㅇㄴ%$%^*^&*(&(ㅋㅋㅋㅋ"
 }
 
 ###
-GET http://localhost:3001/api/comment/1
+GET http://localhost:3001/api/review/5
 Accept: */*
 Content-Type: application/json
 
 ###
-PUT http://localhost:3001/api/comment/1
+PUT http://localhost:3001/api/review/6
 Accept: */*
 Content-Type: application/json
 
 {
-	"rating": 2,
-	"reviewText": "수정된 review입니다."
+	"rating": 5,
+	"reviewText": "수정된112234된 review입니다."
 }
+
+###
+DELETE http://localhost:3001/api/review/5
+Accept: */*
+Content-Type: application/json

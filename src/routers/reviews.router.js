@@ -13,4 +13,6 @@ router.post("/:productId", authMiddleware, reviewsController.createReviews);
 
 router.put("/:reviewId", authMiddleware, reviewsController.updateReview);
 
+router.delete("/:reviewId", authMiddleware, reviewsController.deleteReview);
+
 export default router;

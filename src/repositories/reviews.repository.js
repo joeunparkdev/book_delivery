@@ -1,10 +1,12 @@
 import { prisma } from "../utils/prisma/index.js";
 
 export class RivewsRepository {
-  findAllReviews = async () => {
+  findAllReviews = async (productId) => {
     // ORM인 Prisma에서 Products 모델의 findMany 메서드를 사용해 데이터를 요청합니다.
-    const reviews = await prisma.reviews.findMany();
-    console.log(reviews);
+    const reviews = await prisma.reviews.findMany({
+      where: { productId: +productId },
+    });
+
     return reviews;
   };
 
@@ -43,10 +45,18 @@ export class RivewsRepository {
         reviewId: +reviewId,
       },
       data: {
+        userId,
+        reviewId: +reviewId,
         rating,
         reviewText,
       },
     });
     return updatedReview;
+  };
+  deleteReview = async (reviewId) => {
+    const deletedReview = await prisma.reviews.delete({
+      where: { reviewId: +reviewId },
+    });
+    return deletedReview;
   };
 }
