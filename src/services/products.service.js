@@ -60,13 +60,15 @@ export class ProductsService {
     };
   };
 
-  createProduct = async (name, description, price, userId, usertype) => {
+  createProduct = async (name, description, price, author, image, userId) => {
     // 저장소(Repository)에게 데이터를 요청합니다.
     const createdProduct = await this.productsRepository.createProduct(
       name,
       description,
-      userId,
       price,
+      author,
+      image,
+      userId,
     );
 
     // 비즈니스 로직을 수행한 후 사용자에게 보여줄 데이터를 가공합니다.
@@ -77,6 +79,8 @@ export class ProductsService {
       description: createdProduct.description,
       status: createdProduct.status,
       price: createdProduct.price,
+      author: createdProduct.author,
+      image: createdProduct.image,
       usertype: createdProduct.usertype,
       createdAt: createdProduct.createdAt,
       updatedAt: createdProduct.updatedAt,
@@ -86,15 +90,16 @@ export class ProductsService {
   updateProduct = async (
     productId,
     name,
-    price,
     description,
+    price,
     status,
+    author,
+    image,
     updatedAt,
     userId,
   ) => {
     // 저장소(Repository)에게 특정 게시글 하나를 요청합니다.
     try {
-      console.log(userId);
       const existingProduct =
         await this.productsRepository.findProductById(productId);
       if (!existingProduct) {
@@ -109,8 +114,10 @@ export class ProductsService {
         productId,
         name,
         description,
-        status,
         price,
+        status,
+        author,
+        image,
         updatedAt,
       );
     } catch (error) {

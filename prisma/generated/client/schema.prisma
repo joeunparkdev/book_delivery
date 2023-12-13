@@ -32,8 +32,10 @@ model Users {
 model Products {
   productId      Int             @id @default(autoincrement()) @map("productId")
   name           String          @unique
+  author         String?
+  imageUrl       String?
   price          Int
-  description    String
+  description    String?
   status         String          @default("FOR_SALE")
   usertype       String          @default("OWNER")
   createdAt      DateTime        @default(now()) @map("createdAt")
