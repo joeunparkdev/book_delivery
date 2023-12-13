@@ -1,0 +1,6 @@
+ ###api/search
+GET https://localhost:3002/api/search
+Accept: */*
+Content-Type: application/json
+
+{ "name":"CU"}   
