@@ -33,7 +33,6 @@ model Products {
   productId      Int             @id @default(autoincrement()) @map("productId")
   name           String          @unique
   price          Int
-  city           String          @default("Unknown")
   description    String
   status         String          @default("FOR_SALE")
   createdAt      DateTime        @default(now()) @map("createdAt")

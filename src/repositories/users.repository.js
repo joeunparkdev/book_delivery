@@ -50,6 +50,7 @@ export class UsersRepository {
           email,
           isAdmin: false,
           usertype,
+          points: usertype === "CLIENT" ? 1000000 : 0,
         },
       });
       return createdUser;
