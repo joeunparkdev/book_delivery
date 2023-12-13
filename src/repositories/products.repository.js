@@ -1,5 +1,6 @@
 import { prisma } from "../utils/prisma/index.js";
 import PRODUCT_STATUS from "../constants/app.constants.js";
+import ENUMS from "../constants/app.constants.js";
 
 export class ProductsRepository {
   findAllProducts = async () => {
@@ -36,7 +37,7 @@ export class ProductsRepository {
         productId: product.productId,
         name: product.name,
         price: product.price,
-        city: product.city,
+        usertype: product.usertype,
         description: product.description,
         status: product.status,
         createdAt: product.createdAt,
@@ -48,9 +49,10 @@ export class ProductsRepository {
   createProduct = async (
     name,
     description,
-    userId,
     price,
-    city,
+    author,
+    image,
+    userId,
     createdAt,
     updatedAt,
   ) => {
@@ -59,9 +61,11 @@ export class ProductsRepository {
       data: {
         name,
         description,
-        status: PRODUCT_STATUS.FOR_SALE,
+        status: ENUMS.PRODUCT_STATUS.FOR_SALE,
         price,
-        city,
+        author,
+        imageUrl: image,
+        usertype: ENUMS.USER_TYPE.OWNER,
         userId,
         createdAt,
         updatedAt,
@@ -75,9 +79,10 @@ export class ProductsRepository {
     productId,
     name,
     description,
-    status,
     price,
-    city,
+    status,
+    author,
+    image,
     updatedAt,
   ) => {
     // ORM인 Prisma에서 Products 모델의 update 메서드를 사용해 데이터를 수정합니다.
@@ -88,9 +93,10 @@ export class ProductsRepository {
       data: {
         name,
         description,
-        status,
         price,
-        city,
+        status,
+        author,
+        image,
         updatedAt,
       },
     });

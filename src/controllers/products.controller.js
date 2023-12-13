@@ -1,5 +1,4 @@
 import { ProductsService } from "../services/products.service.js";
-import PRODUCT_STATUS from "../constants/app.constants.js";
 
 export class ProductsController {
   productsService = new ProductsService();
@@ -26,21 +25,31 @@ export class ProductsController {
     }
   };
 
+  uploadImage = (req, res) => {
+    console.log(req.file);
+    if (req.file) {
+      res.json({ url: req.file.location });
+    } else {
+      res.status(400).json({ message: "이미지 업로드에 실패했습니다." });
+    }
+  };
+
   createProduct = async (req, res, next) => {
     try {
       if (!req.user || !req.user.userId) {
         return res.status(401).json({ error: "User not logged in" });
       }
 
-      const { name, description, price, city } = req.body;
+      const { name, description, price, author, image } = req.body;
       const userId = req.user.userId;
 
       const newProduct = await this.productsService.createProduct(
         name,
         description,
         price,
+        author,
+        image,
         userId,
-        city,
         new Date(),
         new Date(),
       );
@@ -61,7 +70,7 @@ export class ProductsController {
         return res.status(401).json({ error: "User not logged in" });
       }
 
-      const { name, description, status, price, city } = req.body;
+      const { name, description, status, price, author, image } = req.body;
       const { productId } = req.params;
 
       const userId = req.user.userId;
@@ -69,10 +78,11 @@ export class ProductsController {
       await this.productsService.updateProduct(
         productId,
         name,
-        price,
-        city,
         description,
+        price,
         status,
+        author,
+        image,
         new Date(),
         userId,
       );
