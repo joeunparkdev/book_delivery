@@ -1,17 +1,17 @@
  ### GET /api/products
-GET https://localhost:3002/api/products/
+GET http://localhost:3001/api/products
 Accept: */*
 Content-Type: application/json
 
 ### POST /api/products
-POST https://localhost:3002/api/products/
+POST http://localhost:3001/api/products/
 Accept: */*
 Content-Type: application/json
 
 {
-"name": "CU",
-"description": "좋은 군것질이 많아서 좋아요!",
-"price": 2500
+"name": "포스틱",
+"description": "맛 좋은 과자!",
+"price": 1500
 }
 
 ### PUT /api/products/:productId

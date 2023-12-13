@@ -1,9 +1,9 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
 import { configurePassport } from "../src/passport/index.js";
 import express from "express";
-import http from "http"; 
+import http from "http";
 import https from "https";
 import fs from "fs";
 import cors from "cors";
@@ -12,6 +12,7 @@ import errorHandlerMiddleware from "./middlewares/error-handler.middleware.js";
 import productsRouter from "./routers/products.router.js";
 import usersRouter from "./routers/users.router.js";
 import authRouter from "./routers/auth.router.js";
+import reviewRouter from "./routers/reviews.router.js";
 
 const app = express();
 configurePassport(app);
@@ -31,6 +32,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/products", productsRouter);
+app.use("/api/review", reviewRouter);
 
 app.use(errorHandlerMiddleware);
 
