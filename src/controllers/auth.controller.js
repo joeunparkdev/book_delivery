@@ -18,8 +18,8 @@ export class AuthController {
   transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'readingrocket9@gmail.com',
-      pass: 'codingcamp0000',
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   });
   
@@ -255,7 +255,7 @@ generateVerificationCode = () => {
 // 이메일 전송 함수
 sendVerificationEmail = async (email, verificationCode) => {
   const mailOptions = {
-    from: 'readingrocket9@gmail.com', // 발신자 이메일 주소
+    from: process.env.EMAIL_USER, // 발신자 이메일 주소
     to: email, // 수신자 이메일 주소
     subject: '이메일 인증',
     text: `회원가입을 완료하려면 다음 인증번호 6자리를 입력하세요: ${verificationCode}`,
