@@ -37,7 +37,7 @@ export class ProductsRepository {
         productId: product.productId,
         name: product.name,
         price: product.price,
-        userType: product.userType,
+        usertype: product.usertype,
         description: product.description,
         status: product.status,
         createdAt: product.createdAt,
@@ -51,7 +51,6 @@ export class ProductsRepository {
     description,
     userId,
     price,
-    userType,
     createdAt,
     updatedAt,
   ) => {
@@ -62,7 +61,7 @@ export class ProductsRepository {
         description,
         status: ENUMS.PRODUCT_STATUS.FOR_SALE,
         price,
-        userType: ENUMS.USER_TYPE.OWNER,
+        usertype: ENUMS.USER_TYPE.OWNER,
         userId,
         createdAt,
         updatedAt,
@@ -78,7 +77,6 @@ export class ProductsRepository {
     description,
     status,
     price,
-    userType,
     updatedAt,
   ) => {
     // ORM인 Prisma에서 Products 모델의 update 메서드를 사용해 데이터를 수정합니다.
@@ -91,7 +89,6 @@ export class ProductsRepository {
         description,
         status,
         price,
-        userType,
         updatedAt,
       },
     });
