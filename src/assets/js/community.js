@@ -89,7 +89,7 @@ async function renderReviewCards() {
             <p class="card-text">별점: ${getStarRating(review.rating)}</p>
             <p class="card-text">내용: ${review.comment}</p>
             <p class="card-text">글쓴이: ${userName}</p>
-            <button class="btn btn-outline-success" onclick="deleteReview(${
+            <button class="btn btn-outline-primary" onclick="deleteReview(${
               review.id
             })">Delete</button>
             <button class="btn btn-success" onclick="editReview(${

@@ -1,7 +1,7 @@
 // 프로필 삭제: TODO
 async function deleteProfile() {
     try {
-        const response = await fetch(`/api/users`, {
+        const response = await fetch(`http://localhost:3001/api/users/me`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ async function deleteProfile() {
 // 프로필 가져오기
 async function getUserDetails() {
     try {
-            const response = await fetch(`/api/users`, {
+            const response = await fetch(`http://localhost:3001/api/users/me`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ async function getUserDetails() {
                 const userData = result.data; 
 
                 // Update HTML with user details
-                document.getElementById('userName').innerText = `이름: ${userData.name}`;
+                document.getElementById('userName').innerText = `이름: ${userData.username}`;
                 document.getElementById('userEmail').innerText = `Email: ${userData.email}`;
             } else if (response.status === 403) {
                 alert('조회할 권한이 없습니다.');

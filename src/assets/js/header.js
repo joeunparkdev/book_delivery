@@ -1,7 +1,7 @@
 // 비동기 함수로 로그인 여부 확인
 async function checkLoggedIn() {
   try {
-    const response = await fetch(`/api/users`, {
+    const response = await fetch(`http://localhost:3001/api/users`, {
       method: "GET",
       credentials: "include",
     });
@@ -96,7 +96,7 @@ function setupLoginButtons(isLoggedIn) {
 // 로그아웃
 async function logout() {
   try {
-    const response = await fetch(`/api/auth/logout/`, {
+    const response = await fetch(`http://localhost:3001/api/logout/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
