@@ -25,23 +25,16 @@ export class ProductsController {
     }
   };
 
-  uploadImage = (req, res) => {
-    console.log(req.file);
-    if (req.file) {
-      res.json({ url: req.file.location });
-    } else {
-      res.status(400).json({ message: "이미지 업로드에 실패했습니다." });
-    }
-  };
-
   createProduct = async (req, res, next) => {
     try {
       if (!req.user || !req.user.userId) {
         return res.status(401).json({ error: "User not logged in" });
       }
 
-      const { name, description, price, author, image } = req.body;
+      const { name, description, price, author } = req.body;
       const userId = req.user.userId;
+      const image = req.file?.location;
+      const imagePath = req?.imagePath;
 
       const newProduct = await this.productsService.createProduct(
         name,
@@ -49,6 +42,7 @@ export class ProductsController {
         price,
         author,
         image,
+        imagePath,
         userId,
         new Date(),
         new Date(),
@@ -70,10 +64,11 @@ export class ProductsController {
         return res.status(401).json({ error: "User not logged in" });
       }
 
-      const { name, description, status, price, author, image } = req.body;
+      const { name, description, status, price, author } = req.body;
       const { productId } = req.params;
-
+      const image = req.file.location;
       const userId = req.user.userId;
+      const imagePath = req?.imagePath;
 
       await this.productsService.updateProduct(
         productId,
@@ -83,6 +78,7 @@ export class ProductsController {
         status,
         author,
         image,
+        imagePath,
         new Date(),
         userId,
       );

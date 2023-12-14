@@ -16,7 +16,7 @@ Accept: */*
 Content-Type: application/json
 
 {
-  "email": "dkd123456@naver.com",
+  "email": "98876@naver.com",
   "password": "000000"
 }
 

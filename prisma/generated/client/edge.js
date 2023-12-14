@@ -21,7 +21,6 @@ const {
   warnOnce,
   defineDmmfProperty,
   Public,
-  detectRuntime,
 } = require('./runtime/edge')
 
 
@@ -31,11 +30,11 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 5.7.0
+ * Prisma Client JS version: 5.6.0
  * Query Engine version: 79fb5193cf0a8fdbef536e4b4a159cad677ab1b9
  */
 Prisma.prismaVersion = {
-  client: "5.7.0",
+  client: "5.6.0",
   engine: "79fb5193cf0a8fdbef536e4b4a159cad677ab1b9"
 }
 
@@ -217,7 +216,7 @@ const config = {
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../..",
-  "clientVersion": "5.7.0",
+  "clientVersion": "5.6.0",
   "engineVersion": "79fb5193cf0a8fdbef536e4b4a159cad677ab1b9",
   "datasourceNames": [
     "db"
