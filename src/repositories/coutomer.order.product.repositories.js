@@ -15,7 +15,7 @@ export class CustomerOrderProductRepository {
     const [updatedUser, createdOrder] = await prisma.$transaction([
       prisma.users.update({
         where: {
-          userId: userId,
+          userId: existUser.userId,
         },
         data: {
           points: points,
