@@ -27,6 +27,7 @@ const corsOptions = {
     credentials: true,
 };
 
+<<<<<<< HEAD
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -37,6 +38,12 @@ app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+=======
+app.use(cors(corsOptions));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+>>>>>>> parent of deaa21a (Merge pull request #11 from joeunparkdev/feature/signup)
 app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
