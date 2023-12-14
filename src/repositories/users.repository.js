@@ -99,16 +99,16 @@ export class UsersRepository {
     return code;
   };
 
-  createUser = async (username, password, email, usertype) => {
+  createUser = async (username, email, hashedPassword, usertype) => {
     try {
       // ORM인 Prisma에서 Users 모델의 create 메서드를 사용해 데이터를 요청합니다.
       const createdUser = await prisma.users.create({
         data: {
           username,
-          password,
           email,
-          isAdmin: false,
+          password: hashedPassword,
           usertype,
+          isAdmin: false,
           points: usertype === "CLIENT" ? 1000000 : 0,
         },
       });

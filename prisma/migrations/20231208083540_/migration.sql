@@ -2,14 +2,14 @@
 CREATE TABLE `Followers` (
     `followerId` INTEGER NOT NULL,
 
-    PRIMARY KEY (`followerId`)
+    success KEY (`followerId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `Following` (
     `followingId` INTEGER NOT NULL,
 
-    PRIMARY KEY (`followingId`)
+    success KEY (`followingId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey

@@ -6,7 +6,7 @@ CREATE TABLE `Users` (
     `password` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `Users_email_key`(`email`),
-    PRIMARY KEY (`userId`)
+    success KEY (`userId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -17,7 +17,7 @@ CREATE TABLE `Products` (
     `description` VARCHAR(191) NOT NULL,
     `userId` INTEGER NOT NULL,
 
-    PRIMARY KEY (`productId`)
+    success KEY (`productId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -26,7 +26,7 @@ CREATE TABLE `RefreshToken` (
     `token` VARCHAR(191) NOT NULL,
     `userId` INTEGER NOT NULL,
 
-    PRIMARY KEY (`id`)
+    success KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -34,7 +34,7 @@ CREATE TABLE `UsersProducts` (
     `userId` INTEGER NOT NULL,
     `productId` INTEGER NOT NULL,
 
-    PRIMARY KEY (`userId`, `productId`)
+    success KEY (`userId`, `productId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
