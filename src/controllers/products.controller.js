@@ -40,7 +40,11 @@ export class ProductsController {
         return res.status(401).json({ error: "User not logged in" });
       }
 
+<<<<<<< HEAD
+      const { name, description, price } = req.body;
+=======
       const { name, description, price, author, image } = req.body;
+>>>>>>> f919fef5a56913eccd2ddaf6ed108da4a50360af
       const userId = req.user.userId;
 
       const newProduct = await this.productsService.createProduct(
@@ -70,7 +74,11 @@ export class ProductsController {
         return res.status(401).json({ error: "User not logged in" });
       }
 
+<<<<<<< HEAD
+      const { name, description, status, price } = req.body;
+=======
       const { name, description, status, price, author, image } = req.body;
+>>>>>>> f919fef5a56913eccd2ddaf6ed108da4a50360af
       const { productId } = req.params;
 
       const userId = req.user.userId;
@@ -78,6 +86,10 @@ export class ProductsController {
       await this.productsService.updateProduct(
         productId,
         name,
+<<<<<<< HEAD
+        price,
+=======
+>>>>>>> f919fef5a56913eccd2ddaf6ed108da4a50360af
         description,
         price,
         status,

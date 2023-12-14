@@ -16,11 +16,11 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 5.7.0
+ * Prisma Client JS version: 5.6.0
  * Query Engine version: 79fb5193cf0a8fdbef536e4b4a159cad677ab1b9
  */
 Prisma.prismaVersion = {
-  client: "5.7.0",
+  client: "5.6.0",
   engine: "79fb5193cf0a8fdbef536e4b4a159cad677ab1b9"
 }
 
@@ -117,7 +117,8 @@ exports.Prisma.UsersScalarFieldEnum = {
   isAdmin: 'isAdmin',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  points: 'points'
+  points: 'points',
+  isVerified: 'isVerified'
 };
 
 exports.Prisma.ProductsScalarFieldEnum = {
@@ -184,6 +185,14 @@ exports.Prisma.FollowScalarFieldEnum = {
   followingId: 'followingId'
 };
 
+exports.Prisma.VerifyScalarFieldEnum = {
+  verificationId: 'verificationId',
+  email: 'email',
+  verificationCode: 'verificationCode',
+  createdAt: 'createdAt',
+  expiredAt: 'expiredAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -203,7 +212,8 @@ exports.Prisma.ModelName = {
   UsersProducts: 'UsersProducts',
   Orders: 'Orders',
   Reviews: 'Reviews',
-  Follow: 'Follow'
+  Follow: 'Follow',
+  Verify: 'Verify'
 };
 
 /**

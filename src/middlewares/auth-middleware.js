@@ -1,6 +1,6 @@
+import { RefreshTokenService } from "../services/refreshTokenService.js";
 import jwt from "jsonwebtoken";
 import { JWT_ACCESS_TOKEN_SECRET } from "../constants/security.constant.js";
-import { RefreshTokenService } from "../services/refreshTokenService.js";
 import { prisma } from "../utils/prisma/index.js";
 
 const refreshTokenManagementService = new RefreshTokenService();
@@ -96,4 +96,4 @@ const adminMiddleware = (req, res, next) => {
   next();
 };
 
-export { authMiddleware, adminMiddleware };
+export { checkVerificationCodeMiddleware, authMiddleware, adminMiddleware };

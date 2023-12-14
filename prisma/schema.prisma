@@ -27,6 +27,7 @@ model Users {
   bookstores    Bookstores[]
   Orders        Orders[]
   userReviews   Reviews[]       @relation("UserReviews")
+  isVerified    Boolean         @default(false)
 }
 
 model Products {
@@ -35,7 +36,7 @@ model Products {
   author         String?
   imageUrl       String?
   price          Int
-  description    String?
+  description    String
   status         String          @default("FOR_SALE")
   usertype       String          @default("OWNER")
   createdAt      DateTime        @default(now()) @map("createdAt")
@@ -117,4 +118,12 @@ model Follow {
   following   Users @relation("Following", fields: [followingId], references: [userId], onDelete: Cascade)
 
   @@id([followingId, followerId])
+}
+
+model Verify {
+  verificationId   Int      @id @default(autoincrement())
+  email            String
+  verificationCode String 
+  createdAt DateTime @default(now()) @map("createdAt")
+  expiredAt DateTime? @map("expiredAt")
 }
