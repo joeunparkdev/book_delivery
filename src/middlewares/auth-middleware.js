@@ -31,7 +31,7 @@ const authMiddleware = async (req, res, next) => {
     // 액세스 토큰의 유효성 검사
     const decodedPayload = jwt.verify(accessToken, JWT_ACCESS_TOKEN_SECRET);
     const userId = +decodedPayload.userId;
-    
+
     // 데이터베이스에서 사용자 정보 가져오기
     const user = await prisma.users.findUnique({
       where: { userId },
@@ -96,4 +96,4 @@ const adminMiddleware = (req, res, next) => {
   next();
 };
 
-export { checkVerificationCodeMiddleware, authMiddleware, adminMiddleware };
+export { authMiddleware, adminMiddleware };

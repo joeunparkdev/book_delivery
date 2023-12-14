@@ -40,17 +40,6 @@
       // Now use Kakao SDK directly
       Kakao.init('3980c403de0926c15940e444945aef79');
 
-      // Kakao.Auth.login({
-      //   scope: 'profile_nickname,account_email',
-      //   success: function (authObj) {
-      //     console.log('Kakao login success:', authObj);
-      //     // Handle the success case
-      //   },
-      //   fail: function (error) {
-      //     console.error('Kakao login fail:', error);
-      //     // Handle the failure case
-      //   },
-      // });
       Kakao.Auth.authorize({
         redirectUri: "http://localhost:3001/api/auth/kakao/callback",
       });
