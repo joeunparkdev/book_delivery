@@ -108,8 +108,8 @@ export class AuthController {
 
       const newUser = await this.authService.createUser(
         username,
-        password,
         email,
+        password,
         userType,
       );
 
@@ -303,6 +303,7 @@ export class AuthController {
     try {
       // 카카오 로그인 확인
       const kakaoAccount = req.user;
+      console.log(kakaoAccount);
       if (!kakaoAccount) {
         throw new Error("카카오 계정 정보를 찾을 수 없습니다.");
       }

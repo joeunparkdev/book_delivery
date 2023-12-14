@@ -1,17 +1,15 @@
 // URL에서 제품 ID를 가져오기
 const urlParams = new URLSearchParams(window.location.search);
-const productId = urlParams.get('id');
+const productId = urlParams.get("id");
 // 제품 ID가 null이 아닌 경우에만 서버에서 제품 정보를 가져옴
 if (productId) {
   // 서버에서 특정 제품 가져오기
   async function fetchProductDetails() {
     try {
-      const response = await axios.get(
-        `/api/products/${productId}`,
-      );
+      const response = await axios.get(`/api/products/${productId}`);
       return response.data.data;
     } catch (error) {
-      console.error('에러 ---', error);
+      console.error("에러 ---", error);
       throw error;
     }
   }
@@ -20,11 +18,11 @@ if (productId) {
   async function renderProductDetails() {
     try {
       const product = await fetchProductDetails();
-      const productDetailContainer = document.getElementById('productDetail');
-      const quantityInput = document.getElementById('quantity');
-      const addToCartBtn = document.getElementById('addToCartBtn');
-      const directPurchaseBtn = document.getElementById('directPurchaseBtn');
-      const totalAmountSpan = document.getElementById('totalAmount');
+      const productDetailContainer = document.getElementById("productDetail");
+      const quantityInput = document.getElementById("quantity");
+      const addToCartBtn = document.getElementById("addToCartBtn");
+      const directPurchaseBtn = document.getElementById("directPurchaseBtn");
+      const totalAmountSpan = document.getElementById("totalAmount");
 
       const imageUrl = `https://tqklhszfkvzk6518638.cdn.ntruss.com/product/${product.image}`;
 
@@ -33,42 +31,42 @@ if (productId) {
           <img src="${imageUrl}" class="img-fluid" alt="${product.name}">
         </div>
         <div class="col-md-8">
-          <h3 class="text-primary">${product.name}</h3>
+          <h3 class="text-success">${product.name}</h3>
           <p class="text-muted">${product.description}</p>
-          <p class="text-primary">가격: ${product.price}원</p>
+          <p class="text-success">가격: ${product.price}원</p>
           <!-- 추가적인 상세 정보를 여기에 표시하세요 -->
         </div>
       `;
 
       // 수량 변경 및 버튼에 대한 이벤트 리스너 등록
-      quantityInput.addEventListener('input', updateTotalAmount);
+      quantityInput.addEventListener("input", updateTotalAmount);
 
-      addToCartBtn.addEventListener('click', function () {
+      addToCartBtn.addEventListener("click", function () {
         addToCart(product, parseInt(quantityInput.value, 10));
       });
 
-      directPurchaseBtn.addEventListener('click', function () {
+      directPurchaseBtn.addEventListener("click", function () {
         directPurchase(product, parseInt(quantityInput.value, 10));
       });
 
       // 초기 총액 계산
       updateTotalAmount();
     } catch (error) {
-      console.error('에러 ---', error);
+      console.error("에러 ---", error);
     }
   }
 
   // 수량에 따라 총액 업데이트
   async function updateTotalAmount() {
     try {
-      const quantityInput = document.getElementById('quantity');
-      const totalAmountSpan = document.getElementById('totalAmount');
+      const quantityInput = document.getElementById("quantity");
+      const totalAmountSpan = document.getElementById("totalAmount");
 
       // 제품 가격 가져오기
       const product = await fetchProductDetails();
 
       // 가격에서 쉼표 제거하고 정수로 변환
-      const productPrice = parseInt(product.price.replace(',', ''));
+      const productPrice = parseInt(product.price.replace(",", ""));
 
       // 총액 계산
       const totalAmount = productPrice * parseInt(quantityInput.value, 10);
@@ -76,16 +74,16 @@ if (productId) {
       // 총액 화면에 업데이트
       totalAmountSpan.innerText = `${totalAmount}원`;
     } catch (error) {
-      console.error('에러 ---', error);
+      console.error("에러 ---", error);
     }
   }
 
   async function addToCart(product, quantity) {
     try {
       const response = await fetch(`/api/cart`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           productId: product.id,
@@ -103,16 +101,16 @@ if (productId) {
         // 모달 열기
         openModal();
       } else {
-        alert("로그인을 해주세요!")
-        console.error('오류:', response.status, response.statusText);
+        alert("로그인을 해주세요!");
+        console.error("오류:", response.status, response.statusText);
       }
     } catch (error) {
-      console.error('오류:', error);
+      console.error("오류:", error);
     }
   }
 
   // 페이지 로드 시 모달 초기화
-  const myModal = new bootstrap.Modal(document.getElementById('myModal'));
+  const myModal = new bootstrap.Modal(document.getElementById("myModal"));
 
   // 모달 열기 함수
   function openModal() {
@@ -136,6 +134,6 @@ if (productId) {
     window.onload = renderProductDetails;
   }
 } else {
-  console.error('상품 ID가 없습니다.');
+  console.error("상품 ID가 없습니다.");
   // 상품 ID가 없을 경우에 대한 처리를 추가
 }

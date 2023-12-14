@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import { configurePassport } from "../src/passport/index.js";
 import express from "express";
 import http from "http";
 import https from "https";
@@ -17,22 +16,29 @@ import authRouter from "./routers/auth.router.js";
 import bookstoresRouter from "./routers/bookstore.roter.js";
 import reviewRouter from "./routers/reviews.router.js";
 import searchRouter from "./routers/search.router.js";
+import configurePassport from "../src/passport/index.js";
 
 const app = express();
-configurePassport(app);
 
 // CORS 설정
 const corsOptions = {
-  origin: "http://localhost:8080",
+  origin: ["http://localhost:5500", "http://127.0.0.1:5500"],
+  optionsSuccessStatus: 200, // 일부 레거시 브라우저에서 204 응답에 문제가 있을 때
   credentials: true,
 };
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  next();
+});
 
 app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-
+configurePassport(app);
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/products", productsRouter);
