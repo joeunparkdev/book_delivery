@@ -63,7 +63,7 @@ function sign_up() {
     verificationCode,
   };
 
-  fetch(`/api/auth/signup/${usertype}`, {
+  fetch(`http://localhost:3001/api/auth/signup/${usertype}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -91,7 +91,7 @@ function sign_in() {
   const email = document.getElementById("inputEmail").value;
   const password = document.getElementById("inputPassword").value;
 
-  fetch(`/api/auth/signin`, {
+  fetch(`http://localhost:3001/api/auth/signin`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -124,7 +124,7 @@ async function send_code() {
   }
 
   try {
-    const response = await fetch(`/api/auth/sendCode`, {
+    const response = await fetch(`http://localhost:3001/api/auth/sendCode`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -162,7 +162,7 @@ function verify_code() {
   };
 
   try {
-    fetch(`/api/auth/verify-code`, {
+    fetch(`http://localhost:3001/api/auth/verifyCode`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

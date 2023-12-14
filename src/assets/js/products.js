@@ -12,6 +12,13 @@ async function fetchProducts() {
   }
 }
 
+//상품 검색
+document.getElementById("searchButton").addEventListener("click", function() {
+  // 검색어 입력란의 값을 가져와서 사용하거나 검색 기능을 추가하세요.
+  var searchInput = document.querySelector(".form-control").value;
+  alert("검색어: " + searchInput);
+});
+
 // 상품 카드 렌더링하기
 async function renderReviewCards() {
   try {
