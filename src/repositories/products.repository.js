@@ -54,6 +54,7 @@ export class ProductsRepository {
     image,
     imagePath,
     userId,
+    bookstoreId,
     createdAt,
     updatedAt,
   ) => {
@@ -69,6 +70,7 @@ export class ProductsRepository {
         imagePath,
         usertype: ENUMS.USER_TYPE.OWNER,
         userId,
+        bookstoreId,
         createdAt,
         updatedAt,
       },
