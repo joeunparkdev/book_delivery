@@ -8,10 +8,12 @@ import https from "https";
 import fs from "fs";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
 import errorHandlerMiddleware from "./middlewares/error-handler.middleware.js";
 import productsRouter from "./routers/products.router.js";
 import usersRouter from "./routers/users.router.js";
 import authRouter from "./routers/auth.router.js";
+
 import bookstoresRouter from "./routers/bookstore.roter.js";
 import reviewRouter from "./routers/reviews.router.js";
 import searchRouter from "./routers/search.router.js";
@@ -25,10 +27,23 @@ const corsOptions = {
     credentials: true,
 };
 
+<<<<<<< HEAD
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  next();
+});
+
+app.use(cors(corsOptions));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+=======
 app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+>>>>>>> 3d5de2fc0609ee22ccf83990bcc1b1d28e6f0018
 app.use(cookieParser());
 
 app.use("/api/auth", authRouter);

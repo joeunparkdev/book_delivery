@@ -21,6 +21,8 @@ export class ProductsService {
         description: product.description,
         status: product.status,
         price: product.price,
+        author: product.author,
+        image: product.imageUrl,
         usertype: product.usertype,
         createdAt: product.createdAt,
         updatedAt: product.updatedAt,
@@ -60,7 +62,15 @@ export class ProductsService {
     };
   };
 
-  createProduct = async (name, description, price, author, image, userId) => {
+  createProduct = async (
+    name,
+    description,
+    price,
+    author,
+    image,
+    imagePath,
+    userId,
+  ) => {
     // 저장소(Repository)에게 데이터를 요청합니다.
     const createdProduct = await this.productsRepository.createProduct(
       name,
@@ -68,6 +78,7 @@ export class ProductsService {
       price,
       author,
       image,
+      imagePath,
       userId,
     );
 
@@ -81,6 +92,7 @@ export class ProductsService {
       price: createdProduct.price,
       author: createdProduct.author,
       image: createdProduct.image,
+      imagePath: createdProduct.imagePath,
       usertype: createdProduct.usertype,
       createdAt: createdProduct.createdAt,
       updatedAt: createdProduct.updatedAt,
@@ -95,6 +107,7 @@ export class ProductsService {
     status,
     author,
     image,
+    imagePath,
     updatedAt,
     userId,
   ) => {
@@ -118,6 +131,7 @@ export class ProductsService {
         status,
         author,
         image,
+        imagePath,
         updatedAt,
       );
     } catch (error) {

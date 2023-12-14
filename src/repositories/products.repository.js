@@ -52,6 +52,7 @@ export class ProductsRepository {
     price,
     author,
     image,
+    imagePath,
     userId,
     createdAt,
     updatedAt,
@@ -62,9 +63,10 @@ export class ProductsRepository {
         name,
         description,
         status: ENUMS.PRODUCT_STATUS.FOR_SALE,
-        price,
+        price: +price,
         author,
         imageUrl: image,
+        imagePath,
         usertype: ENUMS.USER_TYPE.OWNER,
         userId,
         createdAt,
@@ -83,8 +85,23 @@ export class ProductsRepository {
     status,
     author,
     image,
+    imagePath,
     updatedAt,
   ) => {
+    const findS3Image = await prisma.products.findUnique({
+      where: {
+        productId: +productId,
+      },
+      select: {
+        imagePath: true,
+      },
+    });
+
+    await s3.deleteObject({
+      bucket: process.env.BUCKET,
+      key: findS3Image.imagePath,
+    });
+
     // ORM인 Prisma에서 Products 모델의 update 메서드를 사용해 데이터를 수정합니다.
     const updatedProduct = await prisma.products.update({
       where: {
@@ -96,7 +113,8 @@ export class ProductsRepository {
         price,
         status,
         author,
-        image,
+        imageUrl: image,
+        imagePath,
         updatedAt,
       },
     });
@@ -105,6 +123,20 @@ export class ProductsRepository {
   };
 
   deleteProduct = async (productId) => {
+    const findS3Image = await prisma.products.findUnique({
+      where: {
+        productId: +productId,
+      },
+      select: {
+        imagePath: true,
+      },
+    });
+
+    await s3.deleteObject({
+      bucket: process.env.BUCKET,
+      key: findS3Image.imagePath,
+    });
+
     // ORM인 Prisma에서 Products 모델의 delete 메서드를 사용해 데이터를 삭제합니다.
     const deletedProduct = await prisma.products.delete({
       where: {
@@ -117,6 +149,26 @@ export class ProductsRepository {
 
   deleteAllProducts = async () => {
     try {
+      const findS3Image = await prisma.products.findMany({
+        where: {
+          productId: +productId,
+        },
+        select: {
+          imagePath: true,
+        },
+      });
+
+      for (const image of findS3Image) {
+        const imagePath = image.imagePath;
+
+        try {
+          await s3.deleteObject({ Bucket: process.env.BUCKET, Key: imagePath });
+          console.log(`Object deleted successfully: ${imagePath}`);
+        } catch (error) {
+          console.error(`Error deleting object: ${imagePath}`, error);
+        }
+      }
+
       // ORM인 Prisma에서 Products 모델의 delete 메서드를 사용해 데이터를 삭제합니다.
       const deletedProducts = await prisma.products.deleteMany();
       return deletedProducts;

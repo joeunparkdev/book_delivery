@@ -5,21 +5,18 @@ import {
   authMiddleware,
   adminMiddleware,
 } from "../middlewares/auth-middleware.js";
-import s3Middleware from "../middlewares/s3-middleware.js";
+import s3MiddleWare from "../middlewares/s3-middleware.js";
 
 const productsController = new ProductsController();
 
 const router = express.Router();
-
-//이미지 업로드 라우터
-router.post("/upload", s3Middleware, productsController.uploadImage);
 
 //TODO: 상품 추천해요, 비추천해요, 평점주기
 // 상품 생성 API
 router.post(
   "/",
   authMiddleware,
-  s3Middleware,
+  s3MiddleWare,
   productsController.createProduct,
 );
 
@@ -27,7 +24,7 @@ router.post(
 router.put(
   "/:productId",
   authMiddleware,
-  s3Middleware,
+  s3MiddleWare,
   productsController.updateProduct,
 );
 
