@@ -51,7 +51,7 @@ body {
 .Heading {
   font-size: 25px;
   font-weight: 700;
-  color: #198754;
+  color: #0D6EFD;
 }
 
 .removeAll {
@@ -203,7 +203,7 @@ hr {
   width: 100%;
   height: 40px;
   border: none;
-  background: #198754;
+  background: #0D6EFD;
   border-radius: 20px;
   cursor: pointer;
   font-size: 16px;
