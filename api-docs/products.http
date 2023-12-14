@@ -1,26 +1,27 @@
  ### GET /api/products
-GET http://localhost:3001/api/products
+GET https://localhost:3002/api/products/
 Accept: */*
 Content-Type: application/json
 
 ### POST /api/products
-POST http://localhost:3002/api/products/
+POST https://localhost:3002/api/products/
 Accept: */*
 Content-Type: application/json
 
 {
-"name": "역행자",
-"description": "시간을 역행하는 자",
-"price": 15000
+"name": "CU6",
+"description": "맥너",
+"author": "그르르",
+"price": 2500
 }
 
 ### PUT /api/products/:productId
-PUT https://localhost:3002/api/products/4
+PUT https://localhost:3002/api/products/12
 Accept: */*
 Content-Type: application/json
 
 {
-"name": "CU",
+"name": "CU4567",
 "description": "좋은 군것질이 많아서 좋아요!",
 "status": "SOLD",
 "price": 1500
