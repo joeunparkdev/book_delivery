@@ -15,8 +15,10 @@ import authRouter from "./routers/auth.router.js";
 
 import bookstoresRouter from "./routers/bookstore.roter.js";
 import reviewRouter from "./routers/reviews.router.js";
+import customerOrderRouter from "./routers/customer.order.router.js";
 import searchRouter from "./routers/search.router.js";
 import configurePassport from "../src/passport/index.js";
+
 
 const app = express();
 
@@ -66,7 +68,9 @@ app.use("/api/users", usersRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/review", reviewRouter);
 app.use("/api/stores", bookstoresRouter);
+app.use("/api/order", customerOrderRouter);
 app.use("/api/search", searchRouter);
+
 
 app.use(errorHandlerMiddleware);
 
