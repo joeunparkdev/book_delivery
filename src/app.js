@@ -13,7 +13,8 @@ import errorHandlerMiddleware from "./middlewares/error-handler.middleware.js";
 import productsRouter from "./routers/products.router.js";
 import usersRouter from "./routers/users.router.js";
 import authRouter from "./routers/auth.router.js";
-import bookstoresRouter from "./routers/bookstore.router.js";
+
+import bookstoresRouter from "./routers/bookstore.roter.js";
 import reviewRouter from "./routers/reviews.router.js";
 import searchRouter from "./routers/search.router.js";
 
