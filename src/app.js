@@ -15,7 +15,11 @@ import reviewRouter from "./routers/reviews.router.js";
 import customerOrderRouter from "./routers/customer.order.router.js";
 import searchRouter from "./routers/search.router.js";
 import configurePassport from "../src/passport/index.js";
+import path from "path";
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 
 dotenv.config();
@@ -46,6 +50,11 @@ app.use("/api/search", searchRouter);
 
 // 오류 처리 미들웨어
 app.use(errorHandlerMiddleware);
+
+// 정적 파일 제공
+const staticPath = path.join(__dirname, "assets");
+app.use("/assets", express.static(staticPath));
+console.log(staticPath);
 
 // 포트 정의
 const PORT = process.env.PORT || 3001;

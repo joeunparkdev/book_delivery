@@ -7,7 +7,7 @@ export default function configurePassport(app) {
     new KakaoStrategy(
       {
         clientID: "3980c403de0926c15940e444945aef79",
-        callbackURL: "http://localhost:3001/api/auth/kakao/callback",
+        callbackURL: "/api/auth/kakao/callback",
       },
       async (accessToken, refreshToken, profile, done) => {
         try {

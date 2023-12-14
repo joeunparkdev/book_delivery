@@ -68,13 +68,15 @@
               </div>
             </div>
             <div class="form-group row">
-              <label for="inputEmail" class="col-sm-4 col-form-label">이메일</label>
+              <label for="inputEmail" class="col-sm-4 col-form-label"
+                >이메일</label
+              >
               <div class="col-sm-8">
                 <div class="input-group align-items-start">
                   <input
                     type="text"
                     class="form-control"
-                    id="inputEmail" 
+                    id="inputEmail"
                     placeholder="email@email.com"
                   />
                   <div class="input-group-append">
@@ -87,15 +89,23 @@
                     </button>
                   </div>
                 </div>
-                <small id="emailHelp" class="form-text text-muted">입력 후 인증버튼을 클릭해주세요.</small>
+                <small id="emailHelp" class="form-text text-muted"
+                  >입력 후 인증버튼을 클릭해주세요.</small
+                >
               </div>
             </div>
-            
             <div class="form-group row">
-              <label for="inputVerificationCode" class="col-sm-4 col-form-label">인증번호</label>
+              <label for="inputVerificationCode" class="col-sm-4 col-form-label"
+                >인증번호</label
+              >
               <div class="col-sm-8">
                 <div class="input-group align-items-start">
-                  <input type="text" class="form-control" id="inputVerificationCode" /> <!-- Corrected ID here -->
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputVerificationCode"
+                  />
+                  <!-- Corrected ID here -->
                   <div class="input-group-append">
                     <button
                       class="btn btn-outline-sparta"
@@ -106,8 +116,13 @@
                     </button>
                   </div>
                 </div>
-                <small id="verificationCodeHelp" class="form-text text-muted">입력 후 확인버튼을 클릭해주세요.</small>
+                <small id="verificationCodeHelp" class="form-text text-muted"
+                  >입력 후 확인버튼을 클릭해주세요.</small
+                >
               </div>
+            </div>
+            <div id="timer-container" style="color: black">
+              <p>인증 제한 시간: <span id="timer">3:00</span></p>
             </div>
             <div class="form-group row">
               <label for="inputPassword1" class="col-sm-4 col-form-label"
@@ -218,6 +233,6 @@
     ></script>
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
-    <script src="../js/auth.js"></script>
+    <script src="../js/register.js"></script>
   </body>
 </html>

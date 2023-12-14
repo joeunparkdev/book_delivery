@@ -317,12 +317,7 @@ export class AuthController {
       const accessToken = this.generateAccessToken(+userId);
       const refreshToken = await this.generateRefreshToken(+userId);
       this.setCookie(res, accessToken);
-
-      return res.status(200).json({
-        success: true,
-        message: "카카오 로그인 성공",
-        data: { accessToken },
-      });
+      return res.redirect("http://localhost:3001/assets/html/main.html");
     } catch (error) {
       console.error(error);
       return res.status(500).json({
@@ -377,7 +372,6 @@ export class AuthController {
       });
     }
   };
-
 }
 
 export default AuthController;
