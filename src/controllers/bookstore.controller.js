@@ -36,7 +36,7 @@ export class StoresController {
     try {
       const userId = req.user.userId;
       const userType = req.user.usertype;
-      const image = req.file.location;
+      const imageUrl = req.file.location;
       const imagePath = req?.imagePath;
 
       if (userType !== "OWNER") {
@@ -46,7 +46,7 @@ export class StoresController {
         return res.status(401).json({ error: "User not logged in" });
       }
 
-      const { imageUrl, name, price, address, description, status } = req.body;
+      const { name, price, address, description, status } = req.body;
 
       const confirmStore = await this.storesService.findStoreByUserId(userId);
       console.log(confirmStore);
@@ -57,6 +57,7 @@ export class StoresController {
 
       const newStore = await this.storesService.createStore(
         imageUrl,
+        imagePath,
         name,
         price,
         address,

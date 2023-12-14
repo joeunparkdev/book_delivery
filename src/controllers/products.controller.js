@@ -35,7 +35,7 @@ export class ProductsController {
 
       const { name, description, price, author } = req.body;
       const userId = req.user.userId;
-      const image = req.file?.location;
+      const imageUrl = req.file?.location;
       const imagePath = req?.imagePath;
 
       const bookstore = await this.storesController.getMyStores(userId);
@@ -49,7 +49,7 @@ export class ProductsController {
         description,
         price,
         author,
-        image,
+        imageUrl,
         imagePath,
         userId,
         bookstoreId,
@@ -76,7 +76,7 @@ export class ProductsController {
       const { name, description, status, price, author } = req.body;
       const { productId } = req.params;
       const userId = req.user.userId;
-      const image = req.file.location;
+      const imageUrl = req.file.location;
       const imagePath = req?.imagePath;
 
       await this.productsService.updateProduct(
@@ -86,7 +86,7 @@ export class ProductsController {
         price,
         status,
         author,
-        image,
+        imageUrl,
         imagePath,
         new Date(),
         userId,
