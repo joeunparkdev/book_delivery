@@ -27,7 +27,6 @@ const corsOptions = {
     credentials: true,
 };
 
-<<<<<<< HEAD
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -38,12 +37,6 @@ app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-=======
-app.use(cors(corsOptions));
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
->>>>>>> 3d5de2fc0609ee22ccf83990bcc1b1d28e6f0018
 app.use(cookieParser());
 
 app.use("/api/auth", authRouter);

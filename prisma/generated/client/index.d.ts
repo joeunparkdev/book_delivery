@@ -2973,6 +2973,7 @@ export namespace Prisma {
     name: string | null
     author: string | null
     imageUrl: string | null
+    imagePath: string | null
     price: number | null
     description: string | null
     status: string | null
@@ -2987,6 +2988,7 @@ export namespace Prisma {
     name: string | null
     author: string | null
     imageUrl: string | null
+    imagePath: string | null
     price: number | null
     description: string | null
     status: string | null
@@ -3001,6 +3003,7 @@ export namespace Prisma {
     name: number
     author: number
     imageUrl: number
+    imagePath: number
     price: number
     description: number
     status: number
@@ -3029,6 +3032,7 @@ export namespace Prisma {
     name?: true
     author?: true
     imageUrl?: true
+    imagePath?: true
     price?: true
     description?: true
     status?: true
@@ -3043,6 +3047,7 @@ export namespace Prisma {
     name?: true
     author?: true
     imageUrl?: true
+    imagePath?: true
     price?: true
     description?: true
     status?: true
@@ -3057,6 +3062,7 @@ export namespace Prisma {
     name?: true
     author?: true
     imageUrl?: true
+    imagePath?: true
     price?: true
     description?: true
     status?: true
@@ -3158,6 +3164,7 @@ export namespace Prisma {
     name: string
     author: string | null
     imageUrl: string | null
+    imagePath: string | null
     price: number
     description: string
     status: string
@@ -3191,6 +3198,7 @@ export namespace Prisma {
     name?: boolean
     author?: boolean
     imageUrl?: boolean
+    imagePath?: boolean
     price?: boolean
     description?: boolean
     status?: boolean
@@ -3211,6 +3219,7 @@ export namespace Prisma {
     name?: boolean
     author?: boolean
     imageUrl?: boolean
+    imagePath?: boolean
     price?: boolean
     description?: boolean
     status?: boolean
@@ -3244,6 +3253,7 @@ export namespace Prisma {
       name: string
       author: string | null
       imageUrl: string | null
+      imagePath: string | null
       price: number
       description: string
       status: string
@@ -3658,6 +3668,7 @@ export namespace Prisma {
     readonly name: FieldRef<"Products", 'String'>
     readonly author: FieldRef<"Products", 'String'>
     readonly imageUrl: FieldRef<"Products", 'String'>
+    readonly imagePath: FieldRef<"Products", 'String'>
     readonly price: FieldRef<"Products", 'Int'>
     readonly description: FieldRef<"Products", 'String'>
     readonly status: FieldRef<"Products", 'String'>
@@ -10838,6 +10849,7 @@ export namespace Prisma {
     name: 'name',
     author: 'author',
     imageUrl: 'imageUrl',
+    imagePath: 'imagePath',
     price: 'price',
     description: 'description',
     status: 'status',
@@ -11104,6 +11116,7 @@ export namespace Prisma {
     name?: StringFilter<"Products"> | string
     author?: StringNullableFilter<"Products"> | string | null
     imageUrl?: StringNullableFilter<"Products"> | string | null
+    imagePath?: StringNullableFilter<"Products"> | string | null
     price?: IntFilter<"Products"> | number
     description?: StringFilter<"Products"> | string
     status?: StringFilter<"Products"> | string
@@ -11123,6 +11136,7 @@ export namespace Prisma {
     name?: SortOrder
     author?: SortOrderInput | SortOrder
     imageUrl?: SortOrderInput | SortOrder
+    imagePath?: SortOrderInput | SortOrder
     price?: SortOrder
     description?: SortOrder
     status?: SortOrder
@@ -11145,6 +11159,7 @@ export namespace Prisma {
     NOT?: ProductsWhereInput | ProductsWhereInput[]
     author?: StringNullableFilter<"Products"> | string | null
     imageUrl?: StringNullableFilter<"Products"> | string | null
+    imagePath?: StringNullableFilter<"Products"> | string | null
     price?: IntFilter<"Products"> | number
     description?: StringFilter<"Products"> | string
     status?: StringFilter<"Products"> | string
@@ -11164,6 +11179,7 @@ export namespace Prisma {
     name?: SortOrder
     author?: SortOrderInput | SortOrder
     imageUrl?: SortOrderInput | SortOrder
+    imagePath?: SortOrderInput | SortOrder
     price?: SortOrder
     description?: SortOrder
     status?: SortOrder
@@ -11186,6 +11202,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Products"> | string
     author?: StringNullableWithAggregatesFilter<"Products"> | string | null
     imageUrl?: StringNullableWithAggregatesFilter<"Products"> | string | null
+    imagePath?: StringNullableWithAggregatesFilter<"Products"> | string | null
     price?: IntWithAggregatesFilter<"Products"> | number
     description?: StringWithAggregatesFilter<"Products"> | string
     status?: StringWithAggregatesFilter<"Products"> | string
@@ -11749,6 +11766,7 @@ export namespace Prisma {
     name: string
     author?: string | null
     imageUrl?: string | null
+    imagePath?: string | null
     price: number
     description: string
     status?: string
@@ -11767,6 +11785,7 @@ export namespace Prisma {
     name: string
     author?: string | null
     imageUrl?: string | null
+    imagePath?: string | null
     price: number
     description: string
     status?: string
@@ -11784,6 +11803,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -11802,6 +11822,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -11820,6 +11841,7 @@ export namespace Prisma {
     name: string
     author?: string | null
     imageUrl?: string | null
+    imagePath?: string | null
     price: number
     description: string
     status?: string
@@ -11833,6 +11855,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -11846,6 +11869,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -12518,6 +12542,7 @@ export namespace Prisma {
     name?: SortOrder
     author?: SortOrder
     imageUrl?: SortOrder
+    imagePath?: SortOrder
     price?: SortOrder
     description?: SortOrder
     status?: SortOrder
@@ -12538,6 +12563,7 @@ export namespace Prisma {
     name?: SortOrder
     author?: SortOrder
     imageUrl?: SortOrder
+    imagePath?: SortOrder
     price?: SortOrder
     description?: SortOrder
     status?: SortOrder
@@ -12552,6 +12578,7 @@ export namespace Prisma {
     name?: SortOrder
     author?: SortOrder
     imageUrl?: SortOrder
+    imagePath?: SortOrder
     price?: SortOrder
     description?: SortOrder
     status?: SortOrder
@@ -13807,6 +13834,7 @@ export namespace Prisma {
     name: string
     author?: string | null
     imageUrl?: string | null
+    imagePath?: string | null
     price: number
     description: string
     status?: string
@@ -13824,6 +13852,7 @@ export namespace Prisma {
     name: string
     author?: string | null
     imageUrl?: string | null
+    imagePath?: string | null
     price: number
     description: string
     status?: string
@@ -14034,6 +14063,7 @@ export namespace Prisma {
     name?: StringFilter<"Products"> | string
     author?: StringNullableFilter<"Products"> | string | null
     imageUrl?: StringNullableFilter<"Products"> | string | null
+    imagePath?: StringNullableFilter<"Products"> | string | null
     price?: IntFilter<"Products"> | number
     description?: StringFilter<"Products"> | string
     status?: StringFilter<"Products"> | string
@@ -14537,6 +14567,7 @@ export namespace Prisma {
     name: string
     author?: string | null
     imageUrl?: string | null
+    imagePath?: string | null
     price: number
     description: string
     status?: string
@@ -14554,6 +14585,7 @@ export namespace Prisma {
     name: string
     author?: string | null
     imageUrl?: string | null
+    imagePath?: string | null
     price: number
     description: string
     status?: string
@@ -14787,6 +14819,7 @@ export namespace Prisma {
     name: string
     author?: string | null
     imageUrl?: string | null
+    imagePath?: string | null
     price: number
     description: string
     status?: string
@@ -14804,6 +14837,7 @@ export namespace Prisma {
     name: string
     author?: string | null
     imageUrl?: string | null
+    imagePath?: string | null
     price: number
     description: string
     status?: string
@@ -14888,6 +14922,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -14905,6 +14940,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -14967,6 +15003,7 @@ export namespace Prisma {
     name: string
     author?: string | null
     imageUrl?: string | null
+    imagePath?: string | null
     price: number
     description: string
     status?: string
@@ -14984,6 +15021,7 @@ export namespace Prisma {
     name: string
     author?: string | null
     imageUrl?: string | null
+    imagePath?: string | null
     price: number
     description: string
     status?: string
@@ -15068,6 +15106,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -15085,6 +15124,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -15147,6 +15187,7 @@ export namespace Prisma {
     name: string
     author?: string | null
     imageUrl?: string | null
+    imagePath?: string | null
     price: number
     description: string
     status?: string
@@ -15164,6 +15205,7 @@ export namespace Prisma {
     name: string
     author?: string | null
     imageUrl?: string | null
+    imagePath?: string | null
     price: number
     description: string
     status?: string
@@ -15248,6 +15290,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -15265,6 +15308,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -15478,6 +15522,7 @@ export namespace Prisma {
     name: string
     author?: string | null
     imageUrl?: string | null
+    imagePath?: string | null
     price: number
     description: string
     status?: string
@@ -15538,6 +15583,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -15555,6 +15601,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -15572,6 +15619,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -15850,6 +15898,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -15867,6 +15916,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -15884,6 +15934,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imagePath?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
