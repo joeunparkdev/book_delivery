@@ -1,5 +1,5 @@
 import { prisma } from "../utils/prisma/index.js";
-
+import aws from "aws-sdk";
 export class StoreRepository {
   // findAllStore
 
@@ -63,6 +63,7 @@ export class StoreRepository {
   // updateStore
   updateStore = async (
     bookstoreId,
+    imagePath,
     imageUrl,
     name,
     price,
@@ -73,14 +74,38 @@ export class StoreRepository {
     userId,
   ) => {
     try {
+      const findS3Image = await prisma.bookstores.findUnique({
+        where: {
+          bookstoreId: +bookstoreId,
+        },
+        select: {
+          imagePath: true,
+        },
+      });
+
+      new aws.S3({
+        accessKeyId: process.env.ACCESS_KEY,
+        secretAccessKey: process.env.SECRET_ACCESS_KEY,
+        region: process.env.REGION,
+      }).deleteObject({
+        Bucket: process.env.BUCKET,
+        Key: findS3Image.imagePath,
+      });
+
+      if (!imagePath || !imageUrl) {
+        imagePath = null;
+        imageUrl = null;
+      }
+
       const updatedStore = await prisma.bookstores.update({
         where: {
           bookstoreId: +bookstoreId,
         },
         data: {
+          imagePath,
           imageUrl,
           name,
-          price,
+          price: +price,
           address,
           description,
           status,
@@ -97,6 +122,24 @@ export class StoreRepository {
 
   // deleteStore
   deleteStore = async (bookstoreId) => {
+    const findS3Image = await prisma.bookstores.findUnique({
+      where: {
+        bookstoreId: +bookstoreId,
+      },
+      select: {
+        imagePath: true,
+      },
+    });
+
+    new aws.S3({
+      accessKeyId: process.env.ACCESS_KEY,
+      secretAccessKey: process.env.SECRET_ACCESS_KEY,
+      region: process.env.REGION,
+    }).deleteObject({
+      Bucket: process.env.BUCKET,
+      Key: findS3Image.imagePath,
+    });
+
     const deletedStore = await prisma.bookstores.delete({
       where: {
         bookstoreId: +bookstoreId,
