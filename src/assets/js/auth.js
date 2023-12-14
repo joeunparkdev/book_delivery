@@ -146,8 +146,13 @@ async function send_code() {
   }
 }
 
-function verify_code() {
-  const verificationCode = document.getElementById("inputVerificationCode").value;
+let attemptsRemaining = 3; // 허용된 시도 횟수
+let verificationTimer;
+
+async function verify_code() {
+  const verificationCode = document.getElementById(
+    "inputVerificationCode",
+  ).value;
 
   if (!verificationCode) {
     alert("인증 코드를 입력해주세요.");
@@ -162,27 +167,45 @@ function verify_code() {
   };
 
   try {
-    fetch(`http://localhost:3001/api/auth/verifyCode`, {
+    const response = await fetch(`http://localhost:3001/api/auth/verify`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
       mode: "cors",
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-        if (result.success) {
-          alert("인증 코드 확인 성공!");
-        } else {
-          alert("인증 코드 확인에 실패했습니다.");
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      alert("인증 코드 확인 성공!");
+      clearTimeout(verificationTimer); // 인증이 성공하면 타이머를 초기화
+    } else {
+      attemptsRemaining--;
+
+      if (attemptsRemaining > 0) {
+        alert(`잘못된 인증 코드입니다. 남은 시도 횟수: ${attemptsRemaining}`);
+      } else {
+        alert("최대 시도 횟수를 초과했습니다. 나중에 다시 시도해주세요.");
+        document.getElementById("verifyButton").disabled = true; // 최대 시도 횟수 초과 후 버튼 비활성화
+      }
+    }
   } catch (error) {
-    console.error("Error:", error);
+    console.error("에러:", error);
   }
 }
+
+// 페이지 로딩 또는 인증 프로세스 시작 시 타이머 시작
+function startVerificationTimer() {
+  verificationTimer = setTimeout(
+    () => {
+      alert("인증 시간이 만료되었습니다. 다시 시도해주세요.");
+      document.getElementById("verifyButton").disabled = true; // 시간 초과 후 버튼 비활성화
+    },
+    3 * 60 * 1000,
+  ); // 3분을 밀리초로 설정
+}
+
+// 페이지 로딩 시 타이머 시작을 위한 이벤트 리스너 추가
+document.addEventListener("DOMContentLoaded", startVerificationTimer);
