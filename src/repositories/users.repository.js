@@ -1,4 +1,5 @@
 import { prisma } from "../utils/prisma/index.js";
+
 export class UsersRepository {
   findAllUsers = async () => {
     // ORM인 Prisma에서 Users 모델의 findMany 메서드를 사용해 데이터를 요청합니다.
@@ -40,6 +41,64 @@ export class UsersRepository {
     return user;
   };
 
+  findCodeByEmail = async (email) => {
+    const verify = await prisma.verify.findMany({
+      where: {
+        email: email,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      take: 1,
+    });
+
+    return verify.length > 0 ? verify[0].verificationCode : null;
+  };
+
+  findExpiredDateByCode = async (verify) => {
+    const expiredDate = await prisma.verify.findFirst({
+      where: {
+        verificationCode: verify,
+      },
+    });
+    console.log(expiredDate);
+    return expiredDate;
+  };
+
+  isExpired = (expiredAt) => {
+    if (!expiredAt) {
+      return false;
+    }
+    const currentDateTime = new Date();
+    return currentDateTime > expiredAt;
+  };
+
+  createCode = async (email, verificationCode) => {
+    try {
+      const expirationDate = new Date();
+      console.log(expirationDate);
+      expirationDate.setMinutes(expirationDate.getMinutes() + 30); //1분
+      console.log(expirationDate);
+
+      const createdCode = await prisma.verify.create({
+        data: {
+          email,
+          verificationCode,
+          expiredAt: expirationDate,
+        },
+      });
+      return createdCode;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  generateVerificationCode = () => {
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    return code;
+  };
+
   createUser = async (username, password, email, usertype) => {
     try {
       // ORM인 Prisma에서 Users 모델의 create 메서드를 사용해 데이터를 요청합니다.
@@ -50,6 +109,7 @@ export class UsersRepository {
           email,
           isAdmin: false,
           usertype,
+          points: usertype === "CLIENT" ? 1000000 : 0,
         },
       });
       return createdUser;
@@ -192,26 +252,26 @@ export class UsersRepository {
     return result;
   };
 
-createKakaoUser = async (username, email, kakaoUserId, password) => {
-  try {
-    const userData = {
-      username,
-      email,
-      kakaoUserId,
-      password: "",
-      isAdmin: false,
-    };
+  createKakaoUser = async (username, email, kakaoUserId, password) => {
+    try {
+      const userData = {
+        username,
+        email,
+        kakaoUserId,
+        password: "",
+        isAdmin: false,
+      };
 
-    const newUser = await prisma.users.create({
-      data: userData,
-    });
+      const newUser = await prisma.users.create({
+        data: userData,
+      });
 
-    return newUser;
-  } catch (error) {
-    console.error('Error creating user:', error);
-    throw new Error('Failed to create user');
-  }
-};
+      return newUser;
+    } catch (error) {
+      console.error("Error creating user:", error);
+      throw new Error("Failed to create user");
+    }
+  };
 
   findUserByKakaoId = async (kakaoUserId) => {
     try {
@@ -223,9 +283,8 @@ createKakaoUser = async (username, email, kakaoUserId, password) => {
 
       return user;
     } catch (error) {
-      console.error('Error finding user by Kakao ID:', error);
-      throw new Error('Failed to find user by Kakao ID');
+      console.error("Error finding user by Kakao ID:", error);
+      throw new Error("Failed to find user by Kakao ID");
     }
   };
-
 }

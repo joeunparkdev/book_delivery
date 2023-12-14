@@ -1,14 +1,16 @@
-// 내 정보 조회 API
-GET http://localhost:3001/api/users/me
+
+### 내 정보 조회 API
+GET https://localhost:3002/api/users/me
+
 Accept: */*
 Content-Type: application/json
 
-//모든 사용자 조회 API
+###모든 사용자 조회 API
 GET https://localhost:3002/api/users/
 Accept: */*
 Content-Type: application/json
 
-//관리자 모드 - 관리자만 관리자 권한 부여
+###관리자 모드 - 관리자만 관리자 권한 부여
 POST https://localhost:3002/api/users/11/admin
 Accept: */*
 Content-Type: application/json

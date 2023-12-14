@@ -117,7 +117,8 @@ exports.Prisma.UsersScalarFieldEnum = {
   isAdmin: 'isAdmin',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  points: 'points'
+  points: 'points',
+  isVerified: 'isVerified'
 };
 
 exports.Prisma.ProductsScalarFieldEnum = {
@@ -125,6 +126,7 @@ exports.Prisma.ProductsScalarFieldEnum = {
   name: 'name',
   author: 'author',
   imageUrl: 'imageUrl',
+  imagePath: 'imagePath',
   price: 'price',
   description: 'description',
   status: 'status',
@@ -184,6 +186,14 @@ exports.Prisma.FollowScalarFieldEnum = {
   followingId: 'followingId'
 };
 
+exports.Prisma.VerifyScalarFieldEnum = {
+  verificationId: 'verificationId',
+  email: 'email',
+  verificationCode: 'verificationCode',
+  createdAt: 'createdAt',
+  expiredAt: 'expiredAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -203,7 +213,8 @@ exports.Prisma.ModelName = {
   UsersProducts: 'UsersProducts',
   Orders: 'Orders',
   Reviews: 'Reviews',
-  Follow: 'Follow'
+  Follow: 'Follow',
+  Verify: 'Verify'
 };
 
 /**
