@@ -1,3 +1,36 @@
+// - **“사장님” - PRODUCT CRUD 기능**
+//     - “사장님”은 책 정보를 등록 및 수정, 삭제를 할 수 있어야 합니다.
+//     - 메뉴 정보는 다음과 같습니다.
+//         - 이미지
+//         - 책 이름
+//         - 가격
+//     - 업장 내에서 동일한 책 이름으로는 재등록이 되지 않습니다.
+//     - 메뉴 목록은 모두가 볼 수 있어야 합니다.
+
+async function checkLoggedIn() {
+  try {
+    const response = await fetch(`/api/users/me`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return {
+        isLoggedIn: true,
+        userId: data.userId,
+        usertype:data.usertype,
+      };
+    } else {
+      console.error("Error checking login status:", response.statusText);
+      return { isLoggedIn: false, userId: null };
+    }
+  } catch (error) {
+    console.error("Error checking login status:", error);
+    return { isLoggedIn: false, userId: null };
+  }
+}
+
 // 전체 상품을 가져오는 함수
 async function fetchProducts() {
   try {

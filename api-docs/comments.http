@@ -15,6 +15,12 @@ Accept: */*
 Content-Type: application/json
 
 ###
+GET http://localhost:3001/api/review
+Accept: */*
+Content-Type: application/json
+
+
+###
 PUT http://localhost:3001/api/review/6
 Accept: */*
 Content-Type: application/json

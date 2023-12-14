@@ -8,21 +8,14 @@ const main = async () => {
       username: "Alice",
       password: "$2b$10$6n6x71bnWE4RNgAVThAp2uSdMugTFpfT6fYgVLlJ6wgyLRUw.ciAq",
       isAdmin: true,
+      usertype: "DEV",
     },
     {
       email: "bob@prisma.io",
       username: "Bob",
       password: "$2b$10$6n6x71bnWE4RNgAVThAp2uSdMugTFpfT6fYgVLlJ6wgyLRUw.ciAq",
       isAdmin: true,
-      products: {
-        create: [
-          {
-            name: "CU",
-            description: "좋은 군것질이 많아서 좋아요!",
-            price: 2500,
-          },
-        ],
-      },
+      usertype: "DEV",
     },
   ];
   const alice = await prisma.users.upsert({

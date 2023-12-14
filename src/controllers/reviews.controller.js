@@ -6,23 +6,11 @@ export class ReviewsController {
 
   // review 전체 조회
   getReviews = async (req, res, next) => {
-    try {
-      const { productId } = req.params;
-      const existProduct =
-        await this.productsRepository.findProductById(productId);
-      if (!existProduct) {
-        return res
-          .status(404)
-          .json({ message: "해당하는 책이 존재하지 않습니다." });
-      }
-      const reviews = await this.reviewsService.findAllReviews(productId);
+      const reviews = await this.reviewsService.findReviews(productId);
       console.log(reviews);
       return res
         .status(200)
         .json({ message: "reivew가 조회되었습니다.", data: reviews });
-    } catch (err) {
-      next(err);
-    }
   };
 
   // review 생성

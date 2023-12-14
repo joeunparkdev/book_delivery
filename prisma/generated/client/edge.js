@@ -218,7 +218,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/nomadcoder/documents/study_groups/project/book_delivery/prisma/generated/client",
+      "value": "/Users/joeunpark/book_delivery/prisma/generated/client",
       "fromEnvVar": null
     },
     "config": {
@@ -227,7 +227,7 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "debian-openssl-3.0.x",
+        "value": "darwin-arm64",
         "native": true
       }
     ],
