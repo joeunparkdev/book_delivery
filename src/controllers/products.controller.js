@@ -75,8 +75,8 @@ export class ProductsController {
 
       const { name, description, status, price, author } = req.body;
       const { productId } = req.params;
-      const image = req.file.location;
       const userId = req.user.userId;
+      const image = req.file.location;
       const imagePath = req?.imagePath;
 
       await this.productsService.updateProduct(
