@@ -36,6 +36,8 @@ export class StoresController {
         try {
             const userId = req.user.userId;
             const userType = req.user.usertype;
+            const imageUrl = req.file ? .location;
+            const [aws, imagePath] = imageUrl ? .split("com/");
 
             if (userType !== "OWNER") {
                 return res.status(404).json({ error: " OWNER 아이디가 아닙니다." });
@@ -44,7 +46,7 @@ export class StoresController {
                 return res.status(401).json({ error: "User not logged in" });
             }
 
-            const { imageUrl, name, price, address, description, status } = req.body;
+            const { name, price, address, description, status } = req.body;
 
             const confirmStore = await this.storesService.findStoreByUserId(userId);
             console.log(confirmStore);
@@ -54,6 +56,7 @@ export class StoresController {
             }
 
             const newStore = await this.storesService.createStore(
+                imagePath,
                 imageUrl,
                 name,
                 price,
@@ -79,7 +82,7 @@ export class StoresController {
 
     updateStore = async(req, res, next) => {
         try {
-            const userType = req.user.userType;
+            const userType = req.user.usertype;
             if (userType !== "OWNER") {
                 return res.status(404).json({ error: " OWNER 아이디가 아닙니다." });
             }
@@ -87,13 +90,16 @@ export class StoresController {
                 return res.status(401).json({ error: "User not logged in" });
             }
             const { bookstoreId } = req.params;
-            const { imageUrl, name, price, address, description, status } = req.body;
+            const { name, price, address, description, status } = req.body;
             const userId = req.user.userId;
+            const imageUrl = req.file ? .location;
+            const imagePath = imageUrl ? .split("com/")[1];
 
             const updatedAt = new Date();
 
             await this.storesService.updateStore(
                 bookstoreId,
+                imagePath,
                 imageUrl,
                 name,
                 price,
