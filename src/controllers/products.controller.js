@@ -1,9 +1,9 @@
 import { ProductsService } from "../services/products.service.js";
-import { StoresController } from "../controllers/bookstore.controller.js";
+import { StoreRepository } from "../repositories/bookstore.repository.js";
 
 export class ProductsController {
   productsService = new ProductsService();
-  storesController = new StoresController();
+  storeRepository = new StoreRepository();
 
   getProducts = async (req, res, next) => {
     try {
@@ -35,21 +35,19 @@ export class ProductsController {
 
       const { name, description, price, author } = req.body;
       const userId = req.user.userId;
-      const image = req.file?.location;
-      const imagePath = req?.imagePath;
+      const imageUrl = req.file?.location;
+      const [aws, imagePath] = imageUrl.split("com/");
 
-      const bookstore = await this.storesController.getMyStores(userId);
+      const bookstore = await this.storeRepository.findStoreByUserId(userId);
 
       const bookstoreId = bookstore.bookstoreId;
-
-      console.log(bookstoreId);
 
       const newProduct = await this.productsService.createProduct(
         name,
         description,
         price,
         author,
-        image,
+        imageUrl,
         imagePath,
         userId,
         bookstoreId,
@@ -59,7 +57,7 @@ export class ProductsController {
 
       res.json({
         message: "상품을 생성하였습니다.",
-        productId: newProduct.id,
+        newProduct,
       });
     } catch (error) {
       console.error(error);
@@ -75,8 +73,8 @@ export class ProductsController {
 
       const { name, description, status, price, author } = req.body;
       const { productId } = req.params;
-      const image = req.file.location;
       const userId = req.user.userId;
+      const imageUrl = req.file.location;
       const imagePath = req?.imagePath;
 
       await this.productsService.updateProduct(
@@ -86,7 +84,7 @@ export class ProductsController {
         price,
         status,
         author,
-        image,
+        imageUrl,
         imagePath,
         new Date(),
         userId,

@@ -36,6 +36,10 @@ export class StoresController {
     try {
       const userId = req.user.userId;
       const userType = req.user.usertype;
+      const imageUrl = req.file.location;
+      const [aws, imagePath] = imageUrl.split("com/");
+
+      console.log(imagePath, "이미지 경로------------------------------");
 
       if (userType !== "OWNER") {
         return res.status(404).json({ error: " OWNER 아이디가 아닙니다." });
@@ -44,7 +48,7 @@ export class StoresController {
         return res.status(401).json({ error: "User not logged in" });
       }
 
-      const { imageUrl, name, price, address, description, status } = req.body;
+      const { name, price, address, description, status } = req.body;
 
       const confirmStore = await this.storesService.findStoreByUserId(userId);
       console.log(confirmStore);
@@ -54,6 +58,7 @@ export class StoresController {
       }
 
       const newStore = await this.storesService.createStore(
+        imagePath,
         imageUrl,
         name,
         price,
