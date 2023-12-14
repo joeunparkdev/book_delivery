@@ -1,13 +1,11 @@
 import { CustomerOrderProductService } from '../services/customer.order.product.service.js'
 import { prisma } from '../utils/prisma/index.js'
 import { ProductsRepository } from '../repositories/products.repository.js'
-import { TakeOrdersRepository } from '../repositories/takeorder.repository.js'
 import { StoreRepository } from '../repositories/bookstore.repository.js'
 
 export class CustomerOrderProductController {
   customerOrderProductServiec = new CustomerOrderProductService()
   productsRepository = new ProductsRepository()
-  takeOrdersRepository = new TakeOrdersRepository()
   storeRepository = new StoreRepository()
 
   orderProductByUser = async (req, res, next) => {
