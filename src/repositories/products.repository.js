@@ -1,6 +1,7 @@
 import { prisma } from "../utils/prisma/index.js";
 import PRODUCT_STATUS from "../constants/app.constants.js";
 import ENUMS from "../constants/app.constants.js";
+import aws from "aws-sdk";
 
 export class ProductsRepository {
   findAllProducts = async () => {
@@ -99,10 +100,19 @@ export class ProductsRepository {
       },
     });
 
-    await s3.deleteObject({
+    new aws.S3({
+      accessKeyId: process.env.ACCESS_KEY,
+      secretAccessKey: process.env.SECRET_ACCESS_KEY,
+      region: process.env.REGION,
+    }).deleteObject({
       bucket: process.env.BUCKET,
       key: findS3Image.imagePath,
     });
+
+    if (!imagePath || !imageUrl) {
+      imagePath = null;
+      imageUrl = null;
+    }
 
     // ORM인 Prisma에서 Products 모델의 update 메서드를 사용해 데이터를 수정합니다.
     const updatedProduct = await prisma.products.update({
@@ -112,7 +122,7 @@ export class ProductsRepository {
       data: {
         name,
         description,
-        price,
+        price: +price,
         status,
         author,
         imageUrl,
@@ -134,9 +144,13 @@ export class ProductsRepository {
       },
     });
 
-    await s3.deleteObject({
-      bucket: process.env.BUCKET,
-      key: findS3Image.imagePath,
+    new aws.S3({
+      accessKeyId: process.env.ACCESS_KEY,
+      secretAccessKey: process.env.SECRET_ACCESS_KEY,
+      region: process.env.REGION,
+    }).deleteObject({
+      Bucket: process.env.BUCKET,
+      Key: findS3Image.imagePath,
     });
 
     // ORM인 Prisma에서 Products 모델의 delete 메서드를 사용해 데이터를 삭제합니다.
@@ -164,7 +178,14 @@ export class ProductsRepository {
         const imagePath = image.imagePath;
 
         try {
-          await s3.deleteObject({ Bucket: process.env.BUCKET, Key: imagePath });
+          new aws.S3({
+            accessKeyId: process.env.ACCESS_KEY,
+            secretAccessKey: process.env.SECRET_ACCESS_KEY,
+            region: process.env.REGION,
+          }).deleteObject({
+            Bucket: process.env.BUCKET,
+            Key: imagePath,
+          });
           console.log(`Object deleted successfully: ${imagePath}`);
         } catch (error) {
           console.error(`Error deleting object: ${imagePath}`, error);

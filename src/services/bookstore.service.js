@@ -93,6 +93,7 @@ export class StoresService {
   // updateStore
   updateStore = async (
     bookstoreId,
+    imagePath,
     imageUrl,
     name,
     price,
@@ -120,6 +121,7 @@ export class StoresService {
 
       await this.storeRepository.updateStore(
         bookstoreId,
+        imagePath,
         imageUrl,
         name,
         price,
