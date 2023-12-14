@@ -5,7 +5,6 @@
     let description = '';
     let price = '';
     let userId = ''; 
-    let city = '';
   
     const createProduct = async () => {
       try {
@@ -19,7 +18,6 @@
             description,
             userId,
             price: parseInt(price), 
-            city,
           }),
         });
   
@@ -53,10 +51,6 @@
       <label>
         Price:
         <input type="text" bind:value={price} />
-      </label>
-      <label>
-        City:
-        <input type="text" bind:value={city} />
       </label>
       <button type="submit">Create Product</button>
     </form>

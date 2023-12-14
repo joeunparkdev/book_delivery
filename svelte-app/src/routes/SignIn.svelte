@@ -6,6 +6,8 @@
     email: '',
     password: '',
   };
+  let verificationCode = '';
+  let sentVerificationCode = false;
 
   onMount(async () => {
     try {
@@ -38,17 +40,6 @@
       // Now use Kakao SDK directly
       Kakao.init('3980c403de0926c15940e444945aef79');
 
-      // Kakao.Auth.login({
-      //   scope: 'profile_nickname,account_email',
-      //   success: function (authObj) {
-      //     console.log('Kakao login success:', authObj);
-      //     // Handle the success case
-      //   },
-      //   fail: function (error) {
-      //     console.error('Kakao login fail:', error);
-      //     // Handle the failure case
-      //   },
-      // });
       Kakao.Auth.authorize({
         redirectUri: "http://localhost:3001/api/auth/kakao/callback",
       });
@@ -109,6 +100,14 @@
       console.error("Error signing in:", error);
     }
   }
+  async function sendVerificationCode() {
+    console.log('Verification code sent:', verificationCode);
+    sentVerificationCode = true; 
+  }
+
+  async function confirmVerificationCode() {
+    console.log('Verification code confirmed:', verificationCode);
+  }
 </script>
 
 <main>
@@ -125,8 +124,19 @@
       <img src="../../public/kakao_login_medium_narrow.png" alt="Kakao Login" />
     </button>
   </form>
-</main>
+  <div>
+    <label for="verificationCode">Verification Code:</label>
+    <input type="text" bind:value="{verificationCode}" />
 
+    {#if !sentVerificationCode}
+      <button on:click={sendVerificationCode}>Send Verification Code</button>
+    {/if}
+    
+    {#if sentVerificationCode}
+      <button on:click={confirmVerificationCode}>Confirm Verification Code</button>
+    {/if}
+  </div>
+</main>
 
 <style>
   main {
@@ -171,7 +181,39 @@
     background-color: #c0392b;
   }
 
-  button img{
-  height: auto; 
+  button img {
+    height: auto;
+  }
+
+  div {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  label {
+    font-size: 1.2em;
+  }
+
+  input {
+    margin-top: 5px;
+    padding: 8px;
+    font-size: 1em;
+  }
+
+  button {
+    margin-top: 10px;
+    padding: 8px;
+    font-size: 1em;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  button:hover {
+    background-color: #2980b9;
   }
 </style>

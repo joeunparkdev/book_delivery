@@ -15,6 +15,9 @@ import usersRouter from "./routers/users.router.js";
 import authRouter from "./routers/auth.router.js";
 
 import bookstoresRouter from "./routers/bookstore.roter.js";
+import bookstoresRouter from "./routers/bookstore.roter.js";
+import reviewRouter from "./routers/reviews.router.js";
+import searchRouter from "./routers/search.router.js";
 
 const app = express();
 configurePassport(app);

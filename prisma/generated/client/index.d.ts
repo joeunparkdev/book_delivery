@@ -53,6 +53,11 @@ export type Reviews = $Result.DefaultSelection<Prisma.$ReviewsPayload>
  * 
  */
 export type Follow = $Result.DefaultSelection<Prisma.$FollowPayload>
+/**
+ * Model Verify
+ * 
+ */
+export type Verify = $Result.DefaultSelection<Prisma.$VerifyPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -255,6 +260,16 @@ export class PrismaClient<
     * ```
     */
   get follow(): Prisma.FollowDelegate<ExtArgs>;
+
+  /**
+   * `prisma.verify`: Exposes CRUD operations for the **Verify** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Verifies
+    * const verifies = await prisma.verify.findMany()
+    * ```
+    */
+  get verify(): Prisma.VerifyDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -312,7 +327,7 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 5.6.0
+   * Prisma Client JS version: 5.7.0
    * Query Engine version: 79fb5193cf0a8fdbef536e4b4a159cad677ab1b9
    */
   export type PrismaVersion = {
@@ -732,7 +747,8 @@ export namespace Prisma {
     UsersProducts: 'UsersProducts',
     Orders: 'Orders',
     Reviews: 'Reviews',
-    Follow: 'Follow'
+    Follow: 'Follow',
+    Verify: 'Verify'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -749,7 +765,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'users' | 'products' | 'bookstores' | 'refreshToken' | 'usersProducts' | 'orders' | 'reviews' | 'follow'
+      modelProps: 'users' | 'products' | 'bookstores' | 'refreshToken' | 'usersProducts' | 'orders' | 'reviews' | 'follow' | 'verify'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -1281,6 +1297,72 @@ export namespace Prisma {
           }
         }
       }
+      Verify: {
+        payload: Prisma.$VerifyPayload<ExtArgs>
+        fields: Prisma.VerifyFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VerifyFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$VerifyPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VerifyFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$VerifyPayload>
+          }
+          findFirst: {
+            args: Prisma.VerifyFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$VerifyPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VerifyFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$VerifyPayload>
+          }
+          findMany: {
+            args: Prisma.VerifyFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$VerifyPayload>[]
+          }
+          create: {
+            args: Prisma.VerifyCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$VerifyPayload>
+          }
+          createMany: {
+            args: Prisma.VerifyCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.VerifyDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$VerifyPayload>
+          }
+          update: {
+            args: Prisma.VerifyUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$VerifyPayload>
+          }
+          deleteMany: {
+            args: Prisma.VerifyDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VerifyUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.VerifyUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$VerifyPayload>
+          }
+          aggregate: {
+            args: Prisma.VerifyAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateVerify>
+          }
+          groupBy: {
+            args: Prisma.VerifyGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<VerifyGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VerifyCountArgs<ExtArgs>,
+            result: $Utils.Optional<VerifyCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1666,6 +1748,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     points: number | null
+    isVerified: boolean | null
   }
 
   export type UsersMaxAggregateOutputType = {
@@ -1679,6 +1762,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     points: number | null
+    isVerified: boolean | null
   }
 
   export type UsersCountAggregateOutputType = {
@@ -1692,6 +1776,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     points: number
+    isVerified: number
     _all: number
   }
 
@@ -1719,6 +1804,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     points?: true
+    isVerified?: true
   }
 
   export type UsersMaxAggregateInputType = {
@@ -1732,6 +1818,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     points?: true
+    isVerified?: true
   }
 
   export type UsersCountAggregateInputType = {
@@ -1745,6 +1832,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     points?: true
+    isVerified?: true
     _all?: true
   }
 
@@ -1845,6 +1933,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     points: number | null
+    isVerified: boolean
     _count: UsersCountAggregateOutputType | null
     _avg: UsersAvgAggregateOutputType | null
     _sum: UsersSumAggregateOutputType | null
@@ -1877,6 +1966,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     points?: boolean
+    isVerified?: boolean
     products?: boolean | Users$productsArgs<ExtArgs>
     refreshTokens?: boolean | Users$refreshTokensArgs<ExtArgs>
     userProducts?: boolean | Users$userProductsArgs<ExtArgs>
@@ -1899,6 +1989,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     points?: boolean
+    isVerified?: boolean
   }
 
   export type UsersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1937,6 +2028,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       points: number | null
+      isVerified: boolean
     }, ExtArgs["result"]["users"]>
     composites: {}
   }
@@ -2356,6 +2448,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Users", 'DateTime'>
     readonly updatedAt: FieldRef<"Users", 'DateTime'>
     readonly points: FieldRef<"Users", 'Int'>
+    readonly isVerified: FieldRef<"Users", 'Boolean'>
   }
     
 
@@ -3066,7 +3159,7 @@ export namespace Prisma {
     author: string | null
     imageUrl: string | null
     price: number
-    description: string | null
+    description: string
     status: string
     usertype: string
     createdAt: Date
@@ -3152,7 +3245,7 @@ export namespace Prisma {
       author: string | null
       imageUrl: string | null
       price: number
-      description: string | null
+      description: string
       status: string
       usertype: string
       createdAt: Date
@@ -9806,6 +9899,910 @@ export namespace Prisma {
 
 
   /**
+   * Model Verify
+   */
+
+  export type AggregateVerify = {
+    _count: VerifyCountAggregateOutputType | null
+    _avg: VerifyAvgAggregateOutputType | null
+    _sum: VerifySumAggregateOutputType | null
+    _min: VerifyMinAggregateOutputType | null
+    _max: VerifyMaxAggregateOutputType | null
+  }
+
+  export type VerifyAvgAggregateOutputType = {
+    verificationId: number | null
+  }
+
+  export type VerifySumAggregateOutputType = {
+    verificationId: number | null
+  }
+
+  export type VerifyMinAggregateOutputType = {
+    verificationId: number | null
+    email: string | null
+    verificationCode: string | null
+    createdAt: Date | null
+    expiredAt: Date | null
+  }
+
+  export type VerifyMaxAggregateOutputType = {
+    verificationId: number | null
+    email: string | null
+    verificationCode: string | null
+    createdAt: Date | null
+    expiredAt: Date | null
+  }
+
+  export type VerifyCountAggregateOutputType = {
+    verificationId: number
+    email: number
+    verificationCode: number
+    createdAt: number
+    expiredAt: number
+    _all: number
+  }
+
+
+  export type VerifyAvgAggregateInputType = {
+    verificationId?: true
+  }
+
+  export type VerifySumAggregateInputType = {
+    verificationId?: true
+  }
+
+  export type VerifyMinAggregateInputType = {
+    verificationId?: true
+    email?: true
+    verificationCode?: true
+    createdAt?: true
+    expiredAt?: true
+  }
+
+  export type VerifyMaxAggregateInputType = {
+    verificationId?: true
+    email?: true
+    verificationCode?: true
+    createdAt?: true
+    expiredAt?: true
+  }
+
+  export type VerifyCountAggregateInputType = {
+    verificationId?: true
+    email?: true
+    verificationCode?: true
+    createdAt?: true
+    expiredAt?: true
+    _all?: true
+  }
+
+  export type VerifyAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Verify to aggregate.
+     */
+    where?: VerifyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Verifies to fetch.
+     */
+    orderBy?: VerifyOrderByWithRelationInput | VerifyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VerifyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Verifies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Verifies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Verifies
+    **/
+    _count?: true | VerifyCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: VerifyAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: VerifySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VerifyMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VerifyMaxAggregateInputType
+  }
+
+  export type GetVerifyAggregateType<T extends VerifyAggregateArgs> = {
+        [P in keyof T & keyof AggregateVerify]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVerify[P]>
+      : GetScalarType<T[P], AggregateVerify[P]>
+  }
+
+
+
+
+  export type VerifyGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VerifyWhereInput
+    orderBy?: VerifyOrderByWithAggregationInput | VerifyOrderByWithAggregationInput[]
+    by: VerifyScalarFieldEnum[] | VerifyScalarFieldEnum
+    having?: VerifyScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VerifyCountAggregateInputType | true
+    _avg?: VerifyAvgAggregateInputType
+    _sum?: VerifySumAggregateInputType
+    _min?: VerifyMinAggregateInputType
+    _max?: VerifyMaxAggregateInputType
+  }
+
+  export type VerifyGroupByOutputType = {
+    verificationId: number
+    email: string
+    verificationCode: string
+    createdAt: Date
+    expiredAt: Date | null
+    _count: VerifyCountAggregateOutputType | null
+    _avg: VerifyAvgAggregateOutputType | null
+    _sum: VerifySumAggregateOutputType | null
+    _min: VerifyMinAggregateOutputType | null
+    _max: VerifyMaxAggregateOutputType | null
+  }
+
+  type GetVerifyGroupByPayload<T extends VerifyGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VerifyGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VerifyGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VerifyGroupByOutputType[P]>
+            : GetScalarType<T[P], VerifyGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VerifySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    verificationId?: boolean
+    email?: boolean
+    verificationCode?: boolean
+    createdAt?: boolean
+    expiredAt?: boolean
+  }, ExtArgs["result"]["verify"]>
+
+  export type VerifySelectScalar = {
+    verificationId?: boolean
+    email?: boolean
+    verificationCode?: boolean
+    createdAt?: boolean
+    expiredAt?: boolean
+  }
+
+
+  export type $VerifyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Verify"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      verificationId: number
+      email: string
+      verificationCode: string
+      createdAt: Date
+      expiredAt: Date | null
+    }, ExtArgs["result"]["verify"]>
+    composites: {}
+  }
+
+
+  type VerifyGetPayload<S extends boolean | null | undefined | VerifyDefaultArgs> = $Result.GetResult<Prisma.$VerifyPayload, S>
+
+  type VerifyCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<VerifyFindManyArgs, 'select' | 'include' | 'distinct' > & {
+      select?: VerifyCountAggregateInputType | true
+    }
+
+  export interface VerifyDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Verify'], meta: { name: 'Verify' } }
+    /**
+     * Find zero or one Verify that matches the filter.
+     * @param {VerifyFindUniqueArgs} args - Arguments to find a Verify
+     * @example
+     * // Get one Verify
+     * const verify = await prisma.verify.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends VerifyFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, VerifyFindUniqueArgs<ExtArgs>>
+    ): Prisma__VerifyClient<$Result.GetResult<Prisma.$VerifyPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one Verify that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {VerifyFindUniqueOrThrowArgs} args - Arguments to find a Verify
+     * @example
+     * // Get one Verify
+     * const verify = await prisma.verify.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends VerifyFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, VerifyFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__VerifyClient<$Result.GetResult<Prisma.$VerifyPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first Verify that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerifyFindFirstArgs} args - Arguments to find a Verify
+     * @example
+     * // Get one Verify
+     * const verify = await prisma.verify.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends VerifyFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, VerifyFindFirstArgs<ExtArgs>>
+    ): Prisma__VerifyClient<$Result.GetResult<Prisma.$VerifyPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first Verify that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerifyFindFirstOrThrowArgs} args - Arguments to find a Verify
+     * @example
+     * // Get one Verify
+     * const verify = await prisma.verify.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends VerifyFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, VerifyFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__VerifyClient<$Result.GetResult<Prisma.$VerifyPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more Verifies that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerifyFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Verifies
+     * const verifies = await prisma.verify.findMany()
+     * 
+     * // Get first 10 Verifies
+     * const verifies = await prisma.verify.findMany({ take: 10 })
+     * 
+     * // Only select the `verificationId`
+     * const verifyWithVerificationIdOnly = await prisma.verify.findMany({ select: { verificationId: true } })
+     * 
+    **/
+    findMany<T extends VerifyFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, VerifyFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VerifyPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a Verify.
+     * @param {VerifyCreateArgs} args - Arguments to create a Verify.
+     * @example
+     * // Create one Verify
+     * const Verify = await prisma.verify.create({
+     *   data: {
+     *     // ... data to create a Verify
+     *   }
+     * })
+     * 
+    **/
+    create<T extends VerifyCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, VerifyCreateArgs<ExtArgs>>
+    ): Prisma__VerifyClient<$Result.GetResult<Prisma.$VerifyPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many Verifies.
+     *     @param {VerifyCreateManyArgs} args - Arguments to create many Verifies.
+     *     @example
+     *     // Create many Verifies
+     *     const verify = await prisma.verify.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends VerifyCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, VerifyCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Verify.
+     * @param {VerifyDeleteArgs} args - Arguments to delete one Verify.
+     * @example
+     * // Delete one Verify
+     * const Verify = await prisma.verify.delete({
+     *   where: {
+     *     // ... filter to delete one Verify
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends VerifyDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, VerifyDeleteArgs<ExtArgs>>
+    ): Prisma__VerifyClient<$Result.GetResult<Prisma.$VerifyPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one Verify.
+     * @param {VerifyUpdateArgs} args - Arguments to update one Verify.
+     * @example
+     * // Update one Verify
+     * const verify = await prisma.verify.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends VerifyUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, VerifyUpdateArgs<ExtArgs>>
+    ): Prisma__VerifyClient<$Result.GetResult<Prisma.$VerifyPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more Verifies.
+     * @param {VerifyDeleteManyArgs} args - Arguments to filter Verifies to delete.
+     * @example
+     * // Delete a few Verifies
+     * const { count } = await prisma.verify.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends VerifyDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, VerifyDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Verifies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerifyUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Verifies
+     * const verify = await prisma.verify.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends VerifyUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, VerifyUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Verify.
+     * @param {VerifyUpsertArgs} args - Arguments to update or create a Verify.
+     * @example
+     * // Update or create a Verify
+     * const verify = await prisma.verify.upsert({
+     *   create: {
+     *     // ... data to create a Verify
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Verify we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends VerifyUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, VerifyUpsertArgs<ExtArgs>>
+    ): Prisma__VerifyClient<$Result.GetResult<Prisma.$VerifyPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of Verifies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerifyCountArgs} args - Arguments to filter Verifies to count.
+     * @example
+     * // Count the number of Verifies
+     * const count = await prisma.verify.count({
+     *   where: {
+     *     // ... the filter for the Verifies we want to count
+     *   }
+     * })
+    **/
+    count<T extends VerifyCountArgs>(
+      args?: Subset<T, VerifyCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VerifyCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Verify.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerifyAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VerifyAggregateArgs>(args: Subset<T, VerifyAggregateArgs>): Prisma.PrismaPromise<GetVerifyAggregateType<T>>
+
+    /**
+     * Group by Verify.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerifyGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VerifyGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VerifyGroupByArgs['orderBy'] }
+        : { orderBy?: VerifyGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VerifyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVerifyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Verify model
+   */
+  readonly fields: VerifyFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Verify.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VerifyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the Verify model
+   */ 
+  interface VerifyFieldRefs {
+    readonly verificationId: FieldRef<"Verify", 'Int'>
+    readonly email: FieldRef<"Verify", 'String'>
+    readonly verificationCode: FieldRef<"Verify", 'String'>
+    readonly createdAt: FieldRef<"Verify", 'DateTime'>
+    readonly expiredAt: FieldRef<"Verify", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * Verify findUnique
+   */
+  export type VerifyFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Verify
+     */
+    select?: VerifySelect<ExtArgs> | null
+    /**
+     * Filter, which Verify to fetch.
+     */
+    where: VerifyWhereUniqueInput
+  }
+
+
+  /**
+   * Verify findUniqueOrThrow
+   */
+  export type VerifyFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Verify
+     */
+    select?: VerifySelect<ExtArgs> | null
+    /**
+     * Filter, which Verify to fetch.
+     */
+    where: VerifyWhereUniqueInput
+  }
+
+
+  /**
+   * Verify findFirst
+   */
+  export type VerifyFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Verify
+     */
+    select?: VerifySelect<ExtArgs> | null
+    /**
+     * Filter, which Verify to fetch.
+     */
+    where?: VerifyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Verifies to fetch.
+     */
+    orderBy?: VerifyOrderByWithRelationInput | VerifyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Verifies.
+     */
+    cursor?: VerifyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Verifies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Verifies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Verifies.
+     */
+    distinct?: VerifyScalarFieldEnum | VerifyScalarFieldEnum[]
+  }
+
+
+  /**
+   * Verify findFirstOrThrow
+   */
+  export type VerifyFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Verify
+     */
+    select?: VerifySelect<ExtArgs> | null
+    /**
+     * Filter, which Verify to fetch.
+     */
+    where?: VerifyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Verifies to fetch.
+     */
+    orderBy?: VerifyOrderByWithRelationInput | VerifyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Verifies.
+     */
+    cursor?: VerifyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Verifies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Verifies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Verifies.
+     */
+    distinct?: VerifyScalarFieldEnum | VerifyScalarFieldEnum[]
+  }
+
+
+  /**
+   * Verify findMany
+   */
+  export type VerifyFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Verify
+     */
+    select?: VerifySelect<ExtArgs> | null
+    /**
+     * Filter, which Verifies to fetch.
+     */
+    where?: VerifyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Verifies to fetch.
+     */
+    orderBy?: VerifyOrderByWithRelationInput | VerifyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Verifies.
+     */
+    cursor?: VerifyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Verifies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Verifies.
+     */
+    skip?: number
+    distinct?: VerifyScalarFieldEnum | VerifyScalarFieldEnum[]
+  }
+
+
+  /**
+   * Verify create
+   */
+  export type VerifyCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Verify
+     */
+    select?: VerifySelect<ExtArgs> | null
+    /**
+     * The data needed to create a Verify.
+     */
+    data: XOR<VerifyCreateInput, VerifyUncheckedCreateInput>
+  }
+
+
+  /**
+   * Verify createMany
+   */
+  export type VerifyCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Verifies.
+     */
+    data: VerifyCreateManyInput | VerifyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Verify update
+   */
+  export type VerifyUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Verify
+     */
+    select?: VerifySelect<ExtArgs> | null
+    /**
+     * The data needed to update a Verify.
+     */
+    data: XOR<VerifyUpdateInput, VerifyUncheckedUpdateInput>
+    /**
+     * Choose, which Verify to update.
+     */
+    where: VerifyWhereUniqueInput
+  }
+
+
+  /**
+   * Verify updateMany
+   */
+  export type VerifyUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Verifies.
+     */
+    data: XOR<VerifyUpdateManyMutationInput, VerifyUncheckedUpdateManyInput>
+    /**
+     * Filter which Verifies to update
+     */
+    where?: VerifyWhereInput
+  }
+
+
+  /**
+   * Verify upsert
+   */
+  export type VerifyUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Verify
+     */
+    select?: VerifySelect<ExtArgs> | null
+    /**
+     * The filter to search for the Verify to update in case it exists.
+     */
+    where: VerifyWhereUniqueInput
+    /**
+     * In case the Verify found by the `where` argument doesn't exist, create a new Verify with this data.
+     */
+    create: XOR<VerifyCreateInput, VerifyUncheckedCreateInput>
+    /**
+     * In case the Verify was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VerifyUpdateInput, VerifyUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Verify delete
+   */
+  export type VerifyDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Verify
+     */
+    select?: VerifySelect<ExtArgs> | null
+    /**
+     * Filter which Verify to delete.
+     */
+    where: VerifyWhereUniqueInput
+  }
+
+
+  /**
+   * Verify deleteMany
+   */
+  export type VerifyDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Verifies to delete
+     */
+    where?: VerifyWhereInput
+  }
+
+
+  /**
+   * Verify without action
+   */
+  export type VerifyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Verify
+     */
+    select?: VerifySelect<ExtArgs> | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -9829,7 +10826,8 @@ export namespace Prisma {
     isAdmin: 'isAdmin',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    points: 'points'
+    points: 'points',
+    isVerified: 'isVerified'
   };
 
   export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
@@ -9920,6 +10918,17 @@ export namespace Prisma {
   export type FollowScalarFieldEnum = (typeof FollowScalarFieldEnum)[keyof typeof FollowScalarFieldEnum]
 
 
+  export const VerifyScalarFieldEnum: {
+    verificationId: 'verificationId',
+    email: 'email',
+    verificationCode: 'verificationCode',
+    createdAt: 'createdAt',
+    expiredAt: 'expiredAt'
+  };
+
+  export type VerifyScalarFieldEnum = (typeof VerifyScalarFieldEnum)[keyof typeof VerifyScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -9993,6 +11002,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Users"> | Date | string
     updatedAt?: DateTimeFilter<"Users"> | Date | string
     points?: IntNullableFilter<"Users"> | number | null
+    isVerified?: BoolFilter<"Users"> | boolean
     products?: ProductsListRelationFilter
     refreshTokens?: RefreshTokenListRelationFilter
     userProducts?: UsersProductsListRelationFilter
@@ -10014,6 +11024,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     points?: SortOrderInput | SortOrder
+    isVerified?: SortOrder
     products?: ProductsOrderByRelationAggregateInput
     refreshTokens?: RefreshTokenOrderByRelationAggregateInput
     userProducts?: UsersProductsOrderByRelationAggregateInput
@@ -10038,6 +11049,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Users"> | Date | string
     updatedAt?: DateTimeFilter<"Users"> | Date | string
     points?: IntNullableFilter<"Users"> | number | null
+    isVerified?: BoolFilter<"Users"> | boolean
     products?: ProductsListRelationFilter
     refreshTokens?: RefreshTokenListRelationFilter
     userProducts?: UsersProductsListRelationFilter
@@ -10059,6 +11071,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     points?: SortOrderInput | SortOrder
+    isVerified?: SortOrder
     _count?: UsersCountOrderByAggregateInput
     _avg?: UsersAvgOrderByAggregateInput
     _max?: UsersMaxOrderByAggregateInput
@@ -10080,6 +11093,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Users"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Users"> | Date | string
     points?: IntNullableWithAggregatesFilter<"Users"> | number | null
+    isVerified?: BoolWithAggregatesFilter<"Users"> | boolean
   }
 
   export type ProductsWhereInput = {
@@ -10091,7 +11105,7 @@ export namespace Prisma {
     author?: StringNullableFilter<"Products"> | string | null
     imageUrl?: StringNullableFilter<"Products"> | string | null
     price?: IntFilter<"Products"> | number
-    description?: StringNullableFilter<"Products"> | string | null
+    description?: StringFilter<"Products"> | string
     status?: StringFilter<"Products"> | string
     usertype?: StringFilter<"Products"> | string
     createdAt?: DateTimeFilter<"Products"> | Date | string
@@ -10110,7 +11124,7 @@ export namespace Prisma {
     author?: SortOrderInput | SortOrder
     imageUrl?: SortOrderInput | SortOrder
     price?: SortOrder
-    description?: SortOrderInput | SortOrder
+    description?: SortOrder
     status?: SortOrder
     usertype?: SortOrder
     createdAt?: SortOrder
@@ -10132,7 +11146,7 @@ export namespace Prisma {
     author?: StringNullableFilter<"Products"> | string | null
     imageUrl?: StringNullableFilter<"Products"> | string | null
     price?: IntFilter<"Products"> | number
-    description?: StringNullableFilter<"Products"> | string | null
+    description?: StringFilter<"Products"> | string
     status?: StringFilter<"Products"> | string
     usertype?: StringFilter<"Products"> | string
     createdAt?: DateTimeFilter<"Products"> | Date | string
@@ -10151,7 +11165,7 @@ export namespace Prisma {
     author?: SortOrderInput | SortOrder
     imageUrl?: SortOrderInput | SortOrder
     price?: SortOrder
-    description?: SortOrderInput | SortOrder
+    description?: SortOrder
     status?: SortOrder
     usertype?: SortOrder
     createdAt?: SortOrder
@@ -10173,7 +11187,7 @@ export namespace Prisma {
     author?: StringNullableWithAggregatesFilter<"Products"> | string | null
     imageUrl?: StringNullableWithAggregatesFilter<"Products"> | string | null
     price?: IntWithAggregatesFilter<"Products"> | number
-    description?: StringNullableWithAggregatesFilter<"Products"> | string | null
+    description?: StringWithAggregatesFilter<"Products"> | string
     status?: StringWithAggregatesFilter<"Products"> | string
     usertype?: StringWithAggregatesFilter<"Products"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Products"> | Date | string
@@ -10550,6 +11564,60 @@ export namespace Prisma {
     followingId?: IntWithAggregatesFilter<"Follow"> | number
   }
 
+  export type VerifyWhereInput = {
+    AND?: VerifyWhereInput | VerifyWhereInput[]
+    OR?: VerifyWhereInput[]
+    NOT?: VerifyWhereInput | VerifyWhereInput[]
+    verificationId?: IntFilter<"Verify"> | number
+    email?: StringFilter<"Verify"> | string
+    verificationCode?: StringFilter<"Verify"> | string
+    createdAt?: DateTimeFilter<"Verify"> | Date | string
+    expiredAt?: DateTimeNullableFilter<"Verify"> | Date | string | null
+  }
+
+  export type VerifyOrderByWithRelationInput = {
+    verificationId?: SortOrder
+    email?: SortOrder
+    verificationCode?: SortOrder
+    createdAt?: SortOrder
+    expiredAt?: SortOrderInput | SortOrder
+  }
+
+  export type VerifyWhereUniqueInput = Prisma.AtLeast<{
+    verificationId?: number
+    AND?: VerifyWhereInput | VerifyWhereInput[]
+    OR?: VerifyWhereInput[]
+    NOT?: VerifyWhereInput | VerifyWhereInput[]
+    email?: StringFilter<"Verify"> | string
+    verificationCode?: StringFilter<"Verify"> | string
+    createdAt?: DateTimeFilter<"Verify"> | Date | string
+    expiredAt?: DateTimeNullableFilter<"Verify"> | Date | string | null
+  }, "verificationId">
+
+  export type VerifyOrderByWithAggregationInput = {
+    verificationId?: SortOrder
+    email?: SortOrder
+    verificationCode?: SortOrder
+    createdAt?: SortOrder
+    expiredAt?: SortOrderInput | SortOrder
+    _count?: VerifyCountOrderByAggregateInput
+    _avg?: VerifyAvgOrderByAggregateInput
+    _max?: VerifyMaxOrderByAggregateInput
+    _min?: VerifyMinOrderByAggregateInput
+    _sum?: VerifySumOrderByAggregateInput
+  }
+
+  export type VerifyScalarWhereWithAggregatesInput = {
+    AND?: VerifyScalarWhereWithAggregatesInput | VerifyScalarWhereWithAggregatesInput[]
+    OR?: VerifyScalarWhereWithAggregatesInput[]
+    NOT?: VerifyScalarWhereWithAggregatesInput | VerifyScalarWhereWithAggregatesInput[]
+    verificationId?: IntWithAggregatesFilter<"Verify"> | number
+    email?: StringWithAggregatesFilter<"Verify"> | string
+    verificationCode?: StringWithAggregatesFilter<"Verify"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Verify"> | Date | string
+    expiredAt?: DateTimeNullableWithAggregatesFilter<"Verify"> | Date | string | null
+  }
+
   export type UsersCreateInput = {
     usertype?: string
     username: string
@@ -10560,6 +11628,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    isVerified?: boolean
     products?: ProductsCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsCreateNestedManyWithoutUserInput
@@ -10581,6 +11650,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    isVerified?: boolean
     products?: ProductsUncheckedCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsUncheckedCreateNestedManyWithoutUserInput
@@ -10601,6 +11671,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
     products?: ProductsUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUpdateManyWithoutUserNestedInput
@@ -10622,6 +11693,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
     products?: ProductsUncheckedUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUncheckedUpdateManyWithoutUserNestedInput
@@ -10643,6 +11715,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    isVerified?: boolean
   }
 
   export type UsersUpdateManyMutationInput = {
@@ -10655,6 +11728,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UsersUncheckedUpdateManyInput = {
@@ -10668,6 +11742,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ProductsCreateInput = {
@@ -10675,7 +11750,7 @@ export namespace Prisma {
     author?: string | null
     imageUrl?: string | null
     price: number
-    description?: string | null
+    description: string
     status?: string
     usertype?: string
     createdAt?: Date | string
@@ -10693,7 +11768,7 @@ export namespace Prisma {
     author?: string | null
     imageUrl?: string | null
     price: number
-    description?: string | null
+    description: string
     status?: string
     usertype?: string
     createdAt?: Date | string
@@ -10710,7 +11785,7 @@ export namespace Prisma {
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     usertype?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10728,7 +11803,7 @@ export namespace Prisma {
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     usertype?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10746,7 +11821,7 @@ export namespace Prisma {
     author?: string | null
     imageUrl?: string | null
     price: number
-    description?: string | null
+    description: string
     status?: string
     usertype?: string
     createdAt?: Date | string
@@ -10759,7 +11834,7 @@ export namespace Prisma {
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     usertype?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10772,7 +11847,7 @@ export namespace Prisma {
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     usertype?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11114,6 +12189,59 @@ export namespace Prisma {
     followingId?: IntFieldUpdateOperationsInput | number
   }
 
+  export type VerifyCreateInput = {
+    email: string
+    verificationCode: string
+    createdAt?: Date | string
+    expiredAt?: Date | string | null
+  }
+
+  export type VerifyUncheckedCreateInput = {
+    verificationId?: number
+    email: string
+    verificationCode: string
+    createdAt?: Date | string
+    expiredAt?: Date | string | null
+  }
+
+  export type VerifyUpdateInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    verificationCode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type VerifyUncheckedUpdateInput = {
+    verificationId?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    verificationCode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type VerifyCreateManyInput = {
+    verificationId?: number
+    email: string
+    verificationCode: string
+    createdAt?: Date | string
+    expiredAt?: Date | string | null
+  }
+
+  export type VerifyUpdateManyMutationInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    verificationCode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type VerifyUncheckedUpdateManyInput = {
+    verificationId?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    verificationCode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -11252,6 +12380,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     points?: SortOrder
+    isVerified?: SortOrder
   }
 
   export type UsersAvgOrderByAggregateInput = {
@@ -11271,6 +12400,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     points?: SortOrder
+    isVerified?: SortOrder
   }
 
   export type UsersMinOrderByAggregateInput = {
@@ -11284,6 +12414,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     points?: SortOrder
+    isVerified?: SortOrder
   }
 
   export type UsersSumOrderByAggregateInput = {
@@ -11684,6 +12815,63 @@ export namespace Prisma {
   export type FollowSumOrderByAggregateInput = {
     followerId?: SortOrder
     followingId?: SortOrder
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type VerifyCountOrderByAggregateInput = {
+    verificationId?: SortOrder
+    email?: SortOrder
+    verificationCode?: SortOrder
+    createdAt?: SortOrder
+    expiredAt?: SortOrder
+  }
+
+  export type VerifyAvgOrderByAggregateInput = {
+    verificationId?: SortOrder
+  }
+
+  export type VerifyMaxOrderByAggregateInput = {
+    verificationId?: SortOrder
+    email?: SortOrder
+    verificationCode?: SortOrder
+    createdAt?: SortOrder
+    expiredAt?: SortOrder
+  }
+
+  export type VerifyMinOrderByAggregateInput = {
+    verificationId?: SortOrder
+    email?: SortOrder
+    verificationCode?: SortOrder
+    createdAt?: SortOrder
+    expiredAt?: SortOrder
+  }
+
+  export type VerifySumOrderByAggregateInput = {
+    verificationId?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type ProductsCreateNestedManyWithoutUserInput = {
@@ -12410,6 +13598,10 @@ export namespace Prisma {
     update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutFollowingInput, UsersUpdateWithoutFollowingInput>, UsersUncheckedUpdateWithoutFollowingInput>
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -12586,12 +13778,37 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type ProductsCreateWithoutUserInput = {
     name: string
     author?: string | null
     imageUrl?: string | null
     price: number
-    description?: string | null
+    description: string
     status?: string
     usertype?: string
     createdAt?: Date | string
@@ -12608,7 +13825,7 @@ export namespace Prisma {
     author?: string | null
     imageUrl?: string | null
     price: number
-    description?: string | null
+    description: string
     status?: string
     usertype?: string
     createdAt?: Date | string
@@ -12818,7 +14035,7 @@ export namespace Prisma {
     author?: StringNullableFilter<"Products"> | string | null
     imageUrl?: StringNullableFilter<"Products"> | string | null
     price?: IntFilter<"Products"> | number
-    description?: StringNullableFilter<"Products"> | string | null
+    description?: StringFilter<"Products"> | string
     status?: StringFilter<"Products"> | string
     usertype?: StringFilter<"Products"> | string
     createdAt?: DateTimeFilter<"Products"> | Date | string
@@ -13016,6 +14233,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    isVerified?: boolean
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsCreateNestedManyWithoutUserInput
     followers?: FollowCreateNestedManyWithoutFollowerInput
@@ -13036,6 +14254,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    isVerified?: boolean
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsUncheckedCreateNestedManyWithoutUserInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput
@@ -13173,6 +14392,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUpdateManyWithoutUserNestedInput
     followers?: FollowUpdateManyWithoutFollowerNestedInput
@@ -13193,6 +14413,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUncheckedUpdateManyWithoutUserNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
@@ -13276,6 +14497,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    isVerified?: boolean
     products?: ProductsCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsCreateNestedManyWithoutUserInput
@@ -13296,6 +14518,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    isVerified?: boolean
     products?: ProductsUncheckedCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsUncheckedCreateNestedManyWithoutUserInput
@@ -13315,7 +14538,7 @@ export namespace Prisma {
     author?: string | null
     imageUrl?: string | null
     price: number
-    description?: string | null
+    description: string
     status?: string
     usertype?: string
     createdAt?: Date | string
@@ -13332,7 +14555,7 @@ export namespace Prisma {
     author?: string | null
     imageUrl?: string | null
     price: number
-    description?: string | null
+    description: string
     status?: string
     usertype?: string
     createdAt?: Date | string
@@ -13369,6 +14592,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
     products?: ProductsUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUpdateManyWithoutUserNestedInput
@@ -13389,6 +14613,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
     products?: ProductsUncheckedUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUncheckedUpdateManyWithoutUserNestedInput
@@ -13424,6 +14649,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    isVerified?: boolean
     products?: ProductsCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsCreateNestedManyWithoutUserInput
     followers?: FollowCreateNestedManyWithoutFollowerInput
@@ -13444,6 +14670,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    isVerified?: boolean
     products?: ProductsUncheckedCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsUncheckedCreateNestedManyWithoutUserInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput
@@ -13479,6 +14706,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
     products?: ProductsUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUpdateManyWithoutUserNestedInput
     followers?: FollowUpdateManyWithoutFollowerNestedInput
@@ -13499,6 +14727,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
     products?: ProductsUncheckedUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUncheckedUpdateManyWithoutUserNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
@@ -13518,6 +14747,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    isVerified?: boolean
     products?: ProductsCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     followers?: FollowCreateNestedManyWithoutFollowerInput
@@ -13538,6 +14768,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    isVerified?: boolean
     products?: ProductsUncheckedCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     followers?: FollowUncheckedCreateNestedManyWithoutFollowerInput
@@ -13557,7 +14788,7 @@ export namespace Prisma {
     author?: string | null
     imageUrl?: string | null
     price: number
-    description?: string | null
+    description: string
     status?: string
     usertype?: string
     createdAt?: Date | string
@@ -13574,7 +14805,7 @@ export namespace Prisma {
     author?: string | null
     imageUrl?: string | null
     price: number
-    description?: string | null
+    description: string
     status?: string
     usertype?: string
     createdAt?: Date | string
@@ -13611,6 +14842,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
     products?: ProductsUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     followers?: FollowUpdateManyWithoutFollowerNestedInput
@@ -13631,6 +14863,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
     products?: ProductsUncheckedUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     followers?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
@@ -13656,7 +14889,7 @@ export namespace Prisma {
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     usertype?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13673,7 +14906,7 @@ export namespace Prisma {
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     usertype?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13694,6 +14927,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    isVerified?: boolean
     products?: ProductsCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsCreateNestedManyWithoutUserInput
@@ -13714,6 +14948,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    isVerified?: boolean
     products?: ProductsUncheckedCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsUncheckedCreateNestedManyWithoutUserInput
@@ -13733,7 +14968,7 @@ export namespace Prisma {
     author?: string | null
     imageUrl?: string | null
     price: number
-    description?: string | null
+    description: string
     status?: string
     usertype?: string
     createdAt?: Date | string
@@ -13750,7 +14985,7 @@ export namespace Prisma {
     author?: string | null
     imageUrl?: string | null
     price: number
-    description?: string | null
+    description: string
     status?: string
     usertype?: string
     createdAt?: Date | string
@@ -13787,6 +15022,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
     products?: ProductsUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUpdateManyWithoutUserNestedInput
@@ -13807,6 +15043,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
     products?: ProductsUncheckedUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUncheckedUpdateManyWithoutUserNestedInput
@@ -13832,7 +15069,7 @@ export namespace Prisma {
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     usertype?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13849,7 +15086,7 @@ export namespace Prisma {
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     usertype?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13870,6 +15107,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    isVerified?: boolean
     products?: ProductsCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsCreateNestedManyWithoutUserInput
@@ -13890,6 +15128,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    isVerified?: boolean
     products?: ProductsUncheckedCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsUncheckedCreateNestedManyWithoutUserInput
@@ -13909,7 +15148,7 @@ export namespace Prisma {
     author?: string | null
     imageUrl?: string | null
     price: number
-    description?: string | null
+    description: string
     status?: string
     usertype?: string
     createdAt?: Date | string
@@ -13926,7 +15165,7 @@ export namespace Prisma {
     author?: string | null
     imageUrl?: string | null
     price: number
-    description?: string | null
+    description: string
     status?: string
     usertype?: string
     createdAt?: Date | string
@@ -13963,6 +15202,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
     products?: ProductsUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUpdateManyWithoutUserNestedInput
@@ -13983,6 +15223,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
     products?: ProductsUncheckedUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUncheckedUpdateManyWithoutUserNestedInput
@@ -14008,7 +15249,7 @@ export namespace Prisma {
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     usertype?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14025,7 +15266,7 @@ export namespace Prisma {
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     usertype?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14046,6 +15287,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    isVerified?: boolean
     products?: ProductsCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsCreateNestedManyWithoutUserInput
@@ -14066,6 +15308,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    isVerified?: boolean
     products?: ProductsUncheckedCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsUncheckedCreateNestedManyWithoutUserInput
@@ -14090,6 +15333,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    isVerified?: boolean
     products?: ProductsCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsCreateNestedManyWithoutUserInput
@@ -14110,6 +15354,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     points?: number | null
+    isVerified?: boolean
     products?: ProductsUncheckedCreateNestedManyWithoutUserInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     userProducts?: UsersProductsUncheckedCreateNestedManyWithoutUserInput
@@ -14145,6 +15390,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
     products?: ProductsUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUpdateManyWithoutUserNestedInput
@@ -14165,6 +15411,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
     products?: ProductsUncheckedUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUncheckedUpdateManyWithoutUserNestedInput
@@ -14195,6 +15442,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
     products?: ProductsUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUpdateManyWithoutUserNestedInput
@@ -14215,6 +15463,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     points?: NullableIntFieldUpdateOperationsInput | number | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
     products?: ProductsUncheckedUpdateManyWithoutUserNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     userProducts?: UsersProductsUncheckedUpdateManyWithoutUserNestedInput
@@ -14230,7 +15479,7 @@ export namespace Prisma {
     author?: string | null
     imageUrl?: string | null
     price: number
-    description?: string | null
+    description: string
     status?: string
     usertype?: string
     createdAt?: Date | string
@@ -14290,7 +15539,7 @@ export namespace Prisma {
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     usertype?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14307,7 +15556,7 @@ export namespace Prisma {
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     usertype?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14324,7 +15573,7 @@ export namespace Prisma {
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     usertype?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14602,7 +15851,7 @@ export namespace Prisma {
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     usertype?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14619,7 +15868,7 @@ export namespace Prisma {
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     usertype?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14636,7 +15885,7 @@ export namespace Prisma {
     author?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     usertype?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14693,6 +15942,10 @@ export namespace Prisma {
      * @deprecated Use FollowDefaultArgs instead
      */
     export type FollowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = FollowDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use VerifyDefaultArgs instead
+     */
+    export type VerifyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = VerifyDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

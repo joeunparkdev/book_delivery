@@ -1,0 +1,88 @@
+ ###api/search
+GET https://localhost:3002/api/search/products
+Accept: */*
+Content-Type: application/json
+
+###api/search
+GET https://localhost:3002/api/search/products/name
+Accept: */*
+Content-Type: application/json
+
+{
+"name" : "cu"
+}
+
+
+###api/search
+GET https://localhost:3002/api/search/products/author
+Accept: */*
+Content-Type: application/json
+
+{
+"author" : "그"
+}
+
+
+###api/search
+GET https://localhost:3002/api/search/products/price
+Accept: */*
+Content-Type: application/json
+
+{
+  "price": 1000000
+}
+
+###api/search
+GET https://localhost:3002/api/search/products/status
+Accept: */*
+Content-Type: application/json
+
+{
+"status": "FOR"
+}
+
+
+###api/search
+GET https://localhost:3002/api/search/products/keyword/맥너
+Accept: */*
+Content-Type: application/json
+
+{
+    "price":0
+}
+
+###api/search
+GET https://localhost:3002/api/search/bookstores
+Accept: */*
+Content-Type: application/json
+
+
+###api/search
+GET https://localhost:3002/api/search/bookstores/status
+Accept: */*
+Content-Type: application/json
+
+{
+    "status": "open"
+}
+###api/search
+GET https://localhost:3002/api/search/bookstores/address
+Accept: */*
+Content-Type: application/json
+
+{
+"address" : "집"
+}
+###api/search
+GET https://localhost:3002/api/search/bookstores/name
+Accept: */*
+Content-Type: application/json
+
+{
+"name" : "우"
+}
+
+###api/search
+GET https://localhost:3002/api/search/bookstores/keyword/집
+Accept: */*
+Content-Type: application/json

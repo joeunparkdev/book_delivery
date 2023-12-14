@@ -18,6 +18,11 @@ export class StoresController {
     getMyStores = async(req, res, next) => {
         try {
             const userId = req.user.userId
+            const userType = req.user.usertype
+            console.log(userType)
+            if (userType !== 'OWNER') {
+                return res.status(404).json({ error: " OWNER 아이디가 아닙니다." })
+            }
             const bookstore = await this.storesService.findStoreByUserId(userId)
 
             return res.status(200).json({ data: bookstore })
@@ -28,9 +33,14 @@ export class StoresController {
 
     //bookstore만들기(하나만)
     createStore = async(req, res, next) => {
+
         try {
             const userId = req.user.userId;
+            const userType = req.user.usertype
 
+            if (userType !== 'OWNER') {
+                return res.status(404).json({ error: " OWNER 아이디가 아닙니다." })
+            }
             if (!userId) {
                 return res.status(401).json({ error: "User not logged in" });
             }
@@ -69,6 +79,10 @@ export class StoresController {
 
     updateStore = async(req, res, next) => {
         try {
+            const userType = req.user.userType
+            if (userType !== 'OWNER') {
+                return res.status(404).json({ error: " OWNER 아이디가 아닙니다." })
+            }
             if (!req.user || !req.user.userId) {
                 return res.status(401).json({ error: "User not logged in" });
             }
@@ -104,6 +118,10 @@ export class StoresController {
 
     deleteStore = async(req, res, next) => {
         try {
+            const userType = req.user.userType
+            if (userType !== 'OWNER') {
+                return res.status(404).json({ error: " OWNER 아이디가 아닙니다." })
+            }
             const { bookstoreId } = req.params;
 
             if (!req.user || !req.user.userId) {

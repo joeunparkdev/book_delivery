@@ -25,6 +25,7 @@ export class UsersService {
           createdAt: user.createdAt,
           updatedAt: user.updatedAt,
           userType: user.usertype,
+          points: user.points,
           products: products,
           following: following,
           followers: followers,
@@ -92,6 +93,7 @@ export class UsersService {
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
       userType: user.usertype,
+      points: user.points,
       products: products,
       following: following,
       followers: followers,
@@ -126,18 +128,25 @@ export class UsersService {
   checkEmailExists = async (email) => {
     try {
       const existingUser = await this.usersRepository.findUserByEmail(email);
-
-      if (!existingUser) {
-        throw new Error("회원 불일치");
-      }
-  
+      return existingUser;
     } catch (error) {
       console.error("Error checking email existence:", error);
       throw error;
     }
   }
 
-  createUser = async (username, password, email,userType) => {
+  createCode = async (email, verificationCode) => {
+    try {
+      const createdCode = await this.usersRepository.createCode(email, verificationCode);
+      return createdCode;
+    } catch (error) {  
+      console.error("Error creating verification code:", error);
+      throw error;
+    }
+  };
+
+
+  createUser = async (username, password, email,userType, isVerified) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const createdUser = await this.usersRepository.createUser(
@@ -145,6 +154,7 @@ export class UsersService {
       hashedPassword,
       email,
       userType,
+      isVerified=1,
     );
 
     return {
@@ -153,6 +163,7 @@ export class UsersService {
       email: createdUser.email,
       password: createdUser.password,
       userType: createdUser.usertype,
+      isVerified: createdUser.isVerified,
       createdAt: createdUser.createdAt,
       updatedAt: createdUser.updatedAt,
     };
@@ -372,7 +383,7 @@ export class UsersService {
     }
   };
 
-async kakaoLogin(kakaoId, email, nickname) {
+ kakaoLogin = async (kakaoId, email, nickname) => {
   try {
     // Prisma를 사용하여 이메일이 일치하는 사용자 찾기
     const user = await this.usersRepository.findUserByEmail(email);
@@ -388,7 +399,29 @@ async kakaoLogin(kakaoId, email, nickname) {
     console.error(error);
     throw new Error('카카오 로그인 중 오류 발생');
   }
-}
+};
+
+checkVerificationCode = async (email, verificationCode) => {
+  try {
+    const verify = await this.usersRepository.findCodeByEmail(email);
+    console.log(verify);
+    const expiredDate = await this.usersRepository.findExpiredDateByCode(verify);
+    console.log(expiredDate);
+
+    if (!verify) {
+      throw new Error("Invalid verification code.");
+    }
+
+    if (verify !== verificationCode || expiredDate !== null && this.usersRepository.isExpired(expiredDate)) {
+      throw new Error("Invalid verification code.");
+    }
+    return verify;
+
+  } catch (error) {
+    throw new Error(error.message || "Error checking verification code.");
+  }
+};
+
 
 
 }
