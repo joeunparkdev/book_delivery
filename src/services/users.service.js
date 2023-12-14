@@ -128,18 +128,25 @@ export class UsersService {
   checkEmailExists = async (email) => {
     try {
       const existingUser = await this.usersRepository.findUserByEmail(email);
-
-      if (!existingUser) {
-        throw new Error("회원 불일치");
-      }
-  
+      return existingUser;
     } catch (error) {
       console.error("Error checking email existence:", error);
       throw error;
     }
   }
 
-  createUser = async (username, password, email,userType,verificationCode) => {
+  createCode = async (email, verificationCode) => {
+    try {
+      const createdCode = await this.usersRepository.createCode(email, verificationCode);
+      return createdCode;
+    } catch (error) {  
+      console.error("Error creating verification code:", error);
+      throw error;
+    }
+  };
+
+
+  createUser = async (username, password, email,userType, isVerified) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const createdUser = await this.usersRepository.createUser(
@@ -147,7 +154,7 @@ export class UsersService {
       hashedPassword,
       email,
       userType,
-      verificationCode,
+      isVerified=1,
     );
 
     return {
@@ -156,7 +163,7 @@ export class UsersService {
       email: createdUser.email,
       password: createdUser.password,
       userType: createdUser.usertype,
-      verificationCode: createdUser.verificationCode,
+      isVerified: createdUser.isVerified,
       createdAt: createdUser.createdAt,
       updatedAt: createdUser.updatedAt,
     };
@@ -376,7 +383,7 @@ export class UsersService {
     }
   };
 
-async kakaoLogin(kakaoId, email, nickname) {
+ kakaoLogin = async (kakaoId, email, nickname) => {
   try {
     // Prisma를 사용하여 이메일이 일치하는 사용자 찾기
     const user = await this.usersRepository.findUserByEmail(email);
@@ -394,22 +401,27 @@ async kakaoLogin(kakaoId, email, nickname) {
   }
 };
 
-checkVerificationCode = async (email, verificationCode, req, res, next) => {
+checkVerificationCode = async (email, verificationCode) => {
   try {
-    // 이메일과 보안 코드를 사용하여 사용자 검증 로직을 수행
-    const user = await this.usersRepository.findUserByEmail(email);
+    const verify = await this.usersRepository.findCodeByEmail(email);
+    console.log(verify);
+    const expiredDate = await this.usersRepository.findExpiredDateByCode(verify);
+    console.log(expiredDate);
 
-    if (!user || user.verificationCode !== verificationCode) {
-      throw new Error("유효하지 않은 보안 코드입니다.");
+    if (!verify) {
+      throw new Error("Invalid verification code.");
     }
 
-    // 검증이 성공하면 다음 미들웨어로 이동
-    return next();
+    if (verify !== verificationCode || expiredDate !== null && this.usersRepository.isExpired(expiredDate)) {
+      throw new Error("Invalid verification code.");
+    }
+    return verify;
+
   } catch (error) {
-    // 에러가 발생하면 에러를 미들웨어로 전달
-    throw new Error(error.message || "보안 코드 확인 중 에러가 발생했습니다.");
+    throw new Error(error.message || "Error checking verification code.");
   }
 };
+
 
 
 }

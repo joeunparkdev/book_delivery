@@ -1,31 +1,9 @@
-import { AuthController } from "../controllers/auth.controller.js";
 import { RefreshTokenService } from "../services/refreshTokenService.js";
 import jwt from "jsonwebtoken";
 import { JWT_ACCESS_TOKEN_SECRET } from "../constants/security.constant.js";
 import { prisma } from "../utils/prisma/index.js";
 
 const refreshTokenManagementService = new RefreshTokenService();
-const authController = new AuthController();
-
-// 보안 코드 확인 미들웨어
-const checkVerificationCodeMiddleware = async (req, res, next) => {
-  try {
-    // req.body에서 email과 verificationCode를 가져오기
-    const { email, verificationCode } = req.body; 
-    console.log(email, verificationCode);
-    
-    // checkVerificationCode 함수 호출 시에는 이미 req.body에서 값을 가져옴
-    await authController.checkVerificationCode(req, res, next);
-  } catch (error) {
-    console.error(error);
-    return res.status(400).json({
-      success: false,
-      message: error.message || "보안 코드 확인 중 에러가 발생했습니다.",
-    });
-  }
-};
-
-
 
 // 인증 미들웨어
 const authMiddleware = async (req, res, next) => {
