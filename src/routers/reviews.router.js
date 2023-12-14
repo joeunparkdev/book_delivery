@@ -7,6 +7,8 @@ import {
 const reviewsController = new ReviewsController();
 const router = express.Router();
 
+router.get("/", reviewsController.getReviews);
+
 router.get("/:productId", reviewsController.getReviews);
 
 router.post("/:productId", authMiddleware, reviewsController.createReviews);

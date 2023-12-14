@@ -12,6 +12,13 @@ const productsController = new ProductsController();
 const router = express.Router();
 
 //TODO: 상품 추천해요, 비추천해요, 평점주기
+
+// 상품 목록 조회 API
+router.get("/", productsController.getProducts);
+
+// 상품 상세 조회 API
+router.get("/:productId", productsController.getProductsById);
+
 // 상품 생성 API
 router.post(
   "/",
@@ -31,18 +38,39 @@ router.put(
 // 상품 삭제 API
 router.delete("/:productId", authMiddleware, productsController.deleteProduct);
 
-// 관리자모드 - 모든 상품 삭제 API
+// 관리자 모드 상품 생성 API
+router.post(
+  "/admin/products",
+  authMiddleware,
+  adminMiddleware,
+  s3MiddleWare,
+  productsController.createProduct,
+);
+
+// 관리자 모드 상품 수정 API
+router.put(
+  "/admin/:productId",
+  authMiddleware,
+  adminMiddleware,
+  s3MiddleWare,
+  productsController.updateProduct,
+);
+
+// 관리자 모드 상품 삭제 API
+router.delete("/admin/:productId", authMiddleware, productsController.deleteProduct);
+
+// 관리자 모드 모든 상품 삭제 API
 router.delete(
-  "/",
+  "/admin/products",
   authMiddleware,
   adminMiddleware,
   productsController.deleteAllProducts,
 );
 
-// 상품 목록 조회 API
-router.get("/", productsController.getProducts);
+// 관리자 모드 상품 목록 조회 API
+router.get("/admin/products", productsController.getProducts);
 
-// 상품 상세 조회 API
-router.get("/:productId", productsController.getProductsById);
+// 관리자 모드 상품 상세 조회 API
+router.get("/admin/:productId", productsController.getProductsById);
 
 export default router;
