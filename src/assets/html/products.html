@@ -10,6 +10,12 @@
       integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
       crossorigin="anonymous"
     />
+    <style>
+      #searchResultsContainer,
+      #productCardsContainer {
+        display: none;
+      }
+    </style>
   </head>
 
   <body>
@@ -62,33 +68,47 @@
     </header>
 
     <main>
-      <div class="container my-5">
+      <div class="container my-5 text-center">
         <h2 class="text-success mb-4">전체 상품</h2>
+        <!-- Center-aligned Search bar -->
+        <div
+          class="col-md-6 d-flex justify-content-center align-items-center mx-auto"
+        >
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="검색어를 입력하세요"
+              aria-label="검색어 입력"
+              aria-describedby="searchButton"
+            />
+            <button
+              class="btn btn-outline-success"
+              type="button"
+              id="searchButton"
+            >
+              검색
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Results Section -->
+      <div class="container my-5 text-center">
+        <h2 class="text-success mb-4" id="searchResultsTitle">검색 결과</h2>
+        <div
+          class="row row-cols-1 row-cols-md-3 g-4"
+          id="searchResultsContainer"
+        ></div>
+      </div>
+
+      <!-- All Products Section -->
+      <div class="container">
+        <h2 class="text-success mb-4">전체 상품 목록</h2>
         <div
           class="row row-cols-1 row-cols-md-3 g-4"
           id="productCardsContainer"
         ></div>
-      </div>
-      <!-- Center-aligned Search bar -->
-      <div
-        class="col-md-6 d-flex justify-content-center align-items-center mx-auto"
-      >
-        <div class="input-group">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="검색어를 입력하세요"
-            aria-label="검색어 입력"
-            aria-describedby="searchButton"
-          />
-          <button
-            class="btn btn-outline-success"
-            type="button"
-            id="searchButton"
-          >
-            검색
-          </button>
-        </div>
       </div>
     </main>
 
@@ -98,7 +118,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="/assets/js/products.js"></script>
+    <script src="../js/products.js"></script>
   </body>
 
   <script src="../js/header.js"></script>

@@ -26,7 +26,7 @@
       rel="stylesheet"
     />
     <link href="../css/mystyle.css" rel="stylesheet" />
-    <title>ReadingRocket | 개인 정보 수정</title>
+    <title>ReadingRocket | 회원가입</title>
     <style>
       .jumbotron {
         border-radius: 0;
@@ -67,7 +67,6 @@
                 >
               </div>
             </div>
-
             <div class="form-group row">
               <label for="inputEmail" class="col-sm-4 col-form-label"
                 >이메일</label
@@ -84,18 +83,47 @@
                     <button
                       class="btn btn-outline-sparta"
                       type="button"
-                      onclick="checkEmail()"
+                      onclick="send_code()"
                     >
-                      중복확인
+                      인증
                     </button>
                   </div>
                 </div>
                 <small id="emailHelp" class="form-text text-muted"
-                  >입력 후 중복확인 버튼을 클릭해주세요.</small
+                  >입력 후 인증버튼을 클릭해주세요.</small
                 >
               </div>
             </div>
-
+            <div class="form-group row">
+              <label for="inputVerificationCode" class="col-sm-4 col-form-label"
+                >인증번호</label
+              >
+              <div class="col-sm-8">
+                <div class="input-group align-items-start">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputVerificationCode"
+                  />
+                  <!-- Corrected ID here -->
+                  <div class="input-group-append">
+                    <button
+                      class="btn btn-outline-sparta"
+                      type="button"
+                      onclick="verify_code()"
+                    >
+                      확인
+                    </button>
+                  </div>
+                </div>
+                <small id="verificationCodeHelp" class="form-text text-muted"
+                  >입력 후 확인버튼을 클릭해주세요.</small
+                >
+              </div>
+            </div>
+            <div id="timer-container" style="color: black">
+              <p>인증 제한 시간: <span id="timer">3:00</span></p>
+            </div>
             <div class="form-group row">
               <label for="inputPassword1" class="col-sm-4 col-form-label"
                 >비밀번호</label
@@ -128,23 +156,32 @@
                 >
               </div>
             </div>
-            <div class="form-group row">
-              <label for="inputGender" class="col-sm-4 col-form-label"
-                >성별</label
-              >
-              <div class="col-sm-8">
-                <select class="form-control" id="inputGender">
-                  <option value="male">남성</option>
-                  <option value="female">여성</option>
-                </select>
+          </div>
+
+          <div id="userTypeFormGroup" class="form-group row">
+            <label class="col-sm-4 col-form-label">유저타입</label>
+            <div class="col-sm-8">
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="userType"
+                  id="bossRadio"
+                  value="OWNER"
+                />
+                <label class="form-check-label" for="bossRadio">사장님</label>
               </div>
-            </div>
-            <div class="form-group row">
-              <label for="inputBirthday" class="col-sm-4 col-form-label"
-                >생년월일</label
-              >
-              <div class="col-sm-8">
-                <input type="date" class="form-control" id="inputBirthday" />
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="userType"
+                  id="customerRadio"
+                  value="CLIENT"
+                />
+                <label class="form-check-label" for="customerRadio"
+                  >고객님</label
+                >
               </div>
             </div>
           </div>
@@ -155,14 +192,14 @@
                 class="btn btn-sparta btn-block"
                 onclick="modifyProfile()"
               >
-                수정하기
+                회원수정
               </button>
             </div>
             <div class="col-6 pl-2">
               <button
                 type="button"
                 class="btn btn-outline-sparta btn-block"
-                onclick="window.history.back()"
+                onclick="window.location.href='login.html'"
               >
                 취소
               </button>
@@ -188,6 +225,7 @@
       integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
       crossorigin="anonymous"
     ></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
     <script src="../js/modifyProfile.js"></script>
   </body>

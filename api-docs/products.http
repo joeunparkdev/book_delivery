@@ -4,14 +4,25 @@ Accept: */*
 Content-Type: application/json
 
 ### POST /api/products
+<<<<<<< HEAD
 POST https://localhost:3002/api/products/
+=======
+
+POST http://localhost:3001/api/products/
+>>>>>>> 99ff8eeab219d995839b8ea28fb5a19f80e4687b
 Accept: */*
 Content-Type: application/json
 
 {
+<<<<<<< HEAD
 "name": "CU7",
 "description": "맥너",
 "author": "그르르",
+=======
+"name": "나와 동일한 이름",
+"description": "??????????!",
+"author": "뉴규뉴규",
+>>>>>>> 99ff8eeab219d995839b8ea28fb5a19f80e4687b
 "price": 2500
 }
 

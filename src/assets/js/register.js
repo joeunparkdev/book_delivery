@@ -2,7 +2,7 @@
 document
   .getElementById("kakao-login-btn")
   .addEventListener("click", function () {
-    sendKakaoAccessTokenToServer();
+    handleKakao_login();
   });
 
 // Kakao 로그인 함수
@@ -37,9 +37,31 @@ async function handleKakao_login() {
   }
 }
 
+//카카오 토큰 보내기
+async function sendKakaoAccessTokenToServer(accessToken) {
+  try {
+    // 서버로 전송할 URL 및 데이터 설정
+    const url = `/api/auth/kakao/callback?code=${encodeURIComponent(accessToken)}`;
+
+    // 서버로 HTTP GET 요청 보내기
+    const response = await fetch(url, {
+      method: "GET",
+    });
+
+    // 서버 응답 확인
+    if (response.ok) {
+      console.log("Kakao access token sent to server successfully.");
+    } else {
+      console.error("Failed to send Kakao access token to server.");
+    }
+  } catch (error) {
+    console.error("Error while sending Kakao access token to server:", error);
+  }
+}
+
 // 진짜 카카오 로그인
 async function kakao_login() {
-  const response = await fetch(`http://localhost:3001/api/auth/kakao`, {
+  const response = await fetch(`/api/auth/kakao`, {
     method: "GET",
     mode: "no-cors",
   });
@@ -51,7 +73,9 @@ function sign_up() {
   const email = document.getElementById("inputEmail").value;
   const password = document.getElementById("inputPassword1").value;
   const confirmPassword = document.getElementById("inputPassword2").value;
-  const verificationCode = document.getElementById("inputVerificationCode").value;
+  const verificationCode = document.getElementById(
+    "inputVerificationCode",
+  ).value;
   console.log("verificationCode:", verificationCode);
   const userTypeFormGroup = document.getElementById("userTypeFormGroup");
   const usertype = userTypeFormGroup.querySelector(":checked").value;
@@ -64,7 +88,7 @@ function sign_up() {
     verificationCode,
   };
 
-  fetch(`http://localhost:3001/api/auth/signup/${usertype}`, {
+  fetch(`/api/auth/signup/${usertype}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -88,33 +112,9 @@ function sign_up() {
     });
 }
 
-function sign_in() {
-  const email = document.getElementById("inputEmail").value;
-  const password = document.getElementById("inputPassword").value;
-
-  fetch(`http://localhost:3001/api/auth/signin`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-    mode: "cors",
-    credentials: "include",
-  })
-    .then((response) => response.json())
-    .then((result) => {
-      console.log(result);
-      if (result.success) {
-        alert("로그인 성공!");
-        window.location.href = "main.html";
-      } else {
-        alert(`로그인 실패: ${result.message}`);
-      }
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
-}
+let attemptsRemaining = 3; // 허용된 시도 횟수
+document.getElementById("timer-container").style.display = "none";
+let verificationStartTime; // 인증 코드가 전송된 시간을 저장하는 변수
 
 async function send_code() {
   const email = document.getElementById("inputEmail").value;
@@ -125,7 +125,7 @@ async function send_code() {
   }
 
   try {
-    const response = await fetch(`http://localhost:3001/api/auth/sendCode`, {
+    const response = await fetch(`/api/auth/sendCode`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -139,16 +139,49 @@ async function send_code() {
 
     if (result.success) {
       alert("인증 코드를 이메일로 전송했습니다.");
+      verificationStartTime = Date.now(); // 인증 코드가 전송된 시간을 기록
+      startVerificationTimer(); // 타이머 시작
+      document.getElementById("timer-container").style.color = "red";
+      document.getElementById("timer-container").style.display = "block";
     } else {
       alert("인증 코드 전송에 실패했습니다.");
     }
   } catch (error) {
-    console.error("Error:", error);
+    console.error("에러:", error);
   }
 }
 
-let attemptsRemaining = 3; // 허용된 시도 횟수
-let verificationTimer;
+function startVerificationTimer() {
+  let timeRemaining = 3 * 60; // 초 단위로 설정된 제한 시간
+  const timerElement = document.getElementById("timer");
+  const timerContainer = document.getElementById("timer-container");
+
+  function updateTimer() {
+    const elapsedSeconds = Math.floor(
+      (Date.now() - verificationStartTime) / 1000,
+    );
+    const remainingSeconds = Math.max(0, timeRemaining - elapsedSeconds);
+    const minutes = Math.floor(remainingSeconds / 60);
+    const seconds = remainingSeconds % 60;
+
+    timerElement.textContent = `${minutes}:${
+      seconds < 10 ? "0" : ""
+    }${seconds}`;
+
+    if (remainingSeconds <= 0) {
+      clearInterval(verificationTimer);
+      alert("인증 시간이 만료되었습니다. 다시 시도해주세요.");
+      document.getElementById("verifyButton").disabled = true; // 시간 초과 후 버튼 비활성화
+      timerContainer.style.color = "black";
+    }
+  }
+
+  // 초기 업데이트
+  updateTimer();
+
+  // 매 초마다 타이머 업데이트
+  verificationTimer = setInterval(updateTimer, 1000);
+}
 
 async function verify_code() {
   const verificationCode = document.getElementById(
@@ -165,6 +198,7 @@ async function verify_code() {
   const data = {
     email,
     verificationCode,
+    startTime: verificationStartTime, // 시작 시간을 서버에 전송
   };
 
   try {
@@ -197,16 +231,4 @@ async function verify_code() {
   }
 }
 
-// 페이지 로딩 또는 인증 프로세스 시작 시 타이머 시작
-function startVerificationTimer() {
-  verificationTimer = setTimeout(
-    () => {
-      alert("인증 시간이 만료되었습니다. 다시 시도해주세요.");
-      document.getElementById("verifyButton").disabled = true; // 시간 초과 후 버튼 비활성화
-    },
-    3 * 60 * 1000,
-  ); // 3분을 밀리초로 설정
-}
-
-// 페이지 로딩 시 타이머 시작을 위한 이벤트 리스너 추가
 document.addEventListener("DOMContentLoaded", startVerificationTimer);

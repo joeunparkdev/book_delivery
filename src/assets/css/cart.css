@@ -16,7 +16,13 @@
   }
 
   .Header {
-    width: 90%;
+    margin: auto;
+    height: 15%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #198754;
+    color: #ffffff; 
   }
   
   .about .title {
