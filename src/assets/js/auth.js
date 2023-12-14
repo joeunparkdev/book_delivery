@@ -47,11 +47,12 @@ async function kakao_login() {
 
 function sign_up() {
   const username = document.getElementById("inputNickname").value;
+  console.log("Username:", username);
   const email = document.getElementById("inputEmail").value;
   const password = document.getElementById("inputPassword1").value;
   const confirmPassword = document.getElementById("inputPassword2").value;
-  const verificationCode = document.getElementById("inputCode").value;
-
+  const verificationCode = document.getElementById("inputVerificationCode").value;
+  console.log("verificationCode:", verificationCode);
   const userTypeFormGroup = document.getElementById("userTypeFormGroup");
   const usertype = userTypeFormGroup.querySelector(":checked").value;
 
