@@ -3,7 +3,7 @@ CREATE TABLE `Follows` (
     `followedByUserId` INTEGER NOT NULL,
     `followUserId` INTEGER NOT NULL,
 
-    success KEY (`followUserId`, `followedByUserId`)
+    PRIMARY KEY (`followUserId`, `followedByUserId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
