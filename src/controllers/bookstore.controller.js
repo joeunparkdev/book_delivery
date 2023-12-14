@@ -37,7 +37,9 @@ export class StoresController {
       const userId = req.user.userId;
       const userType = req.user.usertype;
       const imageUrl = req.file.location;
-      const imagePath = req?.imagePath;
+      const [aws, imagePath] = imageUrl.split("com/");
+
+      console.log(imagePath, "이미지 경로------------------------------");
 
       if (userType !== "OWNER") {
         return res.status(404).json({ error: " OWNER 아이디가 아닙니다." });
@@ -56,8 +58,8 @@ export class StoresController {
       }
 
       const newStore = await this.storesService.createStore(
-        imageUrl,
         imagePath,
+        imageUrl,
         name,
         price,
         address,

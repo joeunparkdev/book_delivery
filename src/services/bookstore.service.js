@@ -13,16 +13,16 @@ export class StoresService {
 
     return bookStores.map((bookStore) => {
       return {
-        bookstoreId: bookStore.bookstoreId,
-        status: bookStore.status,
+        userId: bookStore.userId,
+        imagePath: bookStore.imagePath,
         imageUrl: bookStore.imageUrl,
         name: bookStore.name,
         price: bookStore.price,
         address: bookStore.address,
         description: bookStore.description,
+        status: bookStore.status,
         createdAt: bookStore.createdAt,
         updatedAt: bookStore.updatedAt,
-        userId: bookStore.userId,
       };
     });
   };
@@ -31,13 +31,14 @@ export class StoresService {
     // 저장소(Repository)에게 특정 게시글 하나를 요청합니다.
     const bookStore = await this.storeRepository.findStoreById(bookstoreId);
     return {
-      productId: bookStore.productId,
       userId: bookStore.userId,
+      imagePath: bookStore.imagePath,
+      imageUrl: bookStore.imageUrl,
       name: bookStore.name,
+      price: bookStore.price,
+      address: bookStore.address,
       description: bookStore.description,
       status: bookStore.status,
-      price: bookStore.price,
-      city: bookStore.city,
       createdAt: bookStore.createdAt,
       updatedAt: bookStore.updatedAt,
     };

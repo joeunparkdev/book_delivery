@@ -49,7 +49,7 @@ export class StoreRepository {
         imagePath,
         imageUrl,
         name,
-        price,
+        price: +price,
         address,
         description,
         status,
