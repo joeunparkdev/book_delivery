@@ -21,7 +21,7 @@ export class ProductsService {
         description: product.description,
         status: product.status,
         price: product.price,
-        userType: product.userType,
+        usertype: product.usertype,
         createdAt: product.createdAt,
         updatedAt: product.updatedAt,
       };
@@ -38,7 +38,7 @@ export class ProductsService {
       description: product.description,
       status: product.status,
       price: product.price,
-      userType: product.userType,
+      usertype: product.usertype,
       createdAt: product.createdAt,
       updatedAt: product.updatedAt,
     };
@@ -54,20 +54,21 @@ export class ProductsService {
       description: product.description,
       status: product.status,
       price: product.price,
-      userType: product.userType,
+      usertype: product.usertype,
       createdAt: product.createdAt,
       updatedAt: product.updatedAt,
     };
   };
 
-  createProduct = async (name, description, price, userId, userType) => {
+  createProduct = async (name, description, price, author, image, userId) => {
     // 저장소(Repository)에게 데이터를 요청합니다.
     const createdProduct = await this.productsRepository.createProduct(
       name,
       description,
-      userId,
       price,
-      userType,
+      author,
+      image,
+      userId,
     );
 
     // 비즈니스 로직을 수행한 후 사용자에게 보여줄 데이터를 가공합니다.
@@ -78,7 +79,9 @@ export class ProductsService {
       description: createdProduct.description,
       status: createdProduct.status,
       price: createdProduct.price,
-      userType: createdProduct.userType,
+      author: createdProduct.author,
+      image: createdProduct.image,
+      usertype: createdProduct.usertype,
       createdAt: createdProduct.createdAt,
       updatedAt: createdProduct.updatedAt,
     };
@@ -87,10 +90,11 @@ export class ProductsService {
   updateProduct = async (
     productId,
     name,
-    price,
-    userType,
     description,
+    price,
     status,
+    author,
+    image,
     updatedAt,
     userId,
   ) => {
@@ -110,9 +114,10 @@ export class ProductsService {
         productId,
         name,
         description,
-        status,
         price,
-        userType,
+        status,
+        author,
+        image,
         updatedAt,
       );
     } catch (error) {
