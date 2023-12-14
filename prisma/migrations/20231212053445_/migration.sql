@@ -21,7 +21,7 @@ CREATE TABLE `Bookstores` (
     `updatedAt` DATETIME(3) NOT NULL,
     `userId` INTEGER NOT NULL,
 
-    PRIMARY KEY (`bookstoreId`)
+    success KEY (`bookstoreId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -36,7 +36,7 @@ CREATE TABLE `Orders` (
 
     INDEX `idx_user_id`(`userId`),
     INDEX `idx_product_id`(`productId`),
-    PRIMARY KEY (`orderId`)
+    success KEY (`orderId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -51,7 +51,7 @@ CREATE TABLE `Reviews` (
 
     INDEX `idx_user_id`(`userId`),
     INDEX `idx_product_id`(`productId`),
-    PRIMARY KEY (`reviewId`)
+    success KEY (`reviewId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable

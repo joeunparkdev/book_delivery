@@ -1,5 +1,7 @@
+
 ### 내 정보 조회 API
 GET https://localhost:3002/api/users/me
+
 Accept: */*
 Content-Type: application/json
 
