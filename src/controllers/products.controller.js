@@ -1,7 +1,9 @@
 import { ProductsService } from "../services/products.service.js";
+import { StoresController } from "../controllers/bookstore.controller.js";
 
 export class ProductsController {
   productsService = new ProductsService();
+  storesController = new StoresController();
 
   getProducts = async (req, res, next) => {
     try {
@@ -36,6 +38,12 @@ export class ProductsController {
       const image = req.file?.location;
       const imagePath = req?.imagePath;
 
+      const bookstore = await this.storesController.getMyStores(userId);
+
+      const bookstoreId = bookstore.bookstoreId;
+
+      console.log(bookstoreId);
+
       const newProduct = await this.productsService.createProduct(
         name,
         description,
@@ -44,6 +52,7 @@ export class ProductsController {
         image,
         imagePath,
         userId,
+        bookstoreId,
         new Date(),
         new Date(),
       );
