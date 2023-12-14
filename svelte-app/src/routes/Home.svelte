@@ -3,7 +3,7 @@
 
   async function Signout() {
     try {
-      const response = await fetch("http://localhost:3001/api/auth/signout", {
+      const response = await fetch("/api/auth/signout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
