@@ -2,14 +2,11 @@ import ProductsController from "../controllers/products.controller.js";
 import { prisma } from "../utils/prisma/index.js";
 
 export class CustomerOrderProductRepository {
-  orderProductByUser = async (userId, existProduct, address) => {
-    const user = await prisma.users.findUnique({ where: { userId } });
-    const points = user.points - existProduct.price;
-
-    const [users, order] = await prisma.$transaction([
+  orderProductByUser = async (existUser, existProduct, address, points) => {
+    const [users, orders] = await prisma.$transaction([
       prisma.users.update({
         where: {
-          userId: userId,
+          userId: existUser.userId,
         },
         data: {
           points: points,
@@ -17,7 +14,7 @@ export class CustomerOrderProductRepository {
       }),
       prisma.orders.create({
         data: {
-          userId: userId,
+          userId: existUser.userId,
           productId: existProduct.productId,
           address: address,
           status: "주문완료",
@@ -27,6 +24,6 @@ export class CustomerOrderProductRepository {
       }),
     ]);
 
-    return order;
+    return { users, orders };
   };
 }
