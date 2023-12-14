@@ -27,21 +27,14 @@ model Users {
   userReviews   Reviews[]       @relation("UserReviews")
   isVerified    Boolean         @default(false)
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> 3d5de2fc0609ee22ccf83990bcc1b1d28e6f0018
 model Products {
   productId      Int             @id @default(autoincrement()) @map("productId")
   name           String          @unique
   author         String?
   imageUrl       String?
+  imagePath      String?
   price          Int
-<<<<<<< HEAD
   description    String
-=======
-  description    String?
->>>>>>> f919fef5a56913eccd2ddaf6ed108da4a50360af
   status         String          @default("FOR_SALE")
   usertype       String          @default("OWNER")
   createdAt      DateTime        @default(now()) @map("createdAt")
@@ -53,10 +46,6 @@ model Products {
   Orders         Orders[]
   productReviews Reviews[]       @relation("ProductReviews")
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> 3d5de2fc0609ee22ccf83990bcc1b1d28e6f0018
 model Bookstores {
   bookstoreId Int        @id @default(autoincrement()) @map("bookstoreId")
   imageUrl    String
@@ -71,10 +60,6 @@ model Bookstores {
   user        Users      @relation(fields: [userId], references: [userId], onDelete: Cascade)
   products    Products[] @relation("UserBookstores")
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> 3d5de2fc0609ee22ccf83990bcc1b1d28e6f0018
 model RefreshToken {
   id             Int      @id @default(autoincrement())
   token          String
@@ -82,24 +67,13 @@ model RefreshToken {
   userId         Int      @map("userId")
   user           Users    @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> 3d5de2fc0609ee22ccf83990bcc1b1d28e6f0018
 model UsersProducts {
   userId    Int
   productId Int
   user      Users    @relation(fields: [userId], references: [userId], onDelete: Cascade)
   product   Products @relation(fields: [productId], references: [productId], onDelete: Cascade)
-<<<<<<< HEAD
   @@id([userId, productId])
 }
-=======
-
-  @@id([userId, productId])
-}
-
->>>>>>> 3d5de2fc0609ee22ccf83990bcc1b1d28e6f0018
 model Orders {
   orderId   Int      @id @default(autoincrement()) @map("orderId")
   userId    Int      @map("userId")
@@ -110,17 +84,9 @@ model Orders {
   status    String   @default("RECEIVED")
   createdAt DateTime @default(now()) @map("createdAt")
   updatedAt DateTime @updatedAt @map("updatedAt")
-<<<<<<< HEAD
   @@index([userId], name: "idx_user_id")
   @@index([productId], name: "idx_product_id")
 }
-=======
-
-  @@index([userId], name: "idx_user_id")
-  @@index([productId], name: "idx_product_id")
-}
-
->>>>>>> 3d5de2fc0609ee22ccf83990bcc1b1d28e6f0018
 model Reviews {
   reviewId   Int      @id @default(autoincrement())
   userId     Int      @map("userId")
@@ -140,7 +106,6 @@ model Follow {
   followingId Int
   following   Users @relation("Following", fields: [followingId], references: [userId], onDelete: Cascade)
   @@id([followingId, followerId])
-<<<<<<< HEAD
 }
 model Verify {
   verificationId   Int      @id @default(autoincrement())
@@ -148,11 +113,4 @@ model Verify {
   verificationCode String
   createdAt DateTime @default(now()) @map("createdAt")
   expiredAt DateTime? @map("expiredAt")
-<<<<<<< HEAD
 }
-=======
-}
-=======
-}
->>>>>>> f919fef5a56913eccd2ddaf6ed108da4a50360af
->>>>>>> 3d5de2fc0609ee22ccf83990bcc1b1d28e6f0018
