@@ -1,0 +1,8 @@
+
+POST http://localhost:3001/api/order/12
+Accept: */*
+Content-Type: application/json
+
+{
+	"address" : "노원구"
+}

@@ -1,13 +1,14 @@
  ### POST /api/auth/signup
-POST http://localhost:3001/api/auth/signup/OWNER
+POST http://localhost:3001/api/auth/signup/CLIENT
 Accept: */*
 Content-Type: application/json
 
 {
+  "points": 8000000,
   "username":"조조",
   "password": "000000",
   "confirmPassword": "000000",
-  "email": "dkd3@naver.com"
+  "email": "dkd147@naver.com"
 }
 
 ### POST /api/auth/signin
@@ -16,7 +17,7 @@ Accept: */*
 Content-Type: application/json
 
 {
-  "email": "dkd2@naver.com",
+  "email": "dkd1212@naver.com",
   "password": "000000"
 }
 
