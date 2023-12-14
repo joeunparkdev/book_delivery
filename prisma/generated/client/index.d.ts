@@ -44,11 +44,6 @@ export type UsersProducts = $Result.DefaultSelection<Prisma.$UsersProductsPayloa
  */
 export type Orders = $Result.DefaultSelection<Prisma.$OrdersPayload>
 /**
- * Model TakeOrders
- * 
- */
-export type TakeOrders = $Result.DefaultSelection<Prisma.$TakeOrdersPayload>
-/**
  * Model Reviews
  * 
  */
@@ -245,16 +240,6 @@ export class PrismaClient<
     * ```
     */
   get orders(): Prisma.OrdersDelegate<ExtArgs>;
-
-  /**
-   * `prisma.takeOrders`: Exposes CRUD operations for the **TakeOrders** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more TakeOrders
-    * const takeOrders = await prisma.takeOrders.findMany()
-    * ```
-    */
-  get takeOrders(): Prisma.TakeOrdersDelegate<ExtArgs>;
 
   /**
    * `prisma.reviews`: Exposes CRUD operations for the **Reviews** model.
@@ -761,7 +746,6 @@ export namespace Prisma {
     RefreshToken: 'RefreshToken',
     UsersProducts: 'UsersProducts',
     Orders: 'Orders',
-    TakeOrders: 'TakeOrders',
     Reviews: 'Reviews',
     Follow: 'Follow',
     Verify: 'Verify'
@@ -781,7 +765,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'users' | 'products' | 'bookstores' | 'refreshToken' | 'usersProducts' | 'orders' | 'takeOrders' | 'reviews' | 'follow' | 'verify'
+      modelProps: 'users' | 'products' | 'bookstores' | 'refreshToken' | 'usersProducts' | 'orders' | 'reviews' | 'follow' | 'verify'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -1178,72 +1162,6 @@ export namespace Prisma {
           count: {
             args: Prisma.OrdersCountArgs<ExtArgs>,
             result: $Utils.Optional<OrdersCountAggregateOutputType> | number
-          }
-        }
-      }
-      TakeOrders: {
-        payload: Prisma.$TakeOrdersPayload<ExtArgs>
-        fields: Prisma.TakeOrdersFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.TakeOrdersFindUniqueArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$TakeOrdersPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.TakeOrdersFindUniqueOrThrowArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$TakeOrdersPayload>
-          }
-          findFirst: {
-            args: Prisma.TakeOrdersFindFirstArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$TakeOrdersPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.TakeOrdersFindFirstOrThrowArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$TakeOrdersPayload>
-          }
-          findMany: {
-            args: Prisma.TakeOrdersFindManyArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$TakeOrdersPayload>[]
-          }
-          create: {
-            args: Prisma.TakeOrdersCreateArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$TakeOrdersPayload>
-          }
-          createMany: {
-            args: Prisma.TakeOrdersCreateManyArgs<ExtArgs>,
-            result: Prisma.BatchPayload
-          }
-          delete: {
-            args: Prisma.TakeOrdersDeleteArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$TakeOrdersPayload>
-          }
-          update: {
-            args: Prisma.TakeOrdersUpdateArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$TakeOrdersPayload>
-          }
-          deleteMany: {
-            args: Prisma.TakeOrdersDeleteManyArgs<ExtArgs>,
-            result: Prisma.BatchPayload
-          }
-          updateMany: {
-            args: Prisma.TakeOrdersUpdateManyArgs<ExtArgs>,
-            result: Prisma.BatchPayload
-          }
-          upsert: {
-            args: Prisma.TakeOrdersUpsertArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$TakeOrdersPayload>
-          }
-          aggregate: {
-            args: Prisma.TakeOrdersAggregateArgs<ExtArgs>,
-            result: $Utils.Optional<AggregateTakeOrders>
-          }
-          groupBy: {
-            args: Prisma.TakeOrdersGroupByArgs<ExtArgs>,
-            result: $Utils.Optional<TakeOrdersGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.TakeOrdersCountArgs<ExtArgs>,
-            result: $Utils.Optional<TakeOrdersCountAggregateOutputType> | number
           }
         }
       }
@@ -1787,40 +1705,6 @@ export namespace Prisma {
    */
   export type BookstoresCountOutputTypeCountProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProductsWhereInput
-  }
-
-
-
-  /**
-   * Count Type OrdersCountOutputType
-   */
-
-  export type OrdersCountOutputType = {
-    takeOrder: number
-  }
-
-  export type OrdersCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    takeOrder?: boolean | OrdersCountOutputTypeCountTakeOrderArgs
-  }
-
-  // Custom InputTypes
-
-  /**
-   * OrdersCountOutputType without action
-   */
-  export type OrdersCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the OrdersCountOutputType
-     */
-    select?: OrdersCountOutputTypeSelect<ExtArgs> | null
-  }
-
-
-  /**
-   * OrdersCountOutputType without action
-   */
-  export type OrdersCountOutputTypeCountTakeOrderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TakeOrdersWhereInput
   }
 
 
@@ -7161,12 +7045,16 @@ export namespace Prisma {
     orderId: number | null
     userId: number | null
     productId: number | null
+    ownerId: number | null
+    bookstoreId: number | null
   }
 
   export type OrdersSumAggregateOutputType = {
     orderId: number | null
     userId: number | null
     productId: number | null
+    ownerId: number | null
+    bookstoreId: number | null
   }
 
   export type OrdersMinAggregateOutputType = {
@@ -7174,6 +7062,8 @@ export namespace Prisma {
     userId: number | null
     productId: number | null
     address: string | null
+    ownerId: number | null
+    bookstoreId: number | null
     status: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -7184,6 +7074,8 @@ export namespace Prisma {
     userId: number | null
     productId: number | null
     address: string | null
+    ownerId: number | null
+    bookstoreId: number | null
     status: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -7194,6 +7086,8 @@ export namespace Prisma {
     userId: number
     productId: number
     address: number
+    ownerId: number
+    bookstoreId: number
     status: number
     createdAt: number
     updatedAt: number
@@ -7205,12 +7099,16 @@ export namespace Prisma {
     orderId?: true
     userId?: true
     productId?: true
+    ownerId?: true
+    bookstoreId?: true
   }
 
   export type OrdersSumAggregateInputType = {
     orderId?: true
     userId?: true
     productId?: true
+    ownerId?: true
+    bookstoreId?: true
   }
 
   export type OrdersMinAggregateInputType = {
@@ -7218,6 +7116,8 @@ export namespace Prisma {
     userId?: true
     productId?: true
     address?: true
+    ownerId?: true
+    bookstoreId?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -7228,6 +7128,8 @@ export namespace Prisma {
     userId?: true
     productId?: true
     address?: true
+    ownerId?: true
+    bookstoreId?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -7238,6 +7140,8 @@ export namespace Prisma {
     userId?: true
     productId?: true
     address?: true
+    ownerId?: true
+    bookstoreId?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -7335,6 +7239,8 @@ export namespace Prisma {
     userId: number
     productId: number
     address: string
+    ownerId: number
+    bookstoreId: number
     status: string
     createdAt: Date
     updatedAt: Date
@@ -7364,13 +7270,13 @@ export namespace Prisma {
     userId?: boolean
     productId?: boolean
     address?: boolean
+    ownerId?: boolean
+    bookstoreId?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UsersDefaultArgs<ExtArgs>
     product?: boolean | ProductsDefaultArgs<ExtArgs>
-    takeOrder?: boolean | Orders$takeOrderArgs<ExtArgs>
-    _count?: boolean | OrdersCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["orders"]>
 
   export type OrdersSelectScalar = {
@@ -7378,6 +7284,8 @@ export namespace Prisma {
     userId?: boolean
     productId?: boolean
     address?: boolean
+    ownerId?: boolean
+    bookstoreId?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -7386,8 +7294,6 @@ export namespace Prisma {
   export type OrdersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UsersDefaultArgs<ExtArgs>
     product?: boolean | ProductsDefaultArgs<ExtArgs>
-    takeOrder?: boolean | Orders$takeOrderArgs<ExtArgs>
-    _count?: boolean | OrdersCountOutputTypeDefaultArgs<ExtArgs>
   }
 
 
@@ -7396,13 +7302,14 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UsersPayload<ExtArgs>
       product: Prisma.$ProductsPayload<ExtArgs>
-      takeOrder: Prisma.$TakeOrdersPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       orderId: number
       userId: number
       productId: number
       address: string
+      ownerId: number
+      bookstoreId: number
       status: string
       createdAt: Date
       updatedAt: Date
@@ -7775,8 +7682,6 @@ export namespace Prisma {
 
     product<T extends ProductsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductsDefaultArgs<ExtArgs>>): Prisma__ProductsClient<$Result.GetResult<Prisma.$ProductsPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
 
-    takeOrder<T extends Orders$takeOrderArgs<ExtArgs> = {}>(args?: Subset<T, Orders$takeOrderArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TakeOrdersPayload<ExtArgs>, T, 'findMany'> | Null>;
-
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7809,6 +7714,8 @@ export namespace Prisma {
     readonly userId: FieldRef<"Orders", 'Int'>
     readonly productId: FieldRef<"Orders", 'Int'>
     readonly address: FieldRef<"Orders", 'String'>
+    readonly ownerId: FieldRef<"Orders", 'Int'>
+    readonly bookstoreId: FieldRef<"Orders", 'Int'>
     readonly status: FieldRef<"Orders", 'String'>
     readonly createdAt: FieldRef<"Orders", 'DateTime'>
     readonly updatedAt: FieldRef<"Orders", 'DateTime'>
@@ -8124,27 +8031,6 @@ export namespace Prisma {
 
 
   /**
-   * Orders.takeOrder
-   */
-  export type Orders$takeOrderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TakeOrders
-     */
-    select?: TakeOrdersSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: TakeOrdersInclude<ExtArgs> | null
-    where?: TakeOrdersWhereInput
-    orderBy?: TakeOrdersOrderByWithRelationInput | TakeOrdersOrderByWithRelationInput[]
-    cursor?: TakeOrdersWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: TakeOrdersScalarFieldEnum | TakeOrdersScalarFieldEnum[]
-  }
-
-
-  /**
    * Orders without action
    */
   export type OrdersDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8156,966 +8042,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well.
      */
     include?: OrdersInclude<ExtArgs> | null
-  }
-
-
-
-  /**
-   * Model TakeOrders
-   */
-
-  export type AggregateTakeOrders = {
-    _count: TakeOrdersCountAggregateOutputType | null
-    _avg: TakeOrdersAvgAggregateOutputType | null
-    _sum: TakeOrdersSumAggregateOutputType | null
-    _min: TakeOrdersMinAggregateOutputType | null
-    _max: TakeOrdersMaxAggregateOutputType | null
-  }
-
-  export type TakeOrdersAvgAggregateOutputType = {
-    takeOrderId: number | null
-    orderId: number | null
-    ownerId: number | null
-  }
-
-  export type TakeOrdersSumAggregateOutputType = {
-    takeOrderId: number | null
-    orderId: number | null
-    ownerId: number | null
-  }
-
-  export type TakeOrdersMinAggregateOutputType = {
-    takeOrderId: number | null
-    orderId: number | null
-    ownerId: number | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type TakeOrdersMaxAggregateOutputType = {
-    takeOrderId: number | null
-    orderId: number | null
-    ownerId: number | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type TakeOrdersCountAggregateOutputType = {
-    takeOrderId: number
-    orderId: number
-    ownerId: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type TakeOrdersAvgAggregateInputType = {
-    takeOrderId?: true
-    orderId?: true
-    ownerId?: true
-  }
-
-  export type TakeOrdersSumAggregateInputType = {
-    takeOrderId?: true
-    orderId?: true
-    ownerId?: true
-  }
-
-  export type TakeOrdersMinAggregateInputType = {
-    takeOrderId?: true
-    orderId?: true
-    ownerId?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type TakeOrdersMaxAggregateInputType = {
-    takeOrderId?: true
-    orderId?: true
-    ownerId?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type TakeOrdersCountAggregateInputType = {
-    takeOrderId?: true
-    orderId?: true
-    ownerId?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type TakeOrdersAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which TakeOrders to aggregate.
-     */
-    where?: TakeOrdersWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of TakeOrders to fetch.
-     */
-    orderBy?: TakeOrdersOrderByWithRelationInput | TakeOrdersOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: TakeOrdersWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` TakeOrders from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` TakeOrders.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned TakeOrders
-    **/
-    _count?: true | TakeOrdersCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: TakeOrdersAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: TakeOrdersSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: TakeOrdersMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: TakeOrdersMaxAggregateInputType
-  }
-
-  export type GetTakeOrdersAggregateType<T extends TakeOrdersAggregateArgs> = {
-        [P in keyof T & keyof AggregateTakeOrders]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateTakeOrders[P]>
-      : GetScalarType<T[P], AggregateTakeOrders[P]>
-  }
-
-
-
-
-  export type TakeOrdersGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TakeOrdersWhereInput
-    orderBy?: TakeOrdersOrderByWithAggregationInput | TakeOrdersOrderByWithAggregationInput[]
-    by: TakeOrdersScalarFieldEnum[] | TakeOrdersScalarFieldEnum
-    having?: TakeOrdersScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: TakeOrdersCountAggregateInputType | true
-    _avg?: TakeOrdersAvgAggregateInputType
-    _sum?: TakeOrdersSumAggregateInputType
-    _min?: TakeOrdersMinAggregateInputType
-    _max?: TakeOrdersMaxAggregateInputType
-  }
-
-  export type TakeOrdersGroupByOutputType = {
-    takeOrderId: number
-    orderId: number
-    ownerId: number
-    createdAt: Date
-    updatedAt: Date
-    _count: TakeOrdersCountAggregateOutputType | null
-    _avg: TakeOrdersAvgAggregateOutputType | null
-    _sum: TakeOrdersSumAggregateOutputType | null
-    _min: TakeOrdersMinAggregateOutputType | null
-    _max: TakeOrdersMaxAggregateOutputType | null
-  }
-
-  type GetTakeOrdersGroupByPayload<T extends TakeOrdersGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<TakeOrdersGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof TakeOrdersGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], TakeOrdersGroupByOutputType[P]>
-            : GetScalarType<T[P], TakeOrdersGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type TakeOrdersSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    takeOrderId?: boolean
-    orderId?: boolean
-    ownerId?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    order?: boolean | OrdersDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["takeOrders"]>
-
-  export type TakeOrdersSelectScalar = {
-    takeOrderId?: boolean
-    orderId?: boolean
-    ownerId?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type TakeOrdersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    order?: boolean | OrdersDefaultArgs<ExtArgs>
-  }
-
-
-  export type $TakeOrdersPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "TakeOrders"
-    objects: {
-      order: Prisma.$OrdersPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      takeOrderId: number
-      orderId: number
-      ownerId: number
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["takeOrders"]>
-    composites: {}
-  }
-
-
-  type TakeOrdersGetPayload<S extends boolean | null | undefined | TakeOrdersDefaultArgs> = $Result.GetResult<Prisma.$TakeOrdersPayload, S>
-
-  type TakeOrdersCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<TakeOrdersFindManyArgs, 'select' | 'include' | 'distinct' > & {
-      select?: TakeOrdersCountAggregateInputType | true
-    }
-
-  export interface TakeOrdersDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TakeOrders'], meta: { name: 'TakeOrders' } }
-    /**
-     * Find zero or one TakeOrders that matches the filter.
-     * @param {TakeOrdersFindUniqueArgs} args - Arguments to find a TakeOrders
-     * @example
-     * // Get one TakeOrders
-     * const takeOrders = await prisma.takeOrders.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUnique<T extends TakeOrdersFindUniqueArgs<ExtArgs>>(
-      args: SelectSubset<T, TakeOrdersFindUniqueArgs<ExtArgs>>
-    ): Prisma__TakeOrdersClient<$Result.GetResult<Prisma.$TakeOrdersPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
-
-    /**
-     * Find one TakeOrders that matches the filter or throw an error  with `error.code='P2025'` 
-     *     if no matches were found.
-     * @param {TakeOrdersFindUniqueOrThrowArgs} args - Arguments to find a TakeOrders
-     * @example
-     * // Get one TakeOrders
-     * const takeOrders = await prisma.takeOrders.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends TakeOrdersFindUniqueOrThrowArgs<ExtArgs>>(
-      args?: SelectSubset<T, TakeOrdersFindUniqueOrThrowArgs<ExtArgs>>
-    ): Prisma__TakeOrdersClient<$Result.GetResult<Prisma.$TakeOrdersPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
-
-    /**
-     * Find the first TakeOrders that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TakeOrdersFindFirstArgs} args - Arguments to find a TakeOrders
-     * @example
-     * // Get one TakeOrders
-     * const takeOrders = await prisma.takeOrders.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirst<T extends TakeOrdersFindFirstArgs<ExtArgs>>(
-      args?: SelectSubset<T, TakeOrdersFindFirstArgs<ExtArgs>>
-    ): Prisma__TakeOrdersClient<$Result.GetResult<Prisma.$TakeOrdersPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
-
-    /**
-     * Find the first TakeOrders that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TakeOrdersFindFirstOrThrowArgs} args - Arguments to find a TakeOrders
-     * @example
-     * // Get one TakeOrders
-     * const takeOrders = await prisma.takeOrders.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends TakeOrdersFindFirstOrThrowArgs<ExtArgs>>(
-      args?: SelectSubset<T, TakeOrdersFindFirstOrThrowArgs<ExtArgs>>
-    ): Prisma__TakeOrdersClient<$Result.GetResult<Prisma.$TakeOrdersPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
-
-    /**
-     * Find zero or more TakeOrders that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TakeOrdersFindManyArgs=} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all TakeOrders
-     * const takeOrders = await prisma.takeOrders.findMany()
-     * 
-     * // Get first 10 TakeOrders
-     * const takeOrders = await prisma.takeOrders.findMany({ take: 10 })
-     * 
-     * // Only select the `takeOrderId`
-     * const takeOrdersWithTakeOrderIdOnly = await prisma.takeOrders.findMany({ select: { takeOrderId: true } })
-     * 
-    **/
-    findMany<T extends TakeOrdersFindManyArgs<ExtArgs>>(
-      args?: SelectSubset<T, TakeOrdersFindManyArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TakeOrdersPayload<ExtArgs>, T, 'findMany'>>
-
-    /**
-     * Create a TakeOrders.
-     * @param {TakeOrdersCreateArgs} args - Arguments to create a TakeOrders.
-     * @example
-     * // Create one TakeOrders
-     * const TakeOrders = await prisma.takeOrders.create({
-     *   data: {
-     *     // ... data to create a TakeOrders
-     *   }
-     * })
-     * 
-    **/
-    create<T extends TakeOrdersCreateArgs<ExtArgs>>(
-      args: SelectSubset<T, TakeOrdersCreateArgs<ExtArgs>>
-    ): Prisma__TakeOrdersClient<$Result.GetResult<Prisma.$TakeOrdersPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
-
-    /**
-     * Create many TakeOrders.
-     *     @param {TakeOrdersCreateManyArgs} args - Arguments to create many TakeOrders.
-     *     @example
-     *     // Create many TakeOrders
-     *     const takeOrders = await prisma.takeOrders.createMany({
-     *       data: {
-     *         // ... provide data here
-     *       }
-     *     })
-     *     
-    **/
-    createMany<T extends TakeOrdersCreateManyArgs<ExtArgs>>(
-      args?: SelectSubset<T, TakeOrdersCreateManyArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a TakeOrders.
-     * @param {TakeOrdersDeleteArgs} args - Arguments to delete one TakeOrders.
-     * @example
-     * // Delete one TakeOrders
-     * const TakeOrders = await prisma.takeOrders.delete({
-     *   where: {
-     *     // ... filter to delete one TakeOrders
-     *   }
-     * })
-     * 
-    **/
-    delete<T extends TakeOrdersDeleteArgs<ExtArgs>>(
-      args: SelectSubset<T, TakeOrdersDeleteArgs<ExtArgs>>
-    ): Prisma__TakeOrdersClient<$Result.GetResult<Prisma.$TakeOrdersPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
-
-    /**
-     * Update one TakeOrders.
-     * @param {TakeOrdersUpdateArgs} args - Arguments to update one TakeOrders.
-     * @example
-     * // Update one TakeOrders
-     * const takeOrders = await prisma.takeOrders.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    update<T extends TakeOrdersUpdateArgs<ExtArgs>>(
-      args: SelectSubset<T, TakeOrdersUpdateArgs<ExtArgs>>
-    ): Prisma__TakeOrdersClient<$Result.GetResult<Prisma.$TakeOrdersPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
-
-    /**
-     * Delete zero or more TakeOrders.
-     * @param {TakeOrdersDeleteManyArgs} args - Arguments to filter TakeOrders to delete.
-     * @example
-     * // Delete a few TakeOrders
-     * const { count } = await prisma.takeOrders.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-    **/
-    deleteMany<T extends TakeOrdersDeleteManyArgs<ExtArgs>>(
-      args?: SelectSubset<T, TakeOrdersDeleteManyArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more TakeOrders.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TakeOrdersUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many TakeOrders
-     * const takeOrders = await prisma.takeOrders.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    updateMany<T extends TakeOrdersUpdateManyArgs<ExtArgs>>(
-      args: SelectSubset<T, TakeOrdersUpdateManyArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one TakeOrders.
-     * @param {TakeOrdersUpsertArgs} args - Arguments to update or create a TakeOrders.
-     * @example
-     * // Update or create a TakeOrders
-     * const takeOrders = await prisma.takeOrders.upsert({
-     *   create: {
-     *     // ... data to create a TakeOrders
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the TakeOrders we want to update
-     *   }
-     * })
-    **/
-    upsert<T extends TakeOrdersUpsertArgs<ExtArgs>>(
-      args: SelectSubset<T, TakeOrdersUpsertArgs<ExtArgs>>
-    ): Prisma__TakeOrdersClient<$Result.GetResult<Prisma.$TakeOrdersPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
-
-    /**
-     * Count the number of TakeOrders.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TakeOrdersCountArgs} args - Arguments to filter TakeOrders to count.
-     * @example
-     * // Count the number of TakeOrders
-     * const count = await prisma.takeOrders.count({
-     *   where: {
-     *     // ... the filter for the TakeOrders we want to count
-     *   }
-     * })
-    **/
-    count<T extends TakeOrdersCountArgs>(
-      args?: Subset<T, TakeOrdersCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], TakeOrdersCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a TakeOrders.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TakeOrdersAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends TakeOrdersAggregateArgs>(args: Subset<T, TakeOrdersAggregateArgs>): Prisma.PrismaPromise<GetTakeOrdersAggregateType<T>>
-
-    /**
-     * Group by TakeOrders.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TakeOrdersGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends TakeOrdersGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: TakeOrdersGroupByArgs['orderBy'] }
-        : { orderBy?: TakeOrdersGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, TakeOrdersGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTakeOrdersGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the TakeOrders model
-   */
-  readonly fields: TakeOrdersFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for TakeOrders.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__TakeOrdersClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
-
-    order<T extends OrdersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrdersDefaultArgs<ExtArgs>>): Prisma__OrdersClient<$Result.GetResult<Prisma.$OrdersPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
-
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
-  }
-
-
-
-  /**
-   * Fields of the TakeOrders model
-   */ 
-  interface TakeOrdersFieldRefs {
-    readonly takeOrderId: FieldRef<"TakeOrders", 'Int'>
-    readonly orderId: FieldRef<"TakeOrders", 'Int'>
-    readonly ownerId: FieldRef<"TakeOrders", 'Int'>
-    readonly createdAt: FieldRef<"TakeOrders", 'DateTime'>
-    readonly updatedAt: FieldRef<"TakeOrders", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-
-  /**
-   * TakeOrders findUnique
-   */
-  export type TakeOrdersFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TakeOrders
-     */
-    select?: TakeOrdersSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: TakeOrdersInclude<ExtArgs> | null
-    /**
-     * Filter, which TakeOrders to fetch.
-     */
-    where: TakeOrdersWhereUniqueInput
-  }
-
-
-  /**
-   * TakeOrders findUniqueOrThrow
-   */
-  export type TakeOrdersFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TakeOrders
-     */
-    select?: TakeOrdersSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: TakeOrdersInclude<ExtArgs> | null
-    /**
-     * Filter, which TakeOrders to fetch.
-     */
-    where: TakeOrdersWhereUniqueInput
-  }
-
-
-  /**
-   * TakeOrders findFirst
-   */
-  export type TakeOrdersFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TakeOrders
-     */
-    select?: TakeOrdersSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: TakeOrdersInclude<ExtArgs> | null
-    /**
-     * Filter, which TakeOrders to fetch.
-     */
-    where?: TakeOrdersWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of TakeOrders to fetch.
-     */
-    orderBy?: TakeOrdersOrderByWithRelationInput | TakeOrdersOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for TakeOrders.
-     */
-    cursor?: TakeOrdersWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` TakeOrders from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` TakeOrders.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of TakeOrders.
-     */
-    distinct?: TakeOrdersScalarFieldEnum | TakeOrdersScalarFieldEnum[]
-  }
-
-
-  /**
-   * TakeOrders findFirstOrThrow
-   */
-  export type TakeOrdersFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TakeOrders
-     */
-    select?: TakeOrdersSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: TakeOrdersInclude<ExtArgs> | null
-    /**
-     * Filter, which TakeOrders to fetch.
-     */
-    where?: TakeOrdersWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of TakeOrders to fetch.
-     */
-    orderBy?: TakeOrdersOrderByWithRelationInput | TakeOrdersOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for TakeOrders.
-     */
-    cursor?: TakeOrdersWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` TakeOrders from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` TakeOrders.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of TakeOrders.
-     */
-    distinct?: TakeOrdersScalarFieldEnum | TakeOrdersScalarFieldEnum[]
-  }
-
-
-  /**
-   * TakeOrders findMany
-   */
-  export type TakeOrdersFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TakeOrders
-     */
-    select?: TakeOrdersSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: TakeOrdersInclude<ExtArgs> | null
-    /**
-     * Filter, which TakeOrders to fetch.
-     */
-    where?: TakeOrdersWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of TakeOrders to fetch.
-     */
-    orderBy?: TakeOrdersOrderByWithRelationInput | TakeOrdersOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing TakeOrders.
-     */
-    cursor?: TakeOrdersWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` TakeOrders from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` TakeOrders.
-     */
-    skip?: number
-    distinct?: TakeOrdersScalarFieldEnum | TakeOrdersScalarFieldEnum[]
-  }
-
-
-  /**
-   * TakeOrders create
-   */
-  export type TakeOrdersCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TakeOrders
-     */
-    select?: TakeOrdersSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: TakeOrdersInclude<ExtArgs> | null
-    /**
-     * The data needed to create a TakeOrders.
-     */
-    data: XOR<TakeOrdersCreateInput, TakeOrdersUncheckedCreateInput>
-  }
-
-
-  /**
-   * TakeOrders createMany
-   */
-  export type TakeOrdersCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many TakeOrders.
-     */
-    data: TakeOrdersCreateManyInput | TakeOrdersCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-
-  /**
-   * TakeOrders update
-   */
-  export type TakeOrdersUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TakeOrders
-     */
-    select?: TakeOrdersSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: TakeOrdersInclude<ExtArgs> | null
-    /**
-     * The data needed to update a TakeOrders.
-     */
-    data: XOR<TakeOrdersUpdateInput, TakeOrdersUncheckedUpdateInput>
-    /**
-     * Choose, which TakeOrders to update.
-     */
-    where: TakeOrdersWhereUniqueInput
-  }
-
-
-  /**
-   * TakeOrders updateMany
-   */
-  export type TakeOrdersUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update TakeOrders.
-     */
-    data: XOR<TakeOrdersUpdateManyMutationInput, TakeOrdersUncheckedUpdateManyInput>
-    /**
-     * Filter which TakeOrders to update
-     */
-    where?: TakeOrdersWhereInput
-  }
-
-
-  /**
-   * TakeOrders upsert
-   */
-  export type TakeOrdersUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TakeOrders
-     */
-    select?: TakeOrdersSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: TakeOrdersInclude<ExtArgs> | null
-    /**
-     * The filter to search for the TakeOrders to update in case it exists.
-     */
-    where: TakeOrdersWhereUniqueInput
-    /**
-     * In case the TakeOrders found by the `where` argument doesn't exist, create a new TakeOrders with this data.
-     */
-    create: XOR<TakeOrdersCreateInput, TakeOrdersUncheckedCreateInput>
-    /**
-     * In case the TakeOrders was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<TakeOrdersUpdateInput, TakeOrdersUncheckedUpdateInput>
-  }
-
-
-  /**
-   * TakeOrders delete
-   */
-  export type TakeOrdersDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TakeOrders
-     */
-    select?: TakeOrdersSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: TakeOrdersInclude<ExtArgs> | null
-    /**
-     * Filter which TakeOrders to delete.
-     */
-    where: TakeOrdersWhereUniqueInput
-  }
-
-
-  /**
-   * TakeOrders deleteMany
-   */
-  export type TakeOrdersDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which TakeOrders to delete
-     */
-    where?: TakeOrdersWhereInput
-  }
-
-
-  /**
-   * TakeOrders without action
-   */
-  export type TakeOrdersDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TakeOrders
-     */
-    select?: TakeOrdersSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: TakeOrdersInclude<ExtArgs> | null
   }
 
 
@@ -12033,23 +10959,14 @@ export namespace Prisma {
     userId: 'userId',
     productId: 'productId',
     address: 'address',
+    ownerId: 'ownerId',
+    bookstoreId: 'bookstoreId',
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type OrdersScalarFieldEnum = (typeof OrdersScalarFieldEnum)[keyof typeof OrdersScalarFieldEnum]
-
-
-  export const TakeOrdersScalarFieldEnum: {
-    takeOrderId: 'takeOrderId',
-    orderId: 'orderId',
-    ownerId: 'ownerId',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type TakeOrdersScalarFieldEnum = (typeof TakeOrdersScalarFieldEnum)[keyof typeof TakeOrdersScalarFieldEnum]
 
 
   export const ReviewsScalarFieldEnum: {
@@ -12556,12 +11473,13 @@ export namespace Prisma {
     userId?: IntFilter<"Orders"> | number
     productId?: IntFilter<"Orders"> | number
     address?: StringFilter<"Orders"> | string
+    ownerId?: IntFilter<"Orders"> | number
+    bookstoreId?: IntFilter<"Orders"> | number
     status?: StringFilter<"Orders"> | string
     createdAt?: DateTimeFilter<"Orders"> | Date | string
     updatedAt?: DateTimeFilter<"Orders"> | Date | string
     user?: XOR<UsersRelationFilter, UsersWhereInput>
     product?: XOR<ProductsRelationFilter, ProductsWhereInput>
-    takeOrder?: TakeOrdersListRelationFilter
   }
 
   export type OrdersOrderByWithRelationInput = {
@@ -12569,12 +11487,13 @@ export namespace Prisma {
     userId?: SortOrder
     productId?: SortOrder
     address?: SortOrder
+    ownerId?: SortOrder
+    bookstoreId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UsersOrderByWithRelationInput
     product?: ProductsOrderByWithRelationInput
-    takeOrder?: TakeOrdersOrderByRelationAggregateInput
   }
 
   export type OrdersWhereUniqueInput = Prisma.AtLeast<{
@@ -12585,12 +11504,13 @@ export namespace Prisma {
     userId?: IntFilter<"Orders"> | number
     productId?: IntFilter<"Orders"> | number
     address?: StringFilter<"Orders"> | string
+    ownerId?: IntFilter<"Orders"> | number
+    bookstoreId?: IntFilter<"Orders"> | number
     status?: StringFilter<"Orders"> | string
     createdAt?: DateTimeFilter<"Orders"> | Date | string
     updatedAt?: DateTimeFilter<"Orders"> | Date | string
     user?: XOR<UsersRelationFilter, UsersWhereInput>
     product?: XOR<ProductsRelationFilter, ProductsWhereInput>
-    takeOrder?: TakeOrdersListRelationFilter
   }, "orderId">
 
   export type OrdersOrderByWithAggregationInput = {
@@ -12598,6 +11518,8 @@ export namespace Prisma {
     userId?: SortOrder
     productId?: SortOrder
     address?: SortOrder
+    ownerId?: SortOrder
+    bookstoreId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -12616,66 +11538,11 @@ export namespace Prisma {
     userId?: IntWithAggregatesFilter<"Orders"> | number
     productId?: IntWithAggregatesFilter<"Orders"> | number
     address?: StringWithAggregatesFilter<"Orders"> | string
+    ownerId?: IntWithAggregatesFilter<"Orders"> | number
+    bookstoreId?: IntWithAggregatesFilter<"Orders"> | number
     status?: StringWithAggregatesFilter<"Orders"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Orders"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Orders"> | Date | string
-  }
-
-  export type TakeOrdersWhereInput = {
-    AND?: TakeOrdersWhereInput | TakeOrdersWhereInput[]
-    OR?: TakeOrdersWhereInput[]
-    NOT?: TakeOrdersWhereInput | TakeOrdersWhereInput[]
-    takeOrderId?: IntFilter<"TakeOrders"> | number
-    orderId?: IntFilter<"TakeOrders"> | number
-    ownerId?: IntFilter<"TakeOrders"> | number
-    createdAt?: DateTimeFilter<"TakeOrders"> | Date | string
-    updatedAt?: DateTimeFilter<"TakeOrders"> | Date | string
-    order?: XOR<OrdersRelationFilter, OrdersWhereInput>
-  }
-
-  export type TakeOrdersOrderByWithRelationInput = {
-    takeOrderId?: SortOrder
-    orderId?: SortOrder
-    ownerId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    order?: OrdersOrderByWithRelationInput
-  }
-
-  export type TakeOrdersWhereUniqueInput = Prisma.AtLeast<{
-    takeOrderId?: number
-    AND?: TakeOrdersWhereInput | TakeOrdersWhereInput[]
-    OR?: TakeOrdersWhereInput[]
-    NOT?: TakeOrdersWhereInput | TakeOrdersWhereInput[]
-    orderId?: IntFilter<"TakeOrders"> | number
-    ownerId?: IntFilter<"TakeOrders"> | number
-    createdAt?: DateTimeFilter<"TakeOrders"> | Date | string
-    updatedAt?: DateTimeFilter<"TakeOrders"> | Date | string
-    order?: XOR<OrdersRelationFilter, OrdersWhereInput>
-  }, "takeOrderId">
-
-  export type TakeOrdersOrderByWithAggregationInput = {
-    takeOrderId?: SortOrder
-    orderId?: SortOrder
-    ownerId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: TakeOrdersCountOrderByAggregateInput
-    _avg?: TakeOrdersAvgOrderByAggregateInput
-    _max?: TakeOrdersMaxOrderByAggregateInput
-    _min?: TakeOrdersMinOrderByAggregateInput
-    _sum?: TakeOrdersSumOrderByAggregateInput
-  }
-
-  export type TakeOrdersScalarWhereWithAggregatesInput = {
-    AND?: TakeOrdersScalarWhereWithAggregatesInput | TakeOrdersScalarWhereWithAggregatesInput[]
-    OR?: TakeOrdersScalarWhereWithAggregatesInput[]
-    NOT?: TakeOrdersScalarWhereWithAggregatesInput | TakeOrdersScalarWhereWithAggregatesInput[]
-    takeOrderId?: IntWithAggregatesFilter<"TakeOrders"> | number
-    orderId?: IntWithAggregatesFilter<"TakeOrders"> | number
-    ownerId?: IntWithAggregatesFilter<"TakeOrders"> | number
-    createdAt?: DateTimeWithAggregatesFilter<"TakeOrders"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"TakeOrders"> | Date | string
   }
 
   export type ReviewsWhereInput = {
@@ -13278,12 +12145,13 @@ export namespace Prisma {
 
   export type OrdersCreateInput = {
     address?: string
+    ownerId: number
+    bookstoreId: number
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UsersCreateNestedOneWithoutOrdersInput
     product: ProductsCreateNestedOneWithoutOrdersInput
-    takeOrder?: TakeOrdersCreateNestedManyWithoutOrderInput
   }
 
   export type OrdersUncheckedCreateInput = {
@@ -13291,20 +12159,22 @@ export namespace Prisma {
     userId: number
     productId: number
     address?: string
+    ownerId: number
+    bookstoreId: number
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    takeOrder?: TakeOrdersUncheckedCreateNestedManyWithoutOrderInput
   }
 
   export type OrdersUpdateInput = {
     address?: StringFieldUpdateOperationsInput | string
+    ownerId?: IntFieldUpdateOperationsInput | number
+    bookstoreId?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UsersUpdateOneRequiredWithoutOrdersNestedInput
     product?: ProductsUpdateOneRequiredWithoutOrdersNestedInput
-    takeOrder?: TakeOrdersUpdateManyWithoutOrderNestedInput
   }
 
   export type OrdersUncheckedUpdateInput = {
@@ -13312,10 +12182,11 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     productId?: IntFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
+    ownerId?: IntFieldUpdateOperationsInput | number
+    bookstoreId?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    takeOrder?: TakeOrdersUncheckedUpdateManyWithoutOrderNestedInput
   }
 
   export type OrdersCreateManyInput = {
@@ -13323,6 +12194,8 @@ export namespace Prisma {
     userId: number
     productId: number
     address?: string
+    ownerId: number
+    bookstoreId: number
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -13330,6 +12203,8 @@ export namespace Prisma {
 
   export type OrdersUpdateManyMutationInput = {
     address?: StringFieldUpdateOperationsInput | string
+    ownerId?: IntFieldUpdateOperationsInput | number
+    bookstoreId?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13340,59 +12215,9 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     productId?: IntFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
+    ownerId?: IntFieldUpdateOperationsInput | number
+    bookstoreId?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type TakeOrdersCreateInput = {
-    ownerId: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    order: OrdersCreateNestedOneWithoutTakeOrderInput
-  }
-
-  export type TakeOrdersUncheckedCreateInput = {
-    takeOrderId?: number
-    orderId: number
-    ownerId: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type TakeOrdersUpdateInput = {
-    ownerId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    order?: OrdersUpdateOneRequiredWithoutTakeOrderNestedInput
-  }
-
-  export type TakeOrdersUncheckedUpdateInput = {
-    takeOrderId?: IntFieldUpdateOperationsInput | number
-    orderId?: IntFieldUpdateOperationsInput | number
-    ownerId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type TakeOrdersCreateManyInput = {
-    takeOrderId?: number
-    orderId: number
-    ownerId: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type TakeOrdersUpdateManyMutationInput = {
-    ownerId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type TakeOrdersUncheckedUpdateManyInput = {
-    takeOrderId?: IntFieldUpdateOperationsInput | number
-    orderId?: IntFieldUpdateOperationsInput | number
-    ownerId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14019,21 +12844,13 @@ export namespace Prisma {
     productId?: SortOrder
   }
 
-  export type TakeOrdersListRelationFilter = {
-    every?: TakeOrdersWhereInput
-    some?: TakeOrdersWhereInput
-    none?: TakeOrdersWhereInput
-  }
-
-  export type TakeOrdersOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type OrdersCountOrderByAggregateInput = {
     orderId?: SortOrder
     userId?: SortOrder
     productId?: SortOrder
     address?: SortOrder
+    ownerId?: SortOrder
+    bookstoreId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -14043,6 +12860,8 @@ export namespace Prisma {
     orderId?: SortOrder
     userId?: SortOrder
     productId?: SortOrder
+    ownerId?: SortOrder
+    bookstoreId?: SortOrder
   }
 
   export type OrdersMaxOrderByAggregateInput = {
@@ -14050,6 +12869,8 @@ export namespace Prisma {
     userId?: SortOrder
     productId?: SortOrder
     address?: SortOrder
+    ownerId?: SortOrder
+    bookstoreId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -14060,6 +12881,8 @@ export namespace Prisma {
     userId?: SortOrder
     productId?: SortOrder
     address?: SortOrder
+    ownerId?: SortOrder
+    bookstoreId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -14069,47 +12892,8 @@ export namespace Prisma {
     orderId?: SortOrder
     userId?: SortOrder
     productId?: SortOrder
-  }
-
-  export type OrdersRelationFilter = {
-    is?: OrdersWhereInput
-    isNot?: OrdersWhereInput
-  }
-
-  export type TakeOrdersCountOrderByAggregateInput = {
-    takeOrderId?: SortOrder
-    orderId?: SortOrder
     ownerId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type TakeOrdersAvgOrderByAggregateInput = {
-    takeOrderId?: SortOrder
-    orderId?: SortOrder
-    ownerId?: SortOrder
-  }
-
-  export type TakeOrdersMaxOrderByAggregateInput = {
-    takeOrderId?: SortOrder
-    orderId?: SortOrder
-    ownerId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type TakeOrdersMinOrderByAggregateInput = {
-    takeOrderId?: SortOrder
-    orderId?: SortOrder
-    ownerId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type TakeOrdersSumOrderByAggregateInput = {
-    takeOrderId?: SortOrder
-    orderId?: SortOrder
-    ownerId?: SortOrder
+    bookstoreId?: SortOrder
   }
 
   export type ReviewsCountOrderByAggregateInput = {
@@ -14895,20 +13679,6 @@ export namespace Prisma {
     connect?: ProductsWhereUniqueInput
   }
 
-  export type TakeOrdersCreateNestedManyWithoutOrderInput = {
-    create?: XOR<TakeOrdersCreateWithoutOrderInput, TakeOrdersUncheckedCreateWithoutOrderInput> | TakeOrdersCreateWithoutOrderInput[] | TakeOrdersUncheckedCreateWithoutOrderInput[]
-    connectOrCreate?: TakeOrdersCreateOrConnectWithoutOrderInput | TakeOrdersCreateOrConnectWithoutOrderInput[]
-    createMany?: TakeOrdersCreateManyOrderInputEnvelope
-    connect?: TakeOrdersWhereUniqueInput | TakeOrdersWhereUniqueInput[]
-  }
-
-  export type TakeOrdersUncheckedCreateNestedManyWithoutOrderInput = {
-    create?: XOR<TakeOrdersCreateWithoutOrderInput, TakeOrdersUncheckedCreateWithoutOrderInput> | TakeOrdersCreateWithoutOrderInput[] | TakeOrdersUncheckedCreateWithoutOrderInput[]
-    connectOrCreate?: TakeOrdersCreateOrConnectWithoutOrderInput | TakeOrdersCreateOrConnectWithoutOrderInput[]
-    createMany?: TakeOrdersCreateManyOrderInputEnvelope
-    connect?: TakeOrdersWhereUniqueInput | TakeOrdersWhereUniqueInput[]
-  }
-
   export type UsersUpdateOneRequiredWithoutOrdersNestedInput = {
     create?: XOR<UsersCreateWithoutOrdersInput, UsersUncheckedCreateWithoutOrdersInput>
     connectOrCreate?: UsersCreateOrConnectWithoutOrdersInput
@@ -14923,48 +13693,6 @@ export namespace Prisma {
     upsert?: ProductsUpsertWithoutOrdersInput
     connect?: ProductsWhereUniqueInput
     update?: XOR<XOR<ProductsUpdateToOneWithWhereWithoutOrdersInput, ProductsUpdateWithoutOrdersInput>, ProductsUncheckedUpdateWithoutOrdersInput>
-  }
-
-  export type TakeOrdersUpdateManyWithoutOrderNestedInput = {
-    create?: XOR<TakeOrdersCreateWithoutOrderInput, TakeOrdersUncheckedCreateWithoutOrderInput> | TakeOrdersCreateWithoutOrderInput[] | TakeOrdersUncheckedCreateWithoutOrderInput[]
-    connectOrCreate?: TakeOrdersCreateOrConnectWithoutOrderInput | TakeOrdersCreateOrConnectWithoutOrderInput[]
-    upsert?: TakeOrdersUpsertWithWhereUniqueWithoutOrderInput | TakeOrdersUpsertWithWhereUniqueWithoutOrderInput[]
-    createMany?: TakeOrdersCreateManyOrderInputEnvelope
-    set?: TakeOrdersWhereUniqueInput | TakeOrdersWhereUniqueInput[]
-    disconnect?: TakeOrdersWhereUniqueInput | TakeOrdersWhereUniqueInput[]
-    delete?: TakeOrdersWhereUniqueInput | TakeOrdersWhereUniqueInput[]
-    connect?: TakeOrdersWhereUniqueInput | TakeOrdersWhereUniqueInput[]
-    update?: TakeOrdersUpdateWithWhereUniqueWithoutOrderInput | TakeOrdersUpdateWithWhereUniqueWithoutOrderInput[]
-    updateMany?: TakeOrdersUpdateManyWithWhereWithoutOrderInput | TakeOrdersUpdateManyWithWhereWithoutOrderInput[]
-    deleteMany?: TakeOrdersScalarWhereInput | TakeOrdersScalarWhereInput[]
-  }
-
-  export type TakeOrdersUncheckedUpdateManyWithoutOrderNestedInput = {
-    create?: XOR<TakeOrdersCreateWithoutOrderInput, TakeOrdersUncheckedCreateWithoutOrderInput> | TakeOrdersCreateWithoutOrderInput[] | TakeOrdersUncheckedCreateWithoutOrderInput[]
-    connectOrCreate?: TakeOrdersCreateOrConnectWithoutOrderInput | TakeOrdersCreateOrConnectWithoutOrderInput[]
-    upsert?: TakeOrdersUpsertWithWhereUniqueWithoutOrderInput | TakeOrdersUpsertWithWhereUniqueWithoutOrderInput[]
-    createMany?: TakeOrdersCreateManyOrderInputEnvelope
-    set?: TakeOrdersWhereUniqueInput | TakeOrdersWhereUniqueInput[]
-    disconnect?: TakeOrdersWhereUniqueInput | TakeOrdersWhereUniqueInput[]
-    delete?: TakeOrdersWhereUniqueInput | TakeOrdersWhereUniqueInput[]
-    connect?: TakeOrdersWhereUniqueInput | TakeOrdersWhereUniqueInput[]
-    update?: TakeOrdersUpdateWithWhereUniqueWithoutOrderInput | TakeOrdersUpdateWithWhereUniqueWithoutOrderInput[]
-    updateMany?: TakeOrdersUpdateManyWithWhereWithoutOrderInput | TakeOrdersUpdateManyWithWhereWithoutOrderInput[]
-    deleteMany?: TakeOrdersScalarWhereInput | TakeOrdersScalarWhereInput[]
-  }
-
-  export type OrdersCreateNestedOneWithoutTakeOrderInput = {
-    create?: XOR<OrdersCreateWithoutTakeOrderInput, OrdersUncheckedCreateWithoutTakeOrderInput>
-    connectOrCreate?: OrdersCreateOrConnectWithoutTakeOrderInput
-    connect?: OrdersWhereUniqueInput
-  }
-
-  export type OrdersUpdateOneRequiredWithoutTakeOrderNestedInput = {
-    create?: XOR<OrdersCreateWithoutTakeOrderInput, OrdersUncheckedCreateWithoutTakeOrderInput>
-    connectOrCreate?: OrdersCreateOrConnectWithoutTakeOrderInput
-    upsert?: OrdersUpsertWithoutTakeOrderInput
-    connect?: OrdersWhereUniqueInput
-    update?: XOR<XOR<OrdersUpdateToOneWithWhereWithoutTakeOrderInput, OrdersUpdateWithoutTakeOrderInput>, OrdersUncheckedUpdateWithoutTakeOrderInput>
   }
 
   export type UsersCreateNestedOneWithoutUserReviewsInput = {
@@ -15389,21 +14117,23 @@ export namespace Prisma {
 
   export type OrdersCreateWithoutUserInput = {
     address?: string
+    ownerId: number
+    bookstoreId: number
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     product: ProductsCreateNestedOneWithoutOrdersInput
-    takeOrder?: TakeOrdersCreateNestedManyWithoutOrderInput
   }
 
   export type OrdersUncheckedCreateWithoutUserInput = {
     orderId?: number
     productId: number
     address?: string
+    ownerId: number
+    bookstoreId: number
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    takeOrder?: TakeOrdersUncheckedCreateNestedManyWithoutOrderInput
   }
 
   export type OrdersCreateOrConnectWithoutUserInput = {
@@ -15625,6 +14355,8 @@ export namespace Prisma {
     userId?: IntFilter<"Orders"> | number
     productId?: IntFilter<"Orders"> | number
     address?: StringFilter<"Orders"> | string
+    ownerId?: IntFilter<"Orders"> | number
+    bookstoreId?: IntFilter<"Orders"> | number
     status?: StringFilter<"Orders"> | string
     createdAt?: DateTimeFilter<"Orders"> | Date | string
     updatedAt?: DateTimeFilter<"Orders"> | Date | string
@@ -15757,21 +14489,23 @@ export namespace Prisma {
 
   export type OrdersCreateWithoutProductInput = {
     address?: string
+    ownerId: number
+    bookstoreId: number
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UsersCreateNestedOneWithoutOrdersInput
-    takeOrder?: TakeOrdersCreateNestedManyWithoutOrderInput
   }
 
   export type OrdersUncheckedCreateWithoutProductInput = {
     orderId?: number
     userId: number
     address?: string
+    ownerId: number
+    bookstoreId: number
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    takeOrder?: TakeOrdersUncheckedCreateNestedManyWithoutOrderInput
   }
 
   export type OrdersCreateOrConnectWithoutProductInput = {
@@ -16457,29 +15191,6 @@ export namespace Prisma {
     create: XOR<ProductsCreateWithoutOrdersInput, ProductsUncheckedCreateWithoutOrdersInput>
   }
 
-  export type TakeOrdersCreateWithoutOrderInput = {
-    ownerId: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type TakeOrdersUncheckedCreateWithoutOrderInput = {
-    takeOrderId?: number
-    ownerId: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type TakeOrdersCreateOrConnectWithoutOrderInput = {
-    where: TakeOrdersWhereUniqueInput
-    create: XOR<TakeOrdersCreateWithoutOrderInput, TakeOrdersUncheckedCreateWithoutOrderInput>
-  }
-
-  export type TakeOrdersCreateManyOrderInputEnvelope = {
-    data: TakeOrdersCreateManyOrderInput | TakeOrdersCreateManyOrderInput[]
-    skipDuplicates?: boolean
-  }
-
   export type UsersUpsertWithoutOrdersInput = {
     update: XOR<UsersUpdateWithoutOrdersInput, UsersUncheckedUpdateWithoutOrdersInput>
     create: XOR<UsersCreateWithoutOrdersInput, UsersUncheckedCreateWithoutOrdersInput>
@@ -16578,87 +15289,6 @@ export namespace Prisma {
     userProducts?: UsersProductsUncheckedUpdateManyWithoutProductNestedInput
     bookstores?: BookstoresUncheckedUpdateManyWithoutProductsNestedInput
     productReviews?: ReviewsUncheckedUpdateManyWithoutProductNestedInput
-  }
-
-  export type TakeOrdersUpsertWithWhereUniqueWithoutOrderInput = {
-    where: TakeOrdersWhereUniqueInput
-    update: XOR<TakeOrdersUpdateWithoutOrderInput, TakeOrdersUncheckedUpdateWithoutOrderInput>
-    create: XOR<TakeOrdersCreateWithoutOrderInput, TakeOrdersUncheckedCreateWithoutOrderInput>
-  }
-
-  export type TakeOrdersUpdateWithWhereUniqueWithoutOrderInput = {
-    where: TakeOrdersWhereUniqueInput
-    data: XOR<TakeOrdersUpdateWithoutOrderInput, TakeOrdersUncheckedUpdateWithoutOrderInput>
-  }
-
-  export type TakeOrdersUpdateManyWithWhereWithoutOrderInput = {
-    where: TakeOrdersScalarWhereInput
-    data: XOR<TakeOrdersUpdateManyMutationInput, TakeOrdersUncheckedUpdateManyWithoutOrderInput>
-  }
-
-  export type TakeOrdersScalarWhereInput = {
-    AND?: TakeOrdersScalarWhereInput | TakeOrdersScalarWhereInput[]
-    OR?: TakeOrdersScalarWhereInput[]
-    NOT?: TakeOrdersScalarWhereInput | TakeOrdersScalarWhereInput[]
-    takeOrderId?: IntFilter<"TakeOrders"> | number
-    orderId?: IntFilter<"TakeOrders"> | number
-    ownerId?: IntFilter<"TakeOrders"> | number
-    createdAt?: DateTimeFilter<"TakeOrders"> | Date | string
-    updatedAt?: DateTimeFilter<"TakeOrders"> | Date | string
-  }
-
-  export type OrdersCreateWithoutTakeOrderInput = {
-    address?: string
-    status?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UsersCreateNestedOneWithoutOrdersInput
-    product: ProductsCreateNestedOneWithoutOrdersInput
-  }
-
-  export type OrdersUncheckedCreateWithoutTakeOrderInput = {
-    orderId?: number
-    userId: number
-    productId: number
-    address?: string
-    status?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type OrdersCreateOrConnectWithoutTakeOrderInput = {
-    where: OrdersWhereUniqueInput
-    create: XOR<OrdersCreateWithoutTakeOrderInput, OrdersUncheckedCreateWithoutTakeOrderInput>
-  }
-
-  export type OrdersUpsertWithoutTakeOrderInput = {
-    update: XOR<OrdersUpdateWithoutTakeOrderInput, OrdersUncheckedUpdateWithoutTakeOrderInput>
-    create: XOR<OrdersCreateWithoutTakeOrderInput, OrdersUncheckedCreateWithoutTakeOrderInput>
-    where?: OrdersWhereInput
-  }
-
-  export type OrdersUpdateToOneWithWhereWithoutTakeOrderInput = {
-    where?: OrdersWhereInput
-    data: XOR<OrdersUpdateWithoutTakeOrderInput, OrdersUncheckedUpdateWithoutTakeOrderInput>
-  }
-
-  export type OrdersUpdateWithoutTakeOrderInput = {
-    address?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UsersUpdateOneRequiredWithoutOrdersNestedInput
-    product?: ProductsUpdateOneRequiredWithoutOrdersNestedInput
-  }
-
-  export type OrdersUncheckedUpdateWithoutTakeOrderInput = {
-    orderId?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
-    productId?: IntFieldUpdateOperationsInput | number
-    address?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UsersCreateWithoutUserReviewsInput = {
@@ -17095,6 +15725,8 @@ export namespace Prisma {
     orderId?: number
     productId: number
     address?: string
+    ownerId: number
+    bookstoreId: number
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17256,27 +15888,31 @@ export namespace Prisma {
 
   export type OrdersUpdateWithoutUserInput = {
     address?: StringFieldUpdateOperationsInput | string
+    ownerId?: IntFieldUpdateOperationsInput | number
+    bookstoreId?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     product?: ProductsUpdateOneRequiredWithoutOrdersNestedInput
-    takeOrder?: TakeOrdersUpdateManyWithoutOrderNestedInput
   }
 
   export type OrdersUncheckedUpdateWithoutUserInput = {
     orderId?: IntFieldUpdateOperationsInput | number
     productId?: IntFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
+    ownerId?: IntFieldUpdateOperationsInput | number
+    bookstoreId?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    takeOrder?: TakeOrdersUncheckedUpdateManyWithoutOrderNestedInput
   }
 
   export type OrdersUncheckedUpdateManyWithoutUserInput = {
     orderId?: IntFieldUpdateOperationsInput | number
     productId?: IntFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
+    ownerId?: IntFieldUpdateOperationsInput | number
+    bookstoreId?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17316,6 +15952,8 @@ export namespace Prisma {
     orderId?: number
     userId: number
     address?: string
+    ownerId: number
+    bookstoreId: number
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17385,27 +16023,31 @@ export namespace Prisma {
 
   export type OrdersUpdateWithoutProductInput = {
     address?: StringFieldUpdateOperationsInput | string
+    ownerId?: IntFieldUpdateOperationsInput | number
+    bookstoreId?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UsersUpdateOneRequiredWithoutOrdersNestedInput
-    takeOrder?: TakeOrdersUpdateManyWithoutOrderNestedInput
   }
 
   export type OrdersUncheckedUpdateWithoutProductInput = {
     orderId?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
+    ownerId?: IntFieldUpdateOperationsInput | number
+    bookstoreId?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    takeOrder?: TakeOrdersUncheckedUpdateManyWithoutOrderNestedInput
   }
 
   export type OrdersUncheckedUpdateManyWithoutProductInput = {
     orderId?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
+    ownerId?: IntFieldUpdateOperationsInput | number
+    bookstoreId?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17490,33 +16132,6 @@ export namespace Prisma {
     bookstoreId?: IntFieldUpdateOperationsInput | number
   }
 
-  export type TakeOrdersCreateManyOrderInput = {
-    takeOrderId?: number
-    ownerId: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type TakeOrdersUpdateWithoutOrderInput = {
-    ownerId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type TakeOrdersUncheckedUpdateWithoutOrderInput = {
-    takeOrderId?: IntFieldUpdateOperationsInput | number
-    ownerId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type TakeOrdersUncheckedUpdateManyWithoutOrderInput = {
-    takeOrderId?: IntFieldUpdateOperationsInput | number
-    ownerId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
 
 
   /**
@@ -17534,10 +16149,6 @@ export namespace Prisma {
      * @deprecated Use BookstoresCountOutputTypeDefaultArgs instead
      */
     export type BookstoresCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BookstoresCountOutputTypeDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use OrdersCountOutputTypeDefaultArgs instead
-     */
-    export type OrdersCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = OrdersCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UsersDefaultArgs instead
      */
@@ -17562,10 +16173,6 @@ export namespace Prisma {
      * @deprecated Use OrdersDefaultArgs instead
      */
     export type OrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = OrdersDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use TakeOrdersDefaultArgs instead
-     */
-    export type TakeOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = TakeOrdersDefaultArgs<ExtArgs>
     /**
      * @deprecated Use ReviewsDefaultArgs instead
      */
