@@ -19,7 +19,6 @@ import customerOrderRouter from "./routers/customer.order.router.js";
 import searchRouter from "./routers/search.router.js";
 import configurePassport from "../src/passport/index.js";
 
-
 const app = express();
 
 // CORS 설정
@@ -29,9 +28,6 @@ const corsOptions = {
   credentials: true,
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -39,28 +35,9 @@ app.use((req, res, next) => {
 });
 
 app.use(cors(corsOptions));
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-=======
-app.use(cors(corsOptions));
 
-=======
-app.use(cors(corsOptions));
-
->>>>>>> parent of deaa21a (Merge pull request #11 from joeunparkdev/feature/signup)
-=======
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    next();
-  });
-  
-app.use(cors(corsOptions));
->>>>>>> parent of 3d5de2f (Merge pull request #14 from joeunparkdev/feature/signup)
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
->>>>>>> parent of deaa21a (Merge pull request #11 from joeunparkdev/feature/signup)
 app.use(cookieParser());
 configurePassport(app);
 app.use("/api/auth", authRouter);
@@ -70,7 +47,6 @@ app.use("/api/review", reviewRouter);
 app.use("/api/stores", bookstoresRouter);
 app.use("/api/order", customerOrderRouter);
 app.use("/api/search", searchRouter);
-
 
 app.use(errorHandlerMiddleware);
 
