@@ -74,7 +74,6 @@ export class ReviewsService {
     };
   };
   deleteReview = async (reviewId, userId) => {
-    console.log(userId);
     const review = await this.reviewsRepository.findReviewById(reviewId);
     if (!review) throw new Error("존재하지 않는 review입니다.");
 
