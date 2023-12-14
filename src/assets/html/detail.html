@@ -45,12 +45,22 @@
 
   <main>
     <div class="container my-5">
-      <h2 class="text-success mb-4">물건 상세보기</h2>
-      <div id="productDetail" class="row">
-        <!-- Product details go here -->
-        <div>책 이미지 넣기</div>
+      <section class="first-section">
+        <div>
+          <h2 class="text-success mb-4">물건 상세보기</h2>
+          <div id="productDetail" class="row">
+            <!-- Product details go here -->
+            <div>책 이미지 넣기</div>
+          </div>
+        </div>
+      <div class="mt-4">
+        <h4>전체 금액: <span id="totalAmount">0 원</span></h4>
       </div>
-      <section>
+      
+      <div>
+        <div>책 제목</div>
+        <div>책 작가</div>
+        <div>책 줄거리</div>
         <div class="my-4">
           <label for="quantity">개수:</label>
           <input type="number" id="quantity" name="quantity" value="1" min="1" max="10">
@@ -58,13 +68,7 @@
   
         <button type="button" class="btn btn-success me-2" id="addToCartBtn">장바구니에 넣기</button>
         <button type="button" class="btn btn-success" id="directPurchaseBtn">바로 주문</button>
-  
-        <div class="mt-4">
-          <h4>전체 금액: <span id="totalAmount">0 원</span></h4>
         </div>
-        <div>책 제목</div>
-        <div>책 작가</div>
-        <div>책 줄거리</div>
       </section>
       
       <section>
