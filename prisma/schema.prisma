@@ -48,7 +48,8 @@ model Products {
 }
 model Bookstores {
   bookstoreId Int        @id @default(autoincrement()) @map("bookstoreId")
-  imageUrl    String
+  imageUrl    String?
+  imagePath   String?
   name        String
   price       Int
   address     String     @default("Unknown")
