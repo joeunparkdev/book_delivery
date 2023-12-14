@@ -4,13 +4,12 @@ Accept: */*
 Content-Type: application/json
 
 ### POST /api/products
-
 POST https://localhost:3002/api/products/
 Accept: */*
 Content-Type: application/json
 
 {
-"name": "CU6",
+"name": "CU7",
 "description": "맥너",
 "author": "그르르",
 "price": 2500
@@ -29,7 +28,7 @@ Content-Type: application/json
 }
 
 ### GET /api/products/:productId
-GET https://localhost:3002/api/products/1
+GET https://localhost:3002/api/products/9
 Accept: */*
 Content-Type: application/json
 

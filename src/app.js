@@ -22,9 +22,9 @@ dotenv.config();
 
 // CORS 설정
 const corsOptions = {
-  origin: ["http://localhost:5500", "http://127.0.0.1:5500"],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  credentials: true,
+    origin: ["http://localhost:5500", "http://127.0.0.1:5500"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
 };
 
 app.use(cors(corsOptions));
@@ -53,8 +53,8 @@ const HTTPS_PORT = process.env.HTTPS_PORT || 3002;
 
 // HTTPS 옵션
 const httpsOptions = {
-  key: fs.readFileSync(process.env.HTTPS_KEY),
-  cert: fs.readFileSync(process.env.HTTPS_CERT),
+    key: fs.readFileSync(process.env.HTTPS_KEY),
+    cert: fs.readFileSync(process.env.HTTPS_CERT),
 };
 
 // HTTP 및 HTTPS 서버 생성
@@ -63,11 +63,11 @@ const httpsServer = https.createServer(httpsOptions, app);
 
 // 지정된 포트에서 수신 대기
 httpServer.listen(PORT, () => {
-  console.log(`HTTP 서버가 포트 ${PORT}에서 실행 중입니다.`);
+    console.log(`HTTP 서버가 포트 ${PORT}에서 실행 중입니다.`);
 });
 
 httpsServer.listen(HTTPS_PORT, () => {
-  console.log(`HTTPS 서버가 포트 ${HTTPS_PORT}에서 실행 중입니다.`);
+    console.log(`HTTPS 서버가 포트 ${HTTPS_PORT}에서 실행 중입니다.`);
 });
 
 export { app };

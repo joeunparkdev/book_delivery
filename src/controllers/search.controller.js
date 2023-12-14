@@ -85,6 +85,7 @@ export class SearchController {
             const { keyword } = req.params;
             const { price } = req.body;
             console.log(price)
+            console.log(keyword)
 
             if (!keyword) {
                 return res.status(400).json({ error: "keyword을 입력해주세요" });

@@ -15,7 +15,7 @@ router.get("/products/name", searchController.findProductsByName);
 router.get("/products/author", searchController.findProductsByAuthor);
 router.get("/products/price", searchController.findProductsByMaxPrice);
 router.get("/products/status", searchController.findProductsByStatus);
-router.get("/products/keyword::keyword", searchController.findProductByKeyword);
+router.get("/products/keyword/:keyword", searchController.findProductByKeyword);
 
 
 router.get("/bookstores", searchController.findStores);

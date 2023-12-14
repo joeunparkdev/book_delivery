@@ -133,12 +133,14 @@ exports.Prisma.ProductsScalarFieldEnum = {
   usertype: 'usertype',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  userId: 'userId'
+  userId: 'userId',
+  bookstoreId: 'bookstoreId'
 };
 
 exports.Prisma.BookstoresScalarFieldEnum = {
   bookstoreId: 'bookstoreId',
   imageUrl: 'imageUrl',
+  imagePath: 'imagePath',
   name: 'name',
   price: 'price',
   address: 'address',
@@ -167,6 +169,14 @@ exports.Prisma.OrdersScalarFieldEnum = {
   productId: 'productId',
   address: 'address',
   status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TakeOrdersScalarFieldEnum = {
+  takeOrderId: 'takeOrderId',
+  orderId: 'orderId',
+  ownerId: 'ownerId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -212,6 +222,7 @@ exports.Prisma.ModelName = {
   RefreshToken: 'RefreshToken',
   UsersProducts: 'UsersProducts',
   Orders: 'Orders',
+  TakeOrders: 'TakeOrders',
   Reviews: 'Reviews',
   Follow: 'Follow',
   Verify: 'Verify'

@@ -43,12 +43,12 @@ Content-Type: application/json
 
 
 ###api/search
-GET https://localhost:3002/api/search/products/keyword/맥너
+GET https://localhost:3002/api/search/products/keyword/맥
 Accept: */*
 Content-Type: application/json
 
 {
-    "price":0
+  "price": 120000
 }
 
 ###api/search
