@@ -45,7 +45,7 @@
       class="jumbotron bg-sparta text-white text-center"
       onclick="window.location.href='./main.html'"
     >
-      <h1 class="font-weight-bold">📚ReadingRocket🚀</h1>
+      <h1 class="font-weight-bold">&#129384; ReadingRocket &#127829;</h1>
     </div>
     <div class="wrap">
       <div class="card mx-auto" style="max-width: 480px">
@@ -67,48 +67,62 @@
                 >
               </div>
             </div>
+
             <div class="form-group row">
-              <label for="inputEmail" class="col-sm-4 col-form-label">이메일</label>
+              <label for="inputEmail" class="col-sm-4 col-form-label"
+                >이메일</label
+              >
               <div class="col-sm-8">
                 <div class="input-group align-items-start">
                   <input
                     type="text"
                     class="form-control"
-                    id="inputEmail" 
+                    id="inputEmail"
                     placeholder="email@email.com"
                   />
                   <div class="input-group-append">
                     <button
                       class="btn btn-outline-sparta"
                       type="button"
-                      onclick="send_code()"
+                      onclick="checkEmail()"
                     >
                       인증
                     </button>
                   </div>
                 </div>
-                <small id="emailHelp" class="form-text text-muted">입력 후 인증버튼을 클릭해주세요.</small>
+                <small id="emailHelp" class="form-text text-muted"
+                  >입력 후 인증버튼을 클릭해주세요.</small
+                >
               </div>
             </div>
-            
+
             <div class="form-group row">
-              <label for="inputVerificationCode" class="col-sm-4 col-form-label">인증번호</label>
-              <div class="col-sm-8">
-                <div class="input-group align-items-start">
-                  <input type="text" class="form-control" id="inputVerificationCode" /> <!-- Corrected ID here -->
-                  <div class="input-group-append">
-                    <button
-                      class="btn btn-outline-sparta"
-                      type="button"
-                      onclick="verify_code()"
-                    >
-                      확인
-                    </button>
+                <label for="inputEmail" class="col-sm-4 col-form-label"
+                  >인증번호</label
+                >
+                <div class="col-sm-8">
+                  <div class="input-group align-items-start">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputEmail"
+                    />
+                    <div class="input-group-append">
+                      <button
+                        class="btn btn-outline-sparta"
+                        type="button"
+                        onclick="checkVerificationCode()"
+                      >
+                        확인
+                      </button>
+                    </div>
                   </div>
+                  <small id="emailHelp" class="form-text text-muted"
+                    >입력 후 확인버튼을 클릭해주세요.</small
+                  >
                 </div>
-                <small id="verificationCodeHelp" class="form-text text-muted">입력 후 확인버튼을 클릭해주세요.</small>
               </div>
-            </div>
+
             <div class="form-group row">
               <label for="inputPassword1" class="col-sm-4 col-form-label"
                 >비밀번호</label
@@ -152,7 +166,7 @@
                   type="radio"
                   name="userType"
                   id="bossRadio"
-                  value="OWNER"
+                  value="boss"
                 />
                 <label class="form-check-label" for="bossRadio">사장님</label>
               </div>
@@ -162,11 +176,9 @@
                   type="radio"
                   name="userType"
                   id="customerRadio"
-                  value="CLIENT"
+                  value="customer"
                 />
-                <label class="form-check-label" for="customerRadio"
-                  >고객님</label
-                >
+                <label class="form-check-label" for="customerRadio">고객님</label>
               </div>
             </div>
           </div>
@@ -217,6 +229,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
 
     <script src="../js/auth.js"></script>
   </body>

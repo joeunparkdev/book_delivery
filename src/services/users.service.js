@@ -133,30 +133,28 @@ export class UsersService {
       console.error("Error checking email existence:", error);
       throw error;
     }
-  };
+  }
 
   createCode = async (email, verificationCode) => {
     try {
-      const createdCode = await this.usersRepository.createCode(
-        email,
-        verificationCode,
-      );
+      const createdCode = await this.usersRepository.createCode(email, verificationCode);
       return createdCode;
-    } catch (error) {
+    } catch (error) {  
       console.error("Error creating verification code:", error);
       throw error;
     }
   };
 
-  createUser = async (username, email, password, userType, isVerified) => {
+
+  createUser = async (username, password, email,userType, isVerified) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const createdUser = await this.usersRepository.createUser(
       username,
-      email,
       hashedPassword,
+      email,
       userType,
-      (isVerified = 1),
+      isVerified=1,
     );
 
     return {
@@ -359,9 +357,7 @@ export class UsersService {
   createKakaoUser = async (kakaoId, email, nickname) => {
     try {
       const newUser = await this.usersRepository.createKakaoUser(
-        nickname,
-        email,
-        kakaoId,
+        nickname, email, kakaoId
       );
       return {
         userId: newUser.userId,
@@ -372,8 +368,8 @@ export class UsersService {
         updatedAt: newUser.updatedAt,
       };
     } catch (error) {
-      console.error("Error creating Kakao user:", error);
-      throw new Error("Failed to create Kakao user");
+      console.error('Error creating Kakao user:', error);
+      throw new Error('Failed to create Kakao user');
     }
   };
 
@@ -382,50 +378,50 @@ export class UsersService {
       const user = await this.usersRepository.findUserByKakaoId(kakaoUserId);
       return user;
     } catch (error) {
-      console.error("Error finding user by Kakao ID:", error);
-      throw new Error("Failed to find user by Kakao ID");
+      console.error('Error finding user by Kakao ID:', error);
+      throw new Error('Failed to find user by Kakao ID');
     }
   };
 
-  kakaoLogin = async (kakaoId, email, nickname) => {
-    try {
-      // Prisma를 사용하여 이메일이 일치하는 사용자 찾기
-      const user = await this.usersRepository.findUserByEmail(email);
-      // 사용자가 존재하지 않으면 새로운 사용자 생성
-      if (!user) {
-        await this.createKakaoUser(kakaoId, email, nickname);
-      }
-      const prismaUser = await this.usersRepository.findUserByEmail(email);
-      const userId = prismaUser.userId;
-      return userId;
-    } catch (error) {
-      // 오류 처리
-      console.error(error);
-      throw new Error("카카오 로그인 중 오류 발생");
+ kakaoLogin = async (kakaoId, email, nickname) => {
+  try {
+    // Prisma를 사용하여 이메일이 일치하는 사용자 찾기
+    const user = await this.usersRepository.findUserByEmail(email);
+    // 사용자가 존재하지 않으면 새로운 사용자 생성
+    if (!user) {
+      await this.createKakaoUser(kakaoId, email, nickname);
     }
-  };
+    const prismaUser = await this.usersRepository.findUserByEmail(email);
+    const userId = prismaUser.userId;
+    return userId;
+  } catch (error) {
+    // 오류 처리
+    console.error(error);
+    throw new Error('카카오 로그인 중 오류 발생');
+  }
+};
 
-  checkVerificationCode = async (email, verificationCode) => {
-    try {
-      const verify = await this.usersRepository.findCodeByEmail(email);
-      console.log(verify);
-      const expiredDate =
-        await this.usersRepository.findExpiredDateByCode(verify);
-      console.log(expiredDate);
+checkVerificationCode = async (email, verificationCode) => {
+  try {
+    const verify = await this.usersRepository.findCodeByEmail(email);
+    console.log(verify);
+    const expiredDate = await this.usersRepository.findExpiredDateByCode(verify);
+    console.log(expiredDate);
 
-      if (!verify) {
-        throw new Error("Invalid verification code.");
-      }
-
-      if (
-        verify !== verificationCode ||
-        (expiredDate !== null && this.usersRepository.isExpired(expiredDate))
-      ) {
-        throw new Error("Invalid verification code.");
-      }
-      return verify;
-    } catch (error) {
-      throw new Error(error.message || "Error checking verification code.");
+    if (!verify) {
+      throw new Error("Invalid verification code.");
     }
-  };
+
+    if (verify !== verificationCode || expiredDate !== null && this.usersRepository.isExpired(expiredDate)) {
+      throw new Error("Invalid verification code.");
+    }
+    return verify;
+
+  } catch (error) {
+    throw new Error(error.message || "Error checking verification code.");
+  }
+};
+
+
+
 }
