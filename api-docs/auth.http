@@ -18,7 +18,7 @@ Content-Type: application/json
 
 {
   "email": "joeunpark7@gmail.com",
-  "password": "000000"
+"password":"000000"
 }
 
 ### POST /api/auth/signout
