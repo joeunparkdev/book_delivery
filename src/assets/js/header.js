@@ -96,7 +96,7 @@ function setupLoginButtons(isLoggedIn) {
 // 로그아웃
 async function logout() {
   try {
-    const response = await fetch(`/api/logout/`, {
+    const response = await fetch(`/api/auth/signout`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
