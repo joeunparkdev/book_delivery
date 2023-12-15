@@ -1,26 +1,3 @@
-async function deleteBookstore(bookstoreId) {
-  console.log("Deleting bookstore with ID:", bookstoreId);
-
-  if (!bookstoreId) {
-    console.error("Error: bookstoreId is undefined or empty");
-    return;
-  }
-
-  try {
-    const response = await fetch(`/api/stores/${bookstoreId}`, {
-      method: "DELETE",
-      credentials: "include",
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    alert("서점이 성공적으로 삭제되었습니다.");
-  } catch (error) {
-    console.error("에러 ---", error);
-  }
-}
-
 async function checkUserType() {
   try {
     const response = await fetch(`/api/users/me`, {
@@ -60,6 +37,50 @@ document.getElementById("searchButton").addEventListener("click", function () {
   alert("검색어: " + searchInput);
 });
 
+// 사용자의 ID를 가져오는 함수
+async function getUserId() {
+  try {
+    const response = await fetch(`/api/users/me`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return data.data.userId;
+    } else {
+      console.error("Error getting user ID:", response.statusText);
+      throw new Error("Error getting user ID");
+    }
+  } catch (error) {
+    console.error("Error getting user ID:", error);
+    throw error;
+  }
+}
+
+async function deleteBookstore(bookstoreId) {
+  console.log("Deleting bookstore with ID:", bookstoreId);
+
+  if (!bookstoreId) {
+    console.error("Error: bookstoreId is undefined or empty");
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/stores/${bookstoreId}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    alert("서점이 성공적으로 삭제되었습니다.");
+  } catch (error) {
+    console.error("에러 ---", error);
+  }
+}
+
 async function displayBookstores() {
   try {
     const bookstores = await fetchBookstores();
@@ -69,18 +90,23 @@ async function displayBookstores() {
 
     productCardsContainer.innerHTML = "";
     const userRole = await checkUserType();
+    const userId = await getUserId();
     console.log(userRole);
 
     const createBtn = document.getElementById("createBtn");
     const deleteAllBtn = document.getElementById("deleteAllBtn");
 
-    createBtn.style.display = "block";
+    if (userRole === "OWNER") {
+      createBtn.style.display = "block";
+    } else {
+      createBtn.style.display = "none";
+    }
 
     createBtn.addEventListener("click", function () {
       window.location.href = "createStore.html";
     });
 
-    if (userRole === "OWNER" || userRole === "DEV") {
+    if (userRole === "DEV") {
       deleteAllBtn.style.display = "block";
     } else {
       deleteAllBtn.style.display = "none";
@@ -115,22 +141,35 @@ async function displayBookstores() {
       const editBtn = card.querySelector(".editBtn");
       const deleteBtn = card.querySelector(".deleteBtn");
 
-      deleteBtn.addEventListener("click", (e) => {
+      // 삭제 버튼 클릭 이벤트
+      deleteBtn.addEventListener("click", async (e) => {
+        // 글을 작성한 사용자와 현재 사용자의 ID 비교
+        if (userId !== bookstore.authorId) {
+          alert("수정/삭제할 권한이 없습니다.");
+          return;
+        }
+
         const confirmed = confirm("정말로 이 서점을 삭제하시겠습니까?");
 
         if (confirmed) {
           try {
-            deleteBookstore(bookstore.bookStoreId);
-            displayBookstores();
+            await deleteBookstore(bookstore.bookStoreId);
+            await displayBookstores();
           } catch (error) {
             console.error("Error deleting bookstore:", error);
           }
         }
       });
 
-      if (userRole === "OWNER" || userRole === "DEV") {
-        editBtn.style.display = "block";
-        deleteBtn.style.display = "block";
+      if (userRole === "OWNER") {
+        // 작성자가 아닌 경우 버튼 감추기
+        if (userId !== bookstore.authorId) {
+          editBtn.style.display = "none";
+          deleteBtn.style.display = "none";
+        } else {
+          editBtn.style.display = "block";
+          deleteBtn.style.display = "block";
+        }
       } else {
         editBtn.style.display = "none";
         deleteBtn.style.display = "none";
