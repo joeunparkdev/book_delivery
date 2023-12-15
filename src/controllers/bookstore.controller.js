@@ -37,7 +37,7 @@ export class StoresController {
       const userId = req.user.userId;
       const userType = req.user.usertype;
       const imageUrl = req.file?.location;
-      const [aws, imagePath] = imageUrl?.split("com/");
+      const imagePath = imageUrl?.split("com/")[1];
 
       if (userType !== "OWNER") {
         return res.status(404).json({ error: " OWNER 아이디가 아닙니다." });
