@@ -41,4 +41,59 @@ export class CustomerOrderProductRepository {
       throw new Error('주문 처리 중 오류가 발생했습니다.')
     }
   }
+  getClientOrder = async (userId) => {
+    try {
+      const order = await prisma.orders.findMany({
+        where: {
+          userId: +userId,
+        },
+      })
+
+      return order
+    } catch (error) {
+      throw new Error('주문 조회 중 오류가 발생했습니다.')
+    }
+  }
+
+  findOrderByOrderId = async (orderId) => {
+    try {
+      console.log(orderId)
+      const order = await prisma.orders.findFirst({
+        where: {
+          orderId: +orderId,
+        },
+      })
+
+      return order
+    } catch (error) {
+      throw new Error('주문 조회 중 오류가 발생했습니다.')
+    }
+  }
+
+  clientCancelOrder = async (orderId) => {
+    try {
+      const order = await prisma.orders.delete({
+        where: {
+          orderId: +orderId,
+        },
+      })
+
+      return order
+    } catch (error) {
+      throw new Error('주문 조회 중 오류가 발생했습니다.')
+    }
+  }
+  deleteOrder = async (orderId) => {
+    try {
+      const order = await prisma.orders.delete({
+        where: {
+          orderId: +orderId,
+        },
+      })
+
+      return order
+    } catch (error) {
+      throw new Error('주문 조회 중 오류가 발생했습니다.')
+    }
+  }
 }

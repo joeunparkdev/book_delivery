@@ -34,31 +34,21 @@ export class OwnerOrderService {
       throw err // 에러를 상위 핸들러로 전파합니다.
     }
   }
-
   GetOrderByOrderId = async (orderId) => {
     try {
       const order = await this.ownerOrderRepository.GetOrderByOrderId(orderId)
+      console.log(order)
 
-      if (!order) {
-        throw new Error('주문을 찾을 수 없습니다.')
-      }
-
-      const orderWithProducts = await Promise.all(
-        order.map(async (order) => {
-          const product = await this.productsRepository.findProductById(
-            order.productId,
-          )
-
-          return {
-            ...order,
-            product,
-          }
-        }),
+      const orderWithProducts = await this.productsRepository.findProductById(
+        order.productId,
       )
 
-      return orderWithProducts
+      return {
+        ...order,
+        product: orderWithProducts,
+      }
     } catch (err) {
-      throw err // 에러를 상위 핸들러로 전파합니다.
+      throw err
     }
   }
 
@@ -94,6 +84,7 @@ export class OwnerOrderService {
       const product = await this.productsRepository.findProductById(productId)
 
       const points = +user.points + +product.price
+      console.log(points)
 
       const [updatedUser, updatedOrder] =
         await this.ownerOrderRepository.CancelOrder(orderId, userId, points)

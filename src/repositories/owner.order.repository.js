@@ -12,10 +12,12 @@ export class OwnerOrderRepository {
 
   // GetOrderByOrderId
   GetOrderByOrderId = async (orderId) => {
+    console.log(orderId)
     const order = await prisma.orders.findFirst({
       where: { orderId: +orderId },
     })
 
+    console.log(order)
     return order
   }
 
