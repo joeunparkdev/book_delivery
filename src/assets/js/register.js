@@ -130,7 +130,7 @@ async function send_code() {
     });
 
     const result = await response.json();
-
+    console.log(result);
     if (result.success) {
       alert("인증 코드를 이메일로 전송했습니다.");
       verificationStartTime = Date.now(); // 인증 코드가 전송된 시간을 기록
