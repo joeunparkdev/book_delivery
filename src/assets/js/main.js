@@ -91,7 +91,7 @@ async function displayBookstores() {
     productCardsContainer.innerHTML = "";
     const userRole = await checkUserType();
     const userId = await getUserId();
-    console.log(userRole);
+    console.log(userId);
 
     const createBtn = document.getElementById("createBtn");
     const deleteAllBtn = document.getElementById("deleteAllBtn");
@@ -143,12 +143,6 @@ async function displayBookstores() {
 
       // 삭제 버튼 클릭 이벤트
       deleteBtn.addEventListener("click", async (e) => {
-        // 글을 작성한 사용자와 현재 사용자의 ID 비교
-        if (userId !== bookstore.authorId) {
-          alert("수정/삭제할 권한이 없습니다.");
-          return;
-        }
-
         const confirmed = confirm("정말로 이 서점을 삭제하시겠습니까?");
 
         if (confirmed) {
@@ -161,9 +155,14 @@ async function displayBookstores() {
         }
       });
 
+      // 수정 버튼 클릭 이벤트
+      editBtn.addEventListener("click", () => {
+        window.location.href = `editStore.html?id=${bookstore.bookStoreId}`;
+      });
+
       if (userRole === "OWNER") {
         // 작성자가 아닌 경우 버튼 감추기
-        if (userId !== bookstore.authorId) {
+        if (userId !== bookstore.userId) {
           editBtn.style.display = "none";
           deleteBtn.style.display = "none";
         } else {

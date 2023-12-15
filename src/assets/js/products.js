@@ -82,7 +82,7 @@ async function displayBooks() {
             <p class="card-text">설명: ${book.description}</p>
             <p class="card-text">상태: ${book.status}</p>
             <p class="card-text">가격: ${book.price}원</p>
-            <a href="detail.html?id=${book.productId}" class="btn btn-success" id="viewDetailsBtn">View Details</a>
+            <a href="book.detail.html?id=${book.productId}" class="btn btn-success" id="viewDetailsBtn">View Details</a>
             <button class="btn btn-success m-2 editBtn" style="display: none;">Edit</button>
             <button class="btn btn-success  m-2 deleteBtn" style="display: none;">Delete</button>
           </div>
