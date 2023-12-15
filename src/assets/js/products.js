@@ -49,7 +49,6 @@ document
   .addEventListener("click", async function () {
     var searchInput = document.querySelector(".form-control").value;
     alert("검색어: " + searchInput);
-
   });
 
 // 책 보이기
@@ -82,10 +81,10 @@ async function displayBooks() {
             <h5 class="card-title">${book.name}</h5>
             <p class="card-text">설명: ${book.description}</p>
             <p class="card-text">상태: ${book.status}</p>
-            <p class="card-text">가격: ${book.price}</p>
+            <p class="card-text">가격: ${book.price}원</p>
             <a href="detail.html?id=${book.productId}" class="btn btn-success" id="viewDetailsBtn">View Details</a>
-            <button class="btn btn-warning editBtn" style="display: none;">Edit</button>
-            <button class="btn btn-danger deleteBtn" style="display: none;">Delete</button>
+            <button class="btn btn-success m-2 editBtn" style="display: none;">Edit</button>
+            <button class="btn btn-success  m-2 deleteBtn" style="display: none;">Delete</button>
           </div>
         </div>
       `;
@@ -125,7 +124,7 @@ async function displayBooks() {
 // 페이지 로드 시 자동으로 displayProducts 함수 호출
 window.onload = function () {
   // 페이지 로드 시 상품 카드 컨테이너와 검색 결과 타이틀을 숨기기
-  document.getElementById("productCardsContainer").style.display = "none";
+  // document.getElementById("productCardsContainer").style.display = "none";
   document.getElementById("searchResultsTitle").style.display = "none";
   displayBooks();
 };

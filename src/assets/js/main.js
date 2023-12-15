@@ -73,9 +73,8 @@ async function displayBookstores() {
             <p class="card-text">설명: ${bookstore.description}</p>
             <p class="card-text">상태: ${bookstore.status}</p>
             <a href="detail.html?id=${bookstore.id}" class="btn btn-success" id="viewDetailsBtn">View Details</a>
-          
-            <button class="btn btn-warning editBtn" style="display: none;">Edit</button>
-            <button class="btn btn-danger deleteBtn" style="display: none;">Delete</button>
+            <button class="btn btn-success m-2 editBtn" style="display: none;">Edit</button>
+            <button class="btn btn-success  m-2 deleteBtn" style="display: none;">Delete</button>
           </div>
         </div>
       `;
