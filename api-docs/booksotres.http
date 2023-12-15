@@ -4,7 +4,7 @@ Accept: */*
 Content-Type: application/json
 
 ###업장 상세 조회	/api/stores/:storeId
-GET https://localhost:3002/api/stores/3
+GET https://localhost:3002/api/stores/1
 Accept: */*
 Content-Type: application/json
 

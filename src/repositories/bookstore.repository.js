@@ -1,22 +1,29 @@
-import { prisma } from "../utils/prisma/index.js";
-import aws from "aws-sdk";
+import { prisma } from '../utils/prisma/index.js'
+import aws from 'aws-sdk'
 export class StoreRepository {
   // findAllStore
 
   findAllStore = async () => {
-    const bookStore = await prisma.bookstores.findMany();
+    const bookStore = await prisma.bookstores.findMany()
 
-    return bookStore;
-  };
+    return bookStore
+  }
 
   // findStoreByUserId
   findStoreByUserId = async (userId) => {
     const bookStore = await prisma.bookstores.findFirst({
       where: { userId: +userId },
-    });
+    })
 
-    return bookStore;
-  };
+    return bookStore
+  }
+  findMyStore = async (userId) => {
+    const bookStore = await prisma.bookstores.findFirst({
+      where: { userId: +userId },
+    })
+
+    return bookStore
+  }
 
   // findStoreByUserId
   findStoreById = async (bookstoreId) => {
@@ -24,14 +31,14 @@ export class StoreRepository {
       where: {
         bookstoreId: +bookstoreId,
       },
-    });
+    })
 
     if (!bookStore) {
-      return null;
+      return null
     }
 
-    return bookStore;
-  };
+    return bookStore
+  }
 
   //createStore
   createStore = async (
@@ -55,10 +62,10 @@ export class StoreRepository {
         status,
         userId,
       },
-    });
+    })
 
-    return createdStore;
-  };
+    return createdStore
+  }
 
   // updateStore
   updateStore = async (
@@ -81,7 +88,7 @@ export class StoreRepository {
         select: {
           imagePath: true,
         },
-      });
+      })
 
       new aws.S3({
         accessKeyId: process.env.ACCESS_KEY,
@@ -90,11 +97,11 @@ export class StoreRepository {
       }).deleteObject({
         Bucket: process.env.BUCKET,
         Key: findS3Image.imagePath,
-      });
+      })
 
       if (!imagePath || !imageUrl) {
-        imagePath = null;
-        imageUrl = null;
+        imagePath = null
+        imageUrl = null
       }
 
       const updatedStore = await prisma.bookstores.update({
@@ -112,13 +119,13 @@ export class StoreRepository {
           updatedAt,
           userId,
         },
-      });
-      return updatedStore;
+      })
+      return updatedStore
     } catch (error) {
-      console.error("Store 수정 실패:", error.message);
-      throw new Error("Store 수정 실패");
+      console.error('Store 수정 실패:', error.message)
+      throw new Error('Store 수정 실패')
     }
-  };
+  }
 
   // deleteStore
   deleteStore = async (bookstoreId) => {
@@ -129,7 +136,7 @@ export class StoreRepository {
       select: {
         imagePath: true,
       },
-    });
+    })
 
     new aws.S3({
       accessKeyId: process.env.ACCESS_KEY,
@@ -138,13 +145,13 @@ export class StoreRepository {
     }).deleteObject({
       Bucket: process.env.BUCKET,
       Key: findS3Image.imagePath,
-    });
+    })
 
     const deletedStore = await prisma.bookstores.delete({
       where: {
         bookstoreId: +bookstoreId,
       },
-    });
-    return deletedStore;
-  };
+    })
+    return deletedStore
+  }
 }

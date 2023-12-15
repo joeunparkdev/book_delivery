@@ -88,12 +88,12 @@ model Orders {
   createdAt  DateTime  @default(now()) @map("createdAt")
   updatedAt  DateTime  @updatedAt @map("updatedAt")
 
-
   user       Users     @relation(fields: [userId], references: [userId], onDelete: Cascade)
   product    Products  @relation(fields: [productId], references: [productId], onDelete: Cascade)
   @@index([userId], name: "idx_user_id")
   @@index([productId], name: "idx_product_id")
 }
+
 
 model Reviews {
   reviewId   Int      @id @default(autoincrement())
