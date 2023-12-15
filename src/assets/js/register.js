@@ -125,7 +125,7 @@ async function send_code() {
     alert("이메일을 입력해주세요.");
     return;
   }
-
+  console.log(JSON.stringify({ email: email }));
   try {
     const response = await fetch(`/api/auth/sendCode`, {
       method: "POST",

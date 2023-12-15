@@ -23,7 +23,7 @@ export class StoresController {
       if (userType !== "OWNER") {
         return res.status(404).json({ error: " OWNER 아이디가 아닙니다." });
       }
-      const bookstore = await this.storesService.findStoreByUserId(userId);
+      const bookstore = await this.storesService.findMyStore(userId);
 
       return res.status(200).json({ data: bookstore });
     } catch (err) {
