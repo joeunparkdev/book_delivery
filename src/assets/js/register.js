@@ -41,7 +41,9 @@ async function handleKakao_login() {
 async function sendKakaoAccessTokenToServer(accessToken) {
   try {
     // 서버로 전송할 URL 및 데이터 설정
-    const url = `/api/auth/kakao/callback?code=${encodeURIComponent(accessToken)}`;
+    const url = `/api/auth/kakao/callback?code=${encodeURIComponent(
+      accessToken,
+    )}`;
 
     // 서버로 HTTP GET 요청 보내기
     const response = await fetch(url, {
@@ -123,7 +125,7 @@ async function send_code() {
     alert("이메일을 입력해주세요.");
     return;
   }
-
+  console.log(JSON.stringify({ email: email }));
   try {
     const response = await fetch(`/api/auth/sendCode`, {
       method: "POST",

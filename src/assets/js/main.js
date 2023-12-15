@@ -5,7 +5,7 @@
 //     - “사장님”은 업장 정보를 오직 1개만 갖고 있을 수 있어야 합니다.
 //     - 업장 정보 목록은 모두가 볼 수 있어야 합니다.
 
-async function checkLoggedIn() {
+async function checkUserType() {
   try {
     const response = await fetch(`/api/users/me`, {
       method: "GET",
@@ -14,18 +14,14 @@ async function checkLoggedIn() {
 
     if (response.ok) {
       const data = await response.json();
-      return {
-        isLoggedIn: true,
-        userId: data.userId,
-        usertype:data.usertype,
-      };
+      return data.data.userType;
     } else {
       console.error("Error checking login status:", response.statusText);
-      return { isLoggedIn: false, userId: null };
+      throw new Error("Error checking login status");
     }
   } catch (error) {
     console.error("Error checking login status:", error);
-    return { isLoggedIn: false, userId: null };
+    throw error;
   }
 }
 
@@ -58,6 +54,8 @@ async function displayBookstores() {
     );
 
     productCardsContainer.innerHTML = "";
+    const userRole = await checkUserType();
+    console.log(userRole);
 
     for (let i = 0; i < bookstores.length; i++) {
       const bookstore = bookstores[i];
@@ -75,10 +73,9 @@ async function displayBookstores() {
             <p class="card-text">설명: ${bookstore.description}</p>
             <p class="card-text">상태: ${bookstore.status}</p>
             <a href="detail.html?id=${bookstore.id}" class="btn btn-success" id="viewDetailsBtn">View Details</a>
-            
-            <!-- 수정 및 삭제 버튼 추가 -->
-            <button class="btn btn-warning" id="editBtn" style="display: none;">Edit</button>
-            <button class="btn btn-danger" id="deleteBtn" style="display: none;">Delete</button>
+          
+            <button class="btn btn-warning editBtn" style="display: none;">Edit</button>
+            <button class="btn btn-danger deleteBtn" style="display: none;">Delete</button>
           </div>
         </div>
       `;
@@ -88,10 +85,10 @@ async function displayBookstores() {
 
       productCardsContainer.appendChild(card);
 
-      const userRole = await checkLoggedIn();
-      const editBtn = card.querySelector("#editBtn");
-      const deleteBtn = card.querySelector("#deleteBtn");
-      const createBtn = card.querySelector("#createBtn");
+      const editBtn = card.querySelector(".editBtn");
+      const deleteBtn = card.querySelector(".deleteBtn");
+      const createBtn = document.getElementById("createBtn");
+      const deleteAllBtn = document.getElementById("deleteAllBtn");
 
       if (userRole === "OWNER" || userRole === "DEV") {
         editBtn.style.display = "block";
@@ -104,15 +101,11 @@ async function displayBookstores() {
         createBtn.style.display = "none";
       }
 
-      const deleteAllBtn = document.getElementById("deleteAllBtn");
-
       if (userRole === "DEV") {
-        deleteAllBtn.style.display = "block"; 
+        deleteAllBtn.style.display = "block";
       } else {
-        deleteAllBtn.style.display = "none"; 
+        deleteAllBtn.style.display = "none";
       }
-
-
     }
   } catch (error) {
     console.error("에러 ---", error);
