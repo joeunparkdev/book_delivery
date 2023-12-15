@@ -1,36 +1,37 @@
-import { prisma } from "../utils/prisma/index.js";
-import PRODUCT_STATUS from "../constants/app.constants.js";
-import ENUMS from "../constants/app.constants.js";
-import aws from "aws-sdk";
+import { prisma } from '../utils/prisma/index.js'
+import PRODUCT_STATUS from '../constants/app.constants.js'
+import ENUMS from '../constants/app.constants.js'
+import aws from 'aws-sdk'
 
 export class ProductsRepository {
   findAllProducts = async () => {
     // ORM인 Prisma에서 Products 모델의 findMany 메서드를 사용해 데이터를 요청합니다.
-    const Products = await prisma.products.findMany();
+    const Products = await prisma.products.findMany()
 
-    return Products;
-  };
+    return Products
+  }
 
   findProductById = async (productId) => {
-    // ORM인 Prisma에서 Products 모델의 findUnique 메서드를 사용해 데이터를 요청합니다.
+    console.log(productId)
+
     const product = await prisma.products.findUnique({
       where: { productId: +productId },
-    });
+    })
     if (!product) {
-      throw new Error("Product not found");
+      throw new Error('Product not found')
     }
 
-    return product;
-  };
+    return product
+  }
 
   findProductsByUserId = async (userId) => {
     const products = await prisma.products.findMany({
       where: { userId: +userId },
-    });
+    })
 
     if (!products || products.length === 0) {
       // 사용자가 존재하지 않거나 해당 사용자에게 등록된 제품이 없는 경우
-      return []; // 또는 다른 기본값을 반환하거나 에러를 throw
+      return [] // 또는 다른 기본값을 반환하거나 에러를 throw
     }
 
     return products.map((product) => {
@@ -43,9 +44,9 @@ export class ProductsRepository {
         status: product.status,
         createdAt: product.createdAt,
         updatedAt: product.updatedAt,
-      };
-    });
-  };
+      }
+    })
+  }
 
   createProduct = async (
     name,
@@ -75,10 +76,10 @@ export class ProductsRepository {
         createdAt,
         updatedAt,
       },
-    });
+    })
 
-    return createdProduct;
-  };
+    return createdProduct
+  }
 
   updateProduct = async (
     productId,
@@ -98,7 +99,7 @@ export class ProductsRepository {
       select: {
         imagePath: true,
       },
-    });
+    })
 
     new aws.S3({
       accessKeyId: process.env.ACCESS_KEY,
@@ -107,11 +108,11 @@ export class ProductsRepository {
     }).deleteObject({
       bucket: process.env.BUCKET,
       key: findS3Image.imagePath,
-    });
+    })
 
     if (!imagePath || !imageUrl) {
-      imagePath = null;
-      imageUrl = null;
+      imagePath = null
+      imageUrl = null
     }
 
     // ORM인 Prisma에서 Products 모델의 update 메서드를 사용해 데이터를 수정합니다.
@@ -129,10 +130,10 @@ export class ProductsRepository {
         imagePath,
         updatedAt,
       },
-    });
+    })
 
-    return updatedProduct;
-  };
+    return updatedProduct
+  }
 
   deleteProduct = async (productId) => {
     const findS3Image = await prisma.products.findUnique({
@@ -142,7 +143,7 @@ export class ProductsRepository {
       select: {
         imagePath: true,
       },
-    });
+    })
 
     new aws.S3({
       accessKeyId: process.env.ACCESS_KEY,
@@ -151,17 +152,17 @@ export class ProductsRepository {
     }).deleteObject({
       Bucket: process.env.BUCKET,
       Key: findS3Image.imagePath,
-    });
+    })
 
     // ORM인 Prisma에서 Products 모델의 delete 메서드를 사용해 데이터를 삭제합니다.
     const deletedProduct = await prisma.products.delete({
       where: {
         productId: +productId,
       },
-    });
+    })
 
-    return deletedProduct;
-  };
+    return deletedProduct
+  }
 
   deleteAllProducts = async () => {
     try {
@@ -172,10 +173,10 @@ export class ProductsRepository {
         select: {
           imagePath: true,
         },
-      });
+      })
 
       for (const image of findS3Image) {
-        const imagePath = image.imagePath;
+        const imagePath = image.imagePath
 
         try {
           new aws.S3({
@@ -185,19 +186,19 @@ export class ProductsRepository {
           }).deleteObject({
             Bucket: process.env.BUCKET,
             Key: imagePath,
-          });
-          console.log(`Object deleted successfully: ${imagePath}`);
+          })
+          console.log(`Object deleted successfully: ${imagePath}`)
         } catch (error) {
-          console.error(`Error deleting object: ${imagePath}`, error);
+          console.error(`Error deleting object: ${imagePath}`, error)
         }
       }
 
       // ORM인 Prisma에서 Products 모델의 delete 메서드를 사용해 데이터를 삭제합니다.
-      const deletedProducts = await prisma.products.deleteMany();
-      return deletedProducts;
+      const deletedProducts = await prisma.products.deleteMany()
+      return deletedProducts
     } catch (error) {
-      console.error(error);
-      throw error;
+      console.error(error)
+      throw error
     }
-  };
+  }
 }
