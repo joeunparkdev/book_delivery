@@ -2,11 +2,17 @@
   display: flex;
 }
 
+.first-area :first-child {
+  width: 40%;
+}
+
+.first-area :last-child {
+  width: 100%;
+}
+
 .box {
-  width: 100px;
+  width: 100vh;
   height: 100px;
-  margin: 20px;
-  margin-right: 300px;
 }
 
 /* .mt-4 {
@@ -20,16 +26,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100vh;
   margin-top: 50px;
 }
-.buy-button button {
-  width: 100vh;
+.buy-button :first-child {
+  width: 50%;
   height: 50px;
 }
 
+.buy-button :last-child {
+  width: 50%;
+  height: 50px;
+}
 .second-area {
   margin-top: 200px;
+}
+.my-2 {
+  display: flex;
+  position: relative;
+}
+
+.review-revise-btn {
+  position: absolute;
+  right: 0;
 }
 
 .second-area div {
@@ -61,7 +79,7 @@
   border-radius: 8px;
   position: absolute;
   height: 95%;
-  width: 15%;
+  width: 17.5%;
   right: -10px;
   cursor: pointer;
   font-size: 90%;
