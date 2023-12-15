@@ -4,7 +4,7 @@ import { ProductsRepository } from '../repositories/products.repository.js'
 import { StoreRepository } from '../repositories/bookstore.repository.js'
 
 export class CustomerOrderProductController {
-  customerOrderProductServiec = new CustomerOrderProductService()
+  customerOrderProductService = new CustomerOrderProductService()
   productsRepository = new ProductsRepository()
   storeRepository = new StoreRepository()
 
@@ -25,7 +25,7 @@ export class CustomerOrderProductController {
       console.log(bookStore)
 
       const [updatedUser, createdOrder] =
-        await this.customerOrderProductServiec.orderProductByUser(
+        await this.customerOrderProductService.orderProductByUser(
           user,
           product,
           userId,
@@ -42,6 +42,77 @@ export class CustomerOrderProductController {
       })
     } catch (err) {
       next(err)
+    }
+  }
+  getClientOrder = async (req, res, next) => {
+    try {
+      const userId = req.user.userId
+      const order =
+        await this.customerOrderProductService.getClientOrder(userId)
+
+      return res.status(200).json({
+        data: order,
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  finOrderByOrderId = async (req, res, next) => {
+    try {
+      const orderId = req.params
+      const userId = req.user.userId
+      const order = await this.customerOrderProductService.finOrderByOrderId(
+        orderId,
+        userId,
+      )
+
+      return res.status(200).json({
+        data: order,
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  // 취소하기
+  cancelOrder = async (req, res, next) => {
+    try {
+      const user = req.user
+      const userId = user.userId
+      const orderId = req.params
+      const deleteOrder = await this.customerOrderProductService.cancelOrder(
+        orderId,
+        userId,
+      )
+
+      return res.status(200).json({
+        message: '취소되었습니다.',
+        data: deleteOrder,
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  // 주문 완료와 확인하기
+
+  deleteOrder = async (req, res, next) => {
+    try {
+      const user = req.user
+      const userId = user.userId
+      const orderId = req.params
+      const deleteOrder = await this.customerOrderProductService.deleteOrder(
+        orderId,
+        userId,
+      )
+
+      return res.status(200).json({
+        message: '확인되었습니다.',
+        data: deleteOrder,
+      })
+    } catch (error) {
+      next(error)
     }
   }
 }

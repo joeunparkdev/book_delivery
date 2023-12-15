@@ -11,7 +11,7 @@ export class CustomerOrderProductRepository {
     bookstoreId,
   ) => {
     try {
-      const [updatedUser, createdOrder] = await prisma.$transaction([
+      const [updatedUser, orderWithProducts] = await prisma.$transaction([
         prisma.users.update({
           where: {
             userId: +userId,
@@ -35,7 +35,7 @@ export class CustomerOrderProductRepository {
         }),
       ])
 
-      return [updatedUser, createdOrder]
+      return [updatedUser, orderWithProducts]
     } catch (error) {
       console.error('주문 처리 중 오류 발생:', error)
       throw new Error('주문 처리 중 오류가 발생했습니다.')

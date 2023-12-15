@@ -2,6 +2,7 @@ import { CustomerOrderProductRepository } from '../repositories/coutomer.order.p
 import { ProductsRepository } from '../repositories/products.repository.js'
 import { UsersRepository } from '../repositories/users.repository.js'
 import { StoreRepository } from '../repositories/bookstore.repository.js'
+import { tick } from 'svelte'
 
 export class CustomerOrderProductService {
   customerOrderProductRepository = new CustomerOrderProductRepository()
@@ -44,11 +45,93 @@ export class CustomerOrderProductService {
           ownerId,
           bookstoreId,
         )
-      console.log(updatedUser)
-      return [updatedUser, createdOrder]
+      console.log(createdOrder)
+
+      const ordersArray = Array.isArray(createdOrder)
+        ? createdOrder
+        : [createdOrder]
+
+      const orderWithProducts = await Promise.all(
+        ordersArray.map(async (order) => {
+          const product = await this.productsRepository.findProductById(
+            order.productId,
+          )
+
+          return {
+            ...order,
+            product,
+          }
+        }),
+      )
+
+      return [updatedUser, orderWithProducts]
     } catch (error) {
       console.error('주문 처리 중 오류 발생:', error)
       throw new Error('주문 처리 중 오류가 발생했습니다.')
+    }
+  }
+
+  getClientOrder = async (userId) => {
+    try {
+      const order =
+        await this.customerOrderProductRepository.getClientOrder(userId)
+
+      const orderWithProducts = await Promise.all(
+        order.map(async (order) => {
+          const product = await this.productsRepository.findProductById(
+            order.productId,
+          )
+
+          return {
+            ...order,
+            product,
+          }
+        }),
+      )
+
+      return orderWithProducts
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  finOrderByOrderId = async (userId, orderId) => {
+    try {
+      const order =
+        await this.customerOrderProductRepository.finOrderByOrderId(orderId)
+
+      const orderWithProducts = await Promise.all(
+        order.map(async (order) => {
+          const product = await this.productsRepository.findProductById(
+            order.productId,
+          )
+
+          return {
+            ...order,
+            product,
+          }
+        }),
+      )
+      return orderWithProducts
+    } catch (error) {
+      next(error)
+    }
+  }
+  cancelOrder = async (orderId, userId) => {
+    try {
+      const order =
+        await this.customerOrderProductRepository.finOrderByOrderId(order)
+
+      const canceledOrder =
+        await this.customerOrderProductRepository.cancelOrder(orderId, userId)
+    } catch (error) {
+      next(error)
+    }
+  }
+  deleteOrder = async (orderId, userId) => {
+    try {
+    } catch (error) {
+      next(error)
     }
   }
 }
