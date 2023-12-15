@@ -21,7 +21,6 @@ Content-Type: application/json
 {
 "imageUrl":"https://example.com/image.jpg", 
 "name":"우섭", 
-"price":2000,
 "address":"집",
 "description": "묘사",
 "status" : "open"
@@ -49,6 +48,11 @@ Accept: */*
 Content-Type: application/json
 
 
+###관리자 업장삭제
+DELETE https://localhost:3002/api/stores/admin/2
+
+Accept: */*
+Content-Type: application/json
 
 
 

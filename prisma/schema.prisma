@@ -8,7 +8,7 @@ datasource db {
 }
 model Users {
   userId        Int             @id @default(autoincrement()) @map("userId")
-  usertype      String          @default("고객님")
+  usertype      String          @default("CLIENT")
   username      String
   kakaoUserId   Int?
   email         String          @unique
@@ -52,7 +52,6 @@ model Bookstores {
   imageUrl    String?
   imagePath   String?
   name        String
-  price       Int
   address     String     @default("Unknown")
   description String
   status      String     @default("OPEN")

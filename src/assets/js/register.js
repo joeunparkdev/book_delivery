@@ -61,14 +61,6 @@ async function sendKakaoAccessTokenToServer(accessToken) {
   }
 }
 
-// 진짜 카카오 로그인
-async function kakao_login() {
-  const response = await fetch(`/api/auth/kakao`, {
-    method: "GET",
-    mode: "no-cors",
-  });
-}
-
 function sign_up() {
   const username = document.getElementById("inputNickname").value;
   console.log("Username:", username);
@@ -138,7 +130,7 @@ async function send_code() {
     });
 
     const result = await response.json();
-
+    console.log(result);
     if (result.success) {
       alert("인증 코드를 이메일로 전송했습니다.");
       verificationStartTime = Date.now(); // 인증 코드가 전송된 시간을 기록

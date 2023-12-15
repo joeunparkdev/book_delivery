@@ -1,161 +1,144 @@
 import { StoresService } from "../services/bookstore.service.js";
 
 //업장조회
-
 export class StoresController {
-    storesService = new StoresService();
+  storesService = new StoresService();
 
-    getStores = async(req, res, next) => {
-        try {
-            const bookstore = await this.storesService.findAllStore()
+  getStores = async (req, res, next) => {
+    try {
+      const bookstore = await this.storesService.findAllStore();
 
-            return res.status(200).json({ data: bookstore })
-        } catch (err) {
-            next(err)
-        }
+      return res.status(200).json({ data: bookstore });
+    } catch (err) {
+      next(err);
     }
+  };
 
-    getMyStores = async(req, res, next) => {
-        try {
-            const userId = req.user.userId
-            const userType = req.user.usertype
-            console.log(userType)
-            if (userType !== 'OWNER') {
-                return res.status(404).json({ error: ' OWNER 아이디가 아닙니다.' })
-            }
-            const bookstore = await this.storesService.findMyStore(userId)
+  getMyStores = async (req, res, next) => {
+    try {
+      const userId = req.user.userId;
+      const userType = req.user.usertype;
+      console.log(userType);
+      if (userType !== "OWNER") {
+        return res.status(404).json({ error: " OWNER 아이디가 아닙니다." });
+      }
+      const bookstore = await this.storesService.findMyStore(userId);
 
-            return res.status(200).json({ data: bookstore })
-        } catch (err) {
-            next(err)
-        }
+      return res.status(200).json({ data: bookstore });
+    } catch (err) {
+      next(err);
     }
+  };
 
-    //bookstore만들기(하나만)
-    createStore = async(req, res, next) => {
-        try {
-            const userId = req.user.userId;
-            const userType = req.user.usertype;
-            const imageUrl = req.file ? .location;
-            const [aws, imagePath] = imageUrl ? .split("com/");
+  //bookstore만들기(하나만)
+  createStore = async (req, res, next) => {
+    try {
+      const userId = req.user.userId;
+      const imageUrl = req.file?.location;
+      const [aws, imagePath] = imageUrl?.split("com/");
+      if (!userId) {
+        return res.status(401).json({ error: "User not logged in" });
+      }
 
-            if (userType !== "OWNER") {
-                return res.status(404).json({ error: " OWNER 아이디가 아닙니다." });
-            }
-            if (!userId) {
-                return res.status(401).json({ error: "User not logged in" });
-            }
+      const { name, address, description, status } = req.body;
 
-            const { name, price, address, description, status } = req.body;
+      const confirmStore = await this.storesService.findStoreByUserId(userId);
+      console.log(confirmStore);
 
-            const confirmStore = await this.storesService.findStoreByUserId(userId);
-            console.log(confirmStore);
+      if (confirmStore !== null) {
+        return res.status(401).json({ error: "You Already have a Store" });
+      }
 
-            if (confirmStore !== null) {
-                return res.status(401).json({ error: "You Already have a Store" });
-            }
+      const newStore = await this.storesService.createStore(
+        imagePath,
+        imageUrl,
+        name,
+        address,
+        description,
+        status,
+        userId,
+        new Date(),
+        new Date(),
+      );
 
-            const newStore = await this.storesService.createStore(
-                imagePath,
-                imageUrl,
-                name,
-                price,
-                address,
-                description,
-                status,
-                userId,
-                new Date(),
-                new Date(),
-            );
+      res.json({
+        message: "store을 생성하였습니다.",
+        newStore,
+      });
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  };
 
-            res.json({
-                message: "store을 생성하였습니다.",
-                newStore,
-            });
-        } catch (error) {
-            console.error(error);
-            next(error);
-        }
-    };
+  //bookstore수정하기
 
-    //bookstore수정하기
+  updateStore = async (req, res, next) => {
+    try {
+      if (!req.user || !req.user.userId) {
+        return res.status(401).json({ error: "User not logged in" });
+      }
+      const { bookstoreId } = req.params;
+      const { name, address, description, status } = req.body;
+      const userId = req.user.userId;
+      const imageUrl = req.file?.location;
+      const imagePath = imageUrl?.split("com/")[1];
 
-    updateStore = async(req, res, next) => {
-        try {
-            const userType = req.user.usertype;
-            if (userType !== "OWNER") {
-                return res.status(404).json({ error: " OWNER 아이디가 아닙니다." });
-            }
-            if (!req.user || !req.user.userId) {
-                return res.status(401).json({ error: "User not logged in" });
-            }
-            const { bookstoreId } = req.params;
-            const { name, price, address, description, status } = req.body;
-            const userId = req.user.userId;
-            const imageUrl = req.file ? .location;
-            const imagePath = imageUrl ? .split("com/")[1];
+      const updatedAt = new Date();
+      const userType = req.user.usertype;
+      await this.storesService.updateStore(
+        bookstoreId,
+        imagePath,
+        imageUrl,
+        name,
+        address,
+        description,
+        status,
+        updatedAt,
+        userId,
+        usertype
+      );
 
-            const updatedAt = new Date();
+      res.json({
+        message: "Store 수정에 성공하였습니다.",
+      });
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  };
 
-            await this.storesService.updateStore(
-                bookstoreId,
-                imagePath,
-                imageUrl,
-                name,
-                price,
-                address,
-                description,
-                status,
-                updatedAt,
-                userId,
-            );
+  //bookstore삭제하기
+  deleteStore = async (req, res, next) => {
+    try {
+      const { bookstoreId } = req.params;
 
-            res.json({
-                message: "Store 수정에 성공하였습니다.",
-            });
-        } catch (error) {
-            console.error(error);
-            next(error);
-        }
-    };
+      if (!req.user || !req.user.userId) {
+        return res.status(401).json({ error: "User not logged in" });
+      }
+      const userId = req.user.userId;
+      const userType = req.user.usertype;
+      await this.storesService.deleteStore(bookstoreId, userId, userType);
 
-    //bookstore삭제하기
+      res.json({
+        message: "Store 삭제에 성공하였습니다.",
+      });
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  };
 
-    deleteStore = async(req, res, next) => {
-        try {
-            const userType = req.user.userType;
-            if (userType !== "OWNER") {
-                return res.status(404).json({ error: " OWNER 아이디가 아닙니다." });
-            }
-            const { bookstoreId } = req.params;
+  //bookstore 상세 조회 /
+  getStoreById = async (req, res, next) => {
+    try {
+      const { bookstoreId } = req.params;
+      const userType = req.user.usertype;
+      const bookstore = await this.storesService.findStoreById(bookstoreId,userType);
 
-            if (!req.user || !req.user.userId) {
-                return res.status(401).json({ error: "User not logged in" });
-            }
-            const userId = req.user.userId;
-
-            await this.storesService.deleteStore(bookstoreId, userId);
-
-            res.json({
-                message: "Store 삭제에 성공하였습니다.",
-            });
-        } catch (error) {
-            console.error(error);
-            next(error);
-        }
-    };
-
-    //bookstore 상세 조회 /
-
-    getStoreById = async(req, res, next) => {
-        try {
-            const { bookstoreId } = req.params;
-
-            const bookstore = await this.storesService.findStoreById(bookstoreId);
-
-            return res.status(200).json({ data: bookstore });
-        } catch (err) {
-            next(err);
-        }
-    };
+      return res.status(200).json({ data: bookstore });
+    } catch (err) {
+      next(err);
+    }
+  };
 }

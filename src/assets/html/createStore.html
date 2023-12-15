@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ReadingRocket 서점 페이지</title>
+    <title>ReadingRocket 서점 등록</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -56,65 +56,72 @@
       </nav>
       <div class="col-md-3 text-end">
         <div class="me-5 col-md-3 text-end" id="loginContainer">
-          <!-- 로그인 또는 로그아웃 버튼이 여기에 동적으로 추가. -->
+          <div class="d-flex justify-content-between">
+            <button
+              type="button"
+              class="btn btn-outline-success ms-2"
+              onclick="logout()"
+            >
+              Logout
+            </button>
+            <a href="myPage.html" type="button" class="btn btn-success ms-2"
+              >MyPage</a
+            >
+          </div>
         </div>
       </div>
     </header>
 
-    <main>
-      <div class="container my-5 text-center">
-        <h2 class="text-success mb-4">전체 서점</h2>
-        <!-- Center-aligned Search bar -->
-        <div
-          class="col-md-6 d-flex justify-content-center align-items-center mx-auto"
-        >
-          <div class="input-group">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="검색어를 입력하세요"
-              aria-label="검색어 입력"
-              aria-describedby="searchButton"
-            />
-            <button
-              class="btn btn-outline-success"
-              type="button"
-              id="searchButton"
-            >
-              검색
-            </button>
-          </div>
-          <button
-            class="btn btn-outline-success mx-2"
-            id="createBtn"
-            style="display: none"
-          >
-            Create
-          </button>
-          <button
-            class="btn btn-outline-success"
-            id="deleteAllBtn"
-            style="display: none"
-          >
-            Delete All
-          </button>
+    <main class="container my-5">
+      <h2 class="text-success mb-4">서점 등록</h2>
+      <form id="reviewForm">
+        <div class="mb-3">
+          <label for="name" class="form-label">이름</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            required
+          />
         </div>
-      </div>
-      <div class="container">
-        <div
-          class="row row-cols-1 row-cols-md-3 g-4"
-          id="productCardsContainer"
-        ></div>
-      </div>
+        <div class="mb-3">
+          <label for="address" class="form-label">주소</label>
+          <input
+            type="text"
+            class="form-control"
+            id="address"
+            name="address"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="image" class="form-label">이미지 업로드:</label>
+          <!-- Use JavaScript to handle image upload -->
+          <input type="file" class="form-control" id="image" name="image" />
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">설명</label>
+          <textarea
+            class="form-control"
+            id="description"
+            name="description"
+            rows="3"
+            required
+          ></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="status" class="form-label">상태</label>
+          <select class="form-select" id="status" name="status" required>
+            <option value="open">Open</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <button type="submit" class="btn btn-success">등록</button>
+        </div>
+      </form>
     </main>
-    <div class="container mt-3">
-      <button class="btn btn-warning" id="editBtn" style="display: none">
-        Edit
-      </button>
-      <button class="btn btn-danger" id="deleteBtn" style="display: none">
-        Delete
-      </button>
-    </div>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
@@ -122,7 +129,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="../js/header.js"></script>
-    <script type="module" src="../js/main.js"></script>
+
+    <script defer src="../js/createStore.js"></script>
   </body>
 </html>
