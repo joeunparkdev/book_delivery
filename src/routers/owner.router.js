@@ -20,7 +20,7 @@ router.put(
 )
 //CancelOrder
 router.put(
-  '/order/cancle/:orderId',
+  '/order/cancel/:orderId',
   authMiddleware,
   ownerContorller.CancelOrder,
 )

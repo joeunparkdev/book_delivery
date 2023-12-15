@@ -26,8 +26,9 @@ export class OwnerContorller {
   //getorder/orderId/orderId/
   GetOrderByOrderId = async (req, res, next) => {
     try {
-      const orderId = req.params.orderId // req.params 내에서 orderId를 가져오도록 수정
+      const orderId = req.params.orderId
       const comfirmId = req.user.userId
+      console.log(orderId)
       const order = await this.ownerOrderService.GetOrderByOrderId(orderId)
 
       if (order.ownerId !== comfirmId) {
@@ -57,7 +58,7 @@ export class OwnerContorller {
 
   CancelOrder = async (req, res, next) => {
     try {
-      const orderId = req.params.orderId // req.params에서 orderId를 가져와야 합니다.
+      const orderId = req.params.orderId
       const CanceledOrder = await this.ownerOrderService.CancelOrder(orderId)
 
       return res
