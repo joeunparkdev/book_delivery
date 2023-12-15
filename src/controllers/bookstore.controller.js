@@ -1,7 +1,6 @@
 import { StoresService } from "../services/bookstore.service.js";
 
 //업장조회
-
 export class StoresController {
   storesService = new StoresService();
 
@@ -35,18 +34,13 @@ export class StoresController {
   createStore = async (req, res, next) => {
     try {
       const userId = req.user.userId;
-      const userType = req.user.usertype;
       const imageUrl = req.file?.location;
       const [aws, imagePath] = imageUrl?.split("com/");
-
-      if (userType !== "OWNER") {
-        return res.status(404).json({ error: " OWNER 아이디가 아닙니다." });
-      }
       if (!userId) {
         return res.status(401).json({ error: "User not logged in" });
       }
 
-      const { name, price, address, description, status } = req.body;
+      const { name, address, description, status } = req.body;
 
       const confirmStore = await this.storesService.findStoreByUserId(userId);
       console.log(confirmStore);
@@ -59,7 +53,6 @@ export class StoresController {
         imagePath,
         imageUrl,
         name,
-        price,
         address,
         description,
         status,
@@ -82,32 +75,28 @@ export class StoresController {
 
   updateStore = async (req, res, next) => {
     try {
-      const userType = req.user.usertype;
-      if (userType !== "OWNER") {
-        return res.status(404).json({ error: " OWNER 아이디가 아닙니다." });
-      }
       if (!req.user || !req.user.userId) {
         return res.status(401).json({ error: "User not logged in" });
       }
       const { bookstoreId } = req.params;
-      const { name, price, address, description, status } = req.body;
+      const { name, address, description, status } = req.body;
       const userId = req.user.userId;
       const imageUrl = req.file?.location;
       const imagePath = imageUrl?.split("com/")[1];
 
       const updatedAt = new Date();
-
+      const userType = req.user.usertype;
       await this.storesService.updateStore(
         bookstoreId,
         imagePath,
         imageUrl,
         name,
-        price,
         address,
         description,
         status,
         updatedAt,
         userId,
+        usertype
       );
 
       res.json({
@@ -120,21 +109,16 @@ export class StoresController {
   };
 
   //bookstore삭제하기
-
   deleteStore = async (req, res, next) => {
     try {
-      const userType = req.user.userType;
-      if (userType !== "OWNER") {
-        return res.status(404).json({ error: " OWNER 아이디가 아닙니다." });
-      }
       const { bookstoreId } = req.params;
 
       if (!req.user || !req.user.userId) {
         return res.status(401).json({ error: "User not logged in" });
       }
       const userId = req.user.userId;
-
-      await this.storesService.deleteStore(bookstoreId, userId);
+      const userType = req.user.usertype;
+      await this.storesService.deleteStore(bookstoreId, userId, userType);
 
       res.json({
         message: "Store 삭제에 성공하였습니다.",
@@ -146,12 +130,11 @@ export class StoresController {
   };
 
   //bookstore 상세 조회 /
-
   getStoreById = async (req, res, next) => {
     try {
       const { bookstoreId } = req.params;
-
-      const bookstore = await this.storesService.findStoreById(bookstoreId);
+      const userType = req.user.usertype;
+      const bookstore = await this.storesService.findStoreById(bookstoreId,userType);
 
       return res.status(200).json({ data: bookstore });
     } catch (err) {
