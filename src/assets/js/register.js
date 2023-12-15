@@ -41,7 +41,9 @@ async function handleKakao_login() {
 async function sendKakaoAccessTokenToServer(accessToken) {
   try {
     // 서버로 전송할 URL 및 데이터 설정
-    const url = `/api/auth/kakao/callback?code=${encodeURIComponent(accessToken)}`;
+    const url = `/api/auth/kakao/callback?code=${encodeURIComponent(
+      accessToken,
+    )}`;
 
     // 서버로 HTTP GET 요청 보내기
     const response = await fetch(url, {
@@ -136,7 +138,7 @@ async function send_code() {
     });
 
     const result = await response.json();
-
+    console.log(result);
     if (result.success) {
       alert("인증 코드를 이메일로 전송했습니다.");
       verificationStartTime = Date.now(); // 인증 코드가 전송된 시간을 기록
