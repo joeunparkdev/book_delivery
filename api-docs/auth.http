@@ -17,7 +17,7 @@ Accept: */*
 Content-Type: application/json
 
 {
-  "email": "joeunpark7@gmail.com",
+  "email": "bob@prisma.io",
 "password":"000000"
 }
 
