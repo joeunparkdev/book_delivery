@@ -4,7 +4,7 @@ import {
     authMiddleware,
     adminMiddleware,
 } from '../middlewares/auth-middleware.js'
-import s3MiddleWare from '../middlewares/s3-middleware.js'
+import {s3Middleware} from '../middlewares/s3-middleware.js'
 
 const storesController = new StoresController()
 
@@ -15,12 +15,12 @@ router.get('/', storesController.getStores)
     //내업장 조회
 router.get('/me', authMiddleware, storesController.getMyStores)
     // 업장 등록	/api/stores
-router.post('/', authMiddleware, s3MiddleWare, storesController.createStore)
+router.post('/', authMiddleware, s3Middleware.single("image"), storesController.createStore)
     // 업장 수정	/api/stores/:storeId
 router.put(
         '/:bookstoreId',
         authMiddleware,
-        s3MiddleWare,
+        s3Middleware.single("image"),
         storesController.updateStore,
     )
     // 업장 상세 조회	/api/stores/:storeId
@@ -36,7 +36,7 @@ router.get('/admin/bookstores', adminMiddleware, storesController.getStores)
 router.post(
     '/admin/bookstores',
     authMiddleware,
-    s3MiddleWare,
+    s3Middleware.single("image"),
     adminMiddleware,
     storesController.createStore,
 )
@@ -45,7 +45,7 @@ router.post(
 router.put(
     'admin/:bookstoreId',
     authMiddleware,
-    s3MiddleWare,
+    s3Middleware.single("image"),
     storesController.updateStore,
 )
 

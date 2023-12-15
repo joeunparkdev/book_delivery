@@ -1,42 +1,46 @@
 document.addEventListener("DOMContentLoaded", function () {
   const storeForm = document.getElementById("reviewForm");
 
-  storeForm.addEventListener("submit", function (event) {
+  storeForm.addEventListener("submit", async function (event) {
     event.preventDefault();
 
-    const formData = new FormData(storeForm);
-    const storeData = {
-      image: formData.get("image"),
-      name: formData.get("name"),
-      address: formData.get("address"),
-      description: formData.get("description"),
-      status: formData.get("status"),
-    };
-    fetch(`/api/stores/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: storeData,
-      mode: "cors",
-      credentials: "include",
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          console.error("에러 ---", response);
-          alert("서점 등록 중 오류가 발생했습니다.");
-        }
-      })
-      .then((result) => {
+    try {
+      const formData = new FormData();
+      const imageInput = storeForm.querySelector('[name="image"]');
+      formData.append("image", imageInput.files[0]);
+      formData.append("name", storeForm.querySelector('[name="name"]').value);
+      formData.append(
+        "address",
+        storeForm.querySelector('[name="address"]').value,
+      );
+      formData.append(
+        "description",
+        storeForm.querySelector('[name="description"]').value,
+      );
+      formData.append(
+        "status",
+        storeForm.querySelector('[name="status"]').value,
+      );
+
+      const response = await fetch("/api/stores/", {
+        method: "POST",
+        body: formData,
+        mode: "cors",
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        const result = await response.json();
         console.log(result);
         alert("서점이 성공적으로 등록되었습니다.");
         window.location.href = "main.html";
-      })
-      .catch(function (error) {
-        console.error("에러 ---", error);
+      } else {
+        console.error("에러 ---", response);
         alert("서점 등록 중 오류가 발생했습니다.");
-      });
+      }
+    } catch (error) {
+      console.error("에러 ---", error);
+      alert("서점 등록 중 오류가 발생했습니다.");
+    }
   });
 });
