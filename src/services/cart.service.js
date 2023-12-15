@@ -8,9 +8,10 @@ export class CartService {
 
     return carts.map((cart) => {
       return {
+        productId: cart.productId,
         price: cart.price,
         name: cart.name,
-        image: cart.image,
+        imageUrl: cart.imageUrl,
         quantity: cart.quantity,
       };
     });
@@ -21,7 +22,7 @@ export class CartService {
       throw new Error("로그인이 필요합니다");
     }
 
-    const findItem = await this.cartService.findItem(userId, productId);
+    const findItem = await this.cartRepository.findItem(userId, productId);
     if (!findItem) {
       const createCart = await this.cartRepository.createCart(
         userId,
@@ -31,9 +32,8 @@ export class CartService {
 
       return createCart;
     } else {
-      const updateCart = await this.cartService.updateCart(
-        userId,
-        productId,
+      const updateCart = await this.cartRepository.updateCart(
+        findItem.cartId,
         quantity,
         findItem.quantity,
       );
@@ -42,7 +42,7 @@ export class CartService {
   };
 
   updateCart = async (userId, productId, quantity) => {
-    const findItem = await this.cartService.findItem(userId, productId);
+    const findItem = await this.cartRepository.findItem(userId, productId);
     if (!userId) {
       throw new Error("로그인이 필요합니다");
     }
@@ -52,10 +52,8 @@ export class CartService {
     }
 
     const updateCart = this.cartRepository.updateCart(
-      userId,
-      productId,
+      findItem.cartId,
       quantity,
-      findItem.quantity,
     );
 
     return updateCart;
@@ -68,11 +66,7 @@ export class CartService {
       throw new Error("상품을 찾을 수 없습니다");
     }
 
-    if (findItem.userId !== userId) {
-      throw new Error("해당 상품을 삭제할 권한이 없습니다.");
-    }
-
-    await this.cartRepository.deleteCart(userId, productId);
+    await this.cartRepository.deleteCart(findItem.cartId);
   };
 
   deleteAllCart = async (userId) => {

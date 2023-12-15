@@ -46,7 +46,7 @@ export class StoresController {
         return res.status(401).json({ error: "User not logged in" });
       }
 
-      const { name, price, address, description, status } = req.body;
+      const { name, address, description, status } = req.body;
 
       const confirmStore = await this.storesService.findStoreByUserId(userId);
       console.log(confirmStore);
@@ -59,7 +59,6 @@ export class StoresController {
         imagePath,
         imageUrl,
         name,
-        price,
         address,
         description,
         status,
@@ -90,7 +89,7 @@ export class StoresController {
         return res.status(401).json({ error: "User not logged in" });
       }
       const { bookstoreId } = req.params;
-      const { name, price, address, description, status } = req.body;
+      const { name, address, description, status } = req.body;
       const userId = req.user.userId;
       const imageUrl = req.file?.location;
       const imagePath = imageUrl?.split("com/")[1];
@@ -102,7 +101,6 @@ export class StoresController {
         imagePath,
         imageUrl,
         name,
-        price,
         address,
         description,
         status,

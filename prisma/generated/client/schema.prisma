@@ -24,6 +24,7 @@ model Users {
   following     Follow[]        @relation("Following")
   bookstores    Bookstores[]
   Orders        Orders[]
+  Carts        Carts[]
   userReviews   Reviews[]       @relation("UserReviews")
   isVerified    Boolean         @default(false)
 }
@@ -46,13 +47,13 @@ model Products {
   bookstores     Bookstores[]    @relation("UserBookstores")
   Orders         Orders[]
   productReviews Reviews[]       @relation("ProductReviews")
+  carts          Carts[]
 }
 model Bookstores {
   bookstoreId Int        @id @default(autoincrement()) @map("bookstoreId")
   imageUrl    String?
   imagePath   String?
   name        String
-  price       Int
   address     String     @default("Unknown")
   description String
   status      String     @default("OPEN")
@@ -76,32 +77,24 @@ model UsersProducts {
   product   Products @relation(fields: [productId], references: [productId], onDelete: Cascade)
   @@id([userId, productId])
 }
+
 model Orders {
   orderId    Int       @id @default(autoincrement()) @map("orderId")
   userId     Int       @map("userId")
-  user       Users     @relation(fields: [userId], references: [userId], onDelete: Cascade)
   productId  Int       @map("productId")
-  product    Products  @relation(fields: [productId], references: [productId], onDelete: Cascade)
   address    String    @default("Unknown")
+  ownerId    Int       @map("ownerId")
+  bookstoreId Int      @map("bookstoreId")
   status     String    @default("RECEIVED")
   createdAt  DateTime  @default(now()) @map("createdAt")
   updatedAt  DateTime  @updatedAt @map("updatedAt")
 
-  takeOrder  TakeOrders[] 
-  
+  user       Users     @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  product    Products  @relation(fields: [productId], references: [productId], onDelete: Cascade)
   @@index([userId], name: "idx_user_id")
   @@index([productId], name: "idx_product_id")
 }
 
-model TakeOrders {
-  takeOrderId Int      @id @default(autoincrement()) @map("TakeOrderId")
-  orderId     Int      @map("orderId")
-  ownerId     Int      @map("ownerId")
-  createdAt   DateTime @default(now()) @map("createdAt")
-  updatedAt   DateTime @updatedAt @map("updatedAt")
-
-  order       Orders   @relation(fields: [orderId], references: [orderId], onDelete: Cascade)
-}
 
 model Reviews {
   reviewId   Int      @id @default(autoincrement())
@@ -129,4 +122,13 @@ model Verify {
   verificationCode String
   createdAt DateTime @default(now()) @map("createdAt")
   expiredAt DateTime? @map("expiredAt")
+}
+
+model Carts {
+  cartId    Int      @id @default(autoincrement())
+  productId Int 
+  userId    Int
+  quantity  Int
+  products  Products @relation(fields: [productId], references: [productId], onDelete: Cascade)
+  users     Users    @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }

@@ -11,7 +11,7 @@ export class CartController {
 
       res.status(200).json({
         message: "장바구니 목록 조회 성공하였습니다",
-        carts,
+        data: { carts },
       });
     } catch (err) {
       next(err);
@@ -38,6 +38,26 @@ export class CartController {
     }
   };
 
+  updateCart = async (req, res, next) => {
+    try {
+      const { productId, quantity } = req.body;
+      const userId = req.user.userId;
+
+      const updatedRows = await this.cartService.updateCart(
+        userId,
+        productId,
+        quantity,
+      );
+
+      return res.json({
+        message: "상품 정보를 수정하였습니다",
+        updatedRows,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
   deleteCart = async (req, res, next) => {
     try {
       const { productId } = req.body;
@@ -57,26 +77,6 @@ export class CartController {
 
       await this.cartService.deleteAllCart(userId);
       res.json({ message: "상품을 삭제하였습니다" });
-    } catch (err) {
-      next(err);
-    }
-  };
-
-  updateCart = async (req, res, next) => {
-    try {
-      const { productId, quantity } = req.body;
-      const userId = req.user.userId;
-
-      const updatedRows = await this.cartService.updateCart(
-        userId,
-        productId,
-        quantity,
-      );
-
-      return res.json({
-        message: "상품 정보를 수정하였습니다",
-        updatedRows,
-      });
     } catch (err) {
       next(err);
     }

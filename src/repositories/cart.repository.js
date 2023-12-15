@@ -10,28 +10,34 @@ export class CartRepository {
       },
     });
 
-    await carts.map(async (cartItem) => {
-      const product = await prisma.products.findByPk(cartItem.productId, {
-        select: {
-          name: true,
-          price: true,
-          image: true,
-        },
-      });
+    const result = await Promise.all(
+      carts.map(async (cartItem) => {
+        const product = await prisma.products.findUnique({
+          where: { productId: cartItem.productId },
+          select: {
+            name: true,
+            price: true,
+            imageUrl: true,
+          },
+        });
 
-      return {
-        price: product.price,
-        name: product.name,
-        image: product.image,
-        quantity: cartItem.quantity,
-      };
-    });
+        return {
+          productId: cartItem?.productId,
+          price: product?.price,
+          name: product?.name,
+          imageUrl: product?.imageUrl,
+          quantity: cartItem?.quantity,
+        };
+      }),
+    );
+
+    return result;
   };
 
   findItem = async (userId, productId) => {
-    const findItem = await prisma.carts.findUnique({
+    const findItem = await prisma.carts.findFirst({
       where: { userId: +userId, productId: +productId },
-      select: { quantity: true },
+      select: { quantity: true, cartId: true },
     });
 
     return findItem;
@@ -48,22 +54,21 @@ export class CartRepository {
     return createCart;
   };
 
-  updateCart = async (userId, productId, quantity, existquantity) => {
+  updateCart = async (cartId, quantity) => {
     const updateCart = await prisma.carts.update({
-      where: { userId: +userId, productId: +productId },
+      where: { cartId: +cartId },
       data: {
-        quantity: quantity + (existquantity || 0),
+        quantity: +quantity,
       },
     });
 
     return updateCart;
   };
 
-  deleteCart = async (userId, productId) => {
-    await prisma.products.delete({
+  deleteCart = async (cartId) => {
+    await prisma.carts.delete({
       where: {
-        productId: +productId,
-        userId: +userId,
+        cartId: +cartId,
       },
     });
   };
