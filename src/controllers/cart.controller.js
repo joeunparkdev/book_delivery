@@ -3,143 +3,82 @@ import { CartService } from "../services/cart.service.js";
 export class CartController {
   cartService = new CartService();
 
-  getCart = async (req, res) => {
+  getCart = async (req, res, next) => {
     try {
-      const carts = await Carts.findAll({
-        where: { userId: req.user.id },
-        attributes: ["id", "productId", "quantity"],
-      });
+      const userId = req.user.userId;
 
-      const products = await Promise.all(
-        carts.map(async (cartItem) => {
-          const product = await Products.findByPk(cartItem.productId, {
-            attributes: ["name", "price", "image"],
-          });
-
-          return {
-            price: product.price,
-            name: product.name,
-            image: product.image,
-          };
-        }),
-      );
+      const carts = await this.cartService.getCart(userId);
 
       res.status(200).json({
-        success: true,
         message: "장바구니 목록 조회 성공하였습니다",
-        products,
         carts,
       });
-    } catch (error) {
-      console.error("에러 --- ", error);
-      res.status(500).json({
-        success: false,
-        message: "장바구니 목록 조회에 실패하였습니다",
-      });
+    } catch (err) {
+      next(err);
     }
   };
 
-  createCart = async (req, res) => {
+  createCart = async (req, res, next) => {
     try {
-      if (!req.user) {
-        // 토큰이 없거나 유효하지 않은 경우 401 에러를 클라이언트에게 반환
-        return res.status(401).json({
-          success: false,
-          message: "로그인이 필요합니다.",
-        });
-      }
+      const userId = req.user.userId;
 
       const { productId, quantity } = req.body;
 
-      const existProduct = await Carts.findOne({
-        where: { userId: req.user.id, productId: productId },
-        attributes: ["quantity"],
-      });
+      const createCart = await this.cartService.createCart(
+        userId,
+        productId,
+        quantity,
+      );
 
-      if (existProduct) {
-        await Carts.update(
-          { quantity: quantity + (existProduct.quantity || 0) },
-          { where: { userId: req.user.id, productId: productId } },
-        );
-      } else {
-        await Carts.create({
-          userId: req.user.id,
-          productId,
-          quantity,
-        });
-      }
-
-      // 성공 메시지 및 버튼과 함께 응답
-      res.status(200).json({
-        success: true,
-        message: "장바구니에 담기 성공하였습니다",
-      });
-    } catch (error) {
-      console.error("에러 --- ", error);
-      res.status(500).json({
-        success: false,
-        message: "장바구니에 담기 실패하였습니다",
-      });
+      res
+        .status(200)
+        .json({ message: "장바구니에 담기 성공하였습니다", createCart });
+    } catch (err) {
+      next(err);
     }
   };
 
-  deleteCart = async (req, res) => {
-    const { productId } = req.body;
-
-    console.log(req.user.id);
-    console.log(productId);
-
+  deleteCart = async (req, res, next) => {
     try {
-      const deleteProduct = await Carts.findOne({
-        where: { userId: req.user.id, productId },
+      const { productId } = req.body;
+      const userId = req.user.userId;
+
+      await this.cartService.deleteCart(userId, productId);
+
+      res.status(200).json({ message: "상품을 삭제하였습니다" });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  deleteAllCart = async (req, res, next) => {
+    try {
+      const userId = req.user.userId;
+
+      await this.cartService.deleteAllCart(userId);
+      res.json({ message: "상품을 삭제하였습니다" });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  updateCart = async (req, res, next) => {
+    try {
+      const { productId, quantity } = req.body;
+      const userId = req.user.userId;
+
+      const updatedRows = await this.cartService.updateCart(
+        userId,
+        productId,
+        quantity,
+      );
+
+      return res.json({
+        message: "상품 정보를 수정하였습니다",
+        updatedRows,
       });
-      if (deleteProduct) {
-        await deleteProduct.destroy();
-        res.json({ success: true, message: "상품을 삭제하였습니다" });
-      } else {
-        return res
-          .status(400)
-          .json({ success: false, errorMessage: "상품을 찾을 수 없습니다" });
-      }
-    } catch (error) {
-      res
-        .status(500)
-        .json({ success: false, message: "상품 삭제에 실패했습니다", error });
-    }
-  };
-
-  deleteAllCart = async (req, res) => {
-    try {
-      await Carts.destroy({ where: { userId: req.user.id } });
-      res.json({ success: true, message: "상품을 삭제하였습니다" });
-    } catch (error) {
-      res
-        .status(500)
-        .json({ success: false, message: "상품 삭제에 실패했습니다", error });
-    }
-  };
-
-  updateCart = async (req, res) => {
-    const { id, quantity } = req.body;
-
-    try {
-      const findProduct = await Carts.findOne({ where: { id: id } });
-      if (findProduct) {
-        const updatedRows = await findProduct.update({ quantity: quantity });
-        console.log("Updated Rows:", updatedRows);
-        return res.json({
-          success: true,
-          message: "상품 정보를 수정하였습니다",
-        });
-      } else {
-        return res
-          .status(400)
-          .json({ success: false, errorMessage: "상품을 찾을 수 없습니다" });
-      }
-    } catch (error) {
-      res
-        .status(500)
-        .json({ success: false, message: "상품 수정 실패했습니다", error });
+    } catch (err) {
+      next(err);
     }
   };
 }

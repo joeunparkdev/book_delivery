@@ -24,6 +24,7 @@ model Users {
   following     Follow[]        @relation("Following")
   bookstores    Bookstores[]
   Orders        Orders[]
+  Carts        Carts[]
   userReviews   Reviews[]       @relation("UserReviews")
   isVerified    Boolean         @default(false)
 }
@@ -46,6 +47,7 @@ model Products {
   bookstores     Bookstores[]    @relation("UserBookstores")
   Orders         Orders[]
   productReviews Reviews[]       @relation("ProductReviews")
+  carts          Carts[]
 }
 model Bookstores {
   bookstoreId Int        @id @default(autoincrement()) @map("bookstoreId")
@@ -129,4 +131,13 @@ model Verify {
   verificationCode String
   createdAt DateTime @default(now()) @map("createdAt")
   expiredAt DateTime? @map("expiredAt")
+}
+
+model Carts {
+  cartId    Int      @id @default(autoincrement())
+  productId Int 
+  userId    Int
+  quantity  Int
+  products  Products @relation(fields: [productId], references: [productId], onDelete: Cascade)
+  users     Users    @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }

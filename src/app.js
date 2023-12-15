@@ -14,10 +14,11 @@ import bookstoresRouter from "./routers/bookstore.roter.js";
 import reviewRouter from "./routers/reviews.router.js";
 import customerOrderRouter from "./routers/customer.order.router.js";
 import searchRouter from "./routers/search.router.js";
+import cartRouter from "./routers/cart.router.js";
 import configurePassport from "../src/passport/index.js";
 import path from "path";
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -47,6 +48,7 @@ app.use("/api/review", reviewRouter);
 app.use("/api/stores", bookstoresRouter);
 app.use("/api/order", customerOrderRouter);
 app.use("/api/search", searchRouter);
+app.use("/api/cart", cartRouter);
 
 // 오류 처리 미들웨어
 app.use(errorHandlerMiddleware);
