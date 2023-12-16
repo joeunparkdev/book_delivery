@@ -2,11 +2,13 @@ import { CustomerOrderProductService } from '../services/customer.order.product.
 import { prisma } from '../utils/prisma/index.js'
 import { ProductsRepository } from '../repositories/products.repository.js'
 import { StoreRepository } from '../repositories/bookstore.repository.js'
+import { CustomerOrderProductRepository } from '../repositories/coutomer.order.product.repositories.js'
 
 export class CustomerOrderProductController {
   customerOrderProductService = new CustomerOrderProductService()
   productsRepository = new ProductsRepository()
   storeRepository = new StoreRepository()
+  customerOrderProductRepository = new CustomerOrderProductRepository()
 
   orderProductByUser = async (req, res, next) => {
     try {
@@ -15,14 +17,14 @@ export class CustomerOrderProductController {
       const user = req.user
       const userName = user.name
       const userId = req.user.userId
-      console.log(productId)
       const product = await this.productsRepository.findProductById(productId)
       const ownerId = product.userId
       const bookstoreId = product.bookstoreId
-      const bookStore = await this.storeRepository.findStoreById(bookstoreId)
 
-      console.log(user)
-      console.log(bookStore)
+      const confirm =
+        await this.customerOrderProductRepository.findOrderByProductId(
+          productId,
+        )
 
       const [updatedUser, createdOrder] =
         await this.customerOrderProductService.orderProductByUser(
