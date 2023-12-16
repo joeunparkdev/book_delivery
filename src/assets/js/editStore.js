@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const urlParams = new URLSearchParams(window.location.search);
+  const bookstoreId = urlParams.get("id");
+  console.log(bookstoreId);
   const storeForm = document.getElementById("reviewForm");
   const imageInput = document.getElementById("image");
   const previewImage = document.getElementById("previewImage");
@@ -9,12 +12,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const file = imageInput.files[0];
 
     if (file) {
-      // 이미지 미리보기
       previewImage.src = URL.createObjectURL(file);
 
-      // 이미지 리사이징
       resizeImage(file, 300, 300, function (resizedFile) {
-        // 리사이징된 이미지를 FormData에 추가
         storeForm.delete("image");
         storeForm.append("image", resizedFile);
       });
@@ -66,14 +66,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     try {
       const formData = new FormData(storeForm);
-      console.log("Image:", formData.get("image"));
-      console.log("Name:", formData.get("name"));
-      console.log("Address:", formData.get("address"));
-      console.log("Description:", formData.get("description"));
-      console.log("Status:", formData.get("status"));
-
-      const response = await fetch("/api/stores/", {
-        method: "POST",
+      formData.append("bookstoreId", bookstoreId);
+      console.log(bookstoreId);
+      const response = await fetch(`/api/stores/${bookstoreId}`, {
+        method: "PUT",
         body: formData,
         mode: "cors",
         credentials: "include",
@@ -81,16 +77,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (response.ok) {
         const result = await response.json();
-        console.log("Image URL:", result.data.imageUrl);
-        alert("서점이 성공적으로 등록되었습니다.");
+        alert("서점이 성공적으로 수정되었습니다.");
         window.location.href = "main.html";
       } else {
         console.error("에러 ---", response);
-        alert("서점 등록 중 오류가 발생했습니다.");
+        alert("서점 정보 수정 중 오류가 발생했습니다.");
       }
     } catch (error) {
       console.error("에러 ---", error);
-      alert("서점 등록 중 오류가 발생했습니다.");
+      alert("서점 정보 수정 중 오류가 발생했습니다.");
     }
   });
 });

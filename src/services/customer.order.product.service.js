@@ -33,7 +33,6 @@ export class CustomerOrderProductService {
       if (!user.points || product.price > user.points) {
         throw new Error('포인트가 부족하여 결제가 불가능합니다.')
       }
-      console.log(productId)
 
       const [updatedUser, createdOrder] =
         await this.customerOrderProductRepository.orderProductByUser(
@@ -73,11 +72,11 @@ export class CustomerOrderProductService {
 
   getClientOrder = async (userId) => {
     try {
-      const order =
+      const orders =
         await this.customerOrderProductRepository.getClientOrder(userId)
 
       const orderWithProducts = await Promise.all(
-        order.map(async (order) => {
+        orders.map(async (order) => {
           const product = await this.productsRepository.findProductById(
             order.productId,
           )
@@ -91,47 +90,65 @@ export class CustomerOrderProductService {
 
       return orderWithProducts
     } catch (error) {
-      next(error)
+      throw new Error(error)
     }
   }
 
-  finOrderByOrderId = async (userId, orderId) => {
+  findOrderByOrderId = async (orderId) => {
     try {
       const order =
-        await this.customerOrderProductRepository.finOrderByOrderId(orderId)
+        await this.customerOrderProductRepository.findOrderByOrderId(orderId)
+
+      const ordersArray = Array.isArray(order) ? order : [order]
 
       const orderWithProducts = await Promise.all(
-        order.map(async (order) => {
+        ordersArray.map(async (orderItem) => {
           const product = await this.productsRepository.findProductById(
-            order.productId,
+            +orderItem.productId,
           )
 
           return {
-            ...order,
+            ...orderItem,
             product,
           }
         }),
       )
+
       return orderWithProducts
     } catch (error) {
-      next(error)
+      throw error
     }
   }
-  cancelOrder = async (orderId, userId) => {
+
+  clientCancelOrder = async (orderId, userId) => {
     try {
       const order =
-        await this.customerOrderProductRepository.finOrderByOrderId(order)
+        await this.customerOrderProductRepository.findOrderByOrderId(orderId)
+
+      if (userId !== order.userId) {
+        throw new Error('권한이 없습니다.')
+      }
+
+      if (order.status === '배송 중') {
+        throw new Error('배송중에는 취소할 수 없습니다.')
+      }
 
       const canceledOrder =
-        await this.customerOrderProductRepository.cancelOrder(orderId, userId)
+        await this.customerOrderProductRepository.clientCancelOrder(orderId)
+
+      return canceledOrder
     } catch (error) {
-      next(error)
+      throw new Error(error)
     }
   }
-  deleteOrder = async (orderId, userId) => {
+  clearOrder = async (orderId) => {
     try {
+      const order =
+        await this.customerOrderProductRepository.clearOrder(orderId)
+
+      return order
     } catch (error) {
-      next(error)
+      throw new Error(error)
     }
   }
 }

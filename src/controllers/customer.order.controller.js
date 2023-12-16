@@ -2,11 +2,13 @@ import { CustomerOrderProductService } from '../services/customer.order.product.
 import { prisma } from '../utils/prisma/index.js'
 import { ProductsRepository } from '../repositories/products.repository.js'
 import { StoreRepository } from '../repositories/bookstore.repository.js'
+import { CustomerOrderProductRepository } from '../repositories/coutomer.order.product.repositories.js'
 
 export class CustomerOrderProductController {
   customerOrderProductService = new CustomerOrderProductService()
   productsRepository = new ProductsRepository()
   storeRepository = new StoreRepository()
+  customerOrderProductRepository = new CustomerOrderProductRepository()
 
   orderProductByUser = async (req, res, next) => {
     try {
@@ -15,14 +17,14 @@ export class CustomerOrderProductController {
       const user = req.user
       const userName = user.name
       const userId = req.user.userId
-      console.log(productId)
       const product = await this.productsRepository.findProductById(productId)
       const ownerId = product.userId
       const bookstoreId = product.bookstoreId
-      const bookStore = await this.storeRepository.findStoreById(bookstoreId)
 
-      console.log(user)
-      console.log(bookStore)
+      const confirm =
+        await this.customerOrderProductRepository.findOrderByProductId(
+          productId,
+        )
 
       const [updatedUser, createdOrder] =
         await this.customerOrderProductService.orderProductByUser(
@@ -58,11 +60,11 @@ export class CustomerOrderProductController {
     }
   }
 
-  finOrderByOrderId = async (req, res, next) => {
+  findOrderByOrderId = async (req, res, next) => {
     try {
-      const orderId = req.params
+      const orderId = req.params.orderId
       const userId = req.user.userId
-      const order = await this.customerOrderProductService.finOrderByOrderId(
+      const order = await this.customerOrderProductService.findOrderByOrderId(
         orderId,
         userId,
       )
@@ -76,15 +78,16 @@ export class CustomerOrderProductController {
   }
 
   // 취소하기
-  cancelOrder = async (req, res, next) => {
+  clientCancelOrder = async (req, res, next) => {
     try {
       const user = req.user
       const userId = user.userId
-      const orderId = req.params
-      const deleteOrder = await this.customerOrderProductService.cancelOrder(
-        orderId,
-        userId,
-      )
+      const orderId = req.params.orderId
+      const deleteOrder =
+        await this.customerOrderProductService.clientCancelOrder(
+          orderId,
+          userId,
+        )
 
       return res.status(200).json({
         message: '취소되었습니다.',
@@ -97,18 +100,35 @@ export class CustomerOrderProductController {
 
   // 주문 완료와 확인하기
 
-  deleteOrder = async (req, res, next) => {
+  clearOrder = async (req, res, next) => {
     try {
       const user = req.user
       const userId = user.userId
-      const orderId = req.params
-      const deleteOrder = await this.customerOrderProductService.deleteOrder(
-        orderId,
-        userId,
-      )
+      const orderId = req.params.orderId
+
+      const orderWithProducts =
+        await this.customerOrderProductService.findOrderByOrderId(orderId)
+
+      const order = orderWithProducts[0]
+      const clientId = order.userId
+
+      if (clientId !== userId) {
+        return res.status(400).json({ message: '권한이 없습니다.' })
+      }
+
+      const status = order.status
+
+      if (status !== '배송 완료' && status !== '주문 취소') {
+        return res
+          .status(400)
+          .json({ message: '배송 중에는 취소할 수 없습니다.' })
+      }
+
+      const deleteOrder =
+        await this.customerOrderProductService.clearOrder(orderId)
 
       return res.status(200).json({
-        message: '확인되었습니다.',
+        message: '감사합니다.',
         data: deleteOrder,
       })
     } catch (error) {
@@ -116,5 +136,4 @@ export class CustomerOrderProductController {
     }
   }
 }
-
 export default CustomerOrderProductController

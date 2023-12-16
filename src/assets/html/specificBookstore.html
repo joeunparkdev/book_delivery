@@ -63,7 +63,7 @@
 
     <main>
       <div class="container my-5 text-center">
-        <h2 class="text-success mb-4">전체 상품</h2>
+        <h2 class="text-success mb-4">독서는 마음의 양식</h2>
         <!-- Center-aligned Search bar -->
         <div
           class="col-md-6 d-flex justify-content-center align-items-center mx-auto"
@@ -72,7 +72,7 @@
             <input
               type="text"
               class="form-control"
-              placeholder="검색어를 입력하세요"
+              placeholder="책 제목을 입력하세요"
               aria-label="검색어 입력"
               aria-describedby="searchButton"
             />
@@ -100,19 +100,12 @@
           </button>
         </div>
       </div>
-
-      <!-- Search Results Section -->
-      <div class="container my-5 text-center">
-        <h2 class="text-success mb-4" id="searchResultsTitle">검색 결과</h2>
-        <div
-          class="row row-cols-1 row-cols-md-3 g-4"
-          id="searchResultsContainer"
-        ></div>
-      </div>
-
-      <!-- All Products Section -->
+      <!-- 검색 결과 컨테이너 -->
       <div class="container">
-        <h2 class="text-success mb-4">전체 상품 목록</h2>
+        <div class="row row-cols-1 g-4" id="searchResultsContainer"></div>
+
+        <!-- 전체 도서 컨테이너-->
+        <h2 class="text-success my-4">전체 도서 목록</h2>
         <div
           class="row row-cols-1 row-cols-md-3 g-4"
           id="productCardsContainer"

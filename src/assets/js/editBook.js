@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const urlParams = new URLSearchParams(window.location.search);
+  const bookId = urlParams.get("id");
   const storeForm = document.getElementById("reviewForm");
   const imageInput = document.getElementById("image");
   const previewImage = document.getElementById("previewImage");
@@ -68,12 +70,12 @@ document.addEventListener("DOMContentLoaded", function () {
       const formData = new FormData(storeForm);
       console.log("Image:", formData.get("image"));
       console.log("Name:", formData.get("name"));
-      console.log("Address:", formData.get("address"));
+      console.log("Author:", formData.get("author"));
       console.log("Description:", formData.get("description"));
-      console.log("Status:", formData.get("status"));
+      console.log("Price:", formData.get("price"));
 
-      const response = await fetch("/api/stores/", {
-        method: "POST",
+      const response = await fetch(`/api/products/${bookId}`, {
+        method: "PUT",
         body: formData,
         mode: "cors",
         credentials: "include",
@@ -81,16 +83,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (response.ok) {
         const result = await response.json();
-        console.log("Image URL:", result.data.imageUrl);
-        alert("서점이 성공적으로 등록되었습니다.");
-        window.location.href = "main.html";
+        alert("책이 성공적으로 수정되었습니다.");
+        window.location.href = "products.html";
       } else {
         console.error("에러 ---", response);
-        alert("서점 등록 중 오류가 발생했습니다.");
+        alert("책 수정 중 오류가 발생했습니다.");
       }
     } catch (error) {
       console.error("에러 ---", error);
-      alert("서점 등록 중 오류가 발생했습니다.");
+      alert("책 수정 중 오류가 발생했습니다.");
     }
   });
 });
