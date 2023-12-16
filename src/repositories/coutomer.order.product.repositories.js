@@ -83,7 +83,7 @@ export class CustomerOrderProductRepository {
       throw new Error('주문 조회 중 오류가 발생했습니다.')
     }
   }
-  deleteOrder = async (orderId) => {
+  clearOrder = async (orderId) => {
     try {
       const order = await prisma.orders.delete({
         where: {

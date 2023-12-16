@@ -142,10 +142,10 @@ export class CustomerOrderProductService {
       next(error)
     }
   }
-  deleteOrder = async (orderId) => {
+  clearOrder = async (orderId) => {
     try {
       const order =
-        await this.customerOrderProductRepository.deleteOrder(orderId)
+        await this.customerOrderProductRepository.clearOrder(orderId)
 
       return order
     } catch (error) {

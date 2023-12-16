@@ -98,7 +98,7 @@ export class CustomerOrderProductController {
 
   // 주문 완료와 확인하기
 
-  deleteOrder = async (req, res, next) => {
+  clearOrder = async (req, res, next) => {
     try {
       const user = req.user
       const userId = user.userId
@@ -123,7 +123,7 @@ export class CustomerOrderProductController {
       }
 
       const deleteOrder =
-        await this.customerOrderProductService.deleteOrder(orderId)
+        await this.customerOrderProductService.clearOrder(orderId)
 
       return res.status(200).json({
         message: '감사합니다.',
