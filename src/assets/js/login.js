@@ -1,12 +1,19 @@
-// Kakao 로그인 버튼 클릭 이벤트 핸들러
+// Kakao 고객님 로그인 버튼 클릭 이벤트 핸들러
 document
-  .getElementById("kakao-login-btn")
+  .getElementById("kakao-client-login-btn")
   .addEventListener("click", function () {
-    handleKakao_login();
+    handleKakao_login_client();
   });
 
-// Kakao 로그인 함수
-async function handleKakao_login() {
+// Kakao 사장님 로그인 버튼 클릭 이벤트 핸들러
+document
+  .getElementById("kakao-owner-login-btn")
+  .addEventListener("click", function () {
+    handleKakao_login_owner();
+  });
+
+// Kakao 고객님 로그인 함수
+async function handleKakao_login_client() {
   try {
     await new Promise((resolve) => {
       if (window.Kakao) {
@@ -18,22 +25,35 @@ async function handleKakao_login() {
 
     // Kakao SDK를 초기화
     Kakao.init("3980c403de0926c15940e444945aef79");
+
+    // Pass userType as a query parameter in redirectUri
+    const userType = "CLIENT"; // Set your user type dynamically
     Kakao.Auth.authorize({
-      redirectUri: "http://localhost:3001/api/auth/kakao/callback",
+      redirectUri: `http://localhost:3001/api/auth/kakao/callback?userType=${userType}`,
     });
-    // Kakao.Auth.login을 호출하여 로그인
-    // Kakao.Auth.login({
-    //   success: async (authObj) => {
-    //     // 사용자가 Kakao로 성공적으로 로그인
-    //     console.log(authObj);
-    //     const kakaoAccessToken = Kakao.Auth.getAccessToken();
-    //     await sendKakaoAccessTokenToServer(kakaoAccessToken);
-    //   },
-    //   fail: (err) => {
-    //     // 로그인 실패 처리
-    //     console.log(err);
-    //   },
-    // });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Kakao 사장님 로그인 함수
+async function handleKakao_login_owner() {
+  try {
+    await new Promise((resolve) => {
+      if (window.Kakao) {
+        resolve();
+      } else {
+        window.onload = resolve;
+      }
+    });
+
+    // Kakao SDK를 초기화
+    Kakao.init("3980c403de0926c15940e444945aef79");
+
+    const userType = "OWNER";
+    Kakao.Auth.authorize({
+      redirectUri: `http://localhost:3001/api/auth/kakao/callback?userType=${userType}`,
+    });
   } catch (error) {
     console.error(error);
   }
@@ -62,14 +82,6 @@ async function sendKakaoAccessTokenToServer(accessToken) {
   } catch (error) {
     console.error("Error while sending Kakao access token to server:", error);
   }
-}
-
-// 진짜 카카오 로그인
-async function kakao_login() {
-  const response = await fetch(`/api/auth/kakao`, {
-    method: "GET",
-    mode: "no-cors",
-  });
 }
 
 function sign_in() {
