@@ -41,6 +41,25 @@ export class CustomerOrderProductRepository {
       throw new Error('주문 처리 중 오류가 발생했습니다.')
     }
   }
+
+  findOrderByProductId = async (productId) => {
+    try {
+      const orders = await prisma.orders.findMany({
+        where: {
+          productId: +productId,
+        },
+      })
+
+      if (orders.length >= 1) {
+        throw new Error('sold-out된 물건입니다.')
+      }
+
+      return
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
+
   getClientOrder = async (userId) => {
     try {
       const order = await prisma.orders.findMany({
