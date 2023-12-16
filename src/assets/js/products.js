@@ -7,7 +7,7 @@ async function deleteBook(bookId) {
   }
 
   try {
-    const response = await fetch(`/api/stores/${bookId}`, {
+    const response = await fetch(`/api/products/${bookId}`, {
       method: "DELETE",
       credentials: "include",
     });
@@ -20,6 +20,7 @@ async function deleteBook(bookId) {
     console.error("에러 ---", error);
   }
 }
+
 async function checkUserType() {
   try {
     const response = await fetch(`/api/users/me`, {
@@ -147,7 +148,7 @@ async function displayBooks() {
 
       // 삭제 버튼 클릭 이벤트
       deleteBtn.addEventListener("click", async (e) => {
-        const confirmed = confirm("정말로 이 서점을 삭제하시겠습니까?");
+        const confirmed = confirm("정말로 이 책을 삭제하시겠습니까?");
 
         if (confirmed) {
           try {
