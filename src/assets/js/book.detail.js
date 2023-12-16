@@ -1,3 +1,5 @@
+import { response } from "express";
+
 function displayProductDetails(product) {
   const productDetailElement = document.getElementById("productDetail");
   displayReviews(product.reviews);
@@ -57,6 +59,37 @@ function displayReviews(reviews) {
 
 async function getUserId() {
   // 사용자 ID를 가져오는 비동기 함수 구현
+  try {
+    const response = await fetch(`/api/users/me`, {
+      method: "GET",
+      headers: {
+        "Contemt-Type": "application/json",
+      },
+      credentials: "include",
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      const userData = result.data;
+      console.log(userData);
+      document.getElementById("userName").innerText =
+        `이름: ${userData.username}`;
+      document.getElementById("userEmail").innerText =
+        `Email: ${userData.email}`;
+      document.getElementById("userPoint").innerText =
+        `Point: ${userData.points}`;
+    } else if (response.status === 403) {
+      alert("조회할 권한이 없습니다.");
+    } else {
+      console.error(
+        "Error fetching user profile:",
+        response.status,
+        response.statusText,
+      );
+    }
+  } catch (error) {
+    console.error("Error fetching user profile:", error.message);
+  }
 }
 
 async function fetchProductDetails(productId) {
@@ -77,10 +110,15 @@ window.onload = async function () {
   try {
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get("id");
+    const userId = urlParams.get("id");
     const productDetails = await fetchProductDetails(productId);
+    const getUser = await fetchProductDetails(userId);
     displayProductDetails(productDetails);
     displayReviews(productDetails.reviews);
+    getUserId(getUser);
   } catch (error) {
     console.error("에러 ---", error);
   }
 };
+
+document.addEventListener("DOMContentLoaded", getUserId);
