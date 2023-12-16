@@ -31,7 +31,7 @@ router.delete(
 router.delete(
   '/client/confirm/:orderId',
   authMiddleware,
-  customerOrderController.deleteOrder,
+  customerOrderController.clearOrder,
 )
 
 export default router

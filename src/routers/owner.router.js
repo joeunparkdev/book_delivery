@@ -9,18 +9,18 @@ const router = express.Router()
 const ownerContorller = new OwnerContorller()
 
 // GetOwnerOrder
-router.get('/order', authMiddleware, ownerContorller.GetOwnerOrder)
+router.get('/owner', authMiddleware, ownerContorller.GetOwnerOrder)
 //GetOrderByOrderId
-router.get('/order/:orderId', authMiddleware, ownerContorller.GetOrderByOrderId)
+router.get('/owner/:orderId', authMiddleware, ownerContorller.GetOrderByOrderId)
 //ProcessOrder
 router.put(
-  '/order/process/:orderId',
+  '/owner/process/:orderId',
   authMiddleware,
   ownerContorller.ProcessOrder,
 )
 //CancelOrder
 router.put(
-  '/order/cancel/:orderId',
+  '/owner/cancel/:orderId',
   authMiddleware,
   ownerContorller.CancelOrder,
 )

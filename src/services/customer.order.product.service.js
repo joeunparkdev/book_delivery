@@ -33,7 +33,6 @@ export class CustomerOrderProductService {
       if (!user.points || product.price > user.points) {
         throw new Error('포인트가 부족하여 결제가 불가능합니다.')
       }
-      console.log(productId)
 
       const [updatedUser, createdOrder] =
         await this.customerOrderProductRepository.orderProductByUser(
@@ -91,7 +90,7 @@ export class CustomerOrderProductService {
 
       return orderWithProducts
     } catch (error) {
-      next(error)
+      throw new Error(error)
     }
   }
 
@@ -139,17 +138,17 @@ export class CustomerOrderProductService {
 
       return canceledOrder
     } catch (error) {
-      next(error)
+      throw new Error(error)
     }
   }
-  deleteOrder = async (orderId) => {
+  clearOrder = async (orderId) => {
     try {
       const order =
-        await this.customerOrderProductRepository.deleteOrder(orderId)
+        await this.customerOrderProductRepository.clearOrder(orderId)
 
       return order
     } catch (error) {
-      next(error)
+      throw new Error(error)
     }
   }
 }
