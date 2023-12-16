@@ -22,6 +22,10 @@ async function fetchBookstores() {
   try {
     const response = await fetch(`/api/stores`);
     if (!response.ok) {
+      console.error(
+        `HTTP error! Status: ${response.status}`,
+        await response.text(),
+      );
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     const data = await response.json();

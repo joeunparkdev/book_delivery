@@ -30,6 +30,64 @@ export class StoresController {
     }
   };
 
+  createImage = async (req, res, next) => {
+    try {
+      const userId = req.user.userId;
+      const imageUrl = req.file?.location;
+      const [aws, imagePath] = imageUrl ? imageUrl.split("com/") : [null, null];
+
+      if (!userId) {
+        return res.status(401).json({ error: "User not logged in" });
+      }
+
+      const newStore = await this.storesService.createImage(imagePath);
+
+      res.json({
+        message: "이미지를 생성하였습니다.",
+        newStore,
+      });
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  };
+
+  createWithoutImage = async (req, res, next) => {
+    try {
+      const userId = req.user.userId;
+      if (!userId) {
+        return res.status(401).json({ error: "User not logged in" });
+      }
+
+      const { name, address, description, status } = req.body;
+
+      const confirmStore = await this.storesService.findStoreByUserId(userId);
+      console.log(confirmStore);
+
+      if (confirmStore !== null) {
+        return res.status(401).json({ error: "You Already have a Store" });
+      }
+
+      const newStore = await this.storesService.createWithoutImage(
+        name,
+        address,
+        description,
+        status,
+        userId,
+        new Date(),
+        new Date(),
+      );
+
+      res.json({
+        message: "store을 생성하였습니다.",
+        newStore,
+      });
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  };
+
   //bookstore만들기(하나만)
   createStore = async (req, res, next) => {
     try {
@@ -50,8 +108,8 @@ export class StoresController {
       }
 
       const newStore = await this.storesService.createStore(
-        imagePath,
-        imageUrl,
+        imagePath || null,
+        imageUrl || null,
         name,
         address,
         description,
@@ -61,18 +119,30 @@ export class StoresController {
         new Date(),
       );
 
-      res.json({
-        message: "store을 생성하였습니다.",
-        newStore,
+      // 이미지 URL 생성 (예시: 현재 서버의 uploads 디렉토리 기준으로 URL 생성)
+      const image = `${req.protocol}://${req.get("host")}/uploads/${
+        req.file.filename
+      }`;
+
+      // 클라이언트에게 이미지 URL 응답
+      return res.status(201).json({
+        success: true,
+        message: "Store created successfully",
+        data: {
+          store: newStore,
+          imageUrl: image,
+        },
       });
     } catch (error) {
       console.error(error);
-      next(error);
+      return res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+      });
     }
   };
 
   //bookstore수정하기
-
   updateStore = async (req, res, next) => {
     try {
       if (!req.user || !req.user.userId) {
@@ -85,7 +155,6 @@ export class StoresController {
       const imagePath = imageUrl?.split("com/")[1];
 
       const updatedAt = new Date();
-      const userType = req.user.usertype;
       await this.storesService.updateStore(
         bookstoreId,
         imagePath,
@@ -96,7 +165,6 @@ export class StoresController {
         status,
         updatedAt,
         userId,
-        usertype
       );
 
       res.json({
@@ -134,7 +202,10 @@ export class StoresController {
     try {
       const { bookstoreId } = req.params;
       const userType = req.user.usertype;
-      const bookstore = await this.storesService.findStoreById(bookstoreId,userType);
+      const bookstore = await this.storesService.findStoreById(
+        bookstoreId,
+        userType,
+      );
 
       return res.status(200).json({ data: bookstore });
     } catch (err) {
