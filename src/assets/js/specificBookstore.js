@@ -7,7 +7,7 @@ async function deleteBook(bookId) {
   }
 
   try {
-    const response = await fetch(`/api/stores/${bookId}`, {
+    const response = await fetch(`/api/products/${bookId}`, {
       method: "DELETE",
       credentials: "include",
     });
@@ -127,7 +127,7 @@ async function displayBooks() {
         for (let j = 0; j < products.length; j++) {
           const book = products[j];
           const imageUrl = book.imageUrl;
-
+          console.log(book, imageUrl);
           const card = document.createElement("div");
           card.className = "col";
           card.innerHTML = `
@@ -140,7 +140,7 @@ async function displayBooks() {
                     <p class="card-text">가격: ${book.price}원</p>
                     <a href="book.detail.html?id=${book.productId}" class="btn btn-success" id="viewDetailsBtn">View Details</a>
                     <button class="btn btn-success m-2 editBtn" style="display: none;">Edit</button>
-                    <button class="btn btn-success m-2 deleteBtn" style="display: none;">Delete</button>
+                    <button class="btn btn-success  m-2 deleteBtn" style="display: none;">Delete</button>
                   </div>
                 </div>
               `;
@@ -159,7 +159,7 @@ async function displayBooks() {
 
           // 삭제 버튼 클릭 이벤트
           deleteBtn.addEventListener("click", async (e) => {
-            const confirmed = confirm("정말로 이 서점을 삭제하시겠습니까?");
+            const confirmed = confirm("정말로 이 책을 삭제하시겠습니까?");
 
             if (confirmed) {
               try {
@@ -173,12 +173,12 @@ async function displayBooks() {
 
           // 수정 버튼 클릭 이벤트
           editBtn.addEventListener("click", () => {
-            window.location.href = `editStore.html?id=${book.productId}`;
+            window.location.href = `editBook.html?id=${book.productId}`;
           });
 
           if (userRole === "OWNER") {
             // 작성자가 아닌 경우 버튼 감추기
-            if (userId !== book.userId) {
+            if (userId != bookstore.userId) {
               editBtn.style.display = "none";
               deleteBtn.style.display = "none";
             } else {
@@ -194,6 +194,7 @@ async function displayBooks() {
             const bookIdElement = card.querySelector("#productId");
             bookIdElement.style.display = "none";
           }
+          console.log(editBtn, deleteBtn);
         }
       } else {
         console.error("에러 --- Products is undefined or empty.");

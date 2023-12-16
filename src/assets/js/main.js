@@ -36,10 +36,59 @@ async function fetchBookstores() {
   }
 }
 
-document.getElementById("searchButton").addEventListener("click", function () {
-  var searchInput = document.querySelector(".form-control").value;
-  alert("검색어: " + searchInput);
-});
+// 검색 결과를 가져오는 함수
+async function searchProducts(query) {
+  try {
+    const response = await fetch(`/api/search/products${query}`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return data.data;
+    } else {
+      console.error("Error searching products:", response.statusText);
+      throw new Error("Error searching products");
+    }
+  } catch (error) {
+    console.error("에러 ---", error);
+    throw error;
+  }
+}
+
+// 검색 버튼 클릭 시 이벤트 처리
+document
+  .getElementById("searchButton")
+  .addEventListener("click", async function () {
+    var searchInput = document.querySelector(".form-control").value;
+
+    const query = `?name=${searchInput}`;
+    const searchResults = await searchProducts(query);
+
+    displaySearchResults(searchResults);
+  });
+
+//검색 결과 화면에 표시
+function displaySearchResults(results) {
+  const searchResultsContainer = document.getElementById(
+    "searchResultsContainer",
+  );
+
+  if (!searchResultsContainer) {
+    searchResultsContainer = document.createElement("div");
+    searchResultsContainer.id = "searchResultsContainer";
+    document.body.appendChild(searchResultsContainer);
+  } else {
+    searchResultsContainer.innerHTML = "";
+  }
+
+  results.forEach((result) => {
+    const resultItem = document.createElement("div");
+    resultItem.textContent = result.name;
+    searchResultsContainer.appendChild(resultItem);
+  });
+}
 
 // 사용자의 ID를 가져오는 함수
 async function getUserId() {
@@ -164,6 +213,7 @@ async function displayBookstores() {
 
       if (userRole === "OWNER") {
         // 작성자가 아닌 경우 버튼 감추기
+
         if (userId !== bookstore.userId) {
           editBtn.style.display = "none";
           deleteBtn.style.display = "none";
