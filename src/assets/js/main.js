@@ -88,27 +88,11 @@ async function displayBookstores() {
     );
 
     productCardsContainer.innerHTML = "";
-    const userRole = await checkUserType();
+
     const userId = await getUserId();
-
-    const createBtn = document.getElementById("createBtn");
-    const deleteAllBtn = document.getElementById("deleteAllBtn");
-
-    if (userRole === "OWNER") {
-      createBtn.style.display = "block";
-    } else {
-      createBtn.style.display = "none";
-    }
-
-    createBtn.addEventListener("click", function () {
-      window.location.href = "createStore.html";
-    });
-
-    if (userRole === "DEV") {
-      deleteAllBtn.style.display = "block";
-    } else {
-      deleteAllBtn.style.display = "none";
-    }
+    const userType = await checkUserType();
+    console.log("User ID:", userId);
+    console.log("User Type:", userType);
 
     for (let i = 0; i < bookstores.length; i++) {
       const bookstore = bookstores[i];
@@ -138,47 +122,90 @@ async function displayBookstores() {
       const editBtn = card.querySelector(".editBtn");
       const deleteBtn = card.querySelector(".deleteBtn");
 
-      // 삭제 버튼 클릭 이벤트
-      deleteBtn.addEventListener("click", async (e) => {
-        const confirmed = confirm("정말로 이 서점을 삭제하시겠습니까?");
+      // 수정 및 삭제 버튼은 로그인한 사용자의 아이디와 서점의 아이디가 일치할 때만 표시
+      if (userId && userId === bookstore.userId) {
+        editBtn.style.display = "block";
+        deleteBtn.style.display = "block";
 
-        if (confirmed) {
-          try {
-            await deleteBookstore(bookstore.bookStoreId);
-            await displayBookstores();
-          } catch (error) {
-            console.error("Error deleting bookstore:", error);
+        // 수정 버튼 클릭 이벤트
+        editBtn.addEventListener("click", () => {
+          window.location.href = `editStore.html?id=${bookstore.bookStoreId}`;
+        });
+
+        // 삭제 버튼 클릭 이벤트
+        deleteBtn.addEventListener("click", async (e) => {
+          const confirmed = confirm("정말로 이 서점을 삭제하시겠습니까?");
+
+          if (confirmed) {
+            try {
+              await deleteBookstore(bookstore.bookStoreId);
+              await displayBookstores();
+            } catch (error) {
+              console.error("Error deleting bookstore:", error);
+            }
           }
-        }
-      });
+        });
+      }
+    }
 
-      // 수정 버튼 클릭 이벤트
-      editBtn.addEventListener("click", () => {
-        window.location.href = `editStore.html?id=${bookstore.bookStoreId}`;
-      });
+    // "Create" 버튼과 "Delete All" 버튼 가져오기
+    const createBtn = document.getElementById("createBtn");
+    const deleteAllBtn = document.getElementById("deleteAllBtn");
 
-      if (userRole === "OWNER") {
-        // 작성자가 아닌 경우 버튼 감추기
+    // 로그인한 사용자의 유저 타입에 따라 버튼 표시 여부 결정
+    if (userType === "OWNER") {
+      createBtn.style.display = "block";
+      deleteAllBtn.style.display = "none";
+    } else if (userType === "DEV") {
+      createBtn.style.display = "none";
+      deleteAllBtn.style.display = "block";
+    } else {
+      createBtn.style.display = "none";
+      deleteAllBtn.style.display = "none";
+    }
+  } catch (error) {
+    console.error("Error displaying bookstores:", error);
+  }
+}
 
-        if (userId !== bookstore.userId) {
-          editBtn.style.display = "none";
-          deleteBtn.style.display = "none";
-        } else {
-          editBtn.style.display = "block";
-          deleteBtn.style.display = "block";
-        }
+// 새 업장 생성 버튼 클릭 시 이벤트 처리
+document
+  .getElementById("createBtn")
+  .addEventListener("click", async function () {
+    try {
+      // 내 업장 조회
+      const myStores = await fetchMyStore();
+
+      if (myStores && myStores.length > 0) {
+        // 이미 업장이 등록되어 있다면 에러 메시지 표시
+        alert("업장은 한 개만 등록할 수 있습니다.");
       } else {
-        editBtn.style.display = "none";
-        deleteBtn.style.display = "none";
+        // 업장이 없으면 createStore.html로 이동
+        window.location.href = "createStore.html";
       }
+    } catch (error) {
+      console.error("새 업장 생성 및 조회 중 오류:", error);
+    }
+  });
 
-      if (userRole !== "OWNER" && userRole !== "DEV") {
-        const bookStoreIdElement = card.querySelector("#bookStoreId");
-        bookStoreIdElement.style.display = "none";
-      }
+// 사용자의 업장을 조회하는 함수
+async function fetchMyStore() {
+  try {
+    const response = await fetch("/api/stores/me", {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return data.data;
+    } else {
+      console.error("Error fetching my store:", response.statusText);
+      throw new Error("Error fetching my store");
     }
   } catch (error) {
     console.error("에러 ---", error);
+    throw error;
   }
 }
 

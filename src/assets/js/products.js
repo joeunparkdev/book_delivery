@@ -61,6 +61,7 @@ async function getUserId() {
     throw error;
   }
 }
+
 // 전체 상품을 가져오는 함수
 async function fetchBooks() {
   try {
@@ -115,12 +116,47 @@ function createBookCard(book) {
         <p class="card-text">상태: ${book.status}</p>
         <p class="card-text">가격: ${book.price}원</p>
         <a href="book.detail.html?id=${book.productId}" class="btn btn-success">View Details</a>
+        <button class="btn btn-success m-2 editBtn" style="display: none;">Edit</button>
+        <button class="btn btn-success m-2 deleteBtn" style="display: none;">Delete</button>
       </div>
     </div>
   `;
 
   card.querySelector(".card-img-top").style.maxHeight = "100px";
   card.querySelector(".card-img-top").style.maxWidth = "100px";
+
+  // 수정 및 삭제 버튼을 표시 또는 숨김
+  const editBtn = card.querySelector(".editBtn");
+  const deleteBtn = card.querySelector(".deleteBtn");
+
+  getUserId().then((userId) => {
+    // 로그인한 사용자의 ID와 도서의 작성자 ID 비교
+    if (userId && userId === book.userId) {
+      editBtn.style.display = "block";
+      deleteBtn.style.display = "block";
+    } else {
+      editBtn.style.display = "none";
+      deleteBtn.style.display = "none";
+    }
+  });
+
+  // 삭제 버튼 클릭 이벤트
+  deleteBtn.addEventListener("click", async (e) => {
+    const confirmed = confirm("정말로 이 책을 삭제하시겠습니까?");
+    if (confirmed) {
+      try {
+        await deleteBook(book.productId);
+        await displayBooks();
+      } catch (error) {
+        console.error("Error deleting book:", error);
+      }
+    }
+  });
+
+  // 수정 버튼 클릭 이벤트
+  editBtn.addEventListener("click", () => {
+    window.location.href = `editBook.html?id=${book.productId}`;
+  });
 
   return card;
 }
@@ -130,38 +166,22 @@ function displayFilteredBooks(filteredBooks) {
   const productCardsContainer = document.getElementById(
     "productCardsContainer",
   );
-  const searchResultsContainer = document.getElementById(
-    "searchResultsContainer",
-  );
 
-  // 검색 결과 컨테이너 초기화
-  if (searchResultsContainer) {
-    searchResultsContainer.innerHTML = "";
-  } else {
-    // 검색 결과 컨테이너가 없으면 생성
-    const searchResultsContainer = document.createElement("div");
-    searchResultsContainer.id = "searchResultsContainer";
-    document.body.appendChild(searchResultsContainer);
-  }
+  // 검색 결과를 전체 상품 목록에 추가
+  productCardsContainer.innerHTML = "";
 
   if (filteredBooks && filteredBooks.length > 0) {
-    // 검색 결과가 있는 경우
-    const title = document.createElement("h2");
-    title.className = "text-success mb-4";
-    title.textContent = "검색 결과";
-    searchResultsContainer.appendChild(title);
-
     for (let i = 0; i < filteredBooks.length; i++) {
       const book = filteredBooks[i];
       // 도서 카드 생성 및 추가
       const card = createBookCard(book);
-      searchResultsContainer.appendChild(card);
+      productCardsContainer.appendChild(card);
     }
   } else {
     // 검색 결과가 없는 경우
     const noResultsMessage = document.createElement("p");
     noResultsMessage.textContent = "검색 결과가 없습니다.";
-    searchResultsContainer.appendChild(noResultsMessage);
+    productCardsContainer.appendChild(noResultsMessage);
   }
 }
 
@@ -175,15 +195,37 @@ async function displayBooks() {
 
     productCardsContainer.innerHTML = "";
 
+    // 로그인한 사용자의 유저 타입 가져오기
+    const userType = await checkUserType();
+
     for (let i = 0; i < books.length; i++) {
       const book = books[i];
       // 도서 카드 생성 및 추가
       const card = createBookCard(book);
       productCardsContainer.appendChild(card);
     }
+
+    // "Create" 버튼과 전체 삭제 버튼 가져오기
+    const createBtn = document.getElementById("createBtn");
+    const deleteAllBtn = document.getElementById("deleteAllBtn");
+
+    // 로그인한 사용자의 유저 타입에 따라 버튼 표시 여부 결정
+    if (userType === "OWNER") {
+      createBtn.style.display = "block";
+      deleteAllBtn.style.display = "none";
+    } else if (userType === "DEV") {
+      createBtn.style.display = "none";
+      deleteAllBtn.style.display = "block";
+    } else {
+      createBtn.style.display = "none";
+      deleteAllBtn.style.display = "none";
+    }
   } catch (error) {
     console.error("에러 ---", error);
   }
+  createBtn.addEventListener("click", function () {
+    window.location.href = "createBook.html";
+  });
 }
 
 displayBooks();
