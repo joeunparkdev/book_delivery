@@ -151,6 +151,8 @@ export class StoresController {
       const { bookstoreId } = req.params;
       const { name, address, description, status } = req.body;
       const userId = req.user.userId;
+      const userType = req.user.usertype;
+
       const imageUrl = req.file?.location;
       const imagePath = imageUrl?.split("com/")[1];
 
@@ -165,6 +167,7 @@ export class StoresController {
         status,
         updatedAt,
         userId,
+        userType,
       );
 
       res.json({
