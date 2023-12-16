@@ -95,7 +95,6 @@ async function displayBookstores() {
     productCardsContainer.innerHTML = "";
     const userRole = await checkUserType();
     const userId = await getUserId();
-    console.log(userId);
 
     const createBtn = document.getElementById("createBtn");
     const deleteAllBtn = document.getElementById("deleteAllBtn");
@@ -119,7 +118,6 @@ async function displayBookstores() {
     for (let i = 0; i < bookstores.length; i++) {
       const bookstore = bookstores[i];
       const imageUrl = bookstore.imageUrl;
-      console.log(bookstore.bookStoreId);
       const card = document.createElement("div");
       card.className = "col";
       card.innerHTML = `

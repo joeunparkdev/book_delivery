@@ -17,11 +17,6 @@ export class StoresController {
   getMyStores = async (req, res, next) => {
     try {
       const userId = req.user.userId;
-      const userType = req.user.usertype;
-      console.log(userType);
-      if (userType !== "OWNER") {
-        return res.status(404).json({ error: " OWNER 아이디가 아닙니다." });
-      }
       const bookstore = await this.storesService.findMyStore(userId);
 
       return res.status(200).json({ data: bookstore });
@@ -204,11 +199,7 @@ export class StoresController {
   getStoreById = async (req, res, next) => {
     try {
       const { bookstoreId } = req.params;
-      const userType = req.user.usertype;
-      const bookstore = await this.storesService.findStoreById(
-        bookstoreId,
-        userType,
-      );
+      const bookstore = await this.storesService.findStoreById(bookstoreId);
 
       return res.status(200).json({ data: bookstore });
     } catch (err) {
