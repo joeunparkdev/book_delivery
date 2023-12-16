@@ -3,27 +3,6 @@ import { RivewsRepository } from "../repositories/reviews.repository.js";
 export class ReviewsService {
   reviewsRepository = new RivewsRepository();
 
-  findAllReviews = async () => {
-    const reviews = await this.reviewsRepository.findAllReviews(productId);
-    console.log(reviews);
-    reviews.sort((a, b) => {
-      return b.createdAt - a.createdAt;
-    });
-
-    // 비즈니스 로직을 수행한 후 사용자에게 보여줄 데이터를 가공합니다.
-    return reviews.map((reviews) => {
-      return {
-        reviewId: reviews.reviewId,
-        userId: reviews.userId,
-        bookstoreId: reviews.bookstoreId,
-        reviewText: reviews.reviewText,
-        rating: reviews.rating,
-        createdAt: reviews.createdAt,
-        updatedAt: reviews.updatedAt,
-      };
-    });
-  };
-
   findReviews = async (productId) => {
     const reviews = await this.reviewsRepository.findAllReviews(productId);
     console.log(reviews);
