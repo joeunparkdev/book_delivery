@@ -47,7 +47,7 @@ async function displayReviews() {
             <p class="card-text">위치: ${review.address}</p>
             <p class="card-text">설명: ${review.description}</p>
             <p class="card-text">상태: ${review.status}</p>
-          <a href="detail.html?id=${review.id}" class="btn btn-success">View Details</a>
+          <a href="book.detail.html?id=${review.id}" class="btn btn-success">View Details</a>
           </div>
         </div>
       `;
