@@ -22,16 +22,6 @@ router.post(
   storesController.createStore,
 );
 
-// 이미지 등록	/api/stores/image
-router.post(
-  "/image",
-  authMiddleware,
-  s3Middleware.single("image"),
-  storesController.createImage,
-);
-// 이미지 없이 등록	/api/stores
-router.post("/noImaage", authMiddleware, storesController.createWithoutImage);
-
 // 업장 수정	/api/stores/:storeId
 router.put(
   "/:bookstoreId",
