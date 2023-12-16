@@ -147,7 +147,6 @@ export class StoresService {
       status,
       userId,
     );
-
     return {
       userId: createdStore.userId,
       imagePath: createdStore.imagePath,

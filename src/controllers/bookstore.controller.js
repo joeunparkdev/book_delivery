@@ -34,7 +34,8 @@ export class StoresController {
     try {
       const userId = req.user.userId;
       const imageUrl = req.file?.location;
-      const [aws, imagePath] = imageUrl?.split("com/");
+      const [aws, imagePath] = imageUrl ? imageUrl.split("com/") : [null, null];
+
       if (!userId) {
         return res.status(401).json({ error: "User not logged in" });
       }
@@ -107,8 +108,8 @@ export class StoresController {
       }
 
       const newStore = await this.storesService.createStore(
-        imagePath,
-        imageUrl,
+        imagePath || null,
+        imageUrl || null,
         name,
         address,
         description,
@@ -118,13 +119,26 @@ export class StoresController {
         new Date(),
       );
 
-      res.json({
-        message: "store을 생성하였습니다.",
-        newStore,
+      // 이미지 URL 생성 (예시: 현재 서버의 uploads 디렉토리 기준으로 URL 생성)
+      const image = `${req.protocol}://${req.get("host")}/uploads/${
+        req.file.filename
+      }`;
+
+      // 클라이언트에게 이미지 URL 응답
+      return res.status(201).json({
+        success: true,
+        message: "Store created successfully",
+        data: {
+          store: newStore,
+          imageUrl: image,
+        },
       });
     } catch (error) {
       console.error(error);
-      next(error);
+      return res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+      });
     }
   };
 
@@ -141,7 +155,6 @@ export class StoresController {
       const imagePath = imageUrl?.split("com/")[1];
 
       const updatedAt = new Date();
-      const userType = req.user.usertype;
       await this.storesService.updateStore(
         bookstoreId,
         imagePath,
@@ -152,7 +165,6 @@ export class StoresController {
         status,
         updatedAt,
         userId,
-        usertype,
       );
 
       res.json({

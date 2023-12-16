@@ -18,7 +18,6 @@ export const s3Middleware = multer({
     contentType: multerS3.AUTO_CONTENT_TYPE,
     acl: "public-read",
     metadata: function (req, file, cb) {
-      console.log("metadata", { req, file });
       cb(null, { fieldName: file.fieldname });
     },
     key: function (req, file, cb) {
