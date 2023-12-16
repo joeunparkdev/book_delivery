@@ -302,6 +302,12 @@ export class AuthController {
   kakaoLogin = async (req, res, next) => {
     try {
       // 카카오 로그인 확인
+      const userType = req.params.userType;
+
+      if (!Object.values(ENUMS.USER_TYPE).includes(userType)) {
+        throw new Error("잘못된 사용자 유형입니다");
+      }
+
       const kakaoAccount = req.user;
       console.log(kakaoAccount);
       if (!kakaoAccount) {
@@ -312,6 +318,7 @@ export class AuthController {
         kakaoAccount.kakaoId,
         kakaoAccount.email,
         kakaoAccount.username,
+        userType
       );
       // 새로운 액세스 토큰 및 리프레시 토큰 생성 및 설정
       const accessToken = this.generateAccessToken(+userId);

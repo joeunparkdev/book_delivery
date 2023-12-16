@@ -356,16 +356,18 @@ export class UsersService {
     await this.usersRepository.unfollowUser(userId, targetUserId);
   };
 
-  createKakaoUser = async (kakaoId, email, nickname) => {
+  createKakaoUser = async (kakaoId, email, nickname, usertype) => {
     try {
       const newUser = await this.usersRepository.createKakaoUser(
         nickname,
         email,
         kakaoId,
+        usertype,
       );
       return {
         userId: newUser.userId,
         username: newUser.username,
+        usertype: newUser.usertype,
         email: newUser.email,
         password: newUser.password,
         createdAt: newUser.createdAt,
@@ -387,13 +389,13 @@ export class UsersService {
     }
   };
 
-  kakaoLogin = async (kakaoId, email, nickname) => {
+  kakaoLogin = async (kakaoId, email, nickname, usertype) => {
     try {
       // Prisma를 사용하여 이메일이 일치하는 사용자 찾기
       const user = await this.usersRepository.findUserByEmail(email);
       // 사용자가 존재하지 않으면 새로운 사용자 생성
       if (!user) {
-        await this.createKakaoUser(kakaoId, email, nickname);
+        await this.createKakaoUser(kakaoId, email, nickname, usertype);
       }
       const prismaUser = await this.usersRepository.findUserByEmail(email);
       const userId = prismaUser.userId;
@@ -407,36 +409,45 @@ export class UsersService {
 
   checkVerificationCode = async (email, verificationCode, maxAttempts = 3) => {
     try {
-        let attempts = 0;
+      let attempts = 0;
 
-        while (attempts < maxAttempts) {
-            const verify = await this.usersRepository.findCodeByEmail(email);
-            console.log(verify);
-            const expiredDate = await this.usersRepository.findExpiredDateByCode(verify);
-            console.log(expiredDate);
+      while (attempts < maxAttempts) {
+        const verify = await this.usersRepository.findCodeByEmail(email);
+        console.log(verify);
+        const expiredDate =
+          await this.usersRepository.findExpiredDateByCode(verify);
+        console.log(expiredDate);
 
-            if (!verify || expiredDate === null) {
-                throw new Error("유효하지 않은 검증 코드이거나 코드의 유효 기간이 만료되었습니다.");
-            }
-
-            if (verify !== verificationCode) {
-                attempts++;
-                if (attempts === maxAttempts) {
-                    throw new Error(`최대 검증 시도 횟수를 초과했습니다 (${maxAttempts}).`);
-                }
-
-                console.log(`유효하지 않은 검증 코드. 남은 시도 횟수: ${maxAttempts - attempts}`);
-            } else {
-                return verify;
-            }
+        if (!verify || expiredDate === null) {
+          throw new Error(
+            "유효하지 않은 검증 코드이거나 코드의 유효 기간이 만료되었습니다.",
+          );
         }
 
-        // 시도 횟수가 초과됨
-        throw new Error(`최대 검증 시도 횟수를 초과했습니다 (${maxAttempts}).`);
+        if (verify !== verificationCode) {
+          attempts++;
+          if (attempts === maxAttempts) {
+            throw new Error(
+              `최대 검증 시도 횟수를 초과했습니다 (${maxAttempts}).`,
+            );
+          }
 
+          console.log(
+            `유효하지 않은 검증 코드. 남은 시도 횟수: ${
+              maxAttempts - attempts
+            }`,
+          );
+        } else {
+          return verify;
+        }
+      }
+
+      // 시도 횟수가 초과됨
+      throw new Error(`최대 검증 시도 횟수를 초과했습니다 (${maxAttempts}).`);
     } catch (error) {
-        throw new Error(error.message || "검증 코드 확인 중 오류가 발생했습니다.");
+      throw new Error(
+        error.message || "검증 코드 확인 중 오류가 발생했습니다.",
+      );
     }
-};
-
+  };
 }
