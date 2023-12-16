@@ -1,3 +1,4 @@
+// 삭제 함수
 async function deleteBook(bookId) {
   console.log("Deleting book with ID:", bookId);
 
@@ -21,6 +22,7 @@ async function deleteBook(bookId) {
   }
 }
 
+// 사용자 유형 체크 함수
 async function checkUserType() {
   try {
     const response = await fetch(`/api/users/me`, {
@@ -40,7 +42,8 @@ async function checkUserType() {
     throw error;
   }
 }
-// 사용자의 ID를 가져오는 함수
+
+// 사용자 ID 가져오는 함수
 async function getUserId() {
   try {
     const response = await fetch(`/api/users/me`, {
@@ -60,7 +63,8 @@ async function getUserId() {
     throw error;
   }
 }
-// 전체 상품을 가져오는 함수
+
+// 도서 목록 가져오는 함수
 async function fetchBooks() {
   try {
     const urlParams = new URLSearchParams(window.location.search);
@@ -108,7 +112,7 @@ function filterBooksBySearchInput(books, searchInput) {
     );
 }
 
-// 도서 카드를 생성하는 함수
+// 도서 카드 생성 함수
 function createBookCard(book) {
   const card = document.createElement("div");
   card.className = "col";
@@ -121,6 +125,8 @@ function createBookCard(book) {
         <p class="card-text">상태: ${book.status}</p>
         <p class="card-text">가격: ${book.price}원</p>
         <a href="book.detail.html?id=${book.productId}" class="btn btn-success">View Details</a>
+        <button class="btn btn-success m-2 editBtn" style="display: none;">Edit</button>
+        <button class="btn btn-success m-2 deleteBtn" style="display: none;">Delete</button>
       </div>
     </div>
   `;
@@ -171,7 +177,7 @@ function displayFilteredBooks(filteredBooks) {
   }
 }
 
-// 전체 상품을 화면에 표시하는 함수
+// 도서 목록을 화면에 표시
 async function displayBooks() {
   try {
     const bookstores = await fetchBooks();
@@ -188,21 +194,12 @@ async function displayBooks() {
     const createBtn = document.getElementById("createBtn");
     const deleteAllBtn = document.getElementById("deleteAllBtn");
 
-    if (userRole === "OWNER") {
-      createBtn.style.display = "block";
-    } else {
-      createBtn.style.display = "none";
-    }
-
+    createBtn.style.display = userRole === "OWNER" ? "block" : "none";
     createBtn.addEventListener("click", function () {
       window.location.href = "createBook.html";
     });
 
-    if (userRole === "DEV") {
-      deleteAllBtn.style.display = "block";
-    } else {
-      deleteAllBtn.style.display = "none";
-    }
+    deleteAllBtn.style.display = userRole === "DEV" ? "block" : "none";
 
     for (let i = 0; i < bookstores.length; i++) {
       const bookstore = bookstores[i];
@@ -213,39 +210,15 @@ async function displayBooks() {
           const book = products[j];
           const imageUrl = book.imageUrl;
           console.log(book, imageUrl);
-          const card = document.createElement("div");
-          card.className = "col";
-          card.innerHTML = `
-                <div class="card h-100">
-                  <img src="${imageUrl}" class="card-img-top" alt="${book.name}">
-                  <div class="card-body">
-                    <h5 class="card-title">${book.name}</h5>
-                    <p class="card-text">설명: ${book.description}</p>
-                    <p class="card-text">상태: ${book.status}</p>
-                    <p class="card-text">가격: ${book.price}원</p>
-                    <a href="book.detail.html?id=${book.productId}" class="btn btn-success" id="viewDetailsBtn">View Details</a>
-                    <button class="btn btn-success m-2 editBtn" style="display: none;">Edit</button>
-                    <button class="btn btn-success  m-2 deleteBtn" style="display: none;">Delete</button>
-                  </div>
-                </div>
-              `;
-
-          card.querySelector(".card-img-top").style.maxHeight = "100px";
-          card.querySelector(".card-img-top").style.maxWidth = "100px";
-
+          const card = createBookCard(book);
           productCardsContainer.appendChild(card);
 
           const editBtn = card.querySelector(".editBtn");
           const deleteBtn = card.querySelector(".deleteBtn");
 
-          editBtn.addEventListener("click", () => {
-            window.location.href = `editStore.html?id=${book.productId}`;
-          });
-
           // 삭제 버튼 클릭 이벤트
           deleteBtn.addEventListener("click", async (e) => {
             const confirmed = confirm("정말로 이 책을 삭제하시겠습니까?");
-
             if (confirmed) {
               try {
                 await deleteBook(book.productId);
@@ -261,25 +234,22 @@ async function displayBooks() {
             window.location.href = `editBook.html?id=${book.productId}`;
           });
 
-          if (userRole === "OWNER") {
-            // 작성자가 아닌 경우 버튼 감추기
-            if (userId != bookstore.userId) {
-              editBtn.style.display = "none";
-              deleteBtn.style.display = "none";
-            } else {
+          // 버튼은 사용자 유형에 따라 보이고 감추도록 수정
+          if (userRole === "OWNER" || userRole === "DEV") {
+            if (userId && userId === bookstore.userId) {
+              // 작성자의 경우 버튼 보이기
               editBtn.style.display = "block";
               deleteBtn.style.display = "block";
+            } else {
+              // 작성자가 아닌 경우 버튼 감추기
+              editBtn.style.display = "none";
+              deleteBtn.style.display = "none";
             }
           } else {
+            // 일반 사용자의 경우 버튼 감추기
             editBtn.style.display = "none";
             deleteBtn.style.display = "none";
           }
-
-          if (userRole !== "OWNER" && userRole !== "DEV") {
-            const bookIdElement = card.querySelector("#productId");
-            bookIdElement.style.display = "none";
-          }
-          console.log(editBtn, deleteBtn);
         }
       } else {
         console.error("에러 --- Products is undefined or empty.");
@@ -290,4 +260,5 @@ async function displayBooks() {
   }
 }
 
+// 페이지 로드 시 도서 목록 표시
 displayBooks();
