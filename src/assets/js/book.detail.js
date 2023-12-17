@@ -16,6 +16,21 @@ async function getUserId() {
   }
 }
 
+function formatDateTime(dateString) {
+  const date = new Date(dateString);
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 더하기
+  const day = date.getDate();
+
+  const period = hours >= 12 ? "오후" : "오전";nodemon
+  const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
+  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+  return ` ${year}년 ${month}월 ${day}일 ${period}${formattedHours}시 ${formattedMinutes}분`;
+}
+
 async function checkUserType() {
   try {
     const response = await fetch(`/api/users/me`, {
