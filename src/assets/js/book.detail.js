@@ -440,7 +440,11 @@ function displayProductDetails(product) {
   bookInfoTextElement.className = "book-detail-text";
 
   putProductBtn.className = "btn btn-success me-2";
+  putProductBtn.innerText = "장바구니";
+  putProductBtn.setAttribute(type, button);
   orderProductBtn.className = "btn btn-success";
+  orderProductBtn.innerText = "바로주문";
+  orderProductBtn.setAttribute(type, button);
 
   bookInfoTextElement.appendChild(titleElement);
   bookInfoTextElement.appendChild(descriptionElement);
