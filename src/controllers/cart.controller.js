@@ -29,7 +29,8 @@ export class CartController {
       // 상품이 "SOLD_OUT"인 경우에는 장바구니에 담지 않음
       if (product.status === "SOLD_OUT") {
         return res.status(400).json({
-          message: "이 상품은 품절되었습니다. 장바구니에 담을 수 없습니다.",
+          errorMessage:
+            "이 상품은 품절되었습니다. 장바구니에 담을 수 없습니다.",
         });
       }
 
@@ -40,7 +41,7 @@ export class CartController {
       );
       if (isProductInCart) {
         return res.status(400).json({
-          message:
+          errorMessage:
             "이미 장바구니에 담긴 상품입니다. 중복 담기는 허용되지 않습니다.",
         });
       }

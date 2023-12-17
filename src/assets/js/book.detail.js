@@ -540,7 +540,7 @@ async function addToCart(product) {
       console.log(`${product.name}을 장바구니에 추가했습니다.`);
       alert(`${product.name}을 장바구니에 추가했습니다.`);
     } else {
-      alert("장바구니에 담기 실패했습니다!");
+      alert(`${data.errorMessage}`);
     }
   } catch (error) {
     console.error("오류:", error);

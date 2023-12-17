@@ -5,8 +5,6 @@ const address = document.querySelector(".address");
 const customerName = document.querySelector(".customerName");
 const customerEmail = document.querySelector(".customerEmail");
 
-const orderBtn = document.querySelector(".orderBtn");
-
 async function getCustomerInfo() {
   try {
     const response = await fetch(`/api/users/me`, {
