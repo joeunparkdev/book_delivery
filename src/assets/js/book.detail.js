@@ -9,31 +9,48 @@ async function getUserId() {
       const data = await response.json();
       return data.data.userId;
     } else {
-      console.error("Error getting user ID:", response.statusText);
       throw new Error("Error getting user ID");
     }
   } catch (error) {
-    console.error("Error getting user ID:", error);
+    throw error;
+  }
+}
+
+async function checkUserType() {
+  try {
+    const response = await fetch(`/api/users/me`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return data.data.userType;
+    } else {
+      throw new Error("Error checking login status");
+    }
+  } catch (error) {
     throw error;
   }
 }
 
 function addReview() {
-  const productIdInput = document.getElementById("productIdInput");
   const ratingSelect = document.getElementById("starRating");
   const reviewTextInput = document.querySelector(".review-wr textarea");
 
-  if (productIdInput && ratingSelect && reviewTextInput) {
-    const productId = productIdInput.value;
+  if (ratingSelect && reviewTextInput) {
     const rating = parseInt(ratingSelect.value);
     const reviewText = reviewTextInput.value;
-
-    submitReview(productId, rating, reviewText);
+    submitReview(rating, reviewText);
   }
 }
 
 document.addEventListener("DOMContentLoaded", async function () {
+  const productIdInput = document.getElementById("productIdInput");
+  const productId = productIdInput.value;
+
   const starRatingSelect = document.getElementById("starRating");
+  const reviewTextInput = document.querySelector(".review-wr textarea");
 
   function updateStarRating() {
     try {
@@ -55,12 +72,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     starRatingSelect.addEventListener("input", updateStarRating);
   }
 
+  if (reviewTextInput) {
+    reviewTextInput.addEventListener("input", updateStarRating);
+  }
+
   try {
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get("id");
-
-    console.log("DEBUG: urlParams", urlParams.toString());
-    console.log("DEBUG: productId", productId);
 
     if (!productId) {
       throw new Error("Product ID not found in URL");
@@ -68,89 +86,103 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const productDetails = await fetchProductDetails(productId);
 
-    console.log("DEBUG: productDetails", productDetails);
-
-    console.log(
-      "DEBUG: displayReviews - Before calling displayReviews, productId:",
-      productId,
-    );
     await displayReviews(productId);
-    console.log(
-      "DEBUG: displayReviews - After calling displayReviews, productId:",
-      productId,
-    );
 
     const productDetailElement = document.getElementById("productDetail");
 
-    if (!productDetailElement.innerHTML.trim()) {
-      console.log("DEBUG: Calling displayProductDetails");
-      displayProductDetails(productDetails);
-    }
-    console.log(productId);
-    updateStarRating();
+    displayProductDetails(productDetails);
   } catch (error) {
     console.error("Error in DOMContentLoaded:", error);
   }
 
   const addReviewBtn = document.getElementById("addReviewBtn");
-  if (addReviewBtn) {
-    addReviewBtn.addEventListener("click", addReview);
-  }
+  addReviewBtn.addEventListener("click", () => {
+    addReview();
+  });
 });
 
 async function displayReviews(productId) {
   try {
-    console.log("DEBUG: displayReviews - productId", productId);
-
     if (!productId) {
-      console.error("DEBUG: displayReviews - Product ID is missing");
       throw new Error("Product ID is missing");
     }
 
-    const response = await fetch(`/api/review/${productId}`);
-    if (!response.ok) {
-      throw new Error(`HTTP 오류! 상태: ${response.status}`);
-    }
-    const reviews = await response.json();
+    const data = await fetchReview(productId);
+    const reviews = data.data;
 
     const reviewListElement = document.getElementById("reviewList");
     reviewListElement.innerHTML = "";
 
-    if (reviews && reviews.length > 0) {
-      for (const review of reviews) {
-        const reviewElement = document.createElement("div");
-        reviewElement.className = "review";
+    if (!reviews || !reviews.length) {
+      const reviewListElement = document.getElementById("reviewList");
+      reviewListElement.innerHTML = "<p>리뷰가 존재하지않습니다</p>";
+      return;
+    }
 
-        const reviewerElement = document.createElement("div");
-        reviewerElement.textContent = `리뷰어: ${review.reviewer}`;
-        reviewElement.appendChild(reviewerElement);
+    const userId = await getUserId();
+    const userType = await checkUserType();
 
-        const contentElement = document.createElement("div");
-        contentElement.textContent = `리뷰 내용: ${review.content}`;
-        reviewElement.appendChild(contentElement);
+    for (let i = 0; i < reviews.length; i++) {
+      const review = reviews[i];
+      const card = document.createElement("div");
+      card.className = "col";
+      card.innerHTML = `
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">${review.userId}</h5>
+            <p class="card-text">리뷰 내용: ${review.reviewText}</p>
+            <p class="card-text">별점: ${review.rating}</p>
+            <p class="card-text">작성일: ${review.createdAt}</p>
+            <button class="btn btn-success m-2 editBtn" style="display: none;">Edit</button>
+            <button class="btn btn-success m-2 deleteBtn" style="display: none;">Delete</button>
+          </div>
+        </div>
+      `;
 
-        const ratingElement = document.createElement("div");
-        ratingElement.textContent = "평점: ";
-        for (let i = 0; i < review.rating; i++) {
-          const starElement = document.createElement("span");
-          starElement.textContent = "★";
-          ratingElement.appendChild(starElement);
-        }
-        reviewElement.appendChild(ratingElement);
+      reviewListElement.appendChild(card);
 
-        reviewListElement.appendChild(reviewElement);
+      const editBtn = card.querySelector(".editBtn");
+      const deleteBtn = card.querySelector(".deleteBtn");
+
+      if (userId && userId === review.userId) {
+        editBtn.style.display = "block";
+        deleteBtn.style.display = "block";
       }
-    } else {
-      const noReviewsElement = document.createElement("p");
-      noReviewsElement.textContent = "리뷰가 없습니다.";
-      reviewListElement.appendChild(noReviewsElement);
     }
   } catch (error) {
-    console.error("리뷰 가져오기 중 에러 발생:", error.message);
+    console.error("Error displaying reviews:", error);
   }
 }
 
-async function submitReview(productId, rating, reviewText) {
+async function fetchReview(productId) {
+  const url = `/api/review/${productId}`;
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `리뷰 가져오기 실패. HTTP 오류! 상태: ${response.status}`,
+      );
+    }
+
+    const data = await response.json();
+
+    if (!data || !data.data || !data.data.length) {
+      console.warn("가져온 리뷰가 없습니다.");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("리뷰 가져오는 중 에러 발생:", error.message);
+  }
+}
+
+async function submitReview(rating, reviewText) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = urlParams.get("id");
   try {
     const url = `/api/review/${productId}`;
     const requestBody = {
@@ -180,7 +212,6 @@ async function submitReview(productId, rating, reviewText) {
 
 function displayProductDetails(product) {
   const productDetailElement = document.getElementById("productDetail");
-  displayReviews(product.reviews);
 
   const imageElement = document.createElement("img");
   imageElement.src = product.imageUrl;
@@ -207,11 +238,10 @@ async function fetchProductDetails(productId) {
       throw new Error(`HTTP 오류! 상태: ${response.status}`);
     }
     const data = await response.json();
-    console.log("DEBUG: fetchProductDetails - data", data);
+
     if (data.error && data.error === "Product not found") {
       throw new Error("Product not found");
     }
-
     return data.data;
   } catch (error) {
     console.error("Error in fetchProductDetails:", error);
