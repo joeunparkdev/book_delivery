@@ -1,5 +1,6 @@
 .first-area {
   display: flex;
+  background-color: pink;
 }
 
 .first-area :first-child {
