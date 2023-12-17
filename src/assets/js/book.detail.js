@@ -87,10 +87,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const productDetails = await fetchProductDetails(productIdFromURL);
 
-    await displayReviews(productIdFromURL);
+    /* await displayReviews(productIdFromURL);
     addToCartBtn.addEventListener("click", () => {
       addToCart(productDetails);
-    });
+    }); */
 
     const productDetailElement = document.getElementById("productDetail");
 
