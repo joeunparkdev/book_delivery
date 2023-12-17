@@ -46,8 +46,8 @@ function addReview() {
 }
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const productIdInput = document.getElementById("productIdInput");
-  const productId = productIdInput.value;
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = urlParams.get("id");
 
   const starRatingSelect = document.getElementById("starRating");
   const reviewTextInput = document.querySelector(".review-wr textarea");
@@ -78,15 +78,15 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   try {
     const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get("id");
+    const productIdFromURL = urlParams.get("id");
 
-    if (!productId) {
+    if (!productIdFromURL) {
       throw new Error("Product ID not found in URL");
     }
 
-    const productDetails = await fetchProductDetails(productId);
+    const productDetails = await fetchProductDetails(productIdFromURL);
 
-    await displayReviews(productId);
+    await displayReviews(productIdFromURL);
 
     const productDetailElement = document.getElementById("productDetail");
 
@@ -102,34 +102,33 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 
 async function displayReviews(productId) {
-  try {
-    if (!productId) {
-      throw new Error("Product ID is missing");
-    }
+  if (!productId) {
+    throw new Error("Product ID is missing");
+  }
 
-    const data = await fetchReview(productId);
-    const reviews = data.data;
+  const data = await fetchReview(productId);
+  const reviews = data.data;
 
+  const reviewListElement = document.getElementById("reviewList");
+  reviewListElement.innerHTML = "";
+
+  if (!reviews || !reviews.length) {
     const reviewListElement = document.getElementById("reviewList");
-    reviewListElement.innerHTML = "";
+    reviewListElement.innerHTML = "<p>리뷰가 존재하지않습니다</p>";
+    return;
+  }
 
-    if (!reviews || !reviews.length) {
-      const reviewListElement = document.getElementById("reviewList");
-      reviewListElement.innerHTML = "<p>리뷰가 존재하지않습니다</p>";
-      return;
-    }
+  const userId = await getUserId();
+  const userType = await checkUserType();
 
-    const userId = await getUserId();
-    const userType = await checkUserType();
-
-    for (let i = 0; i < reviews.length; i++) {
-      const review = reviews[i];
-      const card = document.createElement("div");
-      card.className = "col";
-      card.innerHTML = `
+  for (let i = 0; i < reviews.length; i++) {
+    const review = reviews[i];
+    const card = document.createElement("div");
+    card.className = "col";
+    card.innerHTML = `
         <div class="card h-100">
           <div class="card-body">
-            <h5 class="card-title">${review.userId}</h5>
+          <p class="card-text">작성자 id: ${review.userId}</p>
             <p class="card-text">리뷰 내용: ${review.reviewText}</p>
             <p class="card-text">별점: ${review.rating}</p>
             <p class="card-text">작성일: ${review.createdAt}</p>
@@ -139,18 +138,84 @@ async function displayReviews(productId) {
         </div>
       `;
 
-      reviewListElement.appendChild(card);
+    reviewListElement.appendChild(card);
 
-      const editBtn = card.querySelector(".editBtn");
-      const deleteBtn = card.querySelector(".deleteBtn");
+    const editBtn = card.querySelector(".editBtn");
+    const deleteBtn = card.querySelector(".deleteBtn");
 
-      if (userId && userId === review.userId) {
-        editBtn.style.display = "block";
-        deleteBtn.style.display = "block";
-      }
+    if (userId && userId === review.userId) {
+      editBtn.style.display = "block";
+      deleteBtn.style.display = "block";
     }
+    // 수정 버튼 클릭 이벤트
+    editBtn.addEventListener("click", () => {
+      updateReview(review.reviewId);
+    });
+
+    // 삭제 버튼 클릭 이벤트
+    deleteBtn.addEventListener("click", async (e) => {
+      const confirmed = confirm("정말로 이 서점을 삭제하시겠습니까?");
+
+      if (confirmed) {
+        try {
+          await review(review.reviewId);
+        } catch (error) {
+          console.error("Error deleting review:", error);
+        }
+      }
+    });
+  }
+}
+
+async function deleteReview(reviewId) {
+  if (!reviewId) {
+    console.error("Error: reviewId is undefined or empty");
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/products/${reviewId}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    alert("리뷰가 성공적으로 삭제되었습니다.");
   } catch (error) {
-    console.error("Error displaying reviews:", error);
+    console.error("에러 ---", error);
+  }
+}
+
+async function updateReview(reviewId) {
+  if (!reviewId) {
+    console.error("Error: reviewId is undefined or empty");
+    return;
+  }
+
+  try {
+    const url = `/api/products/${reviewId}`;
+    const requestBody = {
+      rating: rating,
+      reviewText: reviewText,
+    };
+
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    alert("리뷰가 성공적으로 수정되었습니다.");
+  } catch (error) {
+    console.error("에러 ---", error);
   }
 }
 
