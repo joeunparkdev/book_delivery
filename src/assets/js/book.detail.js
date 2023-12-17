@@ -440,7 +440,7 @@ function displayProductDetails(product) {
 
   orderProductBtn.setAttribute("type", "button");
   orderProductBtn.setAttribute("id", "directPurchaseBtn");
-  orderProductBtn.className = "btn btn-success me-2";
+  orderProductBtn.className = "btn btn-success";
   orderProductBtn.innerText = "바로주문";
 
   bookInfoTextElement.appendChild(titleElement);
