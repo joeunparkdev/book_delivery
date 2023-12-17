@@ -29,27 +29,12 @@ export class StoresController {
     try {
       const userId = req.user.userId;
       const imageUrl = req.file?.location;
-      const [aws, imagePath] = imageUrl ? imageUrl.split("com/") : [null, null];
+      const imagePath = imageUrl?.split("com/")[1];
+      const userType = req.user.usertype;
 
-      if (!userId) {
-        return res.status(401).json({ error: "User not logged in" });
+      if (userType !== "OWNER") {
+        return res.status(404).json({ error: " OWNER 아이디가 아닙니다." });
       }
-
-      const newStore = await this.storesService.createImage(imagePath);
-
-      res.json({
-        message: "이미지를 생성하였습니다.",
-        newStore,
-      });
-    } catch (error) {
-      console.error(error);
-      next(error);
-    }
-  };
-
-  createWithoutImage = async (req, res, next) => {
-    try {
-      const userId = req.user.userId;
       if (!userId) {
         return res.status(401).json({ error: "User not logged in" });
       }
@@ -162,7 +147,7 @@ export class StoresController {
         status,
         updatedAt,
         userId,
-        userType,
+        usertype,
       );
 
       res.json({

@@ -118,6 +118,7 @@ async function send_code() {
     return;
   }
   console.log(JSON.stringify({ email: email }));
+
   try {
     const response = await fetch(`/api/auth/sendCode`, {
       method: "POST",

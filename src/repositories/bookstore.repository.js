@@ -76,7 +76,6 @@ export class StoreRepository {
     status,
     updatedAt,
     userId,
-    userType,
   ) => {
     try {
       const findS3Image = await prisma.bookstores.findUnique({

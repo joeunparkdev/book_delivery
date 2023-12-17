@@ -1,25 +1,26 @@
-import dotenv from 'dotenv'
-import express from 'express'
-import http from 'http'
-import https from 'https'
-import fs from 'fs'
-import cors from 'cors'
-import cookieParser from 'cookie-parser'
-import bodyParser from 'body-parser'
-import errorHandlerMiddleware from './middlewares/error-handler.middleware.js'
-import productsRouter from './routers/products.router.js'
-import usersRouter from './routers/users.router.js'
-import authRouter from './routers/auth.router.js'
-import bookstoresRouter from './routers/bookstore.router.js'
-import reviewRouter from './routers/reviews.router.js'
-import customerOrderRouter from './routers/customer.order.router.js'
-import searchRouter from './routers/search.router.js'
-import configurePassport from '../src/passport/index.js'
-import OwnerRouter from '../src/routers/owner.router.js'
+import dotenv from "dotenv";
+import express from "express";
+import http from "http";
+import https from "https";
+import fs from "fs";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
+import errorHandlerMiddleware from "./middlewares/error-handler.middleware.js";
+import productsRouter from "./routers/products.router.js";
+import usersRouter from "./routers/users.router.js";
+import authRouter from "./routers/auth.router.js";
+import bookstoresRouter from "./routers/bookstore.router.js";
+import reviewRouter from "./routers/reviews.router.js";
+import customerOrderRouter from "./routers/customer.order.router.js";
+import searchRouter from "./routers/search.router.js";
+import cartRouter from "./routers/cart.router.js";
+import configurePassport from "../src/passport/index.js";
+import OwnerRouter from "../src/routers/owner.router.js";
 import deliveryRouter from '../src/routers/delivery.router.js'
-import path from 'path'
-import { dirname } from 'path'
-import { fileURLToPath } from 'url'
+import path from "path";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const app = express()
@@ -41,17 +42,16 @@ app.use(cookieParser())
 // Passport 설정
 configurePassport(app)
 
-// 라우트 정의
-app.use('/api/auth', authRouter)
-app.use('/api/users', usersRouter)
-app.use('/api/products', productsRouter)
-app.use('/api/review', reviewRouter)
-app.use('/api/stores', bookstoresRouter)
-app.use('/api/order', customerOrderRouter)
-app.use('/api/search', searchRouter)
-app.use('/api/takeorder', OwnerRouter)
+app.use("/api/auth", authRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/products", productsRouter);
+app.use("/api/review", reviewRouter);
+app.use("/api/stores", bookstoresRouter);
+app.use("/api/order", customerOrderRouter);
+app.use("/api/search", searchRouter);
+app.use("/api/takeorder", OwnerRouter);
+app.use("/api/cart", cartRouter);
 app.use('/api/delivery', deliveryRouter)
-
 // 오류 처리 미들웨어
 app.use(errorHandlerMiddleware)
 
