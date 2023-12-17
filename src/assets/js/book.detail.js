@@ -16,6 +16,19 @@ async function getUserId() {
   }
 }
 
+// 별점을 클릭할 때 호출되는 함수
+function handleStarClick(starRating) {
+  const starRatingContainer = document.getElementById("starRatingContainer");
+  if (starRatingContainer) {
+    starRatingContainer.innerHTML = "★".repeat(starRating);
+  }
+
+  const ratingSelect = document.getElementById("starRating");
+  if (ratingSelect) {
+    ratingSelect.value = starRating;
+  }
+}
+
 async function checkUserType() {
   try {
     const response = await fetch(`/api/users/me`, {
@@ -46,13 +59,16 @@ function addReview() {
 }
 
 document.addEventListener("DOMContentLoaded", async function () {
+  const addToCartBtn = document.getElementById("addToCartBtn");
+  if (addToCartBtn) {
+    addToCartBtn.addEventListener("click", async () => {
+      await addToCart(productDetails);
+    });
+  }
   const urlParams = new URLSearchParams(window.location.search);
   const productId = urlParams.get("id");
-
   const starRatingSelect = document.getElementById("starRating");
   const reviewTextInput = document.querySelector(".review-wr textarea");
-  const addToCartBtn = document.getElementById("addToCartBtn");
-
   function updateStarRating() {
     try {
       const selectedRating = parseInt(starRatingSelect.value, 10);
@@ -88,11 +104,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     const productDetails = await fetchProductDetails(productIdFromURL);
 
     await displayReviews(productIdFromURL);
-    addToCartBtn.addEventListener("click", () => {
-      addToCart(productDetails);
-    });
-
-    const productDetailElement = document.getElementById("productDetail");
 
     displayProductDetails(productDetails);
   } catch (error) {
@@ -100,10 +111,36 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   const addReviewBtn = document.getElementById("addReviewBtn");
-  addReviewBtn.addEventListener("click", () => {
-    addReview();
+  if (addReviewBtn) {
+    addReviewBtn.addEventListener("click", () => {
+      addReview();
+    });
+  }
+  document.addEventListener("click", async (event) => {
+    const saveBtn = event.target.closest(".btn-save");
+    if (saveBtn) {
+      const reviewId = saveBtn.getAttribute("data-review-id");
+      if (reviewId) {
+        await saveEditedReview(reviewId);
+      }
+    }
   });
 });
+
+function formatDateTime(dateString) {
+  const date = new Date(dateString);
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 더하기
+  const day = date.getDate();
+
+  const period = hours >= 12 ? "오후" : "오전";
+  const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
+  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+  return ` ${year}년 ${month}월 ${day}일 ${period}${formattedHours}시 ${formattedMinutes}분`;
+}
 
 async function displayReviews(productId) {
   if (!productId) {
@@ -156,56 +193,24 @@ async function displayReviews(productId) {
       deleteBtn.style.display = "block";
     }
     // 수정 버튼 클릭 이벤트
-    editBtn.addEventListener("click", () => {
-      updateReview(review.reviewId);
+    editBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      console.log(review.reviewId);
+      openEditReviewModal(review.reviewId, review.rating, review.reviewText);
     });
 
     // 삭제 버튼 클릭 이벤트
-    deleteBtn.addEventListener("click", async (e) => {
+    deleteBtn.addEventListener("click", async (event) => {
       const confirmed = confirm("정말로 이 서점을 삭제하시겠습니까?");
-
+      event.preventDefault();
       if (confirmed) {
         try {
-          await review(review.reviewId);
+          await deleteReview(review.reviewId);
         } catch (error) {
           console.error("Error deleting review:", error);
         }
       }
     });
-  }
-}
-
-// 별점을 별 이모지로 변환하는 함수
-function getStarIcons(rating) {
-  return "⭐".repeat(rating);
-}
-
-async function addToCart(product) {
-  try {
-    const response = await fetch("/api/cart", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        productId: product.productId,
-      }),
-      credentials: "include",
-    });
-
-    const data = await response.json();
-
-    console.log(data);
-
-    if (data.success) {
-      console.log(`${product.name}을 장바구니에 추가했습니다.`);
-      alert(`${product.name}을 장바구니에 추가했습니다.`);
-    } else {
-      window.location.reload();
-      alert("장바구니에 담기 실패했습니다!");
-    }
-  } catch (error) {
-    console.error("오류:", error);
   }
 }
 
@@ -304,7 +309,7 @@ async function deleteReview(reviewId) {
   }
 
   try {
-    const response = await fetch(`/api/products/${reviewId}`, {
+    const response = await fetch(`/api/review/${reviewId}`, {
       method: "DELETE",
       credentials: "include",
     });
@@ -313,19 +318,20 @@ async function deleteReview(reviewId) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     alert("리뷰가 성공적으로 삭제되었습니다.");
+    window.location.reload();
   } catch (error) {
     console.error("에러 ---", error);
   }
 }
 
-async function updateReview(reviewId) {
+async function updateReview(reviewId, rating, reviewText) {
   if (!reviewId) {
     console.error("Error: reviewId is undefined or empty");
     return;
   }
 
   try {
-    const url = `/api/products/${reviewId}`;
+    const url = `/api/review/${reviewId}`;
     const requestBody = {
       rating: rating,
       reviewText: reviewText,
@@ -344,6 +350,7 @@ async function updateReview(reviewId) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     alert("리뷰가 성공적으로 수정되었습니다.");
+    window.location.reload();
   } catch (error) {
     console.error("에러 ---", error);
   }
@@ -399,6 +406,7 @@ async function submitReview(rating, reviewText) {
     }
 
     const data = await response.json();
+    alert("리뷰가 성공적으로 제출되었습니다");
     console.log("리뷰가 성공적으로 제출되었습니다:", data);
   } catch (error) {
     console.error("리뷰 제출 중 에러 발생:", error.message);
@@ -471,5 +479,38 @@ async function fetchProductDetails(productId) {
   } catch (error) {
     console.error("Error in fetchProductDetails:", error);
     throw error;
+  }
+}
+// 별점을 별 이모지로 변환하는 함수
+function getStarIcons(rating) {
+  return "⭐".repeat(rating);
+}
+
+async function addToCart(product) {
+  try {
+    const response = await fetch("/api/cart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        productId: product.productId,
+      }),
+      credentials: "include",
+    });
+
+    const data = await response.json();
+
+    console.log(data);
+
+    if (data.success) {
+      console.log(`${product.name}을 장바구니에 추가했습니다.`);
+      alert(`${product.name}을 장바구니에 추가했습니다.`);
+    } else {
+      window.location.reload();
+      alert("장바구니에 담기 실패했습니다!");
+    }
+  } catch (error) {
+    console.error("오류:", error);
   }
 }
