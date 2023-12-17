@@ -12,12 +12,11 @@ export class CartService {
         price: cart.price,
         name: cart.name,
         imageUrl: cart.imageUrl,
-        quantity: cart.quantity,
       };
     });
   };
 
-  createCart = async (userId, productId, quantity) => {
+  createCart = async (userId, productId) => {
     if (!userId) {
       throw new Error("로그인이 필요합니다");
     }
@@ -27,37 +26,28 @@ export class CartService {
       const createCart = await this.cartRepository.createCart(
         userId,
         productId,
-        quantity,
       );
 
       return createCart;
     } else {
-      const updateCart = await this.cartRepository.updateCart(
-        findItem.cartId,
-        quantity,
-        findItem.quantity,
-      );
-      return updateCart;
+      throw new Error("이미 장바구니에 있는 상품입니다");
     }
   };
 
-  updateCart = async (userId, productId, quantity) => {
-    const findItem = await this.cartRepository.findItem(userId, productId);
-    if (!userId) {
-      throw new Error("로그인이 필요합니다");
-    }
+  // updateCart = async (userId, productId) => {
+  //   const findItem = await this.cartRepository.findItem(userId, productId);
+  //   if (!userId) {
+  //     throw new Error("로그인이 필요합니다");
+  //   }
 
-    if (!findItem) {
-      throw new Error("상품을 찾을 수 없습니다");
-    }
+  //   if (!findItem) {
+  //     throw new Error("상품을 찾을 수 없습니다");
+  //   }
 
-    const updateCart = this.cartRepository.updateCart(
-      findItem.cartId,
-      quantity,
-    );
+  //   const updateCart = this.cartRepository.updateCart(findItem.cartId);
 
-    return updateCart;
-  };
+  //   return updateCart;
+  // };
 
   deleteCart = async (userId, productId) => {
     const findItem = await this.cartRepository.findItem(userId, productId);
