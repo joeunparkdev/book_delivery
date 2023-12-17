@@ -1,3 +1,9 @@
+// Kakao 로그인 버튼 클릭 이벤트 핸들러
+document
+  .getElementById("kakao-login-btn")
+  .addEventListener("click", function () {
+    handleKakao_login();
+  });
 // Kakao 고객님 로그인 버튼 클릭 이벤트 핸들러
 document
   .getElementById("kakao-client-login-btn")
@@ -12,8 +18,8 @@ document
     handleKakao_login_owner();
   });
 
-// Kakao 고객님 로그인 함수
-async function handleKakao_login_client() {
+// Kakao  로그인 함수
+async function handleKakao_login() {
   try {
     await new Promise((resolve) => {
       if (window.Kakao) {
@@ -25,9 +31,28 @@ async function handleKakao_login_client() {
 
     // Kakao SDK를 초기화
     Kakao.init("3980c403de0926c15940e444945aef79");
+    Kakao.Auth.authorize({
+      redirectUri: `http://localhost:3001/api/auth/kakao/callback`,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
 
-    // Pass userType as a query parameter in redirectUri
-    const userType = "CLIENT"; // Set your user type dynamically
+// Kakao 고객님 로그인 함수
+async function handleKakao_login_owner() {
+  try {
+    await new Promise((resolve) => {
+      if (window.Kakao) {
+        resolve();
+      } else {
+        window.onload = resolve;
+      }
+    });
+
+    // Kakao SDK를 초기화
+    Kakao.init("3980c403de0926c15940e444945aef79");
+    const userType = "CLIENT";
     Kakao.Auth.authorize({
       redirectUri: `http://localhost:3001/api/auth/kakao/callback?userType=${userType}`,
     });

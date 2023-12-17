@@ -356,18 +356,16 @@ export class UsersService {
     await this.usersRepository.unfollowUser(userId, targetUserId);
   };
 
-  createKakaoUser = async (kakaoId, email, nickname, usertype) => {
+  createKakaoUser = async (kakaoId, email, nickname) => {
     try {
       const newUser = await this.usersRepository.createKakaoUser(
         nickname,
         email,
         kakaoId,
-        usertype,
       );
       return {
         userId: newUser.userId,
         username: newUser.username,
-        usertype: newUser.usertype,
         email: newUser.email,
         password: newUser.password,
         createdAt: newUser.createdAt,
@@ -389,13 +387,13 @@ export class UsersService {
     }
   };
 
-  kakaoLogin = async (kakaoId, email, nickname, usertype) => {
+  kakaoLogin = async (kakaoId, email, nickname) => {
     try {
       // Prisma를 사용하여 이메일이 일치하는 사용자 찾기
       const user = await this.usersRepository.findUserByEmail(email);
       // 사용자가 존재하지 않으면 새로운 사용자 생성
       if (!user) {
-        await this.createKakaoUser(kakaoId, email, nickname, usertype);
+        await this.createKakaoUser(kakaoId, email, nickname);
       }
       const prismaUser = await this.usersRepository.findUserByEmail(email);
       const userId = prismaUser.userId;
