@@ -214,7 +214,7 @@ export class StoresService {
         throw new Error("Store 조회에 실패하였습니다.");
       }
 
-      if (userType !== "DEV" && existingStore.userId !== userId) {
+      if (existingStore.userId !== userId) {
         throw new Error("해당 Store을 삭제할 권한이 없습니다.");
       }
 

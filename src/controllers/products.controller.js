@@ -36,7 +36,7 @@ export class ProductsController {
       const { name, description, price, author } = req.body;
       const userId = req.user.userId;
       const imageUrl = req.file?.location;
-      const [aws, imagePath] = imageUrl?.split("com/");
+      const imagePath = imageUrl?.split("com/")[1];
 
       const bookstore = await this.storeRepository.findStoreByUserId(userId);
 

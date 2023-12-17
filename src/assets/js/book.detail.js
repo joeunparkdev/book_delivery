@@ -51,6 +51,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   const starRatingSelect = document.getElementById("starRating");
   const reviewTextInput = document.querySelector(".review-wr textarea");
+  const addToCartBtn = document.getElementById("addToCartBtn");
 
   function updateStarRating() {
     try {
@@ -87,6 +88,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     const productDetails = await fetchProductDetails(productIdFromURL);
 
     await displayReviews(productIdFromURL);
+    addToCartBtn.addEventListener("click", () => {
+      addToCart(productDetails);
+    });
 
     const productDetailElement = document.getElementById("productDetail");
 
@@ -164,6 +168,128 @@ async function displayReviews(productId) {
         }
       }
     });
+  }
+}
+
+// 별점을 별 이모지로 변환하는 함수
+function getStarIcons(rating) {
+  return "⭐".repeat(rating);
+}
+
+async function addToCart(product) {
+  try {
+    const response = await fetch("/api/cart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        productId: product.productId,
+      }),
+      credentials: "include",
+    });
+
+    const data = await response.json();
+
+    console.log(data);
+
+    if (data.success) {
+      console.log(`${product.name}을 장바구니에 추가했습니다.`);
+      alert(`${product.name}을 장바구니에 추가했습니다.`);
+    } else {
+      window.location.reload();
+      alert("장바구니에 담기 실패했습니다!");
+    }
+  } catch (error) {
+    console.error("오류:", error);
+  }
+}
+
+// openEditReviewModal 함수 수정
+function openEditReviewModal(reviewId, currentRating, currentReviewText) {
+  // 리뷰Id를 기반으로 고유한 모달 Id를 생성합니다.
+  const modalId = `editReviewModal_${reviewId}`;
+  const selectId = `editRating_${reviewId}`;
+
+  // 모달이 이미 존재하는지 확인하고, 없으면 생성합니다.
+  if (!document.getElementById(modalId)) {
+    const modalContainer = document.createElement("div");
+    modalContainer.innerHTML = `
+      <div class="modal fade" id="${modalId}" tabindex="-1" aria-labelledby="editReviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editReviewModalLabel">리뷰 수정</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <!-- 리뷰 수정을 위한 폼 요소들을 여기에 추가합니다 -->
+              <label for="${selectId}">평점:</label>
+              <select id="${selectId}" class="form-select" required>
+                <option value="1" ${
+                  currentRating === 1 ? "selected" : ""
+                }>⭐</option>
+                <option value="2" ${
+                  currentRating === 2 ? "selected" : ""
+                }>⭐⭐</option>
+                <option value="3" ${
+                  currentRating === 3 ? "selected" : ""
+                }>⭐⭐⭐</option>
+                <option value="4" ${
+                  currentRating === 4 ? "selected" : ""
+                }>⭐⭐⭐⭐</option>
+                <option value="5" ${
+                  currentRating === 5 ? "selected" : ""
+                }>⭐⭐⭐⭐⭐</option>
+              </select>
+              <label for="editReviewText_${reviewId}">리뷰 내용:</label>
+              <textarea id="editReviewText_${reviewId}" class="form-control" required>${currentReviewText}</textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+              <button type="button" class="btn btn-success btn-save" data-review-id="${reviewId}">변경 사항 저장</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // 모달을 body에 추가
+    document.body.appendChild(modalContainer);
+  }
+
+  // 모달을 보여주기
+  const editReviewModal = new bootstrap.Modal(document.getElementById(modalId));
+  editReviewModal.show();
+}
+
+// 수정된 리뷰를 저장하는 함수
+async function saveEditedReview(reviewId) {
+  const editRatingInput = document.getElementById(`editRating_${reviewId}`);
+  const editReviewTextInput = document.getElementById(
+    `editReviewText_${reviewId}`,
+  );
+
+  const rating = parseInt(editRatingInput.value, 10);
+  const reviewText = editReviewTextInput.value;
+
+  console.log("Review ID:", reviewId);
+  console.log("Updated Rating:", rating);
+  console.log("Updated Review Text:", reviewText);
+
+  // 새로운 데이터로 updateReview 함수를 호출
+  try {
+    await updateReview(reviewId, rating, reviewText);
+    // 성공적으로 업데이트한 후에 모달을 닫기
+    const editReviewModal = new bootstrap.Modal(
+      document.getElementById(`editReviewModal_${reviewId}`),
+    );
+    console.log("모달을 닫기 전에 출력되는지 확인");
+    $("#myModal").modal("hide");
+    console.log("모달을 닫은 후에 출력되는지 확인");
+    window.location.reload();
+  } catch (error) {
+    console.error("리뷰 업데이트 에러:", error);
   }
 }
 
@@ -277,32 +403,62 @@ async function submitReview(rating, reviewText) {
 
 function displayProductDetails(product) {
   const productDetailElement = document.getElementById("productDetail");
-
-  const imageElement = document.createElement("img");
-  imageElement.src = product.imageUrl;
-  imageElement.alt = product.name;
-  productDetailElement.appendChild(imageElement);
-
-  const titleElement = document.createElement("h2");
-  titleElement.textContent = product.name;
-  productDetailElement.appendChild(titleElement);
-
-  const authorElement = document.createElement("div");
-  authorElement.textContent = `작가: ${product.author}`;
-  productDetailElement.appendChild(authorElement);
-
   const descriptionElement = document.createElement("div");
+  const bookInfoShowElement = document.createElement("div");
+  const bookInfoTextElement = document.createElement("div");
+  const bookBucketBtnElement = document.createElement("div");
+  const productMainTitleElement = document.createElement("h3");
+  const titleElement = document.createElement("h2");
+  const authorElement = document.createElement("div");
+  const imageElement = document.createElement("img");
+  const putProductBtn = document.createElement("button");
+  const orderProductBtn = document.createElement("button");
+
+  productMainTitleElement.innerText = "상세보기";
+  imageElement.className = "product-detail-img";
+  imageElement.src = product.imageUrl;
+  bookInfoShowElement.appendChild(productMainTitleElement);
+  bookInfoShowElement.appendChild(imageElement);
+  productDetailElement.appendChild(bookInfoShowElement);
+
+  titleElement.textContent = product.name;
+  authorElement.textContent = `작가: ${product.author}`;
   descriptionElement.textContent = `설명: ${product.description}`;
-  productDetailElement.appendChild(descriptionElement);
+  imageElement.alt = product.name;
+  bookInfoTextElement.className = "book-detail-text";
+
+  bookBucketBtnElement.className = "buy-button";
+
+  putProductBtn.setAttribute("type", "button");
+  putProductBtn.setAttribute("id", "addToCartBtn");
+  putProductBtn.className = "btn btn-success me-2";
+  putProductBtn.innerText = "장바구니";
+
+  orderProductBtn.setAttribute("type", "button");
+  orderProductBtn.setAttribute("id", "directPurchaseBtn");
+  orderProductBtn.className = "btn btn-success";
+  orderProductBtn.innerText = "바로주문";
+
+  bookInfoTextElement.appendChild(titleElement);
+  bookInfoTextElement.appendChild(descriptionElement);
+  bookInfoTextElement.appendChild(authorElement);
+  bookBucketBtnElement.appendChild(orderProductBtn);
+  bookBucketBtnElement.appendChild(putProductBtn);
+  bookInfoTextElement.appendChild(bookBucketBtnElement);
+  productDetailElement.appendChild(bookInfoTextElement);
 }
 
 async function fetchProductDetails(productId) {
   try {
-    const response = await fetch(`/api/products/${productId}`);
+    const response = await fetch(`/api/products/${productId}`, {
+      method: "GET",
+    });
     if (!response.ok) {
       throw new Error(`HTTP 오류! 상태: ${response.status}`);
     }
     const data = await response.json();
+
+    console.log(data.data);
 
     if (data.error && data.error === "Product not found") {
       throw new Error("Product not found");
