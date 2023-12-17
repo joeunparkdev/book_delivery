@@ -178,5 +178,3 @@ window.onload = async function () {
     console.error("에러 ---", error);
   }
 };
-
-document.addEventListener("DOMContentLoaded", getUserId);
