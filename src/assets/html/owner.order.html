@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ReadingRocket</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body>
+    <header
+      class="p-1 d-flex flex-wrap align-items-center justify-content-md-between border-bottom border-success"
+    >
+      <div class="ms-5 col-md-3">
+        <a href="main.html" class="text-decoration-none title text-success">
+          <p class="fs-30" style="font-weight: 700">
+            &#128218;ReadingRocket&#128640;
+          </p>
+        </a>
+      </div>
+      <!-- Navbar added to the header -->
+      <nav class="navbar navbar-expand-md navbar-light">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link text-success" href="./community.html"
+                >Community</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-success" href="./products.html"
+                >Products</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-success" href="./cart.html">Cart</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="col-md-3 text-end">
+        <div class="me-5 col-md-3 text-end" id="loginContainer">
+          <!-- 로그인 또는 로그아웃 버튼이 여기에 동적으로 추가. -->
+        </div>
+      </div>
+    </header>
+    <div class="container mt-5">
+      <h2 class="text-success">받은 주문</h2>
+      <!-- Display Owner Orders -->
+      <div>
+        <ul id="ownerOrdersList" class="list-group">
+          <!-- Order items will be added dynamically here -->
+        </ul>
+      </div>
+      <div
+        id="orderDetailsModal"
+        class="modal fade"
+        tabindex="-1"
+        aria-labelledby="orderDetailsModalLabel"
+        aria-hidden="true"
+      >
+        <!-- 모달 내용이 동적으로 추가됩니다. -->
+      </div>
+      <!-- Display Order Details -->
+      <div id="orderDetailsContainer" class="mt-4">
+        <h3 class="text-success">주문 정보</h3>
+        <div id="orderDetails" class="card">
+          <!-- Order details will be added dynamically here -->
+        </div>
+        <button id="closeOrderDetails" class="btn btn-secondary mt-2">
+          닫기
+        </button>
+      </div>
+
+      <!-- Process Order Button -->
+      <button id="processOrderBtn" class="btn btn-success mt-4">
+        Process Order
+      </button>
+
+      <!-- Cancel Order Button -->
+      <button id="cancelOrderBtn" class="btn btn-success mt-4">
+        Cancel Order
+      </button>
+    </div>
+
+    <!-- Bootstrap 및 axios 스크립트 추가 -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- 스크립트 파일 추가 -->
+    <script src="../js/header.js"></script>
+    <script type="module" src="../js/owner.order.js"></script>
+
+    <!-- 모달 컨테이너 추가 -->
+    <div
+      class="modal fade"
+      id="orderDetailsModal"
+      tabindex="-1"
+      aria-labelledby="orderDetailsModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="orderDetailsModalLabel">
+              주문 상세 정보
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body" id="orderDetails">
+            <!-- 모달 내용이 동적으로 추가됩니다. -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

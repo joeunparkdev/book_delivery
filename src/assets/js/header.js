@@ -1,5 +1,5 @@
 // 비동기 함수로 로그인 여부 확인
-async function checkUserType() {
+async function checkLoggedInUserType() {
   try {
     const response = await fetch(`/api/users/me`, {
       method: "GET",
@@ -21,7 +21,7 @@ async function checkUserType() {
 
 // 로그인 버튼 설정 함수 호출
 document.addEventListener("DOMContentLoaded", function () {
-  checkUserType()
+  checkLoggedInUserType()
     .then((isLoggedIn) => {
       setupLoginButtons(isLoggedIn);
     })
