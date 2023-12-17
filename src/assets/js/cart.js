@@ -29,8 +29,6 @@ async function cartGet() {
 
     const { data } = cartData;
 
-    console.log(data.carts[0]);
-
     for (let i = 0; i < data.carts.length; i++) {
       const cart = data.carts[i];
       const imageUrl = `https://tqklhszfkvzk6518638.cdn.ntruss.com/product/${cart.imageUrl}`;
