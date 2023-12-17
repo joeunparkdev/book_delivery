@@ -200,37 +200,8 @@ async function displayBooks() {
 
     for (let i = 0; i < books.length; i++) {
       const book = books[i];
-<<<<<<< HEAD
-
-      console.log("Book details:", book);
-
-      const imageUrl = book.imageUrl;
-
-      console.log("Image URL:", imageUrl);
-      const card = document.createElement("div");
-      card.className = "col";
-      card.innerHTML = `
-        <div class="card h-100">
-          <img src="${imageUrl}" class="card-img-top" alt="${book.name}">
-          <div class="card-body">
-            <h5 class="card-title">${book.name}</h5>
-            <p class="card-text">설명: ${book.description}</p>
-            <p class="card-text">상태: ${book.status}</p>
-            <p class="card-text">가격: ${book.price}원</p>
-            <a href="book.detail.html?id=${book.productId}" class="btn btn-success" id="viewDetailsBtn">View Details</a>
-            <button class="btn btn-success m-2 editBtn" style="display: none;">Edit</button>
-            <button class="btn btn-success  m-2 deleteBtn" style="display: none;">Delete</button>
-          </div>
-        </div>
-      `;
-
-      card.querySelector(".card-img-top").style.maxHeight = "100px";
-      card.querySelector(".card-img-top").style.maxWidth = "100px";
-
-=======
       // 도서 카드 생성 및 추가
       const card = createBookCard(book);
->>>>>>> main
       productCardsContainer.appendChild(card);
     }
 
