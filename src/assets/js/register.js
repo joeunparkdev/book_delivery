@@ -61,14 +61,6 @@ async function sendKakaoAccessTokenToServer(accessToken) {
   }
 }
 
-// 진짜 카카오 로그인
-async function kakao_login() {
-  const response = await fetch(`/api/auth/kakao`, {
-    method: "GET",
-    mode: "no-cors",
-  });
-}
-
 function sign_up() {
   const username = document.getElementById("inputNickname").value;
   console.log("Username:", username);

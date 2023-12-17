@@ -172,6 +172,7 @@ export class StoresService {
     status,
     updatedAt,
     userId,
+    usertype,
   ) => {
     try {
       const existingStore =
@@ -208,7 +209,7 @@ export class StoresService {
 
   //deleteStore
 
-  deleteStore = async (bookstoreId, userId) => {
+  deleteStore = async (bookstoreId, userId, userType) => {
     try {
       const existingStore =
         await this.storeRepository.findStoreById(bookstoreId);

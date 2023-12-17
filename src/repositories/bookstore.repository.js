@@ -45,7 +45,6 @@ export class StoreRepository {
     imagePath,
     imageUrl,
     name,
-
     address,
     description,
     status,
@@ -72,7 +71,6 @@ export class StoreRepository {
     imagePath,
     imageUrl,
     name,
-
     address,
     description,
     status,

@@ -1,4 +1,5 @@
 const errorHandler = (err, req, res, next) => {
+  console.log(err);
   if (err.code === "P2025") {
     // 유일성 제약조건에 위배
     const validationErrors = err.meta.target.map((validationErr) => ({
