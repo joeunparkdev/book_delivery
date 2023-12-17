@@ -1,86 +1,173 @@
 body {
-    font-family: Arial;
-    font-size: 17px;
-    padding: 8px;
-  }
-  
-  * {
-    box-sizing: border-box;
-  }
-  
-  .row {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    margin: 0 -16px;
-  }
-  
-  .col-25 {
-    -ms-flex: 25%;
-    flex: 25%;
-  }
-  
-  .col-50 {
-    -ms-flex: 50%;
-    flex: 50%;
-  }
-  
-  .col-75 {
-    -ms-flex: 75%;
-    flex: 75%;
-  }
-  
-  .col-25,
-  .col-50,
-  .col-75 {
-    padding: 0 16px;
-  }
-  
-  .container {
-    background-color: #f2f2f2;
-    padding: 5px 20px 15px 20px;
-    border: 1px solid lightgrey;
-    border-radius: 3px;
-  }
-  
-  input[type=text] {
-    width: 100%;
-    margin-bottom: 20px;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-  }
-  
-  label {
-    margin-bottom: 10px;
-    display: block;
-  }
-  
-  .icon-container {
-    margin-bottom: 20px;
-    padding: 7px 0;
-    font-size: 24px;
-  }
+  font-family: Arial;
+  font-size: 17px;
+  padding: 8px;
+}
 
-  a {
-    color: #2196F3;
+* {
+  box-sizing: border-box;
+}
+
+.row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: 0 -16px;
+}
+
+.col-25 {
+  -ms-flex: 25%;
+  flex: 25%;
+}
+
+.col-50 {
+  -ms-flex: 50%;
+  flex: 50%;
+}
+
+.col-75 {
+  -ms-flex: 75%;
+  flex: 75%;
+}
+
+.col-25,
+.col-50,
+.col-75 {
+  padding: 0 16px;
+}
+.containerFirst {
+}
+.container {
+  background-color: white;
+  padding: 20px;
+
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"] {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #e2e3e5;
+  border-radius: 10px;
+}
+
+label {
+  margin-bottom: 10px;
+  display: block;
+}
+
+.icon-container {
+  margin-bottom: 20px;
+  padding: 7px 0;
+  font-size: 24px;
+}
+
+a {
+  color: #2196f3;
+}
+
+hr {
+  border: 1px solid lightgrey;
+}
+
+span.price {
+  float: right;
+  color: grey;
+}
+
+@media (max-width: 800px) {
+  .row {
+    flex-direction: column-reverse;
   }
-  
-  hr {
-    border: 1px solid lightgrey;
+  .col-25 {
+    margin-bottom: 20px;
   }
-  
-  span.price {
-    float: right;
-    color: grey;
-  }
-  
-  @media (max-width: 800px) {
-    .row {
-      flex-direction: column-reverse;
-    }
-    .col-25 {
-      margin-bottom: 20px;
-    }
-  }
+}
+ul,
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.orderTitle {
+  font-weight: 800;
+  color: #198754;
+  margin-top: 40px;
+}
+.orderWrapper {
+  margin: 0 48px;
+}
+.inner {
+  padding: 20px 0;
+}
+.orderTitleh4 {
+  margin: 20px 0 0 0;
+  font-weight: 700;
+  color: #495057;
+  /* font-size: 20px; */
+}
+hr {
+  margin-top: 10px;
+}
+.cartWarpprer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.item {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  gap: 30px;
+}
+.imgBox {
+  width: 100px;
+  height: 100px;
+  border: none;
+  border-radius: 10px;
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+}
+
+.imgBox img {
+  width: 100px;
+  height: auto;
+}
+.itemInfor {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.itemInfor span:first-child {
+  width: 80%;
+}
+/* 오른쪽 결제하기 */
+.totalPrice {
+  display: flex;
+  flex-direction: column;
+}
+.totalPriceTitle {
+  margin-bottom: 24px;
+}
+.priceDetail {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.orderBtn {
+  align-items: right;
+  font-weight: 800;
+  font-size: 20px;
+  height: 50px;
+  width: 100%;
+  margin-top: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

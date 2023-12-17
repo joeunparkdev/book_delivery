@@ -1,6 +1,7 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Responsive Checkout Form</title>
     <link
@@ -57,140 +58,78 @@
           </ul>
         </div>
       </nav>
-      <div class="col-md-3 text-end">
+      <div class="col-md-3 text-end" style="width: auto">
         <div class="me-5 col-md-3 text-end" id="loginContainer">
           <!-- 로그인 또는 로그아웃 버튼이 여기에 동적으로 추가. -->
         </div>
       </div>
     </header>
-    <h2>Checkout Form</h2>
-    <div class="row">
+    <div class="row orderWrapper">
+      <h3 class="orderTitle" style="width: 70vw">주문/결제</h3>
+
       <div class="col-75">
-        <div class="container">
-          <form action="/action_page.php">
-            <div class="row">
-              <div class="col-50">
-                <h3>Shipping Address</h3>
-                <label for="fname"><i class="fa fa-user"></i> Full Name</label>
-                <input
-                  type="text"
-                  id="fname"
-                  name="firstname"
-                  placeholder="Faraz"
-                />
-                <label for="email"><i class="fa fa-envelope"></i> Email</label>
-                <input
-                  type="text"
-                  id="email"
-                  name="email"
-                  placeholder="codewithfaraz@example.com"
-                />
-                <label for="adr"
-                  ><i class="fa fa-address-card-o"></i> Address</label
-                >
-                <input
-                  type="text"
-                  id="adr"
-                  name="address"
-                  placeholder="Mira Bhayandar Road"
-                />
-                <label for="city"><i class="fa fa-institution"></i> City</label>
-                <input type="text" id="city" name="city" placeholder="Mumbai" />
-
-                <div class="row">
-                  <div class="col-50">
-                    <label for="state">State</label>
-                    <input
-                      type="text"
-                      id="state"
-                      name="state"
-                      placeholder="MH"
-                    />
-                  </div>
-                  <div class="col-50">
-                    <label for="zip">Zip</label>
-                    <input
-                      type="text"
-                      id="zip"
-                      name="zip"
-                      placeholder="400001"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-50">
-                <h3>Payment</h3>
-                <label for="fname">Accepted Cards</label>
-                <div class="icon-container">
-                  <i class="fa fa-cc-visa" style="color: navy"></i>
-                  <i class="fa fa-cc-amex" style="color: blue"></i>
-                  <i class="fa fa-cc-mastercard" style="color: red"></i>
-                  <i class="fa fa-cc-discover" style="color: orange"></i>
-                </div>
-                <label for="cname">Name on Card</label>
-                <input
-                  type="text"
-                  id="cname"
-                  name="cardname"
-                  placeholder="Faraz"
-                />
-                <label for="ccnum">Credit card number</label>
-                <input
-                  type="text"
-                  id="ccnum"
-                  name="cardnumber"
-                  placeholder="1111-2222-3333-4444"
-                />
-                <label for="expmonth">Exp Month</label>
-                <input
-                  type="text"
-                  id="expmonth"
-                  name="expmonth"
-                  placeholder="December"
-                />
-                <div class="row">
-                  <div class="col-50">
-                    <label for="expyear">Exp Year</label>
-                    <input
-                      type="text"
-                      id="expyear"
-                      name="expyear"
-                      placeholder="2027"
-                    />
-                  </div>
-                  <div class="col-50">
-                    <label for="cvv">CVV</label>
-                    <input type="text" id="cvv" name="cvv" placeholder="123" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <input
-              type="submit"
-              value="Continue to checkout"
-              class="btn btn-success btn-lg"
-            />
-          </form>
+        <div class="containerFirst">
+          <div class="row inner">
+            <section class="customer">
+              <h4 class="orderTitleh4">주문자 정보</h4>
+              <hr />
+              <label for="fname"><i class="fa fa-user"></i> Full Name</label>
+              <input
+                type="text"
+                id="fname"
+                class="customerName"
+                name="firstname"
+                placeholder="이름을 작성해주세요"
+              />
+              <label for="email"><i class="fa fa-envelope"></i> Email</label>
+              <input
+                type="text"
+                id="email"
+                class="customerEmail"
+                name="email"
+                placeholder="이메일을 작성해주세요"
+              />
+              <label for="adr"
+                ><i class="fa fa-address-card-o"></i> 배송지</label
+              >
+              <input
+                type="text"
+                id="adr"
+                class="address"
+                name="address"
+                placeholder="주소를 작성해주세요"
+              />
+            </section>
+            <h4 class="orderTitleh4">주문 상품</h4>
+            <hr />
+            <section class="Cart-ItemBox"></section>
+          </div>
         </div>
       </div>
       <div class="col-25">
         <div class="container">
-          <h4>
-            Cart
-            <span class="price" style="color: black"
-              ><i class="fa fa-shopping-cart"></i> <b>4</b></span
-            >
-          </h4>
-          <p><a href="#">Item 1</a> <span class="price">$105</span></p>
-          <p><a href="#">Item 2</a> <span class="price">$95</span></p>
-          <p><a href="#">Item 3</a> <span class="price">$100</span></p>
-          <p><a href="#">Item 4</a> <span class="price">$50</span></p>
-          <hr />
-          <p>
-            Total <span class="price" style="color: black"><b>$350</b></span>
-          </p>
+          <h4 class="orderTitleh4 totalPriceTitle">결제 금액</h4>
+          <div class="totalPrice">
+            <p class="priceDetail">
+              <span>총 상품 금액</span>
+              <span class="price total-amount"></span>
+            </p>
+            <p class="priceDetail">
+              <span>보유 포인트 사용</span>
+              <span class="price myPoint"></span>
+            </p>
+            <hr />
+            <p style="font-weight: 600">
+              최종 결제 금액
+              <span class="price resultPoint" style="color: #198754"
+                ><b></b
+              ></span>
+            </p>
+          </div>
         </div>
+        <button type="button" class="btn btn-success me-2 orderBtn">
+          결제하기
+        </button>
       </div>
     </div>
     <script
@@ -200,5 +139,6 @@
     ></script>
 
     <script src="../js/header.js"></script>
+    <script src="../js/order.js"></script>
   </body>
 </html>

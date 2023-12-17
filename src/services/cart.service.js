@@ -16,6 +16,15 @@ export class CartService {
     });
   };
 
+  isProductInCart = async (userId, productId) => {
+    const userCart = await this.getCart(userId);
+    const isProductInCart = userCart.some(
+      (cartItem) => cartItem.productId === productId,
+    );
+
+    return isProductInCart;
+  };
+
   createCart = async (userId, productId) => {
     if (!userId) {
       throw new Error("로그인이 필요합니다");
@@ -31,6 +40,7 @@ export class CartService {
       return createCart;
     } else {
       throw new Error("이미 장바구니에 있는 상품입니다");
+      return null;
     }
   };
 

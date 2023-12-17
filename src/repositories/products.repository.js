@@ -13,6 +13,7 @@ export class ProductsRepository {
 
   findProductById = async (productId) => {
     // ORM인 Prisma에서 Products 모델의 findUnique 메서드를 사용해 데이터를 요청합니다.
+    console.log(productId);
     const product = await prisma.products.findUnique({
       where: { productId: +productId },
     });
