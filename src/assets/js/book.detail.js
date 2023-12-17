@@ -280,7 +280,7 @@ function displayProductDetails(product) {
   const descriptionElement = document.createElement("div");
   const bookInfoShowElement = document.createElement("div");
   const bookInfoTextElement = document.createElement("div");
-  const bookBucketBtnElement = doucment.createElement("div");
+  const bookBucketBtnElement = document.createElement("div");
   const productMainTitleElement = document.createElement("h3");
   const titleElement = document.createElement("h2");
   const authorElement = document.createElement("div");
@@ -301,12 +301,24 @@ function displayProductDetails(product) {
   imageElement.alt = product.name;
   bookInfoTextElement.className = "book-detail-text";
 
-  bookBucketBtnElement.appendChild(orderProductBtn);
-  bookBucketBtnElement.appendChild(putProductBtn);
-  bookInfoTextElement.appendChild(bookBucketBtnElement);
+  bookBucketBtnElement.className = "buy-button";
+
+  putProductBtn.setAttribute("type", "button");
+  putProductBtn.setAttribute("id", "addToCartBtn");
+  putProductBtn.className = "btn btn-success me-2";
+  putProductBtn.innerText = "장바구니";
+
+  orderProductBtn.setAttribute("type", "button");
+  orderProductBtn.setAttribute("id", "directPurchaseBtn");
+  orderProductBtn.className = "btn btn-success";
+  orderProductBtn.innerText = "바로주문";
+
   bookInfoTextElement.appendChild(titleElement);
   bookInfoTextElement.appendChild(descriptionElement);
   bookInfoTextElement.appendChild(authorElement);
+  bookBucketBtnElement.appendChild(orderProductBtn);
+  bookBucketBtnElement.appendChild(putProductBtn);
+  bookInfoTextElement.appendChild(bookBucketBtnElement);
   productDetailElement.appendChild(bookInfoTextElement);
 }
 
