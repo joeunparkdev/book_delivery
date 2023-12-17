@@ -23,7 +23,6 @@
           </p>
         </a>
       </div>
-      <!-- Navbar added to the header -->
       <nav class="navbar navbar-expand-md navbar-light">
         <button
           class="navbar-toggler"
@@ -62,7 +61,6 @@
     </header>
 
     <main>
-      <!-- 마이페이지 섹션 -->
       <div id="myPageSection" class="container my-5">
         <h2 class="text-success mb-4">마이페이지</h2>
 
@@ -85,16 +83,13 @@
             탈퇴하기
           </button>
         </div>
+
         <!-- 주문 세부 정보 -->
         <div style="margin-top: 20px">
-          <!-- Add margin-top for the gap -->
           <h3 class="text-success">주문 세부 정보</h3>
-          <button
-            class="btn btn-success"
-            onclick="window.location.href='modifyProfile.html'"
-          >
-            수정하기
-          </button>
+          <div id="orderDetails"></div>
+          <div id="targetElement"></div>
+          <div id="buttonContainer"></div>
         </div>
       </div>
     </main>
@@ -105,8 +100,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-    <script src="../js/header.js"></script>
-    <script src="../js/myPage.js"></script>
+    <script defer src="../js/header.js"></script>
+    <script type="module" src="../js/myPage.js"></script>
   </body>
 </html>
