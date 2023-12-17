@@ -1,14 +1,17 @@
-.first-area {
+#productDetail {
   display: flex;
-  background-color: pink;
 }
 
-.first-area :first-child {
-  width: 40%;
+#productDetail :first-child {
+  width: 60%;
 }
-
-.first-area :last-child {
+#productDetail :last-child {
   width: 100%;
+}
+
+.product-detail-img {
+  width: 50%;
+  height: 100%;
 }
 
 .box {

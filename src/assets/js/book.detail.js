@@ -415,25 +415,37 @@ async function submitReview(rating, reviewText) {
 
 function displayProductDetails(product) {
   const productDetailElement = document.getElementById("productDetail");
-
-  const imageElement = document.createElement("img");
-  imageElement.src = product.imageUrl;
-
-  productDetailElement.appendChild(imageElement);
-
-  const bookInfoElement = document.createElement("div");
+  const descriptionElement = document.createElement("div");
+  const bookInfoShowElement = document.createElement("div");
+  const bookInfoTextElement = document.createElement("div");
+  const bookBucketBtnElement = doucment.createElement("div");
+  const productMainTitleElement = document.createElement("h3");
   const titleElement = document.createElement("h2");
   const authorElement = document.createElement("div");
-  const descriptionElement = document.createElement("div");
+  const imageElement = document.createElement("img");
+  const putProductBtn = document.createElement("button");
+  const orderProductBtn = document.createElement("button");
+
+  productMainTitleElement.innerText = "상세보기";
+  imageElement.className = "product-detail-img";
+  imageElement.src = product.imageUrl;
+  bookInfoShowElement.appendChild(productMainTitleElement);
+  bookInfoShowElement.appendChild(imageElement);
+  productDetailElement.appendChild(bookInfoShowElement);
+
   titleElement.textContent = product.name;
   authorElement.textContent = `작가: ${product.author}`;
   descriptionElement.textContent = `설명: ${product.description}`;
   imageElement.alt = product.name;
-  bookInfoElement.className = "creadits";
-  productDetailElement.appendChild(descriptionElement);
-  productDetailElement.appendChild(authorElement);
-  productDetailElement.appendChild(bookInfoElement);
-  productDetailElement.appendChild(titleElement);
+  bookInfoTextElement.className = "book-detail-text";
+
+  bookBucketBtnElement.appendChild(orderProductBtn);
+  bookBucketBtnElement.appendChild(putProductBtn);
+  bookInfoTextElement.appendChild(bookBucketBtnElement);
+  bookInfoTextElement.appendChild(titleElement);
+  bookInfoTextElement.appendChild(descriptionElement);
+  bookInfoTextElement.appendChild(authorElement);
+  productDetailElement.appendChild(bookInfoTextElement);
 }
 
 async function fetchProductDetails(productId) {
