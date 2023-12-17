@@ -41,7 +41,7 @@ export class CustomerOrderProductRepository {
       });
 
       await prisma.products.update({
-        where: { productId: soldOut.productId },
+        where: { productId: +soldOut.productId },
         data: {
           status: "SOLD_OUT",
         },
