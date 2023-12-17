@@ -29,7 +29,7 @@ Content-Type: application/json
 }
 
 ### GET /api/products/:productId
-GET https://localhost:3002/api/products/1
+GET https://localhost:3002/api/products/13
 Accept: */*
 Content-Type: application/json
 

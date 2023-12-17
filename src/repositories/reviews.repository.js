@@ -3,6 +3,7 @@ import { prisma } from "../utils/prisma/index.js";
 export class RivewsRepository {
   findAllReviews = async (productId) => {
     // ORM인 Prisma에서 Products 모델의 findMany 메서드를 사용해 데이터를 요청합니다.
+    console.log(productId);
     const reviews = await prisma.reviews.findMany({
       where: { productId: +productId },
     });
