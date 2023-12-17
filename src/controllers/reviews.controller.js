@@ -7,6 +7,7 @@ export class ReviewsController {
   // review 전체 조회
   getReviews = async (req, res, next) => {
     const { productId } = req.params;
+    console.log(productId);
     const reviews = await this.reviewsService.findReviews(productId);
     console.log(reviews);
     return res

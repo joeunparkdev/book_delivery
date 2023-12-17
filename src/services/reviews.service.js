@@ -5,7 +5,7 @@ export class ReviewsService {
 
   findReviews = async (productId) => {
     const reviews = await this.reviewsRepository.findAllReviews(productId);
-    console.log(reviews);
+    console.log(productId);
     reviews.sort((a, b) => {
       return b.createdAt - a.createdAt;
     });
