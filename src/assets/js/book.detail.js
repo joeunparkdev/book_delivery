@@ -134,10 +134,14 @@ async function displayReviews(productId) {
           <div class="card-body">
           <p class="card-text">작성자 id: ${review.userId}</p>
             <p class="card-text">리뷰 내용: ${review.reviewText}</p>
-            <p class="card-text">별점: ${review.rating}</p>
-            <p class="card-text">작성일: ${review.createdAt}</p>
-            <button class="btn btn-success m-2 editBtn" style="display: none;">Edit</button>
-            <button class="btn btn-success m-2 deleteBtn" style="display: none;">Delete</button>
+
+            <p class="card-text">별점: ${getStarIcons(review.rating)}</p>
+            <p class="card-text">작성일: ${formatDateTime(review.createdAt)}</p>
+            <div class="review-revise-btn">
+              <button class="btn btn-success m-2 editBtn" style="display: none;">Edit</button>
+              <button class="btn btn-success m-2 deleteBtn" style="display: none;">Delete</button>
+            </div>
+
           </div>
         </div>
       `;
@@ -436,7 +440,7 @@ function displayProductDetails(product) {
 
   orderProductBtn.setAttribute("type", "button");
   orderProductBtn.setAttribute("id", "directPurchaseBtn");
-  orderProductBtn.className = "btn btn-success";
+  orderProductBtn.className = "btn btn-success me-2";
   orderProductBtn.innerText = "바로주문";
 
   bookInfoTextElement.appendChild(titleElement);

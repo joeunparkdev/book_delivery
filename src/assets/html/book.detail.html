@@ -11,39 +11,6 @@
       integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
       crossorigin="anonymous"
     />
-    <style>
-      .book-info {
-        margin-bottom: 20px;
-      }
-
-      .book-info h2,
-      .book-info div {
-        margin: 0;
-        padding: 5px 0;
-      }
-
-      .buy-button {
-        margin-top: 20px;
-      }
-
-      .review-revise-btn button {
-        margin-right: 5px;
-      }
-
-      .review-wr {
-        margin-top: 10px;
-      }
-
-      .modal-dialog {
-        max-width: 400px;
-      }
-
-      .star-rating {
-        display: inline-block;
-        font-size: 24px;
-        color: #ffd700;
-      }
-    </style>
   </head>
 
   <body>
@@ -95,25 +62,14 @@
     </header>
 
     <main>
-      <div class="container my-5">
+      <div class="container">
         <div class="first-area">
           <div class="box">
-            <div id="productDetail">
-              <!--  <input type="hidden" id="productIdInput" value="상품ID" /> -->
-              <!-- Product details go here -->
-            </div>
-          </div>
-
-          <div class="box">
-            <!-- 동적으로 가져온 책 정보 -->
-            <div id="bookInfo" class="book-info">
-              <!-- JavaScript로 동적으로 추가될 내용 -->
-            </div>
-
-            <!-- 장바구니 버튼 -->
+            <div id="productDetail"></div>
           </div>
         </div>
 
+        <div class="move"></div>
         <!-- 리뷰 및 관련 기능 -->
         <form class="second-area">
           <div class="my-2">
