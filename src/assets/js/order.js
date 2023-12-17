@@ -177,6 +177,7 @@ async function order(address, productId) {
 }
 
 // 완료버튼
+const orderBtn = document.querySelector(".orderBtn");
 orderBtn.addEventListener("click", async () => {
   try {
     if (loadedCartData) {
