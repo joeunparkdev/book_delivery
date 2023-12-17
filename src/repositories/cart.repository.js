@@ -6,7 +6,6 @@ export class CartRepository {
       where: { userId: +userId },
       select: {
         productId: true,
-        quantity: true,
       },
     });
 
@@ -26,7 +25,6 @@ export class CartRepository {
           price: product?.price,
           name: product?.name,
           imageUrl: product?.imageUrl,
-          quantity: cartItem?.quantity,
         };
       }),
     );
@@ -36,34 +34,33 @@ export class CartRepository {
 
   findItem = async (userId, productId) => {
     const findItem = await prisma.carts.findFirst({
-      where: { userId: +userId, productId: +productId },
-      select: { quantity: true, cartId: true },
+      where: { userId: +userId, productId: productId },
+      select: { cartId: true },
     });
 
     return findItem;
   };
 
-  createCart = async (userId, productId, quantity) => {
+  createCart = async (userId, productId) => {
     const createCart = await prisma.carts.create({
       data: {
         userId: +userId,
         productId: +productId,
-        quantity: +quantity,
       },
     });
     return createCart;
   };
 
-  updateCart = async (cartId, quantity) => {
-    const updateCart = await prisma.carts.update({
-      where: { cartId: +cartId },
-      data: {
-        quantity: +quantity,
-      },
-    });
+  // updateCart = async (cartId) => {
+  //   const updateCart = await prisma.carts.update({
+  //     where: { cartId: +cartId },
+  //     data: {
+  //       quantity: +quantity,
+  //     },
+  //   });
 
-    return updateCart;
-  };
+  //   return updateCart;
+  // };
 
   deleteCart = async (cartId) => {
     await prisma.carts.delete({

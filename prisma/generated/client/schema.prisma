@@ -128,7 +128,6 @@ model Carts {
   cartId    Int      @id @default(autoincrement())
   productId Int 
   userId    Int
-  quantity  Int
   products  Products @relation(fields: [productId], references: [productId], onDelete: Cascade)
   users     Users    @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }
