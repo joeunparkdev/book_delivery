@@ -1,6 +1,6 @@
 async function deleteProfile() {
   console.log("Before confirm");
-  const confirmed = confirm("정말로 이 서점을 삭제하시겠습니까?");
+  const confirmed = confirm("정말로 탈퇴하시겠습니까?");
   console.log("After confirm");
   if (confirmed) {
     try {
@@ -14,10 +14,10 @@ async function deleteProfile() {
 
       if (response.ok) {
         const result = await response.json();
-        alert("서점이 성공적으로 삭제되었습니다.");
+        alert("탈퇴되었습니다.");
       } else if (response.status === 403) {
         // 권한이 없는 경우 알림 표시
-        alert("삭제할 권한이 없습니다.");
+        alert("탈퇴할 권한이 없습니다.");
       } else {
         console.error(
           "Error deleting profile:",

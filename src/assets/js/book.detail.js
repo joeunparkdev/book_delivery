@@ -34,19 +34,6 @@ async function checkUserType() {
   }
 }
 
-// 별점을 클릭할 때 호출되는 함수
-function handleStarClick(starRating) {
-  const starRatingContainer = document.getElementById("starRatingContainer");
-  if (starRatingContainer) {
-    starRatingContainer.innerHTML = "★".repeat(starRating);
-  }
-
-  const ratingSelect = document.getElementById("starRating");
-  if (ratingSelect) {
-    ratingSelect.value = starRating;
-  }
-}
-
 function addReview() {
   const ratingSelect = document.getElementById("starRating");
   const reviewTextInput = document.querySelector(".review-wr textarea");
@@ -111,36 +98,13 @@ document.addEventListener("DOMContentLoaded", async function () {
   } catch (error) {
     console.error("Error in DOMContentLoaded:", error);
   }
+
   const addReviewBtn = document.getElementById("addReviewBtn");
   addReviewBtn.addEventListener("click", () => {
     addReview();
   });
-
-  document.addEventListener("click", async (event) => {
-    const saveBtn = event.target.closest(".btn-save");
-    if (saveBtn) {
-      const reviewId = saveBtn.getAttribute("data-review-id");
-      if (reviewId) {
-        await saveEditedReview(reviewId);
-      }
-    }
-  });
 });
 
-function formatDateTime(dateString) {
-  const date = new Date(dateString);
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 더하기
-  const day = date.getDate();
-
-  const period = hours >= 12 ? "오후" : "오전";
-  const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
-  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-
-  return ` ${year}년 ${month}월 ${day}일 ${period}${formattedHours}시 ${formattedMinutes}분`;
-}
 async function displayReviews(productId) {
   if (!productId) {
     throw new Error("Product ID is missing");
@@ -168,10 +132,10 @@ async function displayReviews(productId) {
     card.innerHTML = `
         <div class="card h-100">
           <div class="card-body">
-            <p class="card-text">작성자 id: ${review.userId}</p>
+          <p class="card-text">작성자 id: ${review.userId}</p>
             <p class="card-text">리뷰 내용: ${review.reviewText}</p>
-            <p class="card-text">별점: ${getStarIcons(review.rating)}</p>
-            <p class="card-text">작성일: ${formatDateTime(review.createdAt)}</p>
+            <p class="card-text">별점: ${review.rating}</p>
+            <p class="card-text">작성일: ${review.createdAt}</p>
             <button class="btn btn-success m-2 editBtn" style="display: none;">Edit</button>
             <button class="btn btn-success m-2 deleteBtn" style="display: none;">Delete</button>
           </div>
@@ -188,19 +152,17 @@ async function displayReviews(productId) {
       deleteBtn.style.display = "block";
     }
     // 수정 버튼 클릭 이벤트
-    editBtn.addEventListener("click", (event) => {
-      event.preventDefault();
-      console.log(review.reviewId);
-      openEditReviewModal(review.reviewId, review.rating, review.reviewText);
+    editBtn.addEventListener("click", () => {
+      updateReview(review.reviewId);
     });
 
     // 삭제 버튼 클릭 이벤트
-    deleteBtn.addEventListener("click", async (event) => {
+    deleteBtn.addEventListener("click", async (e) => {
       const confirmed = confirm("정말로 이 서점을 삭제하시겠습니까?");
-      event.preventDefault();
+
       if (confirmed) {
         try {
-          await deleteReview(review.reviewId);
+          await review(review.reviewId);
         } catch (error) {
           console.error("Error deleting review:", error);
         }
@@ -338,7 +300,7 @@ async function deleteReview(reviewId) {
   }
 
   try {
-    const response = await fetch(`/api/review/${reviewId}`, {
+    const response = await fetch(`/api/products/${reviewId}`, {
       method: "DELETE",
       credentials: "include",
     });
@@ -347,23 +309,22 @@ async function deleteReview(reviewId) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     alert("리뷰가 성공적으로 삭제되었습니다.");
-    window.location.reload();
   } catch (error) {
     console.error("에러 ---", error);
   }
 }
 
-async function updateReview(reviewId, rating, reviewText) {
+async function updateReview(reviewId) {
   if (!reviewId) {
     console.error("Error: reviewId is undefined or empty");
     return;
   }
 
   try {
-    const url = `/api/review/${reviewId}`;
+    const url = `/api/products/${reviewId}`;
     const requestBody = {
-      rating,
-      reviewText,
+      rating: rating,
+      reviewText: reviewText,
     };
 
     const response = await fetch(url, {
@@ -435,12 +396,6 @@ async function submitReview(rating, reviewText) {
 
     const data = await response.json();
     console.log("리뷰가 성공적으로 제출되었습니다:", data);
-
-    // 리뷰 제출 완료 메시지를 화면에 표시
-    alert("리뷰가 성공적으로 제출되었습니다.");
-
-    // 페이지 새로고침
-    window.location.reload();
   } catch (error) {
     console.error("리뷰 제출 중 에러 발생:", error.message);
   }
@@ -448,25 +403,49 @@ async function submitReview(rating, reviewText) {
 
 function displayProductDetails(product) {
   const productDetailElement = document.getElementById("productDetail");
-
-  const imageElement = document.createElement("img");
-  imageElement.src = product.imageUrl;
-
-  productDetailElement.appendChild(imageElement);
-
-  const bookInfoElement = document.createElement("div");
+  const descriptionElement = document.createElement("div");
+  const bookInfoShowElement = document.createElement("div");
+  const bookInfoTextElement = document.createElement("div");
+  const bookBucketBtnElement = document.createElement("div");
+  const productMainTitleElement = document.createElement("h3");
   const titleElement = document.createElement("h2");
   const authorElement = document.createElement("div");
-  const descriptionElement = document.createElement("div");
+  const imageElement = document.createElement("img");
+  const putProductBtn = document.createElement("button");
+  const orderProductBtn = document.createElement("button");
+
+  productMainTitleElement.innerText = "상세보기";
+  imageElement.className = "product-detail-img";
+  imageElement.src = product.imageUrl;
+  bookInfoShowElement.appendChild(productMainTitleElement);
+  bookInfoShowElement.appendChild(imageElement);
+  productDetailElement.appendChild(bookInfoShowElement);
+
   titleElement.textContent = product.name;
   authorElement.textContent = `작가: ${product.author}`;
   descriptionElement.textContent = `설명: ${product.description}`;
   imageElement.alt = product.name;
-  bookInfoElement.className = "creadits";
-  productDetailElement.appendChild(descriptionElement);
-  productDetailElement.appendChild(authorElement);
-  productDetailElement.appendChild(bookInfoElement);
-  productDetailElement.appendChild(titleElement);
+  bookInfoTextElement.className = "book-detail-text";
+
+  bookBucketBtnElement.className = "buy-button";
+
+  putProductBtn.setAttribute("type", "button");
+  putProductBtn.setAttribute("id", "addToCartBtn");
+  putProductBtn.className = "btn btn-success me-2";
+  putProductBtn.innerText = "장바구니";
+
+  orderProductBtn.setAttribute("type", "button");
+  orderProductBtn.setAttribute("id", "directPurchaseBtn");
+  orderProductBtn.className = "btn btn-success";
+  orderProductBtn.innerText = "바로주문";
+
+  bookInfoTextElement.appendChild(titleElement);
+  bookInfoTextElement.appendChild(descriptionElement);
+  bookInfoTextElement.appendChild(authorElement);
+  bookBucketBtnElement.appendChild(orderProductBtn);
+  bookBucketBtnElement.appendChild(putProductBtn);
+  bookInfoTextElement.appendChild(bookBucketBtnElement);
+  productDetailElement.appendChild(bookInfoTextElement);
 }
 
 async function fetchProductDetails(productId) {

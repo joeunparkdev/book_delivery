@@ -1,19 +1,27 @@
-.first-area {
+#productDetail {
   display: flex;
-  background-color: pink;
 }
 
-.first-area :first-child {
-  width: 40%;
+#productDetail :first-child {
+  width: 60%;
 }
-
-.first-area :last-child {
+#productDetail :last-child {
   width: 100%;
+}
+
+.product-detail-img {
+  width: 50%;
+  height: 100%;
 }
 
 .box {
   width: 100vh;
   height: 100px;
+}
+
+.book-detail-text {
+  width: 100vh;
+  background-color: aquamarine;
 }
 
 /* .mt-4 {
@@ -23,34 +31,18 @@
   justify-content: center;
 } */
 
-.book-info {
-  margin-bottom: 20px;
-}
-
-/* 스타일 추가 */
-.book-info h2,
-.book-info div {
-  margin: 0;
-  padding: 5px 0;
-}
-
-.buy-button {
-  margin-top: 20px;
-}
-
 .buy-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 50px;
 }
 .buy-button :first-child {
-  width: 50%;
+  width: 100%;
   height: 50px;
 }
 
 .buy-button :last-child {
-  width: 50%;
+  width: 100%;
   height: 50px;
 }
 .second-area {

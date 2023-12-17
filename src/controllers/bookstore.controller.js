@@ -184,11 +184,7 @@ export class StoresController {
   getStoreById = async (req, res, next) => {
     try {
       const { bookstoreId } = req.params;
-      const userType = req.user.usertype;
-      const bookstore = await this.storesService.findStoreById(
-        bookstoreId,
-        userType,
-      );
+      const bookstore = await this.storesService.findStoreById(bookstoreId);
 
       return res.status(200).json({ data: bookstore });
     } catch (err) {
