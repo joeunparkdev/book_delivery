@@ -59,7 +59,7 @@ function addReview() {
 }
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const addToCartBtn = document.getElementById("addToCartBtn");
+  const addToCartBtn = document.querySelector("addToCartBtn");
 
   if (addToCartBtn) {
     console.log("addToCartBtn exists");
