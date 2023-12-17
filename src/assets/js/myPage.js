@@ -47,12 +47,14 @@ async function getUserDetails() {
     if (response.ok) {
       const result = await response.json();
       const userData = result.data;
+      console.log(userData);
 
       // Update HTML with user details
       document.getElementById("userName").innerText =
         `이름: ${userData.username}`;
       document.getElementById("userEmail").innerText =
         `Email: ${userData.email}`;
+      document.getElementById("point").innerText = `Point: ${userData.points}`;
     } else if (response.status === 403) {
       alert("조회할 권한이 없습니다.");
     } else {
