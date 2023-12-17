@@ -80,7 +80,7 @@ async function loadPage() {
                  <span>${cart.name}</span>
                  <span>${amount}원</span>
                </div>
-               <div class="remove btn btn-success me-2"><u>Remove</u></div>
+               <div class="remove btn btn-outline-success">Remove</div>
            </li>
          </ul>
          `;
