@@ -24,7 +24,7 @@ function formatDateTime(dateString) {
   const month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 더하기
   const day = date.getDate();
 
-  const period = hours >= 12 ? "오후" : "오전";nodemon
+  const period = hours >= 12 ? "오후" : "오전";
   const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
 
