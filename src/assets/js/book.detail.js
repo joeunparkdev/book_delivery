@@ -168,10 +168,15 @@ window.onload = async function () {
   try {
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get("id");
+    const userId = urlParams.get("id");
     const productDetails = await fetchProductDetails(productId);
+    const getUser = await fetchProductDetails(userId);
     displayProductDetails(productDetails);
     displayReviews(productDetails.reviews);
+    getUserId(getUser);
   } catch (error) {
     console.error("에러 ---", error);
   }
 };
+
+document.addEventListener("DOMContentLoaded", getUserId);

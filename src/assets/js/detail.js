@@ -11,9 +11,9 @@ async function fetchProducts() {
     throw error;
   }
 }
-
+fetchProducts();
 //상품 검색
-document.getElementById("searchButton").addEventListener("click", function() {
+document.getElementById("searchButton").addEventListener("click", function () {
   var searchInput = document.querySelector(".form-control").value;
   alert("검색어: " + searchInput);
 });
@@ -22,7 +22,9 @@ document.getElementById("searchButton").addEventListener("click", function() {
 async function displayProducts() {
   try {
     const products = await fetchProducts();
-    const productCardsContainer = document.getElementById("productCardsContainer");
+    const productCardsContainer = document.getElementById(
+      "productCardsContainer",
+    );
 
     // 기존 내용을 지우고 새로운 상품 카드를 추가할 요소 생성
     productCardsContainer.innerHTML = "";
@@ -42,7 +44,7 @@ async function displayProducts() {
           <div class="card-body">
             <h5 class="card-title">${product.name}</h5>
             <p class="card-text">${product.description}</p>
-            <a href="detail.html?id=${product.id}" class="btn btn-success">View Details</a>
+            <a href="book.detail.html?id=${product.id}" class="btn btn-success">View Details</a>
           </div>
         </div>
       `;

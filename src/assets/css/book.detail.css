@@ -22,6 +22,21 @@
   justify-content: center;
 } */
 
+.book-info {
+  margin-bottom: 20px;
+}
+
+/* 스타일 추가 */
+.book-info h2,
+.book-info div {
+  margin: 0;
+  padding: 5px 0;
+}
+
+.buy-button {
+  margin-top: 20px;
+}
+
 .buy-button {
   display: flex;
   align-items: center;
