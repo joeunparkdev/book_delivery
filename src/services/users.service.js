@@ -407,36 +407,45 @@ export class UsersService {
 
   checkVerificationCode = async (email, verificationCode, maxAttempts = 3) => {
     try {
-        let attempts = 0;
+      let attempts = 0;
 
-        while (attempts < maxAttempts) {
-            const verify = await this.usersRepository.findCodeByEmail(email);
-            console.log(verify);
-            const expiredDate = await this.usersRepository.findExpiredDateByCode(verify);
-            console.log(expiredDate);
+      while (attempts < maxAttempts) {
+        const verify = await this.usersRepository.findCodeByEmail(email);
+        console.log(verify);
+        const expiredDate =
+          await this.usersRepository.findExpiredDateByCode(verify);
+        console.log(expiredDate);
 
-            if (!verify || expiredDate === null) {
-                throw new Error("유효하지 않은 검증 코드이거나 코드의 유효 기간이 만료되었습니다.");
-            }
-
-            if (verify !== verificationCode) {
-                attempts++;
-                if (attempts === maxAttempts) {
-                    throw new Error(`최대 검증 시도 횟수를 초과했습니다 (${maxAttempts}).`);
-                }
-
-                console.log(`유효하지 않은 검증 코드. 남은 시도 횟수: ${maxAttempts - attempts}`);
-            } else {
-                return verify;
-            }
+        if (!verify || expiredDate === null) {
+          throw new Error(
+            "유효하지 않은 검증 코드이거나 코드의 유효 기간이 만료되었습니다.",
+          );
         }
 
-        // 시도 횟수가 초과됨
-        throw new Error(`최대 검증 시도 횟수를 초과했습니다 (${maxAttempts}).`);
+        if (verify !== verificationCode) {
+          attempts++;
+          if (attempts === maxAttempts) {
+            throw new Error(
+              `최대 검증 시도 횟수를 초과했습니다 (${maxAttempts}).`,
+            );
+          }
 
+          console.log(
+            `유효하지 않은 검증 코드. 남은 시도 횟수: ${
+              maxAttempts - attempts
+            }`,
+          );
+        } else {
+          return verify;
+        }
+      }
+
+      // 시도 횟수가 초과됨
+      throw new Error(`최대 검증 시도 횟수를 초과했습니다 (${maxAttempts}).`);
     } catch (error) {
-        throw new Error(error.message || "검증 코드 확인 중 오류가 발생했습니다.");
+      throw new Error(
+        error.message || "검증 코드 확인 중 오류가 발생했습니다.",
+      );
     }
-};
-
+  };
 }

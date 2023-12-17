@@ -299,9 +299,43 @@ export class AuthController {
     }
   };
 
-  kakaoLogin = async (req, res, next) => {
+  kakaoLogin_userType = async (req, res, next) => {
     try {
       // 카카오 로그인 확인
+      const userType = req.params.userType;
+
+      if (!Object.values(ENUMS.USER_TYPE).includes(userType)) {
+        throw new Error("잘못된 사용자 유형입니다");
+      }
+
+      const kakaoAccount = req.user;
+      console.log(kakaoAccount);
+      if (!kakaoAccount) {
+        throw new Error("카카오 계정 정보를 찾을 수 없습니다.");
+      }
+      // 카카오 로그인 처리
+      const userId = await this.authService.kakaoLogin(
+        kakaoAccount.kakaoId,
+        kakaoAccount.email,
+        kakaoAccount.username,
+        userType,
+      );
+      // 새로운 액세스 토큰 및 리프레시 토큰 생성 및 설정
+      const accessToken = this.generateAccessToken(+userId);
+      const refreshToken = await this.generateRefreshToken(+userId);
+      this.setCookie(res, accessToken);
+      return res.redirect("http://localhost:3001/assets/html/main.html");
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        success: false,
+        message: "카카오 연동 로그인 중 에러가 발생했습니다.",
+      });
+    }
+  };
+
+  kakaoLogin = async (req, res, next) => {
+    try {
       const kakaoAccount = req.user;
       console.log(kakaoAccount);
       if (!kakaoAccount) {

@@ -35,7 +35,7 @@ async function cartGet() {
       const cart = data.carts[i];
       const imageUrl = `https://tqklhszfkvzk6518638.cdn.ntruss.com/product/${cart.imageUrl}`;
 
-      const productNum = cart.price;
+      const productNum = product.price.replace(",", "");
       const amount = parseInt(productNum) * cart.quantity;
 
       totalPrice += amount;

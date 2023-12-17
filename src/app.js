@@ -10,19 +10,20 @@ import errorHandlerMiddleware from "./middlewares/error-handler.middleware.js";
 import productsRouter from "./routers/products.router.js";
 import usersRouter from "./routers/users.router.js";
 import authRouter from "./routers/auth.router.js";
-import bookstoresRouter from "./routers/bookstore.roter.js";
+import bookstoresRouter from "./routers/bookstore.router.js";
 import reviewRouter from "./routers/reviews.router.js";
 import customerOrderRouter from "./routers/customer.order.router.js";
 import searchRouter from "./routers/search.router.js";
 import cartRouter from "./routers/cart.router.js";
 import configurePassport from "../src/passport/index.js";
+import OwnerRouter from "../src/routers/owner.router.js";
 import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
-
+app.use(express.json({ limit: "10mb" }));
 dotenv.config();
 
 // CORS 설정
@@ -48,6 +49,7 @@ app.use("/api/review", reviewRouter);
 app.use("/api/stores", bookstoresRouter);
 app.use("/api/order", customerOrderRouter);
 app.use("/api/search", searchRouter);
+app.use("/api/takeorder", OwnerRouter);
 app.use("/api/cart", cartRouter);
 
 // 오류 처리 미들웨어

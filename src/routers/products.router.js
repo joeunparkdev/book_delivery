@@ -5,7 +5,7 @@ import {
   authMiddleware,
   adminMiddleware,
 } from "../middlewares/auth-middleware.js";
-import s3MiddleWare from "../middlewares/s3-middleware.js";
+import {s3Middleware} from "../middlewares/s3-middleware.js";
 
 const productsController = new ProductsController();
 
@@ -23,7 +23,7 @@ router.get("/:productId", productsController.getProductsById);
 router.post(
   "/",
   authMiddleware,
-  s3MiddleWare,
+  s3Middleware.single("image"),
   productsController.createProduct,
 );
 
@@ -31,7 +31,7 @@ router.post(
 router.put(
   "/:productId",
   authMiddleware,
-  s3MiddleWare,
+  s3Middleware.single("image"),
   productsController.updateProduct,
 );
 
@@ -43,7 +43,7 @@ router.post(
   "/admin/products",
   authMiddleware,
   adminMiddleware,
-  s3MiddleWare,
+  s3Middleware.single("image"),
   productsController.createProduct,
 );
 
@@ -52,7 +52,7 @@ router.put(
   "/admin/:productId",
   authMiddleware,
   adminMiddleware,
-  s3MiddleWare,
+  s3Middleware.single("image"),
   productsController.updateProduct,
 );
 

@@ -147,7 +147,6 @@ export class StoresService {
       status,
       userId,
     );
-
     return {
       userId: createdStore.userId,
       imagePath: createdStore.imagePath,
@@ -172,7 +171,7 @@ export class StoresService {
     status,
     updatedAt,
     userId,
-    usertype,
+    userType,
   ) => {
     try {
       const existingStore =
@@ -182,12 +181,8 @@ export class StoresService {
         throw new Error("해당 ID의 Store이 존재하지 않습니다.");
       }
 
-      console.log(existingStore);
-      console.log(userId);
-      console.log(existingStore.userId);
-
-      if (existingStore.userId !== userId) {
-        throw new Error("해당 Store을 수정할 권한이 없습니다.");
+      if (userType !== "DEV" && existingStore.userId !== userId) {
+        throw new Error("해당 Store을 삭제할 권한이 없습니다.");
       }
 
       await this.storeRepository.updateStore(
@@ -200,6 +195,7 @@ export class StoresService {
         status,
         updatedAt,
         userId,
+        userType,
       );
     } catch (error) {
       console.error("Store 수정 실패:", error.message);

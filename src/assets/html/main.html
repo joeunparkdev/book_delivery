@@ -10,6 +10,25 @@
       integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
       crossorigin="anonymous"
     />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+
+      main {
+        padding: 30px 0;
+      }
+
+      .search-bar {
+        margin-bottom: 20px;
+      }
+
+      #searchButton,
+      #createBtn,
+      #deleteAllBtn {
+        margin-top: 8px;
+      }
+    </style>
   </head>
 
   <body>
@@ -63,7 +82,7 @@
 
     <main>
       <div class="container my-5 text-center">
-        <h2 class="text-success mb-4">전체 서점</h2>
+        <h2 class="text-success mb-4">취향에 맞는 독립 서점을 찾아보세요</h2>
         <!-- Center-aligned Search bar -->
         <div
           class="col-md-6 d-flex justify-content-center align-items-center mx-auto"
@@ -72,7 +91,7 @@
             <input
               type="text"
               class="form-control"
-              placeholder="검색어를 입력하세요"
+              placeholder="서점 이름을 입력하세요"
               aria-label="검색어 입력"
               aria-describedby="searchButton"
             />
@@ -100,7 +119,12 @@
           </button>
         </div>
       </div>
+      <!-- 검색 결과 컨테이너 -->
       <div class="container">
+        <div class="row row-cols-1 g-4" id="searchResultsContainer"></div>
+
+        <!-- 전체 서점 컨테이너-->
+        <h2 class="text-success my-4">전체 서점 목록</h2>
         <div
           class="row row-cols-1 row-cols-md-3 g-4"
           id="productCardsContainer"
