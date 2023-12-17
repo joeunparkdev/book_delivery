@@ -439,12 +439,17 @@ function displayProductDetails(product) {
   imageElement.alt = product.name;
   bookInfoTextElement.className = "book-detail-text";
 
+  bookBucketBtnElement.className = "buy-button";
+
+  putProductBtn.setAttribute("type", "button");
+  putProductBtn.setAttribute("id", "addToCartBtn");
   putProductBtn.className = "btn btn-success me-2";
   putProductBtn.innerText = "장바구니";
-  putProductBtn.setAttribute(type, button);
+
+  orderProductBtn.setAttribute("type", "button");
+  orderProductBtn.setAttribute("id", "directPurchaseBtn");
   orderProductBtn.className = "btn btn-success";
   orderProductBtn.innerText = "바로주문";
-  orderProductBtn.setAttribute(type, button);
 
   bookInfoTextElement.appendChild(titleElement);
   bookInfoTextElement.appendChild(descriptionElement);
