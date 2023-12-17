@@ -418,7 +418,7 @@ function displayProductDetails(product) {
   const descriptionElement = document.createElement("div");
   const bookInfoShowElement = document.createElement("div");
   const bookInfoTextElement = document.createElement("div");
-  const bookBucketBtnElement = doucment.createElement("div");
+  const bookBucketBtnElement = document.createElement("div");
   const productMainTitleElement = document.createElement("h3");
   const titleElement = document.createElement("h2");
   const authorElement = document.createElement("div");
@@ -439,12 +439,15 @@ function displayProductDetails(product) {
   imageElement.alt = product.name;
   bookInfoTextElement.className = "book-detail-text";
 
-  bookBucketBtnElement.appendChild(orderProductBtn);
-  bookBucketBtnElement.appendChild(putProductBtn);
-  bookInfoTextElement.appendChild(bookBucketBtnElement);
+  putProductBtn.className = "btn btn-success me-2";
+  orderProductBtn.className = "btn btn-success";
+
   bookInfoTextElement.appendChild(titleElement);
   bookInfoTextElement.appendChild(descriptionElement);
   bookInfoTextElement.appendChild(authorElement);
+  bookBucketBtnElement.appendChild(orderProductBtn);
+  bookBucketBtnElement.appendChild(putProductBtn);
+  bookInfoTextElement.appendChild(bookBucketBtnElement);
   productDetailElement.appendChild(bookInfoTextElement);
 }
 
