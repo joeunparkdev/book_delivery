@@ -10,10 +10,13 @@ form {
 
 .first-area {
   display: flex;
+<<<<<<< HEAD
   align-items: center;
   justify-content: center;
   margin-bottom: 10px;
   border: 3px solid none;
+=======
+>>>>>>> parent of 85700f9 (Merge pull request #64 from joeunparkdev/feat/책-상품-front-end-기능-구현)
 }
 
 #productDetail {

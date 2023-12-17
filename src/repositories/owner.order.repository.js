@@ -29,7 +29,7 @@ export class OwnerOrderRepository {
           orderId: +orderId,
         },
         data: {
-          status: '배송중',
+          status: '배송 완료',
           updatedAt: new Date(),
         },
       })

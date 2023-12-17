@@ -1,3 +1,54 @@
+import { checkUserType } from "./me.js";
+document.addEventListener("DOMContentLoaded", async () => {
+  await getUserDetails();
+  const userType = await checkUserType();
+  console.log(userType);
+  if (userType === "OWNER") {
+    const targetElement = document.getElementById("targetElement");
+    displayRedirectButton(targetElement);
+  } else if (userType === "CLIENT") {
+    displayRedirectButtonClient(targetElement);
+  }
+});
+
+function displayRedirectButton(targetElement) {
+  try {
+    console.log("1");
+    const redirectButton = document.createElement("button");
+    console.log("2");
+    redirectButton.className = "btn btn-success";
+    console.log("3");
+    redirectButton.textContent = "주문 관리 페이지로 이동";
+    console.log("4");
+    targetElement.appendChild(redirectButton);
+    redirectButton.onclick = function () {
+      console.log("버튼 클릭됨");
+      window.location.href = "owner.order.html";
+    };
+  } catch (error) {
+    console.error("displayRedirectButton 함수에서 오류 발생:", error);
+  }
+}
+
+function displayRedirectButtonClient(targetElement) {
+  try {
+    console.log("1");
+    const redirectButton = document.createElement("button");
+    console.log("2");
+    redirectButton.className = "btn btn-success";
+    console.log("3");
+    redirectButton.textContent = "주문 상세 페이지로 이동";
+    console.log("4");
+    targetElement.appendChild(redirectButton);
+    redirectButton.onclick = function () {
+      console.log("버튼 클릭됨");
+      window.location.href = "customer.order.check.html";
+    };
+  } catch (error) {
+    console.error("displayRedirectButton 함수에서 오류 발생:", error);
+  }
+}
+
 async function deleteProfile() {
   console.log("Before confirm");
   const confirmed = confirm("정말로 탈퇴하시겠습니까?");
@@ -68,5 +119,27 @@ async function getUserDetails() {
     console.error("Error fetching user profile:", error.message);
   }
 }
+//주문 정보 가져오기
+function displayOrderDetails(orderDetails) {
+  var orderDetailsContainer = document.getElementById("orderDetails");
+  var orderDetailsList = document.createElement("ul");
+  orderDetailsList.className = "list-group";
 
-document.addEventListener("DOMContentLoaded", getUserDetails);
+  if (Array.isArray(orderDetails) && orderDetails.length > 0) {
+    orderDetails.forEach(function (item) {
+      var listItem = document.createElement("li");
+      listItem.className = "list-group-item";
+      listItem.textContent = `${item.product} - Quantity: ${
+        item.quantity
+      } - Total: $${item.total.toFixed(2)}`;
+      orderDetailsList.appendChild(listItem);
+    });
+  } else {
+    var listItem = document.createElement("li");
+    listItem.className = "list-group-item";
+    listItem.textContent = "No order details available.";
+    orderDetailsList.appendChild(listItem);
+  }
+
+  orderDetailsContainer.appendChild(orderDetailsList);
+}

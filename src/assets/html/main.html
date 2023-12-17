@@ -28,6 +28,17 @@
       #deleteAllBtn {
         margin-top: 8px;
       }
+
+      /* 추가된 스타일 */
+      .about-us {
+        margin-top: 50px;
+      }
+
+      .about-us img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+      }
     </style>
   </head>
 
@@ -119,6 +130,7 @@
           </button>
         </div>
       </div>
+
       <!-- 검색 결과 컨테이너 -->
       <div class="container">
         <div class="row row-cols-1 g-4" id="searchResultsContainer"></div>
@@ -130,6 +142,18 @@
           id="productCardsContainer"
         ></div>
       </div>
+
+      <!-- 중간에 사진과 설명 -->
+      <div class="container about-us">
+        <h2 class="text-success my-4">About Us</h2>
+        <p>
+          어서오세요! ReadingRocket은 독립 서점을 사랑하는 이들을 위한 특별한
+          공간입니다. 우리의 목표는 독립 서점들을 소개하고, 좋은 책들을
+          여러분에게 배달합니다. 여러분의 독서 취향에 맞는 독립 서점과 책들을
+          찾아보세요.
+        </p>
+        <img src="../images/bookstore.jpeg" alt="About Us Image" />
+      </div>
     </main>
     <div class="container mt-3">
       <button class="btn btn-warning" id="editBtn" style="display: none">
@@ -139,7 +163,17 @@
         Delete
       </button>
     </div>
-
+    <footer class="bg-light text-center p-3">
+      <div class="container">
+        <p class="text-muted mb-0">
+          &copy; 2023 ReadingRocket. All rights reserved.
+        </p>
+        <p class="text-muted mb-0">chaek pyeo jo</p>
+        <p class="text-muted">
+          Email: haekpyeojo@readingrocket.com | Phone: +123 456 7890
+        </p>
+      </div>
+    </footer>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
