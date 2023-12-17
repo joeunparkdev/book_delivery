@@ -9,6 +9,7 @@ const router = express.Router();
 const customerOrderController = new CustomerOrderProductController();
 
 router.post(
+  "/",
   //   '/:productId',
   authMiddleware,
   customerOrderController.orderProductByUser,

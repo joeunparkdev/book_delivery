@@ -59,7 +59,7 @@ async function loadPage() {
 
     for (let i = 0; i < data.carts.length; i++) {
       const cart = data.carts[i];
-      const imageUrl = `https://tqklhszfkvzk6518638.cdn.ntruss.com/product/${cart.imageUrl}`;
+      const imageUrl = `${cart.imageUrl}`;
 
       const productNum = cart.price;
       const amount = parseInt(productNum);
@@ -79,7 +79,7 @@ async function loadPage() {
                  <span>${cart.name}</span>
                  <span>${amount}원</span>
                </div>
-               <div class="remove"><u>Remove</u></div>
+               <div class="remove btn btn-success me-2"><u>Remove</u></div>
            </li>
          </ul>
          `;
@@ -157,9 +157,10 @@ async function order(address, productId) {
       credentials: "include",
       body: JSON.stringify({ address, productId }),
     });
-    const data = await response.json();
 
-    if (data) {
+    const data = await response.json();
+    console.log(data);
+    if (!data.errorMessage) {
       alert("구매 성공하셨습니다.");
       window.location.href = "main.html";
     } else {
@@ -176,8 +177,10 @@ const orderBtn = document.querySelector(".orderBtn");
 
 orderBtn.addEventListener("click", async () => {
   const data = await loadPage();
-  for (let i = 0; i < data.carts.length; i++) {
-    order(address.value, data.carts.productId);
+
+  console.log(data);
+  for (let i = 0; i < data.length; i++) {
+    order(address.value, data[i].productId);
   }
 });
 

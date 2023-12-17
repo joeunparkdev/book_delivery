@@ -31,7 +31,7 @@ async function cartGet() {
 
     for (let i = 0; i < data.carts.length; i++) {
       const cart = data.carts[i];
-      const imageUrl = `https://tqklhszfkvzk6518638.cdn.ntruss.com/product/${cart.imageUrl}`;
+      const imageUrl = `${cart.imageUrl}`;
 
       const productNum = cart.price;
       const amount = parseInt(productNum);
@@ -110,5 +110,11 @@ async function deleteAllCart() {
 }
 
 removeAllBtn.addEventListener("click", deleteAllCart);
+
+const orderBtn = document.querySelector(".button");
+
+orderBtn.addEventListener("click", () => {
+  window.location.href = "order.html";
+});
 
 window.onload = cartGet;
