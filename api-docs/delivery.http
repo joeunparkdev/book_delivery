@@ -1,0 +1,8 @@
+###배송하기
+
+
+# router.put('/:orderId', authMiddleware, deliveryController.dieliverSystem)
+###배송완료하기
+put http://localhost:3001/api/delivery/6
+Accept: */*
+Content-Type: application/json

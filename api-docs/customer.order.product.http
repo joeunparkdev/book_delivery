@@ -4,5 +4,24 @@ Accept: */*
 Content-Type: application/json
 
 {
-	"address" : "노원구"
+	"address" : "화성"
 }
+###내 클라이언트 주문 조회
+get http://localhost:3001/api/order/client
+Accept: */*
+Content-Type: application/json
+
+###내 주문 오더아이디로 조회
+get http://localhost:3001/api/order/client/6
+Accept: */*
+Content-Type: application/json
+
+###주문취소하기
+DELETE http://localhost:3001/api/order/client/cancel/6
+Accept: */*
+Content-Type: application/json
+
+###주문 클리어하기 (배송완료/주문취소시 클리어하는 api)
+DELETE http://localhost:3001/api/order/client/cancel/6
+Accept: */*
+Content-Type: application/json
