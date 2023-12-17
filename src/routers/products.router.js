@@ -57,7 +57,11 @@ router.put(
 );
 
 // 관리자 모드 상품 삭제 API
-router.delete("/admin/:productId", authMiddleware, productsController.deleteProduct);
+router.delete(
+  "/admin/:productId",
+  authMiddleware,
+  productsController.deleteProduct,
+);
 
 // 관리자 모드 모든 상품 삭제 API
 router.delete(

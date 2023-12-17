@@ -14,6 +14,7 @@ import bookstoresRouter from "./routers/bookstore.router.js";
 import reviewRouter from "./routers/reviews.router.js";
 import customerOrderRouter from "./routers/customer.order.router.js";
 import searchRouter from "./routers/search.router.js";
+import cartRouter from "./routers/cart.router.js";
 import configurePassport from "../src/passport/index.js";
 import OwnerRouter from "../src/routers/owner.router.js";
 import path from "path";
@@ -49,6 +50,7 @@ app.use("/api/stores", bookstoresRouter);
 app.use("/api/order", customerOrderRouter);
 app.use("/api/search", searchRouter);
 app.use("/api/takeorder", OwnerRouter);
+app.use("/api/cart", cartRouter);
 
 // 오류 처리 미들웨어
 app.use(errorHandlerMiddleware);

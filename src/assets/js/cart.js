@@ -18,7 +18,7 @@ async function fetchCart() {
 
 async function cartGet() {
   try {
-    const data = await fetchCart();
+    const cartData = await fetchCart();
 
     const totalAmount = document.querySelector(".total-amount");
     const totalItems = document.querySelector(".items");
@@ -27,12 +27,13 @@ async function cartGet() {
 
     itemBox.innerHTML = "";
 
-    const { carts, products } = data;
+    const { data } = cartData;
 
-    for (let i = 0; i < carts.length; i++) {
-      const cart = carts[i];
-      const product = products[i];
-      const imageUrl = `https://tqklhszfkvzk6518638.cdn.ntruss.com/product/${product.image}`;
+    console.log(data.carts[0]);
+
+    for (let i = 0; i < data.carts.length; i++) {
+      const cart = data.carts[i];
+      const imageUrl = `https://tqklhszfkvzk6518638.cdn.ntruss.com/product/${cart.imageUrl}`;
 
       const productNum = product.price.replace(",", "");
       const amount = parseInt(productNum) * cart.quantity;
@@ -47,7 +48,7 @@ async function cartGet() {
           <img src="${imageUrl}" style="height: 120px" />
         </div>
         <div class="about">
-          <div class="title">${product.name}</div>
+          <div class="title">${cart.name}</div>
         </div>
         <div class="counter">
           <div class="btn minus" data-index="${i}">-</div>
@@ -64,7 +65,7 @@ async function cartGet() {
     }
 
     totalAmount.innerText = `${totalPrice} 원`;
-    totalItems.innerText = `total items ${carts.length}`;
+    totalItems.innerText = `total items ${data.length}`;
 
     const plusButtons = document.querySelectorAll(".btn.plus");
     const minusButtons = document.querySelectorAll(".btn.minus");
@@ -88,7 +89,7 @@ async function cartGet() {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              productId: carts[index].productId,
+              productId: data.carts[index].productId,
             }),
             credentials: "include",
           });
@@ -137,7 +138,7 @@ async function updateCart(cartItems) {
       },
       credentials: "include",
       body: JSON.stringify({
-        id: cartItems.id,
+        productId: cartItems.productId,
         quantity: cartItems.quantity,
       }),
     });
@@ -158,10 +159,10 @@ async function handleQuantityChange(event) {
   try {
     // 서버에서 현재 장바구니 정보 가져오기
     const cartData = await fetchCart();
-    const { carts } = cartData;
+    const { data } = cartData;
 
     // 해당 아이템의 수량 찾기
-    const item = carts[index];
+    const item = data.carts[index];
 
     if (item) {
       // 증가 또는 감소 버튼에 따라 수량 업데이트

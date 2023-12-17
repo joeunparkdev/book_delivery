@@ -197,6 +197,13 @@ exports.Prisma.VerifyScalarFieldEnum = {
   expiredAt: 'expiredAt'
 };
 
+exports.Prisma.CartsScalarFieldEnum = {
+  cartId: 'cartId',
+  productId: 'productId',
+  userId: 'userId',
+  quantity: 'quantity'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -217,7 +224,8 @@ exports.Prisma.ModelName = {
   Orders: 'Orders',
   Reviews: 'Reviews',
   Follow: 'Follow',
-  Verify: 'Verify'
+  Verify: 'Verify',
+  Carts: 'Carts'
 };
 
 /**
