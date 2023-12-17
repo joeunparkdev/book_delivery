@@ -59,13 +59,16 @@ function addReview() {
 }
 
 document.addEventListener("DOMContentLoaded", async function () {
+  const addToCartBtn = document.getElementById("addToCartBtn");
+  if (addToCartBtn) {
+    addToCartBtn.addEventListener("click", async () => {
+      await addToCart(productDetails);
+    });
+  }
   const urlParams = new URLSearchParams(window.location.search);
   const productId = urlParams.get("id");
-
   const starRatingSelect = document.getElementById("starRating");
   const reviewTextInput = document.querySelector(".review-wr textarea");
-  const addToCartBtn = document.getElementById("addToCartBtn");
-
   function updateStarRating() {
     try {
       const selectedRating = parseInt(starRatingSelect.value, 10);
@@ -101,11 +104,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     const productDetails = await fetchProductDetails(productIdFromURL);
 
     await displayReviews(productIdFromURL);
-    addToCartBtn.addEventListener("click", () => {
-      addToCart(productDetails);
-    });
-
-    const productDetailElement = document.getElementById("productDetail");
 
     displayProductDetails(productDetails);
   } catch (error) {
@@ -113,9 +111,11 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   const addReviewBtn = document.getElementById("addReviewBtn");
-  addReviewBtn.addEventListener("click", () => {
-    addReview();
-  });
+  if (addReviewBtn) {
+    addReviewBtn.addEventListener("click", () => {
+      addReview();
+    });
+  }
   document.addEventListener("click", async (event) => {
     const saveBtn = event.target.closest(".btn-save");
     if (saveBtn) {
@@ -309,7 +309,7 @@ async function deleteReview(reviewId) {
   }
 
   try {
-    const response = await fetch(`/api/products/${reviewId}`, {
+    const response = await fetch(`/api/review/${reviewId}`, {
       method: "DELETE",
       credentials: "include",
     });
@@ -318,19 +318,20 @@ async function deleteReview(reviewId) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     alert("리뷰가 성공적으로 삭제되었습니다.");
+    window.location.reload();
   } catch (error) {
     console.error("에러 ---", error);
   }
 }
 
-async function updateReview(reviewId) {
+async function updateReview(reviewId, rating, reviewText) {
   if (!reviewId) {
     console.error("Error: reviewId is undefined or empty");
     return;
   }
 
   try {
-    const url = `/api/products/${reviewId}`;
+    const url = `/api/review/${reviewId}`;
     const requestBody = {
       rating: rating,
       reviewText: reviewText,
@@ -349,6 +350,7 @@ async function updateReview(reviewId) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     alert("리뷰가 성공적으로 수정되었습니다.");
+    window.location.reload();
   } catch (error) {
     console.error("에러 ---", error);
   }
@@ -404,6 +406,7 @@ async function submitReview(rating, reviewText) {
     }
 
     const data = await response.json();
+    alert("리뷰가 성공적으로 제출되었습니다");
     console.log("리뷰가 성공적으로 제출되었습니다:", data);
   } catch (error) {
     console.error("리뷰 제출 중 에러 발생:", error.message);
