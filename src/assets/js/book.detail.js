@@ -60,11 +60,7 @@ function addReview() {
 
 document.addEventListener("DOMContentLoaded", async function () {
   const addToCartBtn = document.getElementById("addToCartBtn");
-  if (addToCartBtn) {
-    addToCartBtn.addEventListener("click", async () => {
-      await addToCart(productDetails);
-    });
-  }
+
   const urlParams = new URLSearchParams(window.location.search);
   const productId = urlParams.get("id");
   const starRatingSelect = document.getElementById("starRating");
@@ -104,6 +100,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     const productDetails = await fetchProductDetails(productIdFromURL);
 
     await displayReviews(productIdFromURL);
+
+    if (addToCartBtn) {
+      addToCartBtn.addEventListener("click", async () => {
+        await addToCart(productDetails);
+      });
+    }
 
     displayProductDetails(productDetails);
   } catch (error) {
