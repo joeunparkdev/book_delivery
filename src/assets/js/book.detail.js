@@ -536,7 +536,7 @@ async function addToCart(product) {
 
     console.log(data);
 
-    if (data.success) {
+    if (!data.errorMessage) {
       console.log(`${product.name}을 장바구니에 추가했습니다.`);
       alert(`${product.name}을 장바구니에 추가했습니다.`);
     } else {
