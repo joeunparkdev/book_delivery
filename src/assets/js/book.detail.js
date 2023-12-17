@@ -61,6 +61,21 @@ function addReview() {
 document.addEventListener("DOMContentLoaded", async function () {
   const addToCartBtn = document.getElementById("addToCartBtn");
 
+  if (addToCartBtn) {
+    console.log("addToCartBtn exists");
+    addToCartBtn.addEventListener("click", async () => {
+      console.log("addToCart calling");
+
+      // 상품이 판매 중이고, 장바구니에 똑같은 아이템이 없는 경우에만 addToCart 함수 호출
+      const productDetails = await fetchProductDetails(productIdFromURL);
+      const isAvailable = await isProductAvailable(productDetails.productId);
+
+      if (isAvailable) {
+        await addToCart(productDetails);
+      }
+    });
+  }
+
   const urlParams = new URLSearchParams(window.location.search);
   const productId = urlParams.get("id");
   const starRatingSelect = document.getElementById("starRating");
@@ -100,12 +115,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     const productDetails = await fetchProductDetails(productIdFromURL);
 
     await displayReviews(productIdFromURL);
-
-    if (addToCartBtn) {
-      addToCartBtn.addEventListener("click", async () => {
-        await addToCart(productDetails);
-      });
-    }
 
     displayProductDetails(productDetails);
   } catch (error) {
@@ -460,6 +469,12 @@ function displayProductDetails(product) {
   bookBucketBtnElement.appendChild(putProductBtn);
   bookInfoTextElement.appendChild(bookBucketBtnElement);
   productDetailElement.appendChild(bookInfoTextElement);
+
+  // Adding click event listener to addToCartBtn
+  putProductBtn.addEventListener("click", async () => {
+    console.log("addToCartBtn calling");
+    await addToCart(product);
+  });
 }
 
 async function fetchProductDetails(productId) {
@@ -490,6 +505,20 @@ function getStarIcons(rating) {
 
 async function addToCart(product) {
   try {
+    console.log("Before fetch call");
+
+    // 장바구니에 똑같은 아이템이 있는지 확인
+    const cartItems = await fetchCartItems();
+    const existingCartItem = cartItems.find(
+      (item) => item.productId === product.productId,
+    );
+
+    if (existingCartItem) {
+      // 이미 장바구니에 있는 경우 알림 메시지 띄우기
+      alert(`${product.name}은(는) 이미 장바구니에 있습니다.`);
+      return;
+    }
+
     const response = await fetch("/api/cart", {
       method: "POST",
       headers: {
@@ -501,6 +530,8 @@ async function addToCart(product) {
       credentials: "include",
     });
 
+    console.log("After fetch call");
+
     const data = await response.json();
 
     console.log(data);
@@ -509,10 +540,58 @@ async function addToCart(product) {
       console.log(`${product.name}을 장바구니에 추가했습니다.`);
       alert(`${product.name}을 장바구니에 추가했습니다.`);
     } else {
-      window.location.reload();
       alert("장바구니에 담기 실패했습니다!");
     }
   } catch (error) {
     console.error("오류:", error);
+  }
+}
+// 판매 중인 상품인지 확인하는 함수 (예시로 status가 'SOLD_OUT'인 경우 sold out으로 처리)
+async function isProductAvailable(productId) {
+  try {
+    const response = await fetch(`/api/products/${productId}`, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP 오류! 상태: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (data.error && data.error === "Product not found") {
+      throw new Error("Product not found");
+    }
+
+    // 예시: 판매 상태가 'SOLD_OUT'인 경우
+    if (data.data.status === "SOLD_OUT") {
+      alert("해당 상품은 품절되었습니다.");
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Error in isProductAvailable:", error);
+    return false;
+  }
+}
+// 장바구니에 담긴 상품들을 가져오는 함수
+async function fetchCartItems() {
+  try {
+    const response = await fetch("/api/cart", {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP 오류! 상태: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log(data);
+    return data.data.cartItems || [];
+  } catch (error) {
+    console.error("Error in fetchCartItems:", error);
+    return [];
   }
 }

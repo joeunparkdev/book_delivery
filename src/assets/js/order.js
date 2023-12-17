@@ -19,7 +19,7 @@ async function getCustomerInfo() {
     throw error;
   }
 }
-
+let loadedCartData;
 async function loadPage() {
   try {
     const getCustomer = await getCustomerInfo();
@@ -50,6 +50,7 @@ async function loadPage() {
     }
 
     const cartData = await fetchCart();
+    loadedCartData = cartData;
 
     const totalAmount = document.querySelector(".total-amount");
 
@@ -164,7 +165,8 @@ async function order(address, productId) {
       alert("구매 성공하셨습니다.");
       window.location.href = "main.html";
     } else {
-      alert("구매 실패하셨습니다");
+      // 주문 실패한 경우에 대한 알림 표시
+      alert(`구매 실패: ${data.errorMessage}`);
     }
   } catch (error) {
     console.error("에러 ---", error);
@@ -173,14 +175,22 @@ async function order(address, productId) {
 }
 
 // 완료버튼
-const orderBtn = document.querySelector(".orderBtn");
-
 orderBtn.addEventListener("click", async () => {
-  const data = await loadPage();
-
-  console.log(data);
-  for (let i = 0; i < data.length; i++) {
-    order(address.value, data[i].productId);
+  try {
+    if (loadedCartData) {
+      for (let i = 0; i < loadedCartData.data.carts.length; i++) {
+        const productId = loadedCartData.data.carts[i].productId;
+        await order(address.value, productId);
+      }
+      // 주문 완료 후 장바구니 비우기
+      await deleteAllCart();
+      alert("구매가 완료되었습니다.");
+      window.location.href = "main.html";
+    } else {
+      console.error("장바구니 데이터를 불러오는 데 실패했습니다.");
+    }
+  } catch (error) {
+    console.error("에러 ---", error);
   }
 });
 
