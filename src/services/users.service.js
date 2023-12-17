@@ -368,6 +368,7 @@ export class UsersService {
         username: newUser.username,
         email: newUser.email,
         password: newUser.password,
+        points: usertype === "CLIENT" ? 1000000 : 0,
         createdAt: newUser.createdAt,
         updatedAt: newUser.updatedAt,
       };
