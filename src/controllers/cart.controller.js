@@ -22,13 +22,9 @@ export class CartController {
     try {
       const userId = req.user.userId;
 
-      const { productId, quantity } = req.body;
+      const { productId } = req.body;
 
-      const createCart = await this.cartService.createCart(
-        userId,
-        productId,
-        quantity,
-      );
+      const createCart = await this.cartService.createCart(userId, productId);
 
       res
         .status(200)
@@ -38,25 +34,21 @@ export class CartController {
     }
   };
 
-  updateCart = async (req, res, next) => {
-    try {
-      const { productId, quantity } = req.body;
-      const userId = req.user.userId;
+  // updateCart = async (req, res, next) => {
+  //   try {
+  //     const { productId } = req.body;
+  //     const userId = req.user.userId;
 
-      const updatedRows = await this.cartService.updateCart(
-        userId,
-        productId,
-        quantity,
-      );
+  //     const updatedRows = await this.cartService.updateCart(userId, productId);
 
-      return res.json({
-        message: "상품 정보를 수정하였습니다",
-        updatedRows,
-      });
-    } catch (err) {
-      next(err);
-    }
-  };
+  //     return res.json({
+  //       message: "상품 정보를 수정하였습니다",
+  //       updatedRows,
+  //     });
+  //   } catch (err) {
+  //     next(err);
+  //   }
+  // };
 
   deleteCart = async (req, res, next) => {
     try {

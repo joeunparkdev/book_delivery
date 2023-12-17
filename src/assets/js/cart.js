@@ -35,8 +35,8 @@ async function cartGet() {
       const cart = data.carts[i];
       const imageUrl = `https://tqklhszfkvzk6518638.cdn.ntruss.com/product/${cart.imageUrl}`;
 
-      const productNum = product.price.replace(",", "");
-      const amount = parseInt(productNum) * cart.quantity;
+      const productNum = cart.price;
+      const amount = parseInt(productNum);
 
       totalPrice += amount;
 
@@ -50,11 +50,6 @@ async function cartGet() {
         <div class="about">
           <div class="title">${cart.name}</div>
         </div>
-        <div class="counter">
-          <div class="btn minus" data-index="${i}">-</div>
-          <div class="count">${cart.quantity}</div>
-          <div class="btn plus" data-index="${i}">+</div>
-        </div>
         <div class="prices">
           <div class="amount">${amount}원</div>
           <div class="remove"><u>Remove</u></div>
@@ -65,18 +60,7 @@ async function cartGet() {
     }
 
     totalAmount.innerText = `${totalPrice} 원`;
-    totalItems.innerText = `total items ${data.length}`;
-
-    const plusButtons = document.querySelectorAll(".btn.plus");
-    const minusButtons = document.querySelectorAll(".btn.minus");
-
-    plusButtons.forEach((plusButton) => {
-      plusButton.addEventListener("click", handleQuantityChange);
-    });
-
-    minusButtons.forEach((minusButton) => {
-      minusButton.addEventListener("click", handleQuantityChange);
-    });
+    totalItems.innerText = `total items ${data.carts.length}`;
 
     const deleteProducts = document.querySelectorAll(".remove");
 
@@ -128,62 +112,5 @@ async function deleteAllCart() {
 }
 
 removeAllBtn.addEventListener("click", deleteAllCart);
-
-async function updateCart(cartItems) {
-  try {
-    const response = await fetch(`/api/cart`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        productId: cartItems.productId,
-        quantity: cartItems.quantity,
-      }),
-    });
-    const data = await response.json();
-
-    console.log("Cart updated successfully:", data);
-  } catch (error) {
-    console.error("Error updating cart:", error);
-    throw error;
-  }
-}
-
-// + 또는 - 버튼이 클릭되었을 때 호출되는 함수
-async function handleQuantityChange(event) {
-  // 클릭된 버튼의 인덱스 가져오기
-  const index = event.target.getAttribute("data-index");
-
-  try {
-    // 서버에서 현재 장바구니 정보 가져오기
-    const cartData = await fetchCart();
-    const { data } = cartData;
-
-    // 해당 아이템의 수량 찾기
-    const item = data.carts[index];
-
-    if (item) {
-      // 증가 또는 감소 버튼에 따라 수량 업데이트
-      if (event.target.classList.contains("plus")) {
-        item.quantity += 1;
-      } else if (event.target.classList.contains("minus")) {
-        // 최소 수량이 1 이상이어야 함
-        if (item.quantity > 1) {
-          item.quantity -= 1;
-        }
-      }
-
-      // 서버에 업데이트된 장바구니 정보 전송
-      await updateCart(item);
-
-      await cartGet();
-    }
-  } catch (error) {
-    console.error("에러 ---", error);
-    throw error;
-  }
-}
 
 window.onload = cartGet;
