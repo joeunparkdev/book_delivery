@@ -1,0 +1,18 @@
+###오너 주문조회
+get http://localhost:3001/api/takeorder/owner
+Accept: */*
+Content-Type: application/json
+
+###오더아이디로 오더 검색하여 확인하는 api
+get http://localhost:3001/api/takeorder/owner/:orderId
+Accept: */*
+Content-Type: application/json
+###배송하기
+put http://localhost:3001/api/takeorder/owner/process/6
+Accept: */*
+Content-Type: application/json
+
+###주문취소하기
+get http://localhost:3001/api/takeorder/owner/cancel/:orderId
+Accept: */*
+Content-Type: application/json
