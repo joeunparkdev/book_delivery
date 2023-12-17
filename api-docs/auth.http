@@ -10,13 +10,23 @@ Content-Type: application/json
   "email": "dkd147@naver.com"
 }
 
-### POST /api/auth/signin
+### 오너아이디로 로그인
 POST http://localhost:3001/api/auth/signin
 Accept: */*
 Content-Type: application/json
 
 {
   "email": "bleaknightt@gmail.com",
+"password":"000000"
+}
+
+###클라이언트 아이디로 로그인하기(포인트보유)
+POST http://localhost:3001/api/auth/signin
+Accept: */*
+Content-Type: application/json
+
+{
+  "email": "dntjq5130@gmail.com",
 "password":"000000"
 }
 
