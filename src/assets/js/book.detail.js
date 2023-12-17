@@ -280,20 +280,22 @@ function displayProductDetails(product) {
 
   const imageElement = document.createElement("img");
   imageElement.src = product.imageUrl;
-  imageElement.alt = product.name;
+
   productDetailElement.appendChild(imageElement);
 
+  const bookInfoElement = document.createElement("div");
   const titleElement = document.createElement("h2");
-  titleElement.textContent = product.name;
-  productDetailElement.appendChild(titleElement);
-
   const authorElement = document.createElement("div");
-  authorElement.textContent = `작가: ${product.author}`;
-  productDetailElement.appendChild(authorElement);
-
   const descriptionElement = document.createElement("div");
+  titleElement.textContent = product.name;
+  authorElement.textContent = `작가: ${product.author}`;
   descriptionElement.textContent = `설명: ${product.description}`;
+  imageElement.alt = product.name;
+  bookInfoElement.className = "creadits";
   productDetailElement.appendChild(descriptionElement);
+  productDetailElement.appendChild(authorElement);
+  productDetailElement.appendChild(bookInfoElement);
+  productDetailElement.appendChild(titleElement);
 }
 
 async function fetchProductDetails(productId) {
