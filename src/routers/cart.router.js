@@ -21,6 +21,6 @@ router.delete("/", authMiddleware, cartController.deleteCart);
 router.delete("/all", authMiddleware, cartController.deleteAllCart);
 
 // 장바구니의 물품 수정
-router.put("/", authMiddleware, cartController.updateCart);
+// router.put("/", authMiddleware, cartController.updateCart);
 
 export default router;

@@ -64,6 +64,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   const starRatingSelect = document.getElementById("starRating");
   const reviewTextInput = document.querySelector(".review-wr textarea");
+  const addToCartBtn = document.getElementById("addToCartBtn");
 
   function updateStarRating() {
     try {
@@ -100,6 +101,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     const productDetails = await fetchProductDetails(productIdFromURL);
 
     await displayReviews(productIdFromURL);
+    addToCartBtn.addEventListener("click", () => {
+      addToCart(productDetails);
+    });
 
     const productDetailElement = document.getElementById("productDetail");
 
@@ -208,6 +212,35 @@ async function displayReviews(productId) {
 // 별점을 별 이모지로 변환하는 함수
 function getStarIcons(rating) {
   return "⭐".repeat(rating);
+}
+
+async function addToCart(product) {
+  try {
+    const response = await fetch("/api/cart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        productId: product.productId,
+      }),
+      credentials: "include",
+    });
+
+    const data = await response.json();
+
+    console.log(data);
+
+    if (data.success) {
+      console.log(`${product.name}을 장바구니에 추가했습니다.`);
+      alert(`${product.name}을 장바구니에 추가했습니다.`);
+    } else {
+      window.location.reload();
+      alert("장바구니에 담기 실패했습니다!");
+    }
+  } catch (error) {
+    console.error("오류:", error);
+  }
 }
 
 // openEditReviewModal 함수 수정
@@ -438,11 +471,15 @@ function displayProductDetails(product) {
 
 async function fetchProductDetails(productId) {
   try {
-    const response = await fetch(`/api/products/${productId}`);
+    const response = await fetch(`/api/products/${productId}`, {
+      method: "GET",
+    });
     if (!response.ok) {
       throw new Error(`HTTP 오류! 상태: ${response.status}`);
     }
     const data = await response.json();
+
+    console.log(data.data);
 
     if (data.error && data.error === "Product not found") {
       throw new Error("Product not found");

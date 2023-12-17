@@ -200,8 +200,7 @@ exports.Prisma.VerifyScalarFieldEnum = {
 exports.Prisma.CartsScalarFieldEnum = {
   cartId: 'cartId',
   productId: 'productId',
-  userId: 'userId',
-  quantity: 'quantity'
+  userId: 'userId'
 };
 
 exports.Prisma.SortOrder = {
