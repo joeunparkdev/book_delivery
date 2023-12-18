@@ -23,6 +23,7 @@
           </p>
         </a>
       </div>
+      <!-- Navbar added to the header -->
       <nav class="navbar navbar-expand-md navbar-light">
         <button
           class="navbar-toggler"
@@ -59,42 +60,83 @@
         </div>
       </div>
     </header>
-
-    <main>
-      <div id="myPageSection" class="container my-5">
-        <h2 class="text-success mb-4">마이페이지</h2>
-
-        <!-- 사용자 세부 정보 -->
-        <div>
-          <h3 class="text-success">사용자 세부 정보</h3>
-          <p id="userName"><strong>이름:</strong></p>
-          <p id="userEmail"><strong>Email:</strong></p>
-          <p id="point"><strong>Point:</strong></p>
-          <button
-            class="btn btn-success"
-            onclick="window.location.href='modifyProfile.html'"
-          >
-            수정하기
-          </button>
-        </div>
-
-        <!-- 주문 세부 정보 -->
-        <div style="margin-top: 20px">
-          <h3 class="text-success">주문 세부 정보</h3>
-          <div id="orderDetails"></div>
-          <div id="targetElement"></div>
-          <div id="buttonContainer"></div>
-        </div>
+    <div class="container mt-5">
+      <h2 class="text-success">받은 주문</h2>
+      <!-- Display Owner Orders -->
+      <div>
+        <ul id="ownerOrdersList" class="list-group">
+          <!-- Your list items will be added here -->
+        </ul>
       </div>
-    </main>
+      <div
+        id="orderDetailsModal"
+        class="modal fade"
+        tabindex="-1"
+        aria-labelledby="orderDetailsModalLabel"
+        aria-hidden="true"
+      >
+        <!-- 모달 내용이 동적으로 추가됩니다. -->
+      </div>
+      <!-- Display Order Details -->
+      <div id="orderDetailsContainer" class="mt-4">
+        <h3 class="text-success">주문 정보</h3>
+        <div id="orderDetails" class="card">
+          <!-- Order details will be added dynamically here -->
+        </div>
+        <button id="closeOrderDetails" class="btn btn-secondary mt-2">
+          닫기
+        </button>
+      </div>
 
+      <!-- Process Order Button -->
+      <button id="processOrderBtn" class="btn btn-success mt-4">
+        Process Order
+      </button>
+
+      <!-- Cancel Order Button -->
+      <button id="cancelOrderBtn" class="btn btn-success mt-4">
+        Cancel Order
+      </button>
+    </div>
+
+    <!-- Bootstrap 및 axios 스크립트 추가 -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
       crossorigin="anonymous"
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script defer src="../js/header.js"></script>
-    <script type="module" src="../js/myPage.js"></script>
+
+    <!-- 스크립트 파일 추가 -->
+    <script src="../js/header.js"></script>
+    <script type="module" src="../js/owner.order.js"></script>
+
+    <!-- 모달 컨테이너 추가 -->
+    <div
+      class="modal fade"
+      id="orderDetailsModal"
+      tabindex="-1"
+      aria-labelledby="orderDetailsModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="orderDetailsModalLabel">
+              주문 상세 정보
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body" id="orderDetails">
+            <!-- 모달 내용이 동적으로 추가됩니다. -->
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

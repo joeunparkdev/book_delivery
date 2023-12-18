@@ -5,7 +5,7 @@
 .env.test
 .env.production
 server.cert
-server.key 
+server.key
 
 # npm
 node_modules/
