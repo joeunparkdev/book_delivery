@@ -125,7 +125,7 @@ export class UsersRepository {
     }
   };
 
-  updateUser = async (userId, username, password, email, updatedAt) => {
+  updateUser = async (username, email, password, updatedAt, userId) => {
     // ORM인 Prisma에서 Users 모델의 update 메서드를 사용해 데이터를 수정합니다.
     const updatedUser = await prisma.users.update({
       where: {
@@ -133,8 +133,8 @@ export class UsersRepository {
       },
       data: {
         username,
-        password,
         email,
+        password,
         updatedAt,
       },
     });

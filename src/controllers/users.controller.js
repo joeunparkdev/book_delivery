@@ -30,8 +30,9 @@ export class UsersController {
   };
 
   modifyMyInfo = async (req, res, next) => {
-    const { username, password, confirmPassword, email } = req.body;
+    const { username, email, password, confirmPassword } = req.body;
     const userId = +req.user.userId;
+
     try {
       const existingUser = await this.userService.findUserById(userId);
 
@@ -57,14 +58,16 @@ export class UsersController {
         throw new Error("Passwords do not match");
       }
 
+      // Hash the password before updating the user
       const hashedPassword = await bcrypt.hash(password, 10);
 
+      // Call the updateUser function with the hashed password
       await this.userService.updateUser(
-        +userId,
         username,
         email,
         hashedPassword,
         new Date(),
+        +userId,
       );
 
       res.json({

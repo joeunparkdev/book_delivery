@@ -191,7 +191,7 @@ export class UsersService {
     };
   };
 
-  updateUser = async (userId, username, email, hashedPassword, updatedAt) => {
+  updateUser = async (username, email, hashedPassword, updatedAt,userId) => {
     try {
       const existingUser = await this.usersRepository.findUserById(userId);
 
@@ -200,11 +200,11 @@ export class UsersService {
       }
 
       await this.usersRepository.updateUser(
-        userId,
         username,
         email,
         hashedPassword,
         updatedAt,
+        userId,
       );
     } catch (error) {
       console.error(error);
