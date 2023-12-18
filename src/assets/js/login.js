@@ -40,7 +40,7 @@ async function handleKakao_login() {
 }
 
 // Kakao 고객님 로그인 함수
-async function handleKakao_login_owner() {
+async function handleKakao_login_client() {
   try {
     await new Promise((resolve) => {
       if (window.Kakao) {
