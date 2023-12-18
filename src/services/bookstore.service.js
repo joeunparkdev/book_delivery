@@ -95,7 +95,9 @@ export class StoresService {
   findMyStore = async (userId) => {
     try {
       let bookstore = await this.storeRepository.findMyStore(userId);
-
+      if (!bookstore) {
+        return;
+      }
       if (!Array.isArray(bookstore)) {
         bookstore = [bookstore];
       }
@@ -106,25 +108,27 @@ export class StoresService {
             await this.productsRepository.findProductsByUserId(userId);
 
           return {
-            bookstoreId: bookStore.bookstoreId,
-            userId: bookStore.userId,
-            imagePath: bookStore.imagePath,
-            imageUrl: bookStore.imageUrl,
-            name: bookStore.name,
-            address: bookStore.address,
-            description: bookStore.description,
-            status: bookStore.status,
-            createdAt: bookStore.createdAt,
-            updatedAt: bookStore.updatedAt,
-            products: products,
+            bookstoreId: bookStore?.bookstoreId,
+            userId: bookStore?.userId,
+            imagePath: bookStore?.imagePath,
+            imageUrl: bookStore?.imageUrl,
+            name: bookStore?.name,
+            address: bookStore?.address,
+            description: bookStore?.description,
+            status: bookStore?.status,
+            createdAt: bookStore?.createdAt,
+            updatedAt: bookStore?.updatedAt,
+            products: products || [],
           };
         }),
       );
+
       bookStoresWithProducts.sort((a, b) => b.createdAt - a.createdAt);
 
       return bookStoresWithProducts;
-    } catch (err) {
-      throw err;
+    } catch (error) {
+      console.error("Error in findMyStore:", error);
+      throw error;
     }
   };
 

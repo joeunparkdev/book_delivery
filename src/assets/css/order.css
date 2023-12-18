@@ -124,6 +124,7 @@ hr {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   gap: 30px;
+  align-items: center;
 }
 .imgBox {
   width: 100px;
@@ -139,6 +140,10 @@ hr {
 .imgBox img {
   width: 100px;
   height: auto;
+}
+.remove {
+  height: 38px;
+  margin-right: 40px;
 }
 .itemInfor {
   display: flex;

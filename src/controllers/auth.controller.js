@@ -337,19 +337,20 @@ export class AuthController {
   kakaoLogin = async (req, res, next) => {
     try {
       const kakaoAccount = req.user;
-      console.log(kakaoAccount);
+      console.log("kakao account" + kakaoAccount);
       if (!kakaoAccount) {
         throw new Error("카카오 계정 정보를 찾을 수 없습니다.");
       }
       // 카카오 로그인 처리
-      const userId = await this.authService.kakaoLogin(
+      const user = await this.authService.kakaoLogin(
         kakaoAccount.kakaoId,
         kakaoAccount.email,
         kakaoAccount.username,
       );
       // 새로운 액세스 토큰 및 리프레시 토큰 생성 및 설정
-      const accessToken = this.generateAccessToken(+userId);
-      const refreshToken = await this.generateRefreshToken(+userId);
+      const accessToken = this.generateAccessToken(+user.userId);
+      console.log("accessToken" + accessToken);
+      const refreshToken = await this.generateRefreshToken(+user.userId);
       this.setCookie(res, accessToken);
       return res.redirect("http://localhost:3001/assets/html/main.html");
     } catch (error) {

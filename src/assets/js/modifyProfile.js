@@ -1,4 +1,3 @@
-
 let attemptsRemaining = 3; // 허용된 시도 횟수
 document.getElementById("timer-container").style.display = "none";
 let verificationStartTime; // 인증 코드가 전송된 시간을 저장하는 변수
@@ -118,68 +117,70 @@ async function verify_code() {
   }
 }
 
-
 function checkLoginStatus() {
-    // 클라이언트에서 쿠키에서 토큰 읽기
-    const cookieString = document.cookie;
-    
-    // 토큰이 있다면 사용
-    if (cookieString) {
-      const token = cookieString
-        .split('; ')
-        .find(row => row.startsWith('token='))
-        .split('=')[1];
-  
-      return !!token;
-    } else {
-      console.log('No cookies found');
-      return false;
-    }
+  // 클라이언트에서 쿠키에서 토큰 읽기
+  const cookieString = document.cookie;
+
+  // 토큰이 있다면 사용
+  if (cookieString) {
+    const token = cookieString
+      .split("; ")
+      .find((row) => row.startsWith("token="))
+      .split("=")[1];
+
+    return !!token;
+  } else {
+    console.log("No cookies found");
+    return false;
   }
-  
+}
+
 function modifyProfile() {
   const username = document.getElementById("inputNickname").value;
-  console.log("Username:", username);
   const email = document.getElementById("inputEmail").value;
   const password = document.getElementById("inputPassword1").value;
   const confirmPassword = document.getElementById("inputPassword2").value;
   const verificationCode = document.getElementById(
     "inputVerificationCode",
   ).value;
-  console.log("verificationCode:", verificationCode);
   const userTypeFormGroup = document.getElementById("userTypeFormGroup");
   const usertype = userTypeFormGroup.querySelector(":checked").value;
+  console.log("Username:", username);
+  console.log("Email:", email);
+  console.log("Password:", password);
+  console.log("Confirm Password:", confirmPassword);
+  console.log("Verification Code:", verificationCode);
 
   const data = {
     username,
     email,
+    verificationCode,
     password,
     confirmPassword,
-    verificationCode,
   };
-  
-    fetch(`/api/users/me`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: "include",
-      body: JSON.stringify(data),
-      mode: 'cors', 
-    })
-    .then(response => response.json())
-    .then(result => {
+
+  fetch(`/api/users/me`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify(data),
+    mode: "cors",
+  })
+    .then((response) => response.json())
+    .then((result) => {
       console.log(result);
       if (result.success) {
-        alert('회원 수정 성공!');
+        alert("회원 수정 성공!");
         window.history.back();
       } else {
         window.history.back();
       }
     })
-    .catch(error => {
-      console.error('Error:', error);
+    .catch((error) => {
+      console.error("Error:", error);
     });
-  }
+}
 
-  document.addEventListener("DOMContentLoaded", startVerificationTimer);
+document.addEventListener("DOMContentLoaded", startVerificationTimer);
