@@ -84,31 +84,6 @@ async function handleKakao_login_owner() {
   }
 }
 
-//카카오 토큰 보내기
-async function sendKakaoAccessTokenToServer(accessToken) {
-  try {
-    // 서버로 전송할 URL 및 데이터 설정
-    const url = `/api/auth/kakao/callback?code=${encodeURIComponent(
-      accessToken,
-    )}`;
-
-    // 서버로 HTTP GET 요청 보내기
-    const response = await fetch(url, {
-      method: "GET",
-    });
-    console.log(response);
-
-    // 서버 응답 확인
-    if (response.ok) {
-      console.log("Kakao access token sent to server successfully.");
-    } else {
-      console.error("Failed to send Kakao access token to server.");
-    }
-  } catch (error) {
-    console.error("Error while sending Kakao access token to server:", error);
-  }
-}
-
 function sign_in() {
   const email = document.getElementById("inputEmail").value;
   const password = document.getElementById("inputPassword").value;

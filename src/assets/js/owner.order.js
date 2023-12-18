@@ -155,7 +155,10 @@ async function getOwnerOrders() {
 
 async function displayOwnerOrders() {
   try {
+    console.log("Displaying owner orders...");
     const orders = await getOwnerOrders();
+    console.log("Orders data:", orders);
+
     const ordersListContainer = document.getElementById("ownerOrdersList");
     ordersListContainer.innerHTML = "";
 
@@ -163,23 +166,22 @@ async function displayOwnerOrders() {
       orders.data.forEach(function (order) {
         var listItem = document.createElement("li");
         listItem.className = "list-group-item";
-
         listItem.textContent = `주문 ID: ${order.orderId} - 상태: ${order.status} `;
-
         listItem.addEventListener("click", function () {
           displayOrderDetails(order);
         });
-
         ordersListContainer.appendChild(listItem);
       });
-    } else {
+    }
+    if (orders.data.length == 0) {
+      console.log("No orders found. Displaying message...");
       var listItem = document.createElement("li");
       listItem.className = "list-group-item";
       listItem.textContent = "주문이 없습니다.";
       ordersListContainer.appendChild(listItem);
     }
   } catch (error) {
-    console.error("주문 목록 표시 오류:", error);
+    console.error("Error displaying owner orders:", error);
   }
 }
 

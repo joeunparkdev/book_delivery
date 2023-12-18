@@ -16,7 +16,7 @@ Accept: */*
 Content-Type: application/json
 
 {
-  "email": "bleaknightt@gmail.com",
+  "email": "joeunparkdev@gmail.com",
 "password":"000000"
 }
 
