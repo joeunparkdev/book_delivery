@@ -138,7 +138,7 @@ async function displayOwnerOrders() {
     const ordersListContainer = document.getElementById("ownerOrdersList");
     ordersListContainer.innerHTML = "";
 
-    if (orders && Array.isArray(orders.data)) {
+    if (orders && Array.isArray(orders.data) && orders.data.length > 0) {
       orders.data.forEach(function (order) {
         var listItem = document.createElement("li");
         listItem.className = "list-group-item";
@@ -154,7 +154,7 @@ async function displayOwnerOrders() {
     } else {
       var listItem = document.createElement("li");
       listItem.className = "list-group-item";
-      listItem.textContent = "주문이 없습니다.";
+      listItem.textContent = "주문이 없습니다. 지금 주문하시겠어요?";
       ordersListContainer.appendChild(listItem);
     }
   } catch (error) {
