@@ -26,17 +26,17 @@ try {
   console.log(error);
 }
 
-router.get("/kakao/:userType", passport.authenticate("kakao", { session: false }));
-try {
-  router.get(
-    "/kakao/callback",
-    passport.authenticate("kakao", {
-      session: false,
-    }),
-    authController.kakaoLogin,
-  );
-} catch (error) {
-  console.log(error);
-}
+// router.get("/kakao/:userType", passport.authenticate("kakao", { session: false }));
+// try {
+//   router.get(
+//     "/kakao/callback",
+//     passport.authenticate("kakao", {
+//       session: false,
+//     }),
+//     authController.kakaoLogin,
+//   );
+// } catch (error) {
+//   console.log(error);
+// }
 
 export default router;
