@@ -10,13 +10,11 @@ form {
 
 .first-area {
   display: flex;
-<<<<<<< HEAD
   align-items: center;
   justify-content: center;
   margin-bottom: 10px;
   border: 3px solid none;
-=======
->>>>>>> parent of 85700f9 (Merge pull request #64 from joeunparkdev/feat/책-상품-front-end-기능-구현)
+
 }
 
 #productDetail {
@@ -30,20 +28,19 @@ form {
   width: 100%;
 }
 
-.book-detail-text {
-  margin-left: 10px;
-}
-
 .product-detail-img {
-  width: 50px;
-  height: 50vh;
-  border: 5px solid none;
+  width: 100%;
+  height: 100%;
+  border: 1px solid none;
+}
+.box {
+  width: 100vh;
+  height: 100px;
+  margin-right: 10px;
 }
 
-.box {
-  width: 100%;
-  height: 100px;
-  margin-top: 3.5%;
+.book-detail-text {
+  width: 100vh;
 }
 
 /* .mt-4 {
@@ -57,37 +54,27 @@ form {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 3px solid none;
-  margin-top: 15%;
 }
-
 .buy-button :first-child {
   width: 100%;
-  height: 40px;
+  height: 50px;
 }
 
 .buy-button :last-child {
-  height: 40px;
-  width: 50%;
+  width: 100%;
+  height: 50px;
 }
-
-.move {
-  width: 100vh;
-  height: 30vh;
-}
-
-.space-controller {
-  width: 100px;
-  height: 1000px;
-  margin-bottom: 100px;
-}
-
 .second-area {
-  margin-top: 100px;
+  margin-top: 200px;
 }
 .my-2 {
   display: flex;
   position: relative;
+}
+
+.review-revise-btn {
+  position: absolute;
+  right: 0;
 }
 
 .second-area div {
@@ -107,7 +94,7 @@ form {
   height: 100px;
   border: 1px solid #bbb;
   border-radius: 10px;
-  padding-right: 17.5%;
+  padding-right: 15%;
   padding-left: 1%;
   font-size: 100%;
   resize: none; /* textarea 크기 조절 비활성화 */
@@ -126,20 +113,8 @@ form {
   color: rgb(255, 255, 255);
 }
 
-.review-revise-btn {
-  display: flex;
-}
-
-.review-revise-btn :first-child {
-  width: 17%;
-}
-
-.review-revise-btn :last-child {
-  width: 17%;
-}
-
-.star-rating {
-  display: inline-block;
-  font-size: 24px;
-  color: #ffd700;
+.move {
+  height: 1000px;
+  width: 50px;
+  margin-top: 100vh;
 }
