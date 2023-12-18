@@ -59,31 +59,6 @@ function addReview() {
 }
 
 document.addEventListener("DOMContentLoaded", async function () {
-  // const addToCartBtn = document.querySelector("#addToCartBtn");
-
-  // if (addToCartBtn) {
-  //   console.log("addToCartBtn exists");
-  //   addToCartBtn.addEventListener("click", async () => {
-  //     console.log("addToCart calling");
-
-  //     // 상품이 판매 중이고, 장바구니에 똑같은 아이템이 없는 경우에만 addToCart 함수 호출
-  //     const productDetails = await fetchProductDetails(productIdFromURL);
-  //     const isAvailable = await isProductAvailable(productDetails.productId);
-
-  //     if (isAvailable) {
-  //       await addToCart(productDetails);
-  //     }
-  //   });
-  // }
-
-  // const directPurchaseBtn = document.querySelector("#directPurchaseBtn");
-
-  // if (directPurchaseBtn) {
-  //   directPurchaseBtn.addEventListener("click", () => {
-  //     window.location.href = "order.html";
-  //   });
-  // }
-
   const urlParams = new URLSearchParams(window.location.search);
   const productId = urlParams.get("id");
   const starRatingSelect = document.getElementById("starRating");
