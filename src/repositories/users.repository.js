@@ -259,6 +259,7 @@ export class UsersRepository {
         email,
         kakaoUserId,
         password: "",
+        points: 1000000,
         isAdmin: false,
       };
 
