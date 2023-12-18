@@ -418,6 +418,7 @@ async function submitReview(rating, reviewText) {
 
     const data = await response.json();
     alert("리뷰가 성공적으로 제출되었습니다");
+    window.location.reload();
     console.log("리뷰가 성공적으로 제출되었습니다:", data);
   } catch (error) {
     console.error("리뷰 제출 중 에러 발생:", error.message);
