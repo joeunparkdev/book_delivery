@@ -169,45 +169,47 @@ async function displayBookstores() {
 }
 
 // 새 업장 생성 버튼 클릭 시 이벤트 처리
-document
-  .getElementById("createBtn")
-  .addEventListener("click", async function () {
-    try {
+document.getElementById("createBtn").addEventListener("click", async function () {
+  try {
       // 내 업장 조회
       const myStores = await fetchMyStore();
 
       if (myStores && myStores.length > 0) {
-        // 이미 업장이 등록되어 있다면 에러 메시지 표시
-        alert("업장은 한 개만 등록할 수 있습니다.");
+          // 이미 업장이 등록되어 있다면 에러 메시지 표시
+          alert("업장은 한 개만 등록할 수 있습니다.");
       } else {
-        // 업장이 없으면 createStore.html로 이동
-        window.location.href = "createStore.html";
+          // 업장이 없으면 createStore.html로 이동
+          window.location.href = "createStore.html";
       }
-    } catch (error) {
+  } catch (error) {
       console.error("새 업장 생성 및 조회 중 오류:", error);
-    }
-  });
+  }
+});
 
 // 사용자의 업장을 조회하는 함수
 async function fetchMyStore() {
   try {
-    const response = await fetch("/api/stores/me", {
-      method: "GET",
-      credentials: "include",
-    });
+      const response = await fetch("/api/stores/me", {
+          method: "GET",
+          credentials: "include",
+      });
 
-    if (response.ok) {
-      const data = await response.json();
-      return data.data;
-    } else {
-      console.error("Error fetching my store:", response.statusText);
-      throw new Error("Error fetching my store");
-    }
+      if (response.ok) {
+          const data = await response.json();
+          return data.data;
+      } else if (response.status === 404) {
+          // 만약 업장이 없는 경우, 빈 배열 반환
+          return [];
+      } else {
+          console.error("Error fetching my store:", response.statusText);
+          throw new Error("Error fetching my store");
+      }
   } catch (error) {
-    console.error("에러 ---", error);
-    throw error;
+      console.error("에러 ---", error);
+      throw error;
   }
 }
+
 
 // 검색 버튼 클릭 시 이벤트 처리
 document
