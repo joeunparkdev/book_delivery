@@ -54,6 +54,7 @@ async function sendKakaoAccessTokenToServer(accessToken) {
     if (response.ok) {
       console.log("Kakao access token sent to server successfully.");
     } else {
+      alert("카카오로 이미 회원가입한 회원입니다.");
       console.error("Failed to send Kakao access token to server.");
     }
   } catch (error) {

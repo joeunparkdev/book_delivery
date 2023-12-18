@@ -5,8 +5,6 @@ const address = document.querySelector(".address");
 const customerName = document.querySelector(".customerName");
 const customerEmail = document.querySelector(".customerEmail");
 
-const orderBtn = document.querySelector(".orderBtn");
-
 async function getCustomerInfo() {
   try {
     const response = await fetch(`/api/users/me`, {
@@ -82,7 +80,7 @@ async function loadPage() {
                  <span>${cart.name}</span>
                  <span>${amount}원</span>
                </div>
-               <div class="remove btn btn-success me-2"><u>Remove</u></div>
+               <div class="remove btn btn-outline-success">Remove</div>
            </li>
          </ul>
          `;
